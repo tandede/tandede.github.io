@@ -12,9 +12,9 @@ const experiences = [
     date: '2026.07 — NOW',
     logo: '/logos/xiaohongshu.png',
     color: '#ff5368',
-    focus: '网页预训练数据质量评估',
-    description: '面向大语言模型预训练语料，判断网页内容是否具备训练价值，并为数据筛选、质量分层与治理策略提供可靠依据。',
-    tags: ['Web Data', 'Quality Scoring', 'Pretrain Corpus'],
+    focus: '40T 网页预训练数据 Pipeline',
+    description: '面向大语言模型 Pretrain，建设覆盖网页数据清洗、去重、质量评估、分层与迭代回流的一体化 Pipeline，打造 40T 规模的网页预训练数据飞轮，持续提升语料质量、覆盖度与生产效率。',
+    tags: ['Data Pipeline', '40T Web Corpus', 'Quality Flywheel'],
   },
   {
     company: '北京 360 · 智脑事业部（AIGC）',
