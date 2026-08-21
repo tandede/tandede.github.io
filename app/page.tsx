@@ -13,7 +13,7 @@ const experiences = [
     logo: '/logos/xiaohongshu.png',
     color: '#ff5368',
     focus: '网页预训练 Data Scaling Pipeline',
-    description: '面向大语言模型 Pretrain，建设覆盖网页数据清洗、去重、质量评估、分层与迭代回流的一体化 Pipeline，打造 Data Scaling 飞轮，使可训练 Token 数达到 40T，并持续提升数据质量、覆盖度与生产效率。',
+    description: '面向大语言模型 Pretrain，建设覆盖网页数据清洗、去重、质量评估、分层与迭代回流的一体化 Pipeline；打造 Data Scaling 飞轮，推动可训练 Token 数达到 40T，并持续提升数据质量、覆盖度与生产效率。',
     tags: ['Data Scaling', '40T Trainable Tokens', 'Quality Flywheel'],
   },
   {
