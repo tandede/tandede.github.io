@@ -8,32 +8,32 @@ const externalLinkProps = {
 const selectedCases = [
   {
     index: '01',
-    eyebrow: 'OpenCV · Core',
+    eyebrow: 'OpenCV · Contributor',
     title: '把十亿次循环，折叠成一次计算',
     problem: '极端反射坐标会触发 INT_MIN 溢出；INT_MAX 与短数组组合时，旧实现需要十亿级循环。',
     move: '将逐次模拟改写为 64 位周期模运算，在完整 int 坐标域内直接完成映射。',
     metric: 'O(N) → O(1)',
-    href: 'https://github.com/opencv/opencv/pull/29751',
+    href: 'https://github.com/opencv/opencv',
     accent: 'violet',
   },
   {
     index: '02',
-    eyebrow: 'FunASR · Clustering',
+    eyebrow: 'FunASR · Contributor',
     title: '让长音频不再困在稠密矩阵里',
     problem: '已知说话人数时，大输入仍进入谱聚类，绕过规模保护并产生 O(N²) 内存开销。',
     move: '按样本规模与 K 是否已知进行三路分流，引入归一化、确定性的固定 K 聚类路径。',
     metric: '10,639 × 192',
-    href: 'https://github.com/modelscope/FunASR/pull/3516',
+    href: 'https://github.com/modelscope/FunASR',
     accent: 'cyan',
   },
   {
     index: '03',
-    eyebrow: 'OpenAI Agents SDK · Graph',
+    eyebrow: 'OpenAI Agents SDK · Contributor',
     title: '同名，不应该意味着同一个实体',
     problem: 'Agent、Tool 与 MCP Server 重名时，Graphviz 会错误合并节点、漏画关系或制造伪自环。',
     move: '以实体身份注册表解耦显示名和节点标识，重构图遍历与标识生成链路。',
     metric: 'Identity ≠ Label',
-    href: 'https://github.com/openai/openai-agents-python/pull/4512',
+    href: 'https://github.com/openai/openai-agents-python',
     accent: 'lime',
   },
 ];
@@ -127,14 +127,14 @@ const projects = [
 ];
 
 const openSource = [
-  { name: 'OpenCV', stars: '90.5k', logo: '/logos/opencv.svg', href: 'https://github.com/opencv/opencv/pull/29751', note: '极端反射坐标：O(N) → O(1)' },
-  { name: 'OpenAI Agents SDK', stars: '28.8k', logo: '/logos/openai.png', href: 'https://github.com/openai/openai-agents-python/pull/4512', note: '修复同名实体图节点碰撞' },
-  { name: 'PEFT', stars: '21.6k', logo: '/logos/huggingface.png', href: 'https://github.com/huggingface/peft/pull/3559', note: '阻止重复 Adapter 破坏权重' },
-  { name: 'Ultralytics YOLO', stars: '60.8k', logo: '/logos/ultralytics.png', href: 'https://github.com/ultralytics/ultralytics/pull/25855', note: '修复非等比例坐标反变换' },
-  { name: 'timm', stars: '37.1k', logo: '/logos/huggingface.png', href: 'https://github.com/huggingface/pytorch-image-models/pull/2739', note: '修正 CutMix 边界采样偏差' },
-  { name: 'Supervision', stars: '49.6k', logo: '/logos/supervision.png', href: 'https://github.com/roboflow/supervision/pull/2491', note: '稳定大坐标多边形质心计算' },
-  { name: 'FunASR', stars: '20.0k', logo: '/logos/funasr.png', href: 'https://github.com/modelscope/FunASR/pull/3516', note: '扩展长音频说话人聚类' },
-  { name: 'Burn', stars: '15.8k', logo: '/logos/burn.png', href: 'https://github.com/tracel-ai/burn/pull/5394', note: '保持卷积快速路径 IEEE 语义' },
+  { name: 'OpenCV', stars: '90.5k', logo: '/logos/opencv.svg', href: 'https://github.com/opencv/opencv', note: '极端反射坐标：O(N) → O(1)' },
+  { name: 'OpenAI Agents SDK', stars: '28.8k', logo: '/logos/openai.png', href: 'https://github.com/openai/openai-agents-python', note: '修复同名实体图节点碰撞' },
+  { name: 'PEFT', stars: '21.6k', logo: '/logos/huggingface.png', href: 'https://github.com/huggingface/peft', note: '阻止重复 Adapter 破坏权重' },
+  { name: 'Ultralytics YOLO', stars: '60.8k', logo: '/logos/ultralytics.png', href: 'https://github.com/ultralytics/ultralytics', note: '修复非等比例坐标反变换' },
+  { name: 'timm', stars: '37.1k', logo: '/logos/huggingface.png', href: 'https://github.com/huggingface/pytorch-image-models', note: '修正 CutMix 边界采样偏差' },
+  { name: 'Supervision', stars: '49.6k', logo: '/logos/supervision.png', href: 'https://github.com/roboflow/supervision', note: '稳定大坐标多边形质心计算' },
+  { name: 'FunASR', stars: '20.0k', logo: '/logos/funasr.png', href: 'https://github.com/modelscope/FunASR', note: '扩展长音频说话人聚类' },
+  { name: 'Burn', stars: '15.8k', logo: '/logos/burn.png', href: 'https://github.com/tracel-ai/burn', note: '保持卷积快速路径 IEEE 语义' },
 ];
 
 export default function Home() {
@@ -186,17 +186,16 @@ export default function Home() {
       </section>
 
       <section className="signal-strip" aria-label="个人成果概览">
-        <div><strong>04</strong><span>主要学术成果</span></div>
-        <div><strong>08</strong><span>上游贡献已合并</span></div>
-        <div><strong>90.5K</strong><span>最高影响项目 Stars</span></div>
-        <div><strong>02</strong><span>大模型算法实习</span></div>
-        <p>SCROLL TO EXPLORE <span>↓</span></p>
+        <div><strong>RESEARCH</strong><span>EMNLP · ACL · AAAI · ICML</span></div>
+        <div><strong>OPEN SOURCE</strong><span>Project Contributor</span></div>
+        <div><strong>FOCUS</strong><span>Pretrain · Agent · Safety</span></div>
+        <div><strong>ENGINEERING</strong><span>Python · PyTorch · Rust</span></div>
       </section>
 
       <section className="work-section section-shell" id="work">
         <div className="section-heading">
           <p>SELECTED PROBLEM SOLVING / 2025—2026</p>
-          <h2>不是 PR 列表，<br />而是三个被解决的问题。</h2>
+          <h2>三个真实问题，<br />三条可验证的解决路径。</h2>
           <span className="heading-index">[ 01 ]</span>
         </div>
 
@@ -284,8 +283,8 @@ export default function Home() {
       <section className="oss-section" id="opensource">
         <div className="section-shell">
           <div className="section-heading section-heading-compact">
-            <p>OPEN SOURCE / MERGED UPSTREAM</p>
-            <h2>把修复送回它发生的地方。</h2>
+            <p>OPEN SOURCE / PROJECT CONTRIBUTOR</p>
+            <h2>作为 Contributor，<br />解决真实工程边界。</h2>
             <span className="heading-index">[ 05 ]</span>
           </div>
           <div className="oss-grid">
@@ -293,7 +292,7 @@ export default function Home() {
               <a className="oss-item" href={item.href} key={item.name} {...externalLinkProps}>
                 <span className="oss-index">{String(index + 1).padStart(2, '0')}</span>
                 <img src={item.logo} alt="" />
-                <div><h3>{item.name}</h3><p>{item.note}</p></div>
+                <div><h3>{item.name}</h3><p><span className="oss-role">Contributor</span>{item.note}</p></div>
                 <span className="oss-stars">{item.stars} ★</span>
                 <span className="oss-arrow">↗</span>
               </a>
