@@ -1,5 +1,10 @@
 import type { CSSProperties } from 'react';
 
+const externalLinkProps = {
+  target: '_blank',
+  rel: 'noopener noreferrer',
+} as const;
+
 const selectedCases = [
   {
     index: '01',
@@ -168,8 +173,8 @@ export default function Home() {
           </p>
           <div className="hero-actions">
             <a className="primary-action" href="#work">查看精选工作 <span>↘</span></a>
-            <a className="secondary-action" href="https://github.com/tandede">GitHub ↗</a>
-            <a className="secondary-action" href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ">Scholar ↗</a>
+            <a className="secondary-action" href="https://github.com/tandede" {...externalLinkProps}>GitHub ↗</a>
+            <a className="secondary-action" href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}>Scholar ↗</a>
           </div>
         </div>
         <div className="hero-meta section-shell">
@@ -197,7 +202,7 @@ export default function Home() {
 
         <div className="case-grid">
           {selectedCases.map((item) => (
-            <a className={`case-card ${item.accent}`} href={item.href} key={item.index}>
+            <a className={`case-card ${item.accent}`} href={item.href} key={item.index} {...externalLinkProps}>
               <div className="case-topline"><span>{item.index}</span><span>{item.eyebrow}</span><span>↗</span></div>
               <h3>{item.title}</h3>
               <div className="case-story">
@@ -243,7 +248,7 @@ export default function Home() {
           </div>
           <div className="paper-list">
             {papers.map((paper, index) => (
-              <a className="paper-row" href={paper.href} key={paper.title}>
+              <a className="paper-row" href={paper.href} key={paper.title} {...externalLinkProps}>
                 <span className="paper-index">0{index + 1}</span>
                 <div className="paper-venue"><strong>{paper.code}</strong><span>{paper.role}</span></div>
                 <div className="paper-main"><h3>{paper.title}</h3><p>{paper.summary}</p></div>
@@ -263,7 +268,7 @@ export default function Home() {
         </div>
         <div className="project-grid">
           {projects.map(project => (
-            <a className="project-card" href={project.href} key={project.number}>
+            <a className="project-card" href={project.href} key={project.number} {...externalLinkProps}>
               <div className="project-index"><span>CASE</span><strong>{project.number}</strong></div>
               <p className="project-period">{project.period}</p>
               <h3>{project.title}</h3>
@@ -285,7 +290,7 @@ export default function Home() {
           </div>
           <div className="oss-grid">
             {openSource.map((item, index) => (
-              <a className="oss-item" href={item.href} key={item.name}>
+              <a className="oss-item" href={item.href} key={item.name} {...externalLinkProps}>
                 <span className="oss-index">{String(index + 1).padStart(2, '0')}</span>
                 <img src={item.logo} alt="" />
                 <div><h3>{item.name}</h3><p>{item.note}</p></div>
@@ -303,8 +308,8 @@ export default function Home() {
         <p className="contact-copy">如果你正在构建更好的训练数据、Agent 系统或模型评测，欢迎联系我。</p>
         <div className="contact-actions">
           <a href="mailto:1090179959@qq.com">1090179959@qq.com <span>↗</span></a>
-          <a href="https://github.com/tandede">GitHub @tandede <span>↗</span></a>
-          <a href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ">Google Scholar <span>↗</span></a>
+          <a href="https://github.com/tandede" {...externalLinkProps}>GitHub @tandede <span>↗</span></a>
+          <a href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}>Google Scholar <span>↗</span></a>
         </div>
         <footer><span>© 2026 TAN ZHEWEN</span><span>BEIJING · CHINA</span><a href="#top">BACK TO TOP ↑</a></footer>
       </section>
