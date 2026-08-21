@@ -12,9 +12,9 @@ const experiences = [
     date: '2026.07 — NOW',
     logo: '/logos/xiaohongshu.png',
     color: '#ff5368',
-    focus: '40T 网页预训练数据 Pipeline',
-    description: '面向大语言模型 Pretrain，建设覆盖网页数据清洗、去重、质量评估、分层与迭代回流的一体化 Pipeline，打造 40T 规模的网页预训练数据飞轮，持续提升语料质量、覆盖度与生产效率。',
-    tags: ['Data Pipeline', '40T Web Corpus', 'Quality Flywheel'],
+    focus: '网页预训练 Data Scaling Pipeline',
+    description: '面向大语言模型 Pretrain，建设覆盖网页数据清洗、去重、质量评估、分层与迭代回流的一体化 Pipeline，打造 Data Scaling 飞轮，使可训练 Token 数达到 40T，并持续提升数据质量、覆盖度与生产效率。',
+    tags: ['Data Scaling', '40T Trainable Tokens', 'Quality Flywheel'],
   },
   {
     company: '北京 360 · 智脑事业部（AIGC）',
@@ -118,7 +118,7 @@ export default function Home() {
           <a href="#opensource">开源</a>
           <a href="#contact">联系</a>
         </nav>
-        <a className="nav-status" href="mailto:1090179959@qq.com">
+        <a className="nav-status" href="mailto:zhewentan1@gmail.com">
           <span /> OPEN TO CONNECT
         </a>
       </header>
@@ -251,7 +251,7 @@ export default function Home() {
         <h2>继续研究，也继续构建。</h2>
         <p className="contact-copy">如果你正在构建更好的训练数据、Agent 系统、安全对齐或模型评测，欢迎联系我。</p>
         <div className="contact-actions">
-          <a href="mailto:1090179959@qq.com">1090179959@qq.com <span>↗</span></a>
+          <a href="mailto:zhewentan1@gmail.com">zhewentan1@gmail.com <span>↗</span></a>
           <a href="https://github.com/tandede" {...externalLinkProps}>GitHub @tandede <span>↗</span></a>
           <a href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}>谷歌学术 <span>↗</span></a>
         </div>
