@@ -5,39 +5,6 @@ const externalLinkProps = {
   rel: 'noopener noreferrer',
 } as const;
 
-const selectedCases = [
-  {
-    index: '01',
-    eyebrow: 'OpenCV · Contributor',
-    title: '把十亿次循环，折叠成一次计算',
-    problem: '极端反射坐标会触发 INT_MIN 溢出；INT_MAX 与短数组组合时，旧实现需要十亿级循环。',
-    move: '将逐次模拟改写为 64 位周期模运算，在完整 int 坐标域内直接完成映射。',
-    metric: 'O(N) → O(1)',
-    href: 'https://github.com/opencv/opencv',
-    accent: 'violet',
-  },
-  {
-    index: '02',
-    eyebrow: 'FunASR · Contributor',
-    title: '让长音频不再困在稠密矩阵里',
-    problem: '已知说话人数时，大输入仍进入谱聚类，绕过规模保护并产生 O(N²) 内存开销。',
-    move: '按样本规模与 K 是否已知进行三路分流，引入归一化、确定性的固定 K 聚类路径。',
-    metric: '10,639 × 192',
-    href: 'https://github.com/modelscope/FunASR',
-    accent: 'cyan',
-  },
-  {
-    index: '03',
-    eyebrow: 'OpenAI Agents SDK · Contributor',
-    title: '同名，不应该意味着同一个实体',
-    problem: 'Agent、Tool 与 MCP Server 重名时，Graphviz 会错误合并节点、漏画关系或制造伪自环。',
-    move: '以实体身份注册表解耦显示名和节点标识，重构图遍历与标识生成链路。',
-    metric: 'Identity ≠ Label',
-    href: 'https://github.com/openai/openai-agents-python',
-    accent: 'lime',
-  },
-];
-
 const experiences = [
   {
     company: '小红书 · Dots（Pretrain）',
@@ -94,6 +61,14 @@ const papers = [
     summary: '用 104 个真实 Python 项目评测长程代码 Agent，从空工作区出发完成架构设计、多模块实现与可安装仓库交付。',
     signal: '40.2% top-model pass rate',
   },
+  {
+    code: 'ACL 2026',
+    role: 'Findings · Co-author',
+    title: 'ARC: Active and Reflection-driven Context Management for Long-Horizon Information Seeking Agents',
+    href: 'https://aclanthology.org/2026.findings-acl.930/',
+    summary: '将上下文视为可持续监测、反思和修订的动态内部状态，在长程信息检索中主动修复 context rot。',
+    signal: 'BrowseComp-ZH +11%',
+  },
 ];
 
 const projects = [
@@ -108,15 +83,6 @@ const projects = [
   },
   {
     number: 'B',
-    title: 'ARC 长程信息检索 Agent',
-    href: 'https://arxiv.org/abs/2601.12030',
-    period: '2025.12 — 2026.02',
-    line: 'Context Manager × Actor',
-    description: '将动作生成与可学习上下文管理解耦，通过增量记忆和选择性反思缓解长程搜索中的 context rot。',
-    metrics: ['5 Benchmarks', 'BrowseComp-ZH +11%', 'Long-horizon'],
-  },
-  {
-    number: 'C',
     title: 'Harness-Bench',
     href: 'https://www.harness-bench.ai/',
     period: '2026.03 — 2026.04',
@@ -146,9 +112,10 @@ export default function Home() {
           <span>谭哲文 / TAN ZHEWEN</span>
         </a>
         <nav aria-label="主要导航">
-          <a href="#work">精选工作</a>
-          <a href="#experience">经历</a>
           <a href="#research">研究</a>
+          <a href="#experience">经历</a>
+          <a href="#projects">项目</a>
+          <a href="#opensource">开源</a>
           <a href="#contact">联系</a>
         </nav>
         <a className="nav-status" href="mailto:1090179959@qq.com">
@@ -162,19 +129,19 @@ export default function Home() {
           <div className="hero-shade" />
         </div>
         <div className="hero-copy section-shell">
-          <p className="kicker"><span>LLM SYSTEMS</span><span>PRETRAIN DATA</span><span>AGENT RESEARCH</span></p>
+          <p className="kicker"><span>RESEARCH FIRST</span><span>PRETRAIN DATA</span><span>AGENT SYSTEMS</span></p>
           <h1>
-            研究模型，<br />
-            也研究<span className="gradient-text">问题为何发生。</span>
+            把大模型研究，<br />
+            做成<span className="gradient-text">可验证的系统结果。</span>
           </h1>
           <p className="hero-lead">
-            我是谭哲文，一名大语言模型算法研究者。工作横跨 Pretrain 数据质量、Agent、
-            安全对齐与开源工程——习惯从失败路径出发，把复杂问题变成可以验证的解决方案。
+            我是谭哲文，专注大语言模型算法。研究覆盖 Pretrain 数据质量、Agent、安全对齐与模型评测；
+            从真实问题出发，用论文、系统和可复现实验回答问题。
           </p>
           <div className="hero-actions">
-            <a className="primary-action" href="#work">查看精选工作 <span>↘</span></a>
+            <a className="primary-action" href="#research">查看论文与研究 <span>↘</span></a>
             <a className="secondary-action" href="https://github.com/tandede" {...externalLinkProps}>GitHub ↗</a>
-            <a className="secondary-action" href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}>Scholar ↗</a>
+            <a className="secondary-action" href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}>谷歌学术 ↗</a>
           </div>
         </div>
         <div className="hero-meta section-shell">
@@ -186,38 +153,37 @@ export default function Home() {
       </section>
 
       <section className="signal-strip" aria-label="个人成果概览">
-        <div><strong>RESEARCH</strong><span>EMNLP · ACL · AAAI · ICML</span></div>
-        <div><strong>OPEN SOURCE</strong><span>Project Contributor</span></div>
-        <div><strong>FOCUS</strong><span>Pretrain · Agent · Safety</span></div>
-        <div><strong>ENGINEERING</strong><span>Python · PyTorch · Rust</span></div>
+        <div><strong>CCF-A</strong><span>4 papers · 2026</span></div>
+        <div><strong>ACL FINDINGS</strong><span>ARC · Context Management</span></div>
+        <div><strong>CURRENT</strong><span>小红书 · Dots（Pretrain）</span></div>
+        <div><strong>OPEN SOURCE</strong><span>8 upstream projects</span></div>
       </section>
 
-      <section className="work-section section-shell" id="work">
-        <div className="section-heading">
-          <p>SELECTED PROBLEM SOLVING / 2025—2026</p>
-          <h2>三个真实问题，<br />三条可验证的解决路径。</h2>
-          <span className="heading-index">[ 01 ]</span>
-        </div>
-
-        <div className="case-grid">
-          {selectedCases.map((item) => (
-            <a className={`case-card ${item.accent}`} href={item.href} key={item.index} {...externalLinkProps}>
-              <div className="case-topline"><span>{item.index}</span><span>{item.eyebrow}</span><span>↗</span></div>
-              <h3>{item.title}</h3>
-              <div className="case-story">
-                <p><b>问题</b>{item.problem}</p>
-                <p><b>解法</b>{item.move}</p>
-              </div>
-              <div className="case-metric">{item.metric}</div>
-            </a>
-          ))}
+      <section className="research-section" id="research">
+        <div className="section-shell">
+          <div className="section-heading section-heading-compact">
+            <p>RESEARCH / PUBLICATIONS</p>
+            <h2>先看研究，<br />再看履历。</h2>
+            <span className="heading-index">[ 01 ]</span>
+          </div>
+          <div className="paper-list">
+            {papers.map((paper, index) => (
+              <a className="paper-row" href={paper.href} key={paper.title} {...externalLinkProps}>
+                <span className="paper-index">0{index + 1}</span>
+                <div className="paper-venue"><strong>{paper.code}</strong><span>{paper.role}</span></div>
+                <div className="paper-main"><h3>{paper.title}</h3><p>{paper.summary}</p></div>
+                <div className="paper-signal">{paper.signal}</div>
+                <span className="paper-arrow">↗</span>
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 
       <section className="experience-section section-shell" id="experience">
         <div className="section-heading section-heading-compact">
           <p>EXPERIENCE / LARGE LANGUAGE MODELS</p>
-          <h2>在真实数据与模型系统中工作。</h2>
+          <h2>真实数据，真实系统。</h2>
           <span className="heading-index">[ 02 ]</span>
         </div>
         <div className="experience-list">
@@ -238,32 +204,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="research-section" id="research">
-        <div className="section-shell">
-          <div className="section-heading section-heading-compact">
-            <p>RESEARCH / PUBLICATIONS</p>
-            <h2>研究不是标签，<br />是可以复查的结论。</h2>
-            <span className="heading-index">[ 03 ]</span>
-          </div>
-          <div className="paper-list">
-            {papers.map((paper, index) => (
-              <a className="paper-row" href={paper.href} key={paper.title} {...externalLinkProps}>
-                <span className="paper-index">0{index + 1}</span>
-                <div className="paper-venue"><strong>{paper.code}</strong><span>{paper.role}</span></div>
-                <div className="paper-main"><h3>{paper.title}</h3><p>{paper.summary}</p></div>
-                <div className="paper-signal">{paper.signal}</div>
-                <span className="paper-arrow">↗</span>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="project-section section-shell" id="projects">
         <div className="section-heading section-heading-compact">
           <p>PROJECTS / FROM TRAINING TO EVALUATION</p>
-          <h2>模型、上下文与评测系统。</h2>
-          <span className="heading-index">[ 04 ]</span>
+          <h2>训练与评测，落到系统上。</h2>
+          <span className="heading-index">[ 03 ]</span>
         </div>
         <div className="project-grid">
           {projects.map(project => (
@@ -284,8 +229,8 @@ export default function Home() {
         <div className="section-shell">
           <div className="section-heading section-heading-compact">
             <p>OPEN SOURCE / PROJECT CONTRIBUTOR</p>
-            <h2>作为 Contributor，<br />解决真实工程边界。</h2>
-            <span className="heading-index">[ 05 ]</span>
+            <h2>工程贡献，<br />放在可核验的证据里。</h2>
+            <span className="heading-index">[ 04 ]</span>
           </div>
           <div className="oss-grid">
             {openSource.map((item, index) => (
@@ -302,13 +247,13 @@ export default function Home() {
       </section>
 
       <section className="contact-section section-shell" id="contact">
-        <p className="contact-kicker">LET&apos;S BUILD SOMETHING THAT CAN BE VERIFIED.</p>
-        <h2>研究问题，也解决问题。</h2>
-        <p className="contact-copy">如果你正在构建更好的训练数据、Agent 系统或模型评测，欢迎联系我。</p>
+        <p className="contact-kicker">RESEARCH · SYSTEMS · OPEN COLLABORATION</p>
+        <h2>继续研究，也继续构建。</h2>
+        <p className="contact-copy">如果你正在构建更好的训练数据、Agent 系统、安全对齐或模型评测，欢迎联系我。</p>
         <div className="contact-actions">
           <a href="mailto:1090179959@qq.com">1090179959@qq.com <span>↗</span></a>
           <a href="https://github.com/tandede" {...externalLinkProps}>GitHub @tandede <span>↗</span></a>
-          <a href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}>Google Scholar <span>↗</span></a>
+          <a href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}>谷歌学术 <span>↗</span></a>
         </div>
         <footer><span>© 2026 TAN ZHEWEN</span><span>BEIJING · CHINA</span><a href="#top">BACK TO TOP ↑</a></footer>
       </section>

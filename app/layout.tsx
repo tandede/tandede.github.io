@@ -15,18 +15,18 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://tandede.github.io'),
   title: '谭哲文｜LLM Research & Engineering',
-  description: '谭哲文的个人主页：大语言模型、Pretrain 数据质量、Agent、安全对齐与开源工程。',
+  description: '谭哲文的个人主页：大语言模型、Pretrain 数据质量、Agent、安全对齐、模型评测与学术论文。',
   icons: { icon: '/tan-zhewen.png' },
   openGraph: {
     title: '谭哲文｜LLM Research & Engineering',
-    description: 'Pretrain · Agents · Open Source — 从失败路径出发，把复杂问题变成可以验证的解决方案。',
+    description: 'Pretrain · Agents · Safety · Evaluation — 用论文、系统和可复现实验回答问题。',
     images: [{ url: '/og.png', width: 1730, height: 909, alt: '谭哲文｜LLM Research & Engineering' }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: '谭哲文｜LLM Research & Engineering',
-    description: 'Pretrain · Agents · Open Source — 从失败路径出发，把复杂问题变成可以验证的解决方案。',
+    description: 'Pretrain · Agents · Safety · Evaluation — 用论文、系统和可复现实验回答问题。',
     images: ['/og.png'],
   },
 };
