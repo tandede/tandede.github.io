@@ -135,12 +135,9 @@ const openSource = [
 export default function Home() {
   return (
     <main>
-      <div className="ambient ambient-one" aria-hidden="true" />
-      <div className="ambient ambient-two" aria-hidden="true" />
-
       <header className="site-nav">
         <a className="brand" href="#top" aria-label="返回首页">
-          <span className="brand-mark">TZ</span>
+          <span className="brand-avatar"><img src="/tan-zhewen.png" alt="" /></span>
           <span>谭哲文 / TAN ZHEWEN</span>
         </a>
         <nav aria-label="主要导航">
@@ -154,9 +151,13 @@ export default function Home() {
         </a>
       </header>
 
-      <section className="hero section-shell" id="top">
-        <div className="hero-copy">
-          <p className="kicker"><span>LLM SYSTEMS</span><span>PRETRAIN</span><span>AGENTS</span></p>
+      <section className="hero" id="top">
+        <div className="hero-media" aria-hidden="true">
+          <img src="/hero-v2.png" alt="" />
+          <div className="hero-shade" />
+        </div>
+        <div className="hero-copy section-shell">
+          <p className="kicker"><span>LLM SYSTEMS</span><span>PRETRAIN DATA</span><span>AGENT RESEARCH</span></p>
           <h1>
             研究模型，<br />
             也研究<span className="gradient-text">问题为何发生。</span>
@@ -171,18 +172,11 @@ export default function Home() {
             <a className="secondary-action" href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ">Scholar ↗</a>
           </div>
         </div>
-
-        <div className="hero-visual" aria-label="个人信息概览">
-          <div className="orbit orbit-one" />
-          <div className="orbit orbit-two" />
-          <div className="portrait-frame">
-            <img src="/tan-zhewen.png" alt="谭哲文" />
-          </div>
-          <div className="floating-label label-top"><span>FOCUS</span> Data quality</div>
-          <div className="floating-label label-right"><span>MODE</span> Research × Build</div>
-          <div className="floating-label label-bottom"><span>BASE</span> Beijing · China</div>
-          <div className="visual-cross cross-one">+</div>
-          <div className="visual-cross cross-two">+</div>
+        <div className="hero-meta section-shell">
+          <div><span>CURRENT</span><strong>小红书 · Dots</strong></div>
+          <div><span>FOCUS</span><strong>Pretrain Data Quality</strong></div>
+          <div><span>MODE</span><strong>Research × Engineering</strong></div>
+          <div className="hero-scroll">SCROLL <b>↓</b></div>
         </div>
       </section>
 
@@ -270,7 +264,7 @@ export default function Home() {
         <div className="project-grid">
           {projects.map(project => (
             <a className="project-card" href={project.href} key={project.number}>
-              <div className="project-orbit"><span>{project.number}</span></div>
+              <div className="project-index"><span>CASE</span><strong>{project.number}</strong></div>
               <p className="project-period">{project.period}</p>
               <h3>{project.title}</h3>
               <p className="project-line">{project.line}</p>

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: '谭哲文｜LLM Research & Engineering',
     description: 'Pretrain · Agents · Open Source — 从失败路径出发，把复杂问题变成可以验证的解决方案。',
-    images: [{ url: '/og.png', width: 1792, height: 1024, alt: '谭哲文个人主页分享封面' }],
+    images: [{ url: '/og.png', width: 1730, height: 909, alt: '谭哲文｜LLM Research & Engineering' }],
     type: 'website',
   },
   twitter: {
