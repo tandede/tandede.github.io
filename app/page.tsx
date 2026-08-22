@@ -18,6 +18,7 @@ import {
 } from 'react-icons/pi';
 import { SiGithub, SiGooglescholar } from 'react-icons/si';
 import InteractionLayer from './interaction-layer';
+import NavigationShell from './navigation-shell';
 
 const externalLinkProps = { target: '_blank', rel: 'noopener noreferrer' } as const;
 
@@ -164,11 +165,7 @@ export default function Home() {
   return (
     <main>
       <InteractionLayer />
-      <header className="site-nav">
-        <a className="brand" href="#top" aria-label="返回首页"><span className="brand-mark"><PiCpu aria-hidden="true" /></span><span><strong>谭哲文</strong><small>TAN ZHEWEN</small></span></a>
-        <nav aria-label="主要导航"><a href="#focus">研究方向</a><a href="#research">论文</a><a href="#experience">经历</a><a href="#projects">项目</a><a href="#opensource">开源</a></nav>
-        <a className="nav-contact" href="#contact"><PiEnvelope aria-hidden="true" />联系我</a>
-      </header>
+      <NavigationShell />
 
       <section className="hero" id="top">
         <div className="section-shell hero-grid">
