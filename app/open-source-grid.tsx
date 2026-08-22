@@ -85,12 +85,13 @@ export default function OpenSourceGrid({ items }: { items: OpenSourceItem[] }) {
     return <a className="opensource-card" href={item.href} key={item.name} target="_blank" rel="noopener noreferrer" aria-label={`前往 ${item.name} GitHub 项目`} style={{ '--repo-accent': item.accent } as CSSProperties}>
       <div className="opensource-face opensource-front">
         <div className="opensource-card-top">
-          <img src={item.logo} alt="" />
+          <div className="opensource-identity">
+            <img src={item.logo} alt="" />
+            <div><small>CONTRIBUTOR</small><h3>{item.name}</h3></div>
+          </div>
           <span className="repo-stars" title={typeof count === 'number' ? `${count.toLocaleString('en-US')} GitHub Stars` : '正在获取 GitHub Star'}><PiStarFill aria-hidden="true" />{starsLabel}</span>
         </div>
         <div className="opensource-project">
-          <small>CONTRIBUTOR</small>
-          <h3>{item.name}</h3>
           <p>{item.function}</p>
         </div>
         <div className="opensource-card-link"><span>查看我的贡献</span><PiArrowUpRightBold aria-hidden="true" /></div>
