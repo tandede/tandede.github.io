@@ -170,16 +170,13 @@ export default function Home() {
 
       <section className="hero" id="top">
         <div className="section-shell hero-grid">
+          <div className="hero-photo" data-reveal><img src="/contact-mountain.jpg" alt="谭哲文山顶照片" /></div>
           <div className="hero-copy" data-reveal>
             <p className="hero-eyebrow"><span />TAN ZHEWEN · PERSONAL HOMEPAGE</p>
             <h1>谭哲文<span>大语言模型算法研究与工程</span></h1>
             <p className="hero-lead">我主要做大语言模型预训练数据，也关注 Agent、安全对齐与模型评测。这里记录我的研究、工程实践和开源贡献。</p>
             <div className="hero-actions"><a className="action-link action-primary" href="#research"><PiArticle aria-hidden="true" /><span>代表论文</span><PiArrowDownRightBold aria-hidden="true" /></a><a className="action-link" href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><span>谷歌学术</span><PiArrowUpRightBold aria-hidden="true" /></a><a className="action-link" href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><span>GitHub</span><PiArrowUpRightBold aria-hidden="true" /></a><a className="action-link" href="https://www.linkedin.com/in/zhewen-tan-0ba830401/" {...externalLinkProps}><SiLinkedin aria-hidden="true" /><span>LinkedIn</span><PiArrowUpRightBold aria-hidden="true" /></a></div>
           </div>
-          <aside className="profile-card" data-reveal>
-            <img src="/contact-mountain.jpg" alt="谭哲文山顶旅行照片" />
-            <div className="profile-body profile-note"><div><span>旅行记录 / 01</span><strong>黄山 · 2026</strong></div><p>工作之外，也喜欢徒步和记录沿途。</p></div>
-          </aside>
         </div>
       </section>
 
