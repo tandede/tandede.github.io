@@ -135,7 +135,7 @@ const projects = [
     overview: '面向数学、代码与科学推理任务，以 DeepSeek-R1-Distill-Qwen-32B 为底座构建领域增强模型。项目采用 Branch–Merge Distillation：各领域分别训练专家，再通过参数融合把专项能力合并到同一模型，降低多领域联合训练中的相互干扰。',
     technical: '训练链路覆盖领域 CoT 数据收集与质量清洗、三类 SFT 专家训练、统一离线评测以及融合权重搜索；通过分支训练保留各领域的推理模式，再在合并阶段平衡专项增益和通用能力。',
     work: '我参与领域 CoT 数据构建与清洗、数学/代码/科学专家训练、离线评测和融合权重选择，重点验证单领域增益是否真实，以及参数合并后是否出现能力回退。',
-    metrics: [['AIME24 / 25', '90.9 / 82.7'], ['GPQA / LCB', '69.4 / 70.4'], ['IFEval', '89.2']],
+    metrics: [['AIME24', '90.9'], ['AIME25', '82.7'], ['GPQA', '69.4'], ['LCB', '70.4'], ['IFEval', '89.2']],
   },
   {
     index: '02', title: 'Harness-Bench', href: 'https://www.harness-bench.ai/', subtitle: 'Agent Harness Evaluation',
