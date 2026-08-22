@@ -8,7 +8,9 @@ type OpenSourceItem = {
   logo: string;
   href: string;
   function: string;
-  contribution: string;
+  problem: string;
+  reasoning: string;
+  solution: string;
 };
 
 const cacheDuration = 30 * 60 * 1000;
@@ -74,8 +76,32 @@ export default function OpenSourceGrid({ items }: { items: OpenSourceItem[] }) {
     return difference || left.originalIndex - right.originalIndex;
   }), [items, stars]);
 
-  return <div className="opensource-grid" data-reveal>{orderedItems.map(({ item }, index) => {
+  return <div className="opensource-grid" data-reveal>{orderedItems.map(({ item }) => {
     const count = stars?.[item.href];
-    return <a className="opensource-row" href={item.href} key={item.name} target="_blank" rel="noopener noreferrer"><span>{String(index + 1).padStart(2, '0')}</span><img src={item.logo} alt="" /><div className="opensource-name"><h3>{item.name}</h3><small>Contributor</small><span className="repo-stars" title={typeof count === 'number' ? `${count.toLocaleString('en-US')} GitHub Stars` : '正在获取 GitHub Star'}><PiStarFill aria-hidden="true" />{typeof count === 'number' ? `${formatStars(count)} Stars` : 'Stars'}</span></div><p><strong>项目功能</strong>{item.function}</p><p><strong>我的贡献</strong>{item.contribution}</p><PiArrowUpRightBold aria-hidden="true" /></a>;
+    const starsLabel = typeof count === 'number' ? `${formatStars(count)} Stars` : 'Stars';
+
+    return <a className="opensource-card" href={item.href} key={item.name} target="_blank" rel="noopener noreferrer" aria-label={`前往 ${item.name} GitHub 项目`}>
+      <div className="opensource-face opensource-front">
+        <div className="opensource-card-top">
+          <img src={item.logo} alt="" />
+          <span className="repo-stars" title={typeof count === 'number' ? `${count.toLocaleString('en-US')} GitHub Stars` : '正在获取 GitHub Star'}><PiStarFill aria-hidden="true" />{starsLabel}</span>
+        </div>
+        <div className="opensource-project">
+          <small>CONTRIBUTOR</small>
+          <h3>{item.name}</h3>
+          <p>{item.function}</p>
+        </div>
+        <div className="opensource-card-link"><span>查看我的贡献</span><PiArrowUpRightBold aria-hidden="true" /></div>
+      </div>
+      <div className="opensource-face opensource-back" aria-hidden="true">
+        <div className="opensource-back-head"><strong>{item.name}</strong><span>ENGINEERING NOTE</span></div>
+        <div className="opensource-story">
+          <div><span>发现问题</span><p>{item.problem}</p></div>
+          <div><span>问题思考</span><p>{item.reasoning}</p></div>
+          <div><span>解决方法</span><p>{item.solution}</p></div>
+        </div>
+        <div className="opensource-card-link"><span>前往 GitHub 项目</span><PiArrowUpRightBold aria-hidden="true" /></div>
+      </div>
+    </a>;
   })}</div>;
 }

@@ -290,19 +290,36 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .project-arrow { position: absolute; top: 35px; right: 14px; color: var(--blue); transition: transform 180ms ease; }
 .project-row:hover .project-arrow { transform: translate(4px, -4px); }
 
-.opensource-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line-strong); border-left: 1px solid var(--line); }
-.opensource-row { position: relative; display: grid; grid-template-columns: 30px 42px 150px minmax(0, 0.8fr) minmax(0, 1.35fr) 20px; gap: 12px; align-items: start; min-height: 160px; padding: 23px 18px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--white); transition: color 180ms ease, background 180ms ease, transform 180ms ease; }
-.opensource-row:hover { z-index: 2; color: var(--blue); background: #f8faff; transform: translateY(-3px); }
-.opensource-row > span { color: var(--blue); font-family: var(--font-geist-mono), monospace; font-size: 9px; }
-.opensource-row > img { width: 42px; height: 42px; padding: 5px; border: 1px solid var(--line); background: var(--white); object-fit: contain; }
-.opensource-name h3 { margin: 0; color: var(--ink); font-size: 15px; line-height: 1.35; }
-.opensource-name small { display: block; margin-top: 7px; color: var(--blue); font-family: var(--font-geist-mono), monospace; font-size: 8px; }
-.repo-stars { display: inline-flex; align-items: center; gap: 5px; width: fit-content; margin-top: 10px; color: #875800; font-family: var(--font-geist-mono), monospace; font-size: 8px; font-weight: 750; white-space: nowrap; }
-.repo-stars svg { width: 11px; height: 11px; color: var(--orange); }
-.opensource-row > p { margin: 0; color: #4b5565; font-size: 10px; line-height: 1.6; }
-.opensource-row > p strong { display: block; margin-bottom: 4px; color: var(--ink); font-size: 9px; }
-.opensource-row > svg { color: var(--blue); transition: transform 180ms ease; }
-.opensource-row:hover > svg { transform: translate(3px, -3px); }
+.opensource-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line-strong); border-left: 1px solid var(--line); }
+.opensource-card { position: relative; isolation: isolate; min-height: 348px; overflow: hidden; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--white); transition: border-color 260ms ease, box-shadow 320ms ease, transform 360ms cubic-bezier(0.22, 1, 0.36, 1); }
+.opensource-card::before { position: absolute; z-index: -1; inset: 0; background: linear-gradient(145deg, #ffffff 0%, #f4f7ff 44%, #e9f1ff 100%); content: ""; opacity: 0; transition: opacity 360ms ease; }
+.opensource-card::after { position: absolute; z-index: 3; top: 0; right: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--blue), #6f9dff 62%, #b5caff); content: ""; transform: scaleX(0); transform-origin: left; transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1); }
+.opensource-card:hover, .opensource-card:focus-visible { z-index: 2; border-color: #a9c0ea; box-shadow: 0 20px 42px rgba(21, 94, 239, 0.14); transform: translateY(-7px); }
+.opensource-card:hover::before, .opensource-card:focus-visible::before { opacity: 1; }
+.opensource-card:hover::after, .opensource-card:focus-visible::after { transform: scaleX(1); }
+.opensource-face { position: absolute; inset: 0; display: grid; padding: 24px; transition: opacity 260ms ease, transform 420ms cubic-bezier(0.22, 1, 0.36, 1), filter 260ms ease; }
+.opensource-front { grid-template-rows: auto 1fr auto; opacity: 1; transform: translateY(0); }
+.opensource-back { grid-template-rows: auto 1fr auto; background: linear-gradient(160deg, rgba(255, 255, 255, 0.88), rgba(235, 242, 255, 0.96)); opacity: 0; transform: translateY(28px); }
+.opensource-card:hover .opensource-front, .opensource-card:focus-visible .opensource-front { opacity: 0; filter: blur(2px); transform: translateY(-24px) scale(0.985); }
+.opensource-card:hover .opensource-back, .opensource-card:focus-visible .opensource-back { opacity: 1; transform: translateY(0); }
+.opensource-card-top { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+.opensource-card-top > img { width: 48px; height: 48px; padding: 7px; border: 1px solid var(--line); background: var(--white); object-fit: contain; }
+.repo-stars { display: inline-flex; align-items: center; gap: 6px; width: fit-content; color: #875800; font-family: var(--font-geist-mono), monospace; font-size: 9px; font-weight: 750; white-space: nowrap; }
+.repo-stars svg { width: 12px; height: 12px; color: var(--orange); }
+.opensource-project { align-self: center; padding: 28px 0 18px; }
+.opensource-project small { display: block; color: var(--blue); font-family: var(--font-geist-mono), monospace; font-size: 8px; font-weight: 750; letter-spacing: 0.11em; }
+.opensource-project h3 { margin: 9px 0 0; color: var(--ink); font-size: 20px; letter-spacing: -0.025em; line-height: 1.25; }
+.opensource-project p { margin: 16px 0 0; color: #4b5565; font-size: 12px; line-height: 1.72; }
+.opensource-card-link { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 15px; color: var(--blue); font-family: var(--font-geist-mono), monospace; font-size: 9px; font-weight: 750; border-top: 1px solid var(--line); }
+.opensource-card-link svg { width: 15px; height: 15px; transition: transform 220ms ease; }
+.opensource-card:hover .opensource-card-link svg, .opensource-card:focus-visible .opensource-card-link svg { transform: translate(3px, -3px); }
+.opensource-back-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding-bottom: 13px; border-bottom: 1px solid #c9d7ed; }
+.opensource-back-head strong { color: var(--ink); font-size: 12px; line-height: 1.3; }
+.opensource-back-head span { color: var(--blue); font-family: var(--font-geist-mono), monospace; font-size: 7px; font-weight: 750; letter-spacing: 0.08em; white-space: nowrap; }
+.opensource-story { display: grid; align-content: center; gap: 12px; padding: 13px 0; }
+.opensource-story > div { display: grid; grid-template-columns: 54px minmax(0, 1fr); gap: 9px; align-items: start; }
+.opensource-story span { padding-top: 2px; color: var(--blue); font-size: 9px; font-weight: 750; }
+.opensource-story p { margin: 0; color: #3f4b5d; font-size: 10px; line-height: 1.58; }
 
 .contact-section { position: relative; isolation: isolate; overflow: hidden; padding: 96px 0 30px; color: var(--ink); background: var(--white); }
 .contact-section::before, .contact-section::after { content: none; }
@@ -345,8 +362,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .paper-detail { padding-left: 180px; }
   .project-row { grid-template-columns: 54px 250px minmax(0, 1fr); }
   .metric-grid { grid-column: 2 / -1; }
-  .opensource-row { grid-template-columns: 26px 40px 130px minmax(0, 1fr) 18px; }
-  .opensource-row > p:first-of-type { display: none; }
+  .opensource-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (min-width: 1161px) {
@@ -389,7 +405,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .workstream-card { min-height: 0; }
   .project-row { grid-template-columns: 48px 1fr; padding-right: 45px; }
   .project-copy, .metric-grid { grid-column: 2; }
-  .opensource-grid { grid-template-columns: 1fr; }
+  .opensource-face { padding: 22px; }
   .contact-layout { grid-template-columns: 1fr; gap: 54px; }
 }
 
@@ -435,8 +451,9 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .metric-grid { grid-template-columns: 1fr; border-top: 1px solid var(--line); border-left: 0; }
   .metric-grid-split > div { grid-column: auto; grid-row: auto; }
   .metric-grid > div { min-height: 58px; border-right: 0; border-bottom: 1px solid var(--line); }
-  .opensource-row { grid-template-columns: 24px 38px 1fr 18px; }
-  .opensource-row > p { grid-column: 3 / -1; }
+  .opensource-grid { grid-template-columns: 1fr; }
+  .opensource-card { min-height: 330px; }
+  .opensource-face { padding: 22px 20px; }
   .contact-section { padding-top: 78px; }
   .contact-section h2 { font-size: 39px; }
   .contact-section footer { align-items: flex-start; flex-direction: column; gap: 9px; margin-top: 65px; }
