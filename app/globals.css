@@ -32,6 +32,8 @@ img { display: block; max-width: 100%; }
 button, a, summary { -webkit-tap-highlight-color: transparent; }
 ::selection { color: var(--white); background: var(--blue); }
 
+main > section { transition: margin-left 360ms cubic-bezier(0.22, 1, 0.36, 1); }
+
 .section-shell { width: min(var(--shell), calc(100% - 56px)); margin-inline: auto; }
 #focus, #research, #experience, #projects, #opensource, #contact { scroll-margin-top: 84px; }
 
@@ -317,6 +319,10 @@ button, a, summary { -webkit-tap-highlight-color: transparent; }
   .metric-grid { grid-column: 2 / -1; }
   .opensource-row { grid-template-columns: 26px 40px 130px minmax(0, 1fr) 18px; }
   .opensource-row > p:first-of-type { display: none; }
+}
+
+@media (min-width: 1161px) {
+  html.nav-layout-pinned main > section { margin-left: 300px; }
 }
 
 @media (max-width: 820px) {

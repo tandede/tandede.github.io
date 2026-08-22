@@ -50,6 +50,11 @@ export default function NavigationShell() {
   }, [pinned]);
 
   useEffect(() => {
+    document.documentElement.classList.toggle('nav-layout-pinned', pinned);
+    return () => document.documentElement.classList.remove('nav-layout-pinned');
+  }, [pinned]);
+
+  useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setPinned(false);
@@ -83,7 +88,7 @@ export default function NavigationShell() {
         <aside id="side-navigation" className="side-nav-panel" aria-label="页面导航" aria-hidden={!visible} onMouseEnter={() => setHovering(true)} onMouseLeave={closeIfFloating}>
           <div className="side-nav-head"><div><span>NAVIGATION</span><strong>页面导航</strong></div><div><button type="button" aria-label={pinned ? '取消固定导航' : '固定导航'} aria-pressed={pinned} onClick={() => { setPinned((value) => !value); setOpen(true); }}>{pinned ? <PiPushPinSlashBold aria-hidden="true" /> : <PiPushPinBold aria-hidden="true" />}</button><button type="button" aria-label="收起导航" onClick={() => { setPinned(false); setOpen(false); setHovering(false); }}><PiXBold aria-hidden="true" /></button></div></div>
           <nav>{navigationItems.map((item, index) => { const Icon = item.icon; return <a href={item.href} key={item.href} tabIndex={visible ? 0 : -1} onClick={closeIfFloating}><span>{String(index + 1).padStart(2, '0')}</span><Icon aria-hidden="true" /><span><strong>{item.label}</strong><small>{item.english}</small></span></a>; })}</nav>
-          <p><span />移到左侧边缘可临时展开；固定后导航会保持打开。</p>
+          <p><span />移到左侧边缘可临时展开；固定后页面会自动为导航让位。</p>
         </aside>
       </div>
       <button className={`side-nav-backdrop${visible ? ' is-visible' : ''}`} type="button" aria-label="关闭导航" tabIndex={visible ? 0 : -1} onClick={() => { setPinned(false); setOpen(false); setHovering(false); }} />
