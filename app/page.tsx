@@ -101,17 +101,27 @@ const papers = [
 const experiences = [
   {
     company: '小红书 · Dots（Pretrain）', role: '算法实习生', date: '2026.07 — 至今', logo: '/logos/xiaohongshu.png',
-    focus: '网页预训练 Data Scaling Pipeline',
-    summary: '面向大语言模型 Pretrain，建设网页数据生产、质量控制与训练反馈链路。',
-    bullets: ['覆盖网页数据清洗、去重、质量评估、分层与迭代回流，形成一体化数据 Pipeline。', '打造 Data Scaling 飞轮，目标推动可训练 Token 数达到 40T。', '以自动化质量判断与持续回流支撑语料生产，持续提升数据质量、覆盖度与生产效率。'],
-    tags: ['Data Scaling', 'Pretrain Corpus', 'Quality Flywheel'],
+    focus: 'Web Pretrain Data Scaling',
+    summary: '面向大语言模型 Pretrain，建设网页语料从多源接入、标准化清洗、去重、质量建模、分层采样到训练反馈回流的一体化 Data Scaling Pipeline。',
+    goal: '目标：推动可训练 Token 规模达到 40T',
+    showPipeline: true,
+    modules: [
+      { index: '01', icon: PiDatabase, label: 'DATA GOVERNANCE', title: '网页语料治理', description: '围绕多源网页语料建立统一的数据生产链路，将来源、处理版本、清洗规则与去重策略纳入可追溯的数据资产管理。' },
+      { index: '02', icon: PiCheckCircle, label: 'QUALITY MODELING', title: '质量评估与分层', description: '面向网页内容的可训练性判断，建设自动化质量评估与分层机制，为过滤、采样和数据配比提供稳定质量信号。' },
+      { index: '03', icon: PiStack, label: 'SCALING FLYWHEEL', title: '训练反馈数据飞轮', description: '将训练与评测反馈回流到数据策略迭代，使语料生产从一次性离线处理转向持续优化，并以 40T 可训练 Token 作为建设目标。' },
+    ],
   },
   {
     company: '北京 360 · 智脑事业部（AIGC）', role: '算法实习生', date: '2025.07 — 2026.07', logo: '/logos/qihoo360.png',
-    focus: '大模型与 Agent 算法研发',
-    summary: '围绕领域推理、安全对齐与 Agent 能力建设，参与从数据到训练、评测的完整链路。',
-    bullets: ['参与数学、代码、科学领域 CoT 数据构建、SFT 专家训练、离线评测与参数融合。', '参与 TriPlay-RL 与 Magic-Token 安全对齐研究，探索自进化训练和可切换安全控制。', '参与上下文管理、Agent Harness 与自动化评测，分析成功率、成本及长程失败模式。'],
-    tags: ['Reasoning', 'Safety Alignment', 'Agent Evaluation'],
+    focus: 'LLM Reasoning · Safety · Agent',
+    summary: '围绕领域推理、安全对齐与 Agent 系统能力，参与数据构建、SFT 与强化学习、参数融合、自动化评测和执行轨迹诊断的完整研发链路。',
+    goal: '从模型训练延伸到可执行系统评测',
+    showPipeline: false,
+    modules: [
+      { index: '01', icon: PiBrain, label: 'DOMAIN REASONING', title: '领域推理与模型融合', description: '构建与清洗数学、代码、科学领域 CoT 数据，参与三类 SFT 专家训练、统一离线评测和融合权重选择，支撑 Tiny-R1-32B 的 Branch–Merge Distillation。' },
+      { index: '02', icon: PiShieldCheck, label: 'SAFETY ALIGNMENT', title: '自进化安全对齐', description: '参与 TriPlay-RL 三角色自博弈强化学习与 Magic-Token 可切换安全控制研究，覆盖攻击生成、响应评估、防御优化与多安全行为协同训练。' },
+      { index: '03', icon: PiChartLineUp, label: 'AGENT EVALUATION', title: 'Agent 系统与评测', description: '参与上下文管理、执行环境重建、自动化 Verifier 与 Harness 评测，基于完整执行轨迹分析成功率、Token 成本和长程失败模式。' },
+    ],
   },
 ];
 
@@ -164,24 +174,13 @@ export default function Home() {
           <div className="hero-copy" data-reveal>
             <p className="hero-eyebrow"><span />PRETRAIN · AGENT · SAFETY · EVALUATION</p>
             <h1>谭哲文<span>大语言模型算法研究与工程</span></h1>
-            <p className="hero-lead">我主要做大语言模型预训练数据，也关注 Agent、安全对齐和模型评测。目前在小红书 Dots 建设网页预训练数据 Pipeline，目标是推动可训练 Token 规模达到 40T。</p>
-            <div className="hero-tags"><span>Pretrain Data Scaling</span><span>40T Trainable Tokens</span><span>Agent Systems</span><span>Safety Alignment</span><span>Model Evaluation</span></div>
+            <p className="hero-lead">我主要做大语言模型预训练数据，也关注 Agent、安全对齐与模型评测。这里记录我的研究、工程实践和开源贡献。</p>
+            <div className="hero-actions"><a className="action-link action-primary" href="#research"><PiArticle aria-hidden="true" /><span>查看代表论文</span><PiArrowDownRightBold aria-hidden="true" /></a><a className="action-link" href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><span>谷歌学术</span><PiArrowUpRightBold aria-hidden="true" /></a><a className="action-link" href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><span>GitHub @tandede</span><PiArrowUpRightBold aria-hidden="true" /></a></div>
           </div>
           <aside className="profile-card" data-reveal>
             <img src="/hero-v2.png" alt="谭哲文" />
-            <div className="profile-body"><div className="profile-name"><strong>谭哲文</strong><span>Tan Zhewen</span></div><p>大语言模型算法研究与工程</p><div className="profile-rule" /><p className="profile-role">小红书 · Dots（Pretrain）算法实习生</p><small>网页预训练 Data Scaling Pipeline<br />目标：40T 可训练 Token 数据飞轮</small><div className="profile-place"><PiMapPin aria-hidden="true" /> Beijing · Open to connect</div></div>
+            <div className="profile-body"><div className="profile-name"><strong>谭哲文</strong><span>Tan Zhewen</span></div><p>大语言模型算法研究与工程</p><div className="profile-rule" /><p className="profile-role">小红书 · Dots（Pretrain）算法实习生</p><div className="profile-place"><PiMapPin aria-hidden="true" /> Beijing · Open to connect</div></div>
           </aside>
-          <div className="pipeline" data-reveal aria-label="网页预训练数据流水线">
-            <div className="pipeline-head"><p><span className="live-dot" />DATA PIPELINE · CURRENT FOCUS</p><div><span>数据流</span><span>证据链</span><span>训练反馈</span></div></div>
-            <div className="pipeline-flow">
-              {pipeline.map((stage, index) => { const Icon = stage.icon; return <div className="pipeline-step" key={stage.title}><div className="pipeline-card"><div className="pipeline-card-top"><Icon aria-hidden="true" /><span>{String(index + 1).padStart(2, '0')}</span></div><strong>{stage.title}</strong><p>{stage.subtitle}</p><small><span />{stage.status}</small></div>{index < pipeline.length - 1 && <div className="pipeline-arrow"><PiArrowRightBold aria-hidden="true" /><span /></div>}</div>; })}
-            </div>
-            <div className="pipeline-proof"><PiShieldCheck aria-hidden="true" /><span>Provenance</span><i /><span>Quality Signals</span><i /><span>Training Feedback</span><i /><strong>40T TARGET</strong></div>
-          </div>
-          <div className="hero-evidence" data-reveal>
-            <div className="evidence-stats"><div><strong>5</strong><span>篇 2026 论文</span></div><div><strong>4</strong><span>篇 CCF-A</span></div><div><strong>40T</strong><span>可训练 Token 目标</span></div><div><strong>OSS</strong><span>主流项目 Contributor</span></div></div>
-            <div className="hero-actions"><a className="action-link action-primary" href="#research"><PiArticle aria-hidden="true" /><span>查看代表论文</span><PiArrowDownRightBold aria-hidden="true" /></a><a className="action-link" href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><span>谷歌学术</span><PiArrowUpRightBold aria-hidden="true" /></a><a className="action-link" href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><span>GitHub @tandede</span><PiArrowUpRightBold aria-hidden="true" /></a></div>
-          </div>
         </div>
       </section>
 
@@ -198,7 +197,16 @@ export default function Home() {
 
       <section className="experience-section" id="experience"><div className="section-shell">
         <SectionHeading index="03" label="实习经历" english="EXPERIENCE" />
-        <div className="experience-list">{experiences.map((item, index) => <article className="experience-row" key={item.company} data-reveal><span className="experience-index">{String(index + 1).padStart(2, '0')}</span><div className="company-block"><img src={item.logo} alt="" /><div><h3>{item.company}</h3><p>{item.role} · {item.date}</p></div></div><div className="experience-copy"><span>{item.focus}</span><h4>{item.summary}</h4><ul>{item.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul><div>{item.tags.map((tag) => <small key={tag}>{tag}</small>)}</div></div></article>)}</div>
+        <div className="experience-list">{experiences.map((item, index) => <article className="experience-card" key={item.company} data-reveal>
+          <header className="experience-header"><span>{String(index + 1).padStart(2, '0')}</span><img src={item.logo} alt="" /><div><h3>{item.company}</h3><p>{item.role} · {item.date}</p></div><strong>{item.focus}</strong></header>
+          <div className="experience-intro"><p>{item.summary}</p><span>{item.goal}</span></div>
+          {item.showPipeline && <div className="pipeline experience-pipeline" aria-label="网页预训练数据流水线">
+            <div className="pipeline-head"><p><span className="live-dot" />WEB PRETRAIN DATA PIPELINE</p><div><span>数据治理</span><span>质量信号</span><span>训练反馈</span></div></div>
+            <div className="pipeline-flow">{pipeline.map((stage, stageIndex) => { const Icon = stage.icon; return <div className="pipeline-step" key={stage.title}><div className="pipeline-card"><div className="pipeline-card-top"><Icon aria-hidden="true" /><span>{String(stageIndex + 1).padStart(2, '0')}</span></div><strong>{stage.title}</strong><p>{stage.subtitle}</p><small><span />{stage.status}</small></div>{stageIndex < pipeline.length - 1 && <div className="pipeline-arrow"><PiArrowRightBold aria-hidden="true" /><span /></div>}</div>; })}</div>
+            <div className="pipeline-proof"><PiShieldCheck aria-hidden="true" /><span>Provenance</span><i /><span>Quality Signals</span><i /><span>Training Feedback</span><i /><strong>40T TARGET</strong></div>
+          </div>}
+          <div className="workstream-grid">{item.modules.map((module) => { const ModuleIcon = module.icon; return <div className="workstream-card" key={module.title}><div><span>{module.index}</span><ModuleIcon aria-hidden="true" /></div><small>{module.label}</small><h4>{module.title}</h4><p>{module.description}</p></div>; })}</div>
+        </article>)}</div>
       </div></section>
 
       <section className="projects-section" id="projects"><div className="section-shell">
