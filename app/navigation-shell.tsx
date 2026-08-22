@@ -77,6 +77,9 @@ export default function NavigationShell() {
     <>
       <header className="site-nav">
         <a className="brand" href="#top" aria-label="返回首页"><span className="brand-mark"><PiCpu aria-hidden="true" /></span><span><strong>谭哲文</strong><small>TAN ZHEWEN</small></span></a>
+        <nav className="top-nav" aria-label="主要导航">
+          {navigationItems.slice(1, -1).map((item) => <a href={item.href} key={item.href}>{item.label}</a>)}
+        </nav>
         <div className="nav-actions">
           <button className="nav-toggle" type="button" aria-controls="side-navigation" aria-expanded={visible} onClick={() => { if (visible) { setPinned(false); setOpen(false); setHovering(false); } else setOpen(true); }}><PiSidebarSimpleBold aria-hidden="true" />导航</button>
           <a className="nav-contact" href="#contact"><PiEnvelope aria-hidden="true" />联系我</a>

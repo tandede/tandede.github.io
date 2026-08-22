@@ -60,7 +60,7 @@ main > section { transition: margin-left 360ms cubic-bezier(0.22, 1, 0.36, 1); }
   top: 0;
   left: 0;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(190px, 1fr) auto minmax(190px, 1fr);
   align-items: center;
   width: 100%;
   min-height: 76px;
@@ -76,6 +76,12 @@ main > section { transition: margin-left 360ms cubic-bezier(0.22, 1, 0.36, 1); }
 .brand > span:last-child { display: grid; gap: 2px; }
 .brand strong { font-size: 15px; letter-spacing: 0.04em; }
 .brand small { color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 9px; letter-spacing: 0.17em; }
+
+.top-nav { display: flex; align-items: center; justify-content: center; gap: clamp(17px, 2vw, 32px); }
+.top-nav a { position: relative; padding: 10px 0; color: #4b5565; font-size: 11px; font-weight: 650; white-space: nowrap; transition: color 180ms ease; }
+.top-nav a::after { position: absolute; right: 0; bottom: 3px; left: 0; height: 2px; background: var(--blue); content: ""; transform: scaleX(0); transform-origin: center; transition: transform 180ms ease; }
+.top-nav a:hover, .top-nav a:focus-visible, .top-nav a[aria-current="location"] { color: var(--blue); }
+.top-nav a:hover::after, .top-nav a:focus-visible::after, .top-nav a[aria-current="location"]::after { transform: scaleX(1); }
 
 .nav-actions { display: flex; align-items: center; justify-self: end; gap: 10px; }
 .nav-toggle { display: inline-flex; align-items: center; gap: 8px; min-height: 38px; padding: 0 14px; color: var(--ink); font: inherit; font-size: 12px; font-weight: 700; border: 1px solid var(--line-strong); background: var(--white); cursor: pointer; transition: color 180ms ease, border-color 180ms ease, background 180ms ease, transform 180ms ease; }

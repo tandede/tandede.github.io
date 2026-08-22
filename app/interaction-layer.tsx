@@ -9,7 +9,7 @@ export default function InteractionLayer() {
     document.documentElement.classList.add('has-motion');
     const revealItems = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
     const sections = Array.from(document.querySelectorAll<HTMLElement>('main section[id]'));
-    const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('.side-nav-panel a[href^="#"]'));
+    const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('.top-nav a[href^="#"], .side-nav-panel a[href^="#"]'));
 
     const revealObserver = new IntersectionObserver(
       (entries) => {
