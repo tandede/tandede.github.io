@@ -20,7 +20,7 @@ import { SiGithub } from 'react-icons/si';
 const navigationItems = [
   { href: '#top', label: '首页', english: 'HOME', icon: PiHouseBold },
   { href: '#focus', label: '研究方向', english: 'RESEARCH', icon: PiBrain },
-  { href: '#research', label: '研究论文', english: 'PUBLICATIONS', icon: PiArticle },
+  { href: '#research', label: '所选论文', english: 'SELECTED PUBLICATIONS', icon: PiArticle },
   { href: '#experience', label: '实习经历', english: 'EXPERIENCE', icon: PiBriefcaseBold },
   { href: '#projects', label: '代表项目', english: 'PROJECTS', icon: PiFolderOpenBold },
   { href: '#opensource', label: '开源贡献', english: 'OPEN SOURCE', icon: SiGithub },

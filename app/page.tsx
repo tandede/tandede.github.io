@@ -130,14 +130,14 @@ const experiences = [
 
 const projects = [
   {
-    index: '01', title: 'Tiny-R1-32B 领域推理模型', href: 'https://huggingface.co/qihoo360/TinyR1-32B', period: '2025.07 — 2025.11', subtitle: 'Branch–Merge Distillation',
+    index: '01', title: 'Tiny-R1-32B 领域推理模型', href: 'https://huggingface.co/qihoo360/TinyR1-32B', subtitle: 'Branch–Merge Distillation',
     overview: '面向数学、代码与科学推理任务，以 DeepSeek-R1-Distill-Qwen-32B 为底座构建领域增强模型。项目采用 Branch–Merge Distillation：各领域分别训练专家，再通过参数融合把专项能力合并到同一模型，降低多领域联合训练中的相互干扰。',
     technical: '训练链路覆盖领域 CoT 数据收集与质量清洗、三类 SFT 专家训练、统一离线评测以及融合权重搜索；通过分支训练保留各领域的推理模式，再在合并阶段平衡专项增益和通用能力。',
     work: '我参与领域 CoT 数据构建与清洗、数学/代码/科学专家训练、离线评测和融合权重选择，重点验证单领域增益是否真实，以及参数合并后是否出现能力回退。',
     metrics: [['AIME24 / 25', '90.9 / 82.7'], ['GPQA / LCB', '69.4 / 70.4'], ['IFEval', '89.2']],
   },
   {
-    index: '02', title: 'Harness-Bench', href: 'https://www.harness-bench.ai/', period: '2026.03 — 2026.04', subtitle: 'Agent Harness Evaluation',
+    index: '02', title: 'Harness-Bench', href: 'https://www.harness-bench.ai/', subtitle: 'Agent Harness Evaluation',
     overview: 'Harness 不只是 Agent 的外壳，它会改变提示组织、工具接口、状态管理和失败恢复方式。项目在固定任务、模型池、预算与超时的条件下，系统比较不同 Harness 对成功率、Token 成本和失败模式的影响。',
     technical: '构建 106 个离线沙箱任务，覆盖 8 类真实工作流；形成 6 类 Harness × 8 个模型后端的评测矩阵，保留原生提示、工具调用、状态转换和恢复行为，并通过可执行 Oracle 与 LLM Rubric 组合评分。',
     work: '我参与任务环境与评测链路建设，汇总 5,194 条完整执行轨迹，从配置层分析任务失败、Token 消耗和长程执行差异，使实验能够复现并支持 Harness 级诊断。',
@@ -171,7 +171,7 @@ export default function Home() {
       <section className="hero" id="top">
         <div className="section-shell hero-grid">
           <div className="hero-copy" data-reveal>
-            <div className="hero-title"><p className="hero-eyebrow"><span />ZHEWEN TAN · PERSONAL HOMEPAGE</p><h1>谭哲文<span>大语言模型算法研究与工程</span></h1><p className="hero-lead">我主要做大语言模型预训练数据，也关注 Agent、安全对齐与模型评测。这里记录我的研究、工程实践和开源贡献。</p></div>
+            <div className="hero-title"><p className="hero-eyebrow"><span />ZHEWEN TAN · PERSONAL HOMEPAGE</p><h1>谭哲文<span>大语言模型算法研究与工程</span></h1><p className="hero-lead">我主要做大语言模型预训练数据，也关注 Agent、安全对齐与模型评测。<br />这里记录我的研究、工程实践和开源贡献。</p></div>
             <div className="hero-summary"><p className="hero-guide">从这里继续了解我的研究与实践</p><div className="hero-actions"><a className="action-link action-primary" href="#research"><PiArticle aria-hidden="true" /><span>代表论文</span><PiArrowDownRightBold aria-hidden="true" /></a><a className="action-link" href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><span>谷歌学术</span><PiArrowUpRightBold aria-hidden="true" /></a><a className="action-link" href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><span>GitHub</span><PiArrowUpRightBold aria-hidden="true" /></a><a className="action-link" href="https://www.linkedin.com/in/zhewen-tan-0ba830401/" {...externalLinkProps}><SiLinkedin aria-hidden="true" /><span>LinkedIn</span><PiArrowUpRightBold aria-hidden="true" /></a></div></div>
           </div>
         </div>
@@ -183,7 +183,7 @@ export default function Home() {
       </details></div></section>
 
       <section className="research-section" id="research"><div className="section-shell"><details className="section-fold" open>
-        <SectionHeading index="02" label="研究论文" english="PUBLICATIONS" />
+        <SectionHeading index="02" label="所选论文" english="SELECTED PUBLICATIONS" />
         <div className="section-fold-content"><div className="venue-ticker" aria-hidden="true"><div><span>EMNLP 2026 MAIN</span><span>ACL 2026 MAIN</span><span>AAAI 2026</span><span>ICML 2026</span><span>ACL 2026 FINDINGS</span><span>EMNLP 2026 MAIN</span><span>ACL 2026 MAIN</span><span>AAAI 2026</span><span>ICML 2026</span><span>ACL 2026 FINDINGS</span></div></div>
         <div className="paper-list" data-reveal>{papers.map((paper, index) => <details className="paper-row" key={paper.title} open={index === 0}><summary><span className="paper-index">{String(index + 1).padStart(2, '0')}</span><span className="paper-venue">{paper.venue}</span><strong>{paper.title}</strong><span className="paper-role">{paper.role}</span><span className="paper-metric">{paper.metric}</span><span className="paper-toggle">+</span></summary><div className="paper-detail"><div><span>研究问题</span><p>{paper.question}</p></div><div><span>核心方法</span><p>{paper.method}</p></div><div><span>公开结果</span><p>{paper.result}</p></div><a href={paper.href} {...externalLinkProps}>阅读论文原文 <PiArrowUpRightBold aria-hidden="true" /></a></div></details>)}</div>
         </div>
@@ -205,7 +205,7 @@ export default function Home() {
 
       <section className="projects-section" id="projects"><div className="section-shell"><details className="section-fold" open>
         <SectionHeading index="04" label="代表项目" english="PROJECTS" />
-        <div className="section-fold-content"><div className="project-list">{projects.map((project) => <a className="project-row" href={project.href} key={project.title} {...externalLinkProps} data-reveal><div className="project-id"><span>{project.index}</span><small>{project.period}</small></div><div className="project-title"><p>{project.subtitle}</p><h3>{project.title}</h3></div><div className="project-copy"><p><strong>项目背景</strong>{project.overview}</p><p><strong>技术路径</strong>{project.technical}</p><p><strong>我的工作</strong>{project.work}</p></div><div className="metric-grid">{project.metrics.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div><PiArrowUpRightBold className="project-arrow" aria-hidden="true" /></a>)}</div></div>
+        <div className="section-fold-content"><div className="project-list">{projects.map((project) => <a className="project-row" href={project.href} key={project.title} {...externalLinkProps} data-reveal><div className="project-id"><span>{project.index}</span></div><div className="project-title"><p>{project.subtitle}</p><h3>{project.title}</h3></div><div className="project-copy"><p><strong>项目背景</strong>{project.overview}</p><p><strong>技术路径</strong>{project.technical}</p><p><strong>我的工作</strong>{project.work}</p></div><div className="metric-grid">{project.metrics.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div><PiArrowUpRightBold className="project-arrow" aria-hidden="true" /></a>)}</div></div>
       </details></div></section>
 
       <section className="opensource-section" id="opensource"><div className="section-shell"><details className="section-fold" open>
