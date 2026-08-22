@@ -76,7 +76,7 @@ export default function NavigationShell() {
   return (
     <>
       <header className="site-nav">
-        <a className="brand" href="#top" aria-label="返回首页"><span className="brand-mark"><PiCpu aria-hidden="true" /></span><span><strong>谭哲文</strong><small>TAN ZHEWEN</small></span></a>
+        <a className="brand" href="#top" aria-label="返回首页"><span className="brand-mark"><PiCpu aria-hidden="true" /></span><span><strong>谭哲文</strong><small>ZHEWEN TAN</small></span></a>
         <nav className="top-nav" aria-label="主要导航">
           {navigationItems.slice(1, -1).map((item) => <a href={item.href} key={item.href}>{item.label}</a>)}
         </nav>
