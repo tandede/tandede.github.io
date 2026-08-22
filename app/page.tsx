@@ -32,25 +32,25 @@ const focusAreas = [
     index: '01', title: 'Pretrain Data Scaling', icon: PiDatabase,
     question: '如何构建大规模、高质量、可追溯的网页预训练数据？',
     method: ['多源数据清洗与归一化', '近重复控制与质量分层', '训练反馈驱动持续回流'],
-    evidence: ['40T 可训练 Token 目标', '网页数据质量 Pipeline'], output: 'Data Scaling Flywheel',
+    evidence: ['40T 可训练 Token 目标', '网页数据质量 Pipeline'], output: 'Data Scaling Flywheel', href: '#experience', external: false,
   },
   {
     index: '02', title: 'Agent Systems', icon: PiCpu,
     question: '如何让 Agent 在长程任务中持续规划、调用工具并从失败中恢复？',
     method: ['上下文主动管理', '工具与执行环境编排', 'Harness 轨迹级诊断'],
-    evidence: ['106 个离线沙箱任务', '5,194 条执行轨迹'], output: 'Reliable Agent Workflow',
+    evidence: ['106 个离线沙箱任务', '5,194 条执行轨迹'], output: 'Reliable Agent Workflow', href: 'https://www.harness-bench.ai/', external: true,
   },
   {
     index: '03', title: 'Safety Alignment', icon: PiShieldCheck,
     question: '如何让模型在持续演化的攻击中保持可靠、可控的安全边界？',
     method: ['三角色自进化强化学习', '单模型可切换安全控制', '攻击—评估—防御闭环'],
-    evidence: ['ACL 2026 Main', 'AAAI 2026'], output: 'Adaptive Safety Control',
+    evidence: ['ACL 2026 Main', 'AAAI 2026'], output: 'Adaptive Safety Control', href: 'https://aclanthology.org/2026.acl-long.1216/', external: true,
   },
   {
     index: '04', title: 'Evaluation', icon: PiChartLineUp,
     question: '如何把真实开发工作流转化为可执行、可复现的模型评测？',
     method: ['真实会话隐私筛选', '执行环境重建', '确定性 Verifier 与轨迹分析'],
-    evidence: ['281 个可执行任务', '14 个模型系统评测'], output: 'Executable Benchmark',
+    evidence: ['281 个可执行任务', '14 个模型系统评测'], output: 'Executable Benchmark', href: 'https://arxiv.org/abs/2606.03889', external: true,
   },
 ];
 
@@ -184,7 +184,7 @@ export default function Home() {
 
       <section className="focus-section" id="focus"><div className="section-shell">
         <SectionHeading index="01" label="研究方向" english="RESEARCH INTERESTS" />
-        <div className="focus-table" data-reveal><div className="focus-table-head"><span>问题 / Problem</span><span>方法 / Method</span><span>证据 / Evidence</span><span>产出 / Output</span></div>{focusAreas.map((item) => { const Icon = item.icon; return <article className="focus-row" key={item.title}><div className="focus-problem"><span>{item.index}</span><Icon aria-hidden="true" /><div><h3>{item.title}</h3><p>{item.question}</p></div></div><ul>{item.method.map((method) => <li key={method}>{method}</li>)}</ul><ul>{item.evidence.map((proof) => <li key={proof}>{proof}</li>)}</ul><div className="focus-output"><strong>{item.output}</strong><PiArrowRightBold aria-hidden="true" /></div></article>; })}</div>
+        <div className="focus-table" data-reveal><div className="focus-table-head"><span>问题 / Problem</span><span>方法 / Method</span><span>证据 / Evidence</span><span>产出 / Output</span></div>{focusAreas.map((item) => { const Icon = item.icon; return <article className="focus-row" key={item.title}><div className="focus-problem"><span>{item.index}</span><Icon aria-hidden="true" /><div><h3>{item.title}</h3><p>{item.question}</p></div></div><ul>{item.method.map((method) => <li key={method}>{method}</li>)}</ul><ul>{item.evidence.map((proof) => <li key={proof}>{proof}</li>)}</ul><a className="focus-output" href={item.href} aria-label={`查看 ${item.output}`} {...(item.external ? externalLinkProps : {})}><strong>{item.output}</strong><PiArrowDownRightBold aria-hidden="true" /></a></article>; })}</div>
       </div></section>
 
       <section className="research-section" id="research"><div className="section-shell">

@@ -175,10 +175,11 @@ button, a, summary { -webkit-tap-highlight-color: transparent; }
 .focus-row ul { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
 .focus-row li { position: relative; padding-left: 12px; color: #4b5565; font-size: 11px; line-height: 1.45; }
 .focus-row li::before { position: absolute; top: 0.58em; left: 0; width: 4px; height: 4px; border-radius: 50%; background: var(--blue); content: ""; }
-.focus-output { display: flex; align-items: center; justify-content: space-between; gap: 14px; color: var(--blue); }
+.focus-output { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 54px; padding: 11px 12px; color: var(--blue); border: 1px solid transparent; text-decoration: none; transition: background 180ms ease, border-color 180ms ease; }
 .focus-output strong { font-family: var(--font-geist-mono), monospace; font-size: 10px; line-height: 1.45; }
 .focus-output svg { flex: 0 0 auto; transition: transform 180ms ease; }
-.focus-row:hover .focus-output svg { transform: translateX(4px); }
+.focus-output:hover, .focus-output:focus-visible { border-color: #b9cced; background: var(--blue-soft); }
+.focus-output:hover svg, .focus-output:focus-visible svg { transform: translate(3px, -3px); }
 
 .venue-ticker { overflow: hidden; margin-bottom: 18px; color: var(--blue); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .venue-ticker > div { display: flex; width: max-content; animation: ticker 24s linear infinite; }
