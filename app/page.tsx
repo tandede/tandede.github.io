@@ -142,8 +142,8 @@ const openSource = [
   { name: 'Burn', logo: '/logos/burn.png', href: 'https://github.com/tracel-ai/burn', function: '面向跨平台训练与推理的 Rust 深度学习框架。', contribution: '修复卷积快速路径在 Inf / NaN 权重下与通用路径不一致的 IEEE 754 语义，同时保留有限权重的向量化热路径。' },
 ];
 
-function SectionHeading({ index, label, english, title, description }: { index: string; label: string; english: string; title: string; description: string }) {
-  return <div className="section-heading" data-reveal><div className="section-label"><span>{index}</span><p><strong>{label}</strong><small>{english}</small></p></div><div><h2>{title}</h2><p className="section-description">{description}</p></div></div>;
+function SectionHeading({ index, label, english }: { index: string; label: string; english: string }) {
+  return <div className="section-heading" data-reveal><span>{index}</span><div><h2>{label}</h2><small>{english}</small></div></div>;
 }
 
 export default function Home() {
@@ -159,9 +159,9 @@ export default function Home() {
       <section className="hero" id="top">
         <div className="section-shell hero-grid">
           <div className="hero-copy" data-reveal>
-            <p className="hero-eyebrow"><span />大语言模型算法 · RESEARCH &amp; ENGINEERING</p>
-            <h1>让训练数据与 Agent，<span>变成可验证的系统能力。</span></h1>
-            <p className="hero-lead">专注于大语言模型训练数据工程与系统能力构建，覆盖数据规模化、训练系统、Agent、安全对齐与评测验证，推动研究从原型走向可验证的生产能力。</p>
+            <p className="hero-eyebrow"><span />PRETRAIN · AGENT · SAFETY · EVALUATION</p>
+            <h1>谭哲文<span>大语言模型算法研究与工程</span></h1>
+            <p className="hero-lead">我主要做大语言模型预训练数据，也关注 Agent、安全对齐和模型评测。目前在小红书 Dots 建设网页预训练数据 Pipeline，目标是推动可训练 Token 规模达到 40T。</p>
             <div className="hero-tags"><span>Pretrain Data Scaling</span><span>40T Trainable Tokens</span><span>Agent Systems</span><span>Safety Alignment</span><span>Model Evaluation</span></div>
           </div>
           <aside className="profile-card" data-reveal>
@@ -183,32 +183,32 @@ export default function Home() {
       </section>
 
       <section className="focus-section" id="focus"><div className="section-shell">
-        <SectionHeading index="01" label="研究方向" english="PROBLEM · METHOD · EVIDENCE" title="用问题定义方向，用证据说明能力" description="不堆砌技术名词；每条研究主线都对应一个真实问题、一套系统方法和可以公开验证的产出。" />
+        <SectionHeading index="01" label="研究方向" english="RESEARCH INTERESTS" />
         <div className="focus-table" data-reveal><div className="focus-table-head"><span>问题 / Problem</span><span>方法 / Method</span><span>证据 / Evidence</span><span>产出 / Output</span></div>{focusAreas.map((item) => { const Icon = item.icon; return <article className="focus-row" key={item.title}><div className="focus-problem"><span>{item.index}</span><Icon aria-hidden="true" /><div><h3>{item.title}</h3><p>{item.question}</p></div></div><ul>{item.method.map((method) => <li key={method}>{method}</li>)}</ul><ul>{item.evidence.map((proof) => <li key={proof}>{proof}</li>)}</ul><div className="focus-output"><strong>{item.output}</strong><PiArrowRightBold aria-hidden="true" /></div></article>; })}</div>
       </div></section>
 
       <section className="research-section" id="research"><div className="section-shell">
-        <SectionHeading index="02" label="研究论文" english="SELECTED PUBLICATIONS" title="论文不是标题列表，而是一条研究证据链" description="点击论文条目即可展开研究问题、核心方法与公开结果；原文链接会在新窗口打开。" />
+        <SectionHeading index="02" label="研究论文" english="PUBLICATIONS" />
         <div className="venue-ticker" aria-hidden="true"><div><span>EMNLP 2026 MAIN</span><span>ACL 2026 MAIN</span><span>AAAI 2026</span><span>ICML 2026</span><span>ACL 2026 FINDINGS</span><span>EMNLP 2026 MAIN</span><span>ACL 2026 MAIN</span><span>AAAI 2026</span><span>ICML 2026</span><span>ACL 2026 FINDINGS</span></div></div>
         <div className="paper-list" data-reveal>{papers.map((paper, index) => <details className="paper-row" key={paper.title} open={index === 0}><summary><span className="paper-index">{String(index + 1).padStart(2, '0')}</span><span className="paper-venue">{paper.venue}</span><strong>{paper.title}</strong><span className="paper-role">{paper.role}</span><span className="paper-metric">{paper.metric}</span><span className="paper-toggle">+</span></summary><div className="paper-detail"><div><span>研究问题</span><p>{paper.question}</p></div><div><span>核心方法</span><p>{paper.method}</p></div><div><span>公开结果</span><p>{paper.result}</p></div><a href={paper.href} {...externalLinkProps}>阅读论文原文 <PiArrowRightBold aria-hidden="true" /></a></div></details>)}</div>
       </div></section>
 
       <section className="experience-section" id="experience"><div className="section-shell">
-        <SectionHeading index="03" label="实习经历" english="EXPERIENCE" title="在真实数据与模型系统中工作" description="职责不写成泛泛的岗位说明，而是明确我建设的链路、参与的训练动作和面向的系统目标。" />
+        <SectionHeading index="03" label="实习经历" english="EXPERIENCE" />
         <div className="experience-list">{experiences.map((item, index) => <article className="experience-row" key={item.company} data-reveal><span className="experience-index">{String(index + 1).padStart(2, '0')}</span><div className="company-block"><img src={item.logo} alt="" /><div><h3>{item.company}</h3><p>{item.role} · {item.date}</p></div></div><div className="experience-copy"><span>{item.focus}</span><h4>{item.summary}</h4><ul>{item.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul><div>{item.tags.map((tag) => <small key={tag}>{tag}</small>)}</div></div></article>)}</div>
       </div></section>
 
       <section className="projects-section" id="projects"><div className="section-shell">
-        <SectionHeading index="04" label="代表项目" english="SELECTED SYSTEMS" title="把训练与评测做成可复现系统" description="每个项目都给出系统目标、我的具体工作和能够公开验证的结果。" />
+        <SectionHeading index="04" label="代表项目" english="PROJECTS" />
         <div className="project-list">{projects.map((project) => <a className="project-row" href={project.href} key={project.title} {...externalLinkProps} data-reveal><div className="project-id"><span>{project.index}</span><small>{project.period}</small></div><div className="project-title"><p>{project.subtitle}</p><h3>{project.title}</h3></div><div className="project-copy"><p><strong>项目全景</strong>{project.overview}</p><p><strong>我的工作</strong>{project.work}</p></div><div className="metric-grid">{project.metrics.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div><PiArrowDownRightBold className="project-arrow" aria-hidden="true" /></a>)}</div>
       </div></section>
 
       <section className="opensource-section" id="opensource"><div className="section-shell">
-        <SectionHeading index="05" label="开源贡献" english="UPSTREAM CONTRIBUTIONS" title="在真实工程边界上解决问题" description="先说清项目做什么，再说明我修复了哪条真实工程边界；点击条目直接进入上游项目。" />
+        <SectionHeading index="05" label="开源贡献" english="OPEN SOURCE" />
         <div className="opensource-grid" data-reveal>{openSource.map((item, index) => <a className="opensource-row" href={item.href} key={item.name} {...externalLinkProps}><span>{String(index + 1).padStart(2, '0')}</span><img src={item.logo} alt="" /><div className="opensource-name"><h3>{item.name}</h3><small>Contributor</small></div><p><strong>项目功能</strong>{item.function}</p><p><strong>我的贡献</strong>{item.contribution}</p><PiArrowDownRightBold aria-hidden="true" /></a>)}</div>
       </div></section>
 
-      <section className="contact-section" id="contact"><div className="section-shell contact-layout" data-reveal><div><p className="contact-eyebrow"><span />RESEARCH · SYSTEMS · OPEN COLLABORATION</p><h2>如果你也在构建更可靠的大模型系统，欢迎交流。</h2></div><div className="contact-links"><a href="mailto:zhewentan1@gmail.com"><PiEnvelope aria-hidden="true" /><span><small>邮箱</small><strong>zhewentan1@gmail.com</strong></span><PiArrowRightBold aria-hidden="true" /></a><a href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><span><small>学术主页</small><strong>谷歌学术</strong></span><PiArrowRightBold aria-hidden="true" /></a><a href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><span><small>代码与贡献</small><strong>GitHub @tandede</strong></span><PiArrowRightBold aria-hidden="true" /></a></div></div><footer className="section-shell"><span>© 2026 TAN ZHEWEN</span><span>BEIJING · CHINA</span><a href="#top">回到顶部 ↑</a></footer></section>
+      <section className="contact-section" id="contact"><div className="section-shell contact-layout" data-reveal><div><p className="contact-eyebrow"><span />CONTACT</p><h2>联系我</h2><p className="contact-note">欢迎通过邮件联系，也可以查看我的谷歌学术与 GitHub。</p></div><div className="contact-links"><a href="mailto:zhewentan1@gmail.com"><PiEnvelope aria-hidden="true" /><span><small>邮箱</small><strong>zhewentan1@gmail.com</strong></span><PiArrowRightBold aria-hidden="true" /></a><a href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><span><small>学术主页</small><strong>谷歌学术</strong></span><PiArrowRightBold aria-hidden="true" /></a><a href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><span><small>代码与贡献</small><strong>GitHub @tandede</strong></span><PiArrowRightBold aria-hidden="true" /></a></div></div><footer className="section-shell"><span>© 2026 TAN ZHEWEN</span><span>BEIJING · CHINA</span><a href="#top">回到顶部 ↑</a></footer></section>
     </main>
   );
 }
