@@ -134,13 +134,13 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .hero::before { position: absolute; z-index: -2; inset: 0; background: url('/contact-mountain.jpg') center 52% / cover no-repeat; content: ""; }
 .hero::after { position: absolute; z-index: -1; inset: 0; background: linear-gradient(92deg, rgba(3, 8, 17, 0.46) 0%, rgba(4, 12, 24, 0.2) 31%, rgba(5, 14, 26, 0.05) 51%, transparent 72%), linear-gradient(0deg, rgba(2, 7, 14, 0.14) 0%, transparent 42%); content: ""; }
 .hero-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; align-content: center; min-height: min(880px, 100svh); }
-.hero-copy { display: grid; grid-column: 1 / -1; grid-template-columns: minmax(0, 600px) minmax(360px, 400px); gap: clamp(160px, 16vw, 360px); align-items: center; justify-content: space-between; padding: 52px 0; }
+.hero-copy { display: grid; grid-column: 1 / -1; grid-template-columns: minmax(0, 600px) minmax(360px, 400px); gap: clamp(160px, 16vw, 360px); align-items: center; justify-content: space-between; padding: 28px 0 76px; }
 .hero-eyebrow, .contact-eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 22px; color: #344054; font-family: var(--font-geist-mono), monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; }
 .hero-eyebrow > span, .contact-eyebrow > span { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
 .hero .hero-eyebrow { color: rgba(255, 255, 255, 0.74); }
 .hero h1 { margin: 0; color: var(--white); font-size: clamp(54px, 5vw, 76px); font-weight: 760; letter-spacing: -0.06em; line-height: 1.03; text-shadow: 0 4px 24px rgba(0, 0, 0, 0.42); }
 .hero h1 span { display: block; color: #c2d3ff; font-size: 0.58em; line-height: 1.16; }
-.hero-summary { align-self: center; padding-bottom: 3px; }
+.hero-summary { position: relative; left: 32px; align-self: center; padding-bottom: 3px; }
 .hero-lead { max-width: 560px; margin: 24px 0 0; color: rgba(255, 255, 255, 0.96); font-size: clamp(14px, 1.05vw, 16px); line-height: 1.78; text-shadow: 0 2px 18px rgba(0, 0, 0, 0.62); }
 .hero-guide { margin: 0 0 16px; color: rgba(255, 255, 255, 0.94); font-size: 15px; font-weight: 650; line-height: 1.6; text-shadow: 0 2px 16px rgba(0, 0, 0, 0.62); }
 .pipeline { margin-top: 0; padding: 15px 18px; border: 1px solid var(--line-strong); background: #fbfcfe; }
@@ -328,6 +328,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .site-nav { grid-template-columns: 1fr auto; }
   .site-nav nav { display: none; }
   .hero-copy { grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr) minmax(320px, 0.75fr); gap: 60px; }
+  .hero-summary { left: 0; }
   .pipeline-arrow { flex-basis: 30px; }
   .focus-table-head, .focus-row { grid-template-columns: 1.25fr 1fr 0.8fr; }
   .focus-table-head span:last-child, .focus-output { display: none; }
@@ -354,7 +355,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .nav-contact { min-height: 34px; padding-inline: 11px; }
   .nav-toggle { min-height: 34px; padding-inline: 11px; }
   .hero, .hero-grid { min-height: 780px; }
-  .hero-copy { grid-column: 1 / -1; grid-row: auto; grid-template-columns: 1fr; gap: 28px; padding: 88px 0 58px; }
+  .hero-copy { grid-column: 1 / -1; grid-row: auto; grid-template-columns: 1fr; gap: 28px; padding: 58px 0 88px; }
   .hero h1 { font-size: clamp(46px, 10vw, 66px); }
   .pipeline-flow { display: grid; grid-template-columns: repeat(5, minmax(140px, 1fr)); overflow-x: auto; padding-bottom: 10px; }
   .pipeline-step { min-width: 180px; }
