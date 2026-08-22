@@ -1,11 +1,13 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import type { CSSProperties } from 'react';
 import { PiArrowUpRightBold, PiStarFill } from 'react-icons/pi';
 
 type OpenSourceItem = {
   name: string;
   logo: string;
+  accent: string;
   href: string;
   function: string;
   problem: string;
@@ -80,7 +82,7 @@ export default function OpenSourceGrid({ items }: { items: OpenSourceItem[] }) {
     const count = stars?.[item.href];
     const starsLabel = typeof count === 'number' ? `${formatStars(count)} Stars` : 'Stars';
 
-    return <a className="opensource-card" href={item.href} key={item.name} target="_blank" rel="noopener noreferrer" aria-label={`前往 ${item.name} GitHub 项目`}>
+    return <a className="opensource-card" href={item.href} key={item.name} target="_blank" rel="noopener noreferrer" aria-label={`前往 ${item.name} GitHub 项目`} style={{ '--repo-accent': item.accent } as CSSProperties}>
       <div className="opensource-face opensource-front">
         <div className="opensource-card-top">
           <img src={item.logo} alt="" />

@@ -116,7 +116,7 @@ const experiences = [
     ],
   },
   {
-    company: '北京 360 · 智脑事业部（AIGC）', role: '算法实习生', date: '2025.07 — 2026.07', logo: '/logos/qihoo360.png',
+    company: '360 · 智脑事业部（AIGC）', role: '算法实习生', date: '2025.07 — 2026.07', logo: '/logos/qihoo360.png',
     focus: 'LLM Reasoning · Safety · Agent',
     summary: '围绕领域推理、安全对齐与 Agent 系统能力，参与数据构建、SFT 与强化学习、参数融合、自动化评测和执行轨迹诊断的完整研发链路。',
     goal: '从模型训练延伸到可执行系统评测',
@@ -147,16 +147,16 @@ const projects = [
 ];
 
 const openSource = [
-  { name: 'LM Evaluation Harness', logo: 'https://github.com/EleutherAI.png?size=128', href: 'https://github.com/EleutherAI/lm-evaluation-harness', function: '统一模型、任务、few-shot、生成参数与推理后端的大语言模型评测框架。', problem: '延迟注解使 dataclass 字段类型不再等同于运行时 dict，CLI 与 YAML 两条配置入口行为不一致。', reasoning: '定位到 f.type is dict 恒为假，核心不是单个配置，而是共享规范化边界缺失。', solution: '用 DICT_KEYS 统一识别字典字段，并将 YAML 字符串规范化前移到共享配置流水线。' },
-  { name: 'NumPyro', logo: 'https://github.com/pyro-ppl.png?size=128', href: 'https://github.com/pyro-ppl/numpyro', function: '基于 JAX 的概率编程与贝叶斯推断框架，支持 HMC、NUTS、SVI 及跨设备加速。', problem: 'JAX 0.11.1 将闭包常量提升进 jaxpr 后，provenance 动态输入与变量发生错位。', reasoning: '问题来自私有 tracing API 对常量布局的隐式假设，需要显式拆分常量与动态参数。', solution: '改用公共 jax.make_jaxpr 获取 ClosedJaxpr，重建输入映射并解除私有 API 耦合。' },
-  { name: 'OpenCV', logo: '/logos/opencv.svg', href: 'https://github.com/opencv/opencv', function: '跨平台计算机视觉与图像处理基础库。', problem: '极端反射坐标在逐次修正中触发整数溢出，并可能执行十亿级循环。', reasoning: '反射边界本质是周期映射，可以一次定位，无需模拟每一次反射。', solution: '改为 int64 周期模运算，在完整坐标域内把最坏复杂度从 O(N) 降至 O(1)。' },
-  { name: 'OpenAI Agents SDK', logo: '/logos/openai.png', href: 'https://github.com/openai/openai-agents-python', function: '面向生产级多 Agent 编排的轻量工作流框架。', problem: '同名 Agent、Tool 与 MCP Server 以显示名为键，导致 Graphviz 合并节点或产生伪自环。', reasoning: '显示标签不等于实体身份，图遍历与节点注册必须分离可读名称和唯一标识。', solution: '以对象身份注册节点，显示名仅作为 label，并重构遍历与边生成链路。' },
-  { name: 'PEFT', logo: '/logos/huggingface.png', href: 'https://github.com/huggingface/peft', function: 'Transformer 与 Diffusion 模型的参数高效微调框架。', problem: '重复 adapter_name 会静默覆盖配置并再次注入层，已有训练权重存在被破坏风险。', reasoning: '这是状态原子性问题，重复校验必须发生在任何模型或配置突变之前。', solution: '将唯一性校验前移，冲突时立即失败，确保失败路径不修改既有 Adapter 状态。' },
-  { name: 'Ultralytics YOLO', logo: '/logos/ultralytics.png', href: 'https://github.com/ultralytics/ultralytics', function: '覆盖检测、分割、分类、姿态与跟踪的计算机视觉平台。', problem: '非等比例 resize 与 LetterBox 组合后仍按单一比例恢复坐标，导致预测框位置失真。', reasoning: 'x、y 轴经历不同缩放和留白，逆变换必须沿完整预处理链逐轴求逆。', solution: '组合前置 resize 与 LetterBox 参数，使用双轴比例和偏移恢复原图坐标。' },
-  { name: 'timm', logo: '/logos/huggingface.png', href: 'https://github.com/huggingface/pytorch-image-models', function: '大规模 PyTorch 图像模型、预训练权重与训练工具库。', problem: 'CutMix minmax 边界使用上界排除采样，遗漏最右与最下的合法裁剪起点。', reasoning: '这是离散坐标区间的 off-by-one，会长期造成位置分布偏差而非直接崩溃。', solution: '修正采样上界并补齐边界位置，恢复覆盖全部合法区域的均匀采样。' },
-  { name: 'Supervision', logo: '/logos/supervision.png', href: 'https://github.com/roboflow/supervision', function: '检测结果处理、标注、几何计算与视频分析工具库。', problem: '大坐标多边形计算质心时出现 int32 溢出与浮点消减，结果漂移甚至失真。', reasoning: '面积矩依赖坐标乘积，只提升精度仍不足以消除大基数带来的数值损失。', solution: '统一使用 float64 与局部坐标系完成计算，最后再映射回全局坐标。' },
-  { name: 'FunASR', logo: '/logos/funasr.png', href: 'https://github.com/modelscope/FunASR', function: '支持训练、推理、流式识别与说话人日志的语音识别工具箱。', problem: '已知说话人数的大输入仍进入谱聚类，O(N²) 相似矩阵造成显著内存开销。', reasoning: '已知 K 时无需再估计簇数，可按规模与先验选择更直接、可重复的聚类路径。', solution: '新增归一化、确定性固定 K K-means 分支，让大输入绕开稠密谱分解。' },
-  { name: 'Burn', logo: '/logos/burn.png', href: 'https://github.com/tracel-ai/burn', function: '面向跨平台模型训练与推理的 Rust 深度学习框架。', problem: '卷积快速路径对 Inf / NaN 权重的处理与通用实现不一致，破坏 IEEE 754 语义。', reasoning: '不能用全面回退牺牲有限权重性能，需要只在非有限值分支守住正确性。', solution: '为非有限权重选择语义一致的路径，同时保留普通权重的向量化热路径。' },
+  { name: 'LM Evaluation Harness', logo: 'https://github.com/EleutherAI.png?size=128', accent: '#313131', href: 'https://github.com/EleutherAI/lm-evaluation-harness', function: '统一模型、任务、few-shot、生成参数与推理后端的大语言模型评测框架。', problem: '延迟注解使 dataclass 字段类型不再等同于运行时 dict，CLI 与 YAML 两条配置入口行为不一致。', reasoning: '定位到 f.type is dict 恒为假，核心不是单个配置，而是共享规范化边界缺失。', solution: '用 DICT_KEYS 统一识别字典字段，并将 YAML 字符串规范化前移到共享配置流水线。' },
+  { name: 'NumPyro', logo: 'https://github.com/pyro-ppl.png?size=128', accent: '#e94b2a', href: 'https://github.com/pyro-ppl/numpyro', function: '基于 JAX 的概率编程与贝叶斯推断框架，支持 HMC、NUTS、SVI 及跨设备加速。', problem: 'JAX 0.11.1 将闭包常量提升进 jaxpr 后，provenance 动态输入与变量发生错位。', reasoning: '问题来自私有 tracing API 对常量布局的隐式假设，需要显式拆分常量与动态参数。', solution: '改用公共 jax.make_jaxpr 获取 ClosedJaxpr，重建输入映射并解除私有 API 耦合。' },
+  { name: 'OpenCV', logo: '/logos/opencv.svg', accent: '#6652d9', href: 'https://github.com/opencv/opencv', function: '跨平台计算机视觉与图像处理基础库。', problem: '极端反射坐标在逐次修正中触发整数溢出，并可能执行十亿级循环。', reasoning: '反射边界本质是周期映射，可以一次定位，无需模拟每一次反射。', solution: '改为 int64 周期模运算，在完整坐标域内把最坏复杂度从 O(N) 降至 O(1)。' },
+  { name: 'OpenAI Agents SDK', logo: '/logos/openai.png', accent: '#111827', href: 'https://github.com/openai/openai-agents-python', function: '面向生产级多 Agent 编排的轻量工作流框架。', problem: '同名 Agent、Tool 与 MCP Server 以显示名为键，导致 Graphviz 合并节点或产生伪自环。', reasoning: '显示标签不等于实体身份，图遍历与节点注册必须分离可读名称和唯一标识。', solution: '以对象身份注册节点，显示名仅作为 label，并重构遍历与边生成链路。' },
+  { name: 'PEFT', logo: '/logos/huggingface.png', accent: '#d69300', href: 'https://github.com/huggingface/peft', function: 'Transformer 与 Diffusion 模型的参数高效微调框架。', problem: '重复 adapter_name 会静默覆盖配置并再次注入层，已有训练权重存在被破坏风险。', reasoning: '这是状态原子性问题，重复校验必须发生在任何模型或配置突变之前。', solution: '将唯一性校验前移，冲突时立即失败，确保失败路径不修改既有 Adapter 状态。' },
+  { name: 'Ultralytics YOLO', logo: '/logos/ultralytics.png', accent: '#052251', href: 'https://github.com/ultralytics/ultralytics', function: '覆盖检测、分割、分类、姿态与跟踪的计算机视觉平台。', problem: '非等比例 resize 与 LetterBox 组合后仍按单一比例恢复坐标，导致预测框位置失真。', reasoning: 'x、y 轴经历不同缩放和留白，逆变换必须沿完整预处理链逐轴求逆。', solution: '组合前置 resize 与 LetterBox 参数，使用双轴比例和偏移恢复原图坐标。' },
+  { name: 'timm', logo: '/logos/huggingface.png', accent: '#d69300', href: 'https://github.com/huggingface/pytorch-image-models', function: '大规模 PyTorch 图像模型、预训练权重与训练工具库。', problem: 'CutMix minmax 边界使用上界排除采样，遗漏最右与最下的合法裁剪起点。', reasoning: '这是离散坐标区间的 off-by-one，会长期造成位置分布偏差而非直接崩溃。', solution: '修正采样上界并补齐边界位置，恢复覆盖全部合法区域的均匀采样。' },
+  { name: 'Supervision', logo: '/logos/supervision.png', accent: '#6f3ea3', href: 'https://github.com/roboflow/supervision', function: '检测结果处理、标注、几何计算与视频分析工具库。', problem: '大坐标多边形计算质心时出现 int32 溢出与浮点消减，结果漂移甚至失真。', reasoning: '面积矩依赖坐标乘积，只提升精度仍不足以消除大基数带来的数值损失。', solution: '统一使用 float64 与局部坐标系完成计算，最后再映射回全局坐标。' },
+  { name: 'FunASR', logo: '/logos/funasr.png', accent: '#5368d9', href: 'https://github.com/modelscope/FunASR', function: '支持训练、推理、流式识别与说话人日志的语音识别工具箱。', problem: '已知说话人数的大输入仍进入谱聚类，O(N²) 相似矩阵造成显著内存开销。', reasoning: '已知 K 时无需再估计簇数，可按规模与先验选择更直接、可重复的聚类路径。', solution: '新增归一化、确定性固定 K K-means 分支，让大输入绕开稠密谱分解。' },
+  { name: 'Burn', logo: '/logos/burn.png', accent: '#b44313', href: 'https://github.com/tracel-ai/burn', function: '面向跨平台模型训练与推理的 Rust 深度学习框架。', problem: '卷积快速路径对 Inf / NaN 权重的处理与通用实现不一致，破坏 IEEE 754 语义。', reasoning: '不能用全面回退牺牲有限权重性能，需要只在非有限值分支守住正确性。', solution: '为非有限权重选择语义一致的路径，同时保留普通权重的向量化热路径。' },
 ];
 
 function SectionHeading({ index, label, english }: { index: string; label: string; english: string }) {

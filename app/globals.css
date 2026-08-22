@@ -290,16 +290,16 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .project-arrow { position: absolute; top: 35px; right: 14px; color: var(--blue); transition: transform 180ms ease; }
 .project-row:hover .project-arrow { transform: translate(4px, -4px); }
 
-.opensource-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line-strong); border-left: 1px solid var(--line); }
-.opensource-card { position: relative; isolation: isolate; min-height: 348px; overflow: hidden; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--white); transition: border-color 260ms ease, box-shadow 320ms ease, transform 360ms cubic-bezier(0.22, 1, 0.36, 1); }
-.opensource-card::before { position: absolute; z-index: -1; inset: 0; background: linear-gradient(145deg, #ffffff 0%, #f4f7ff 44%, #e9f1ff 100%); content: ""; opacity: 0; transition: opacity 360ms ease; }
-.opensource-card::after { position: absolute; z-index: 3; top: 0; right: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--blue), #6f9dff 62%, #b5caff); content: ""; transform: scaleX(0); transform-origin: left; transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1); }
-.opensource-card:hover, .opensource-card:focus-visible { z-index: 2; border-color: #a9c0ea; box-shadow: 0 20px 42px rgba(21, 94, 239, 0.14); transform: translateY(-7px); }
+.opensource-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.opensource-card { --repo-accent: var(--blue); position: relative; isolation: isolate; min-height: 348px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--repo-accent) 58%, white); background: var(--white); transition: border-color 260ms ease, box-shadow 320ms ease, transform 360ms cubic-bezier(0.22, 1, 0.36, 1); }
+.opensource-card::before { position: absolute; z-index: -1; inset: 0; background: linear-gradient(145deg, #ffffff 0%, color-mix(in srgb, var(--repo-accent) 7%, white) 44%, color-mix(in srgb, var(--repo-accent) 13%, white) 100%); content: ""; opacity: 0; transition: opacity 360ms ease; }
+.opensource-card::after { position: absolute; z-index: 3; top: 0; right: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--repo-accent), color-mix(in srgb, var(--repo-accent) 42%, white)); content: ""; transform: scaleX(0); transform-origin: left; transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1); }
+.opensource-card:hover, .opensource-card:focus-visible { z-index: 2; border-color: var(--repo-accent); box-shadow: 0 20px 42px color-mix(in srgb, var(--repo-accent) 18%, transparent); transform: translateY(-7px); }
 .opensource-card:hover::before, .opensource-card:focus-visible::before { opacity: 1; }
 .opensource-card:hover::after, .opensource-card:focus-visible::after { transform: scaleX(1); }
 .opensource-face { position: absolute; inset: 0; display: grid; padding: 24px; transition: opacity 260ms ease, transform 420ms cubic-bezier(0.22, 1, 0.36, 1), filter 260ms ease; }
 .opensource-front { grid-template-rows: auto 1fr auto; opacity: 1; transform: translateY(0); }
-.opensource-back { grid-template-rows: auto 1fr auto; background: linear-gradient(160deg, rgba(255, 255, 255, 0.88), rgba(235, 242, 255, 0.96)); opacity: 0; transform: translateY(28px); }
+.opensource-back { grid-template-rows: auto 1fr auto; background: linear-gradient(160deg, rgba(255, 255, 255, 0.9), color-mix(in srgb, var(--repo-accent) 11%, white)); opacity: 0; transform: translateY(28px); }
 .opensource-card:hover .opensource-front, .opensource-card:focus-visible .opensource-front { opacity: 0; filter: blur(2px); transform: translateY(-24px) scale(0.985); }
 .opensource-card:hover .opensource-back, .opensource-card:focus-visible .opensource-back { opacity: 1; transform: translateY(0); }
 .opensource-card-top { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
