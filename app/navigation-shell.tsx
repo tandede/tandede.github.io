@@ -50,9 +50,9 @@ export default function NavigationShell() {
   }, [pinned]);
 
   useEffect(() => {
-    document.documentElement.classList.toggle('nav-layout-pinned', pinned);
-    return () => document.documentElement.classList.remove('nav-layout-pinned');
-  }, [pinned]);
+    document.documentElement.classList.toggle('nav-layout-open', visible);
+    return () => document.documentElement.classList.remove('nav-layout-open');
+  }, [visible]);
 
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
