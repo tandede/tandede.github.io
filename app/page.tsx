@@ -14,6 +14,7 @@ import {
   PiEnvelope,
   PiGlobeHemisphereWest,
   PiShieldCheck,
+  PiSmiley,
   PiStack,
 } from 'react-icons/pi';
 import { SiGithub, SiGooglescholar, SiLinkedin } from 'react-icons/si';
@@ -213,7 +214,7 @@ export default function Home() {
         <div className="section-fold-content"><OpenSourceGrid items={openSource} /></div>
       </details></div></section>
 
-      <section className="contact-section" id="contact"><div className="section-shell contact-layout" data-reveal><div><p className="contact-eyebrow"><span />CONTACT</p><h2>联系我</h2><p className="contact-note">欢迎通过邮件联系，也可以在学术主页与开源社区找到我。</p></div><div className="contact-links"><a href="mailto:zhewentan1@gmail.com"><PiEnvelope aria-hidden="true" /><strong>邮箱</strong><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><strong>谷歌学术</strong><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><strong>GitHub</strong><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://www.linkedin.com/in/zhewen-tan-0ba830401/" {...externalLinkProps}><SiLinkedin aria-hidden="true" /><strong>LinkedIn</strong><PiArrowUpRightBold aria-hidden="true" /></a></div></div><footer className="section-shell"><span>© 2026 ZHEWEN TAN</span><span>BEIJING · CHINA</span><a className="back-to-top" href="#top"><PiArrowUpBold aria-hidden="true" />回到顶部</a></footer></section>
+      <section className="contact-section" id="contact"><div className="section-shell contact-layout" data-reveal><div><p className="contact-eyebrow"><span />CONTACT</p><div className="contact-title"><h2>联系我</h2><PiSmiley aria-hidden="true" /></div><p className="contact-note">欢迎通过邮件联系，也可以在学术主页与开源社区找到我。</p></div><div className="contact-links"><a href="mailto:zhewentan1@gmail.com"><PiEnvelope aria-hidden="true" /><strong>邮箱</strong><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><strong>谷歌学术</strong><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><strong>GitHub</strong><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://www.linkedin.com/in/zhewen-tan-0ba830401/" {...externalLinkProps}><SiLinkedin aria-hidden="true" /><strong>LinkedIn</strong><PiArrowUpRightBold aria-hidden="true" /></a></div></div><footer className="section-shell"><span>© 2026 ZHEWEN TAN</span><span>BEIJING · CHINA</span><a className="back-to-top" href="#top"><PiArrowUpBold aria-hidden="true" />回到顶部</a></footer></section>
     </main>
   );
 }
