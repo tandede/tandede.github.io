@@ -13,12 +13,12 @@ import {
   PiDatabase,
   PiEnvelope,
   PiGlobeHemisphereWest,
-  PiMapPin,
   PiShieldCheck,
   PiStack,
 } from 'react-icons/pi';
 import { SiGithub, SiGooglescholar, SiLinkedin } from 'react-icons/si';
 import InteractionLayer from './interaction-layer';
+import GitHubStars from './github-stars';
 import NavigationShell from './navigation-shell';
 
 const externalLinkProps = { target: '_blank', rel: 'noopener noreferrer' } as const;
@@ -171,14 +171,14 @@ export default function Home() {
       <section className="hero" id="top">
         <div className="section-shell hero-grid">
           <div className="hero-copy" data-reveal>
-            <p className="hero-eyebrow"><span />PRETRAIN · AGENT · SAFETY · EVALUATION</p>
+            <p className="hero-eyebrow"><span />TAN ZHEWEN · PERSONAL HOMEPAGE</p>
             <h1>谭哲文<span>大语言模型算法研究与工程</span></h1>
             <p className="hero-lead">我主要做大语言模型预训练数据，也关注 Agent、安全对齐与模型评测。这里记录我的研究、工程实践和开源贡献。</p>
             <div className="hero-actions"><a className="action-link action-primary" href="#research"><PiArticle aria-hidden="true" /><span>代表论文</span><PiArrowDownRightBold aria-hidden="true" /></a><a className="action-link" href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><span>谷歌学术</span><PiArrowUpRightBold aria-hidden="true" /></a><a className="action-link" href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><span>GitHub</span><PiArrowUpRightBold aria-hidden="true" /></a><a className="action-link" href="https://www.linkedin.com/in/zhewen-tan-0ba830401/" {...externalLinkProps}><SiLinkedin aria-hidden="true" /><span>LinkedIn</span><PiArrowUpRightBold aria-hidden="true" /></a></div>
           </div>
           <aside className="profile-card" data-reveal>
             <img src="/contact-mountain.jpg" alt="谭哲文山顶旅行照片" />
-            <div className="profile-body"><div className="profile-name"><strong>谭哲文</strong><span>Tan Zhewen</span></div><p>大语言模型算法研究与工程</p><div className="profile-rule" /><p className="profile-role">小红书 · Dots（Pretrain）算法实习生</p><div className="profile-place"><PiMapPin aria-hidden="true" /> Beijing · Open to connect</div></div>
+            <div className="profile-body profile-note"><div><span>旅行记录 / 01</span><strong>黄山 · 2026</strong></div><p>工作之外，也喜欢徒步和记录沿途。</p></div>
           </aside>
         </div>
       </section>
@@ -216,7 +216,7 @@ export default function Home() {
 
       <section className="opensource-section" id="opensource"><div className="section-shell"><details className="section-fold" open>
         <SectionHeading index="05" label="开源贡献" english="OPEN SOURCE" />
-        <div className="section-fold-content"><div className="opensource-grid" data-reveal>{openSource.map((item, index) => <a className="opensource-row" href={item.href} key={item.name} {...externalLinkProps}><span>{String(index + 1).padStart(2, '0')}</span><img src={item.logo} alt="" /><div className="opensource-name"><h3>{item.name}</h3><small>Contributor</small></div><p><strong>项目功能</strong>{item.function}</p><p><strong>我的贡献</strong>{item.contribution}</p><PiArrowUpRightBold aria-hidden="true" /></a>)}</div></div>
+        <div className="section-fold-content"><div className="opensource-grid" data-reveal>{openSource.map((item, index) => <a className="opensource-row" href={item.href} key={item.name} {...externalLinkProps}><span>{String(index + 1).padStart(2, '0')}</span><img src={item.logo} alt="" /><div className="opensource-name"><h3>{item.name}</h3><small>Contributor</small><GitHubStars href={item.href} /></div><p><strong>项目功能</strong>{item.function}</p><p><strong>我的贡献</strong>{item.contribution}</p><PiArrowUpRightBold aria-hidden="true" /></a>)}</div></div>
       </details></div></section>
 
       <section className="contact-section" id="contact"><div className="section-shell contact-layout" data-reveal><div><p className="contact-eyebrow"><span />CONTACT</p><h2>联系我</h2><p className="contact-note">欢迎通过邮件联系，也可以查看我的谷歌学术与 GitHub。</p></div><div className="contact-links"><a href="mailto:zhewentan1@gmail.com"><PiEnvelope aria-hidden="true" /><span><small>邮箱</small><strong>zhewentan1@gmail.com</strong></span><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><span><small>学术主页</small><strong>谷歌学术</strong></span><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><span><small>代码与贡献</small><strong>GitHub @tandede</strong></span><PiArrowUpRightBold aria-hidden="true" /></a></div></div><footer className="section-shell"><span>© 2026 TAN ZHEWEN</span><span>BEIJING · CHINA</span><a className="back-to-top" href="#top"><PiArrowUpBold aria-hidden="true" />回到顶部</a></footer></section>
