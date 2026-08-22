@@ -259,6 +259,9 @@ button, a, summary { -webkit-tap-highlight-color: transparent; }
 .contact-links small { color: #bfd2fb; font-size: 9px; }
 .contact-links strong { font-size: 13px; overflow-wrap: anywhere; }
 .contact-section footer { display: flex; align-items: center; justify-content: space-between; margin-top: 90px; padding-top: 22px; color: #b9cdf7; font-family: var(--font-geist-mono), monospace; font-size: 8px; border-top: 1px solid rgba(255, 255, 255, 0.24); }
+.back-to-top { display: inline-flex; align-items: center; gap: 8px; min-height: 38px; padding: 0 14px; color: var(--white); font-size: 9px; font-weight: 750; border: 1px solid rgba(255, 255, 255, 0.42); background: rgba(255, 255, 255, 0.06); transition: color 180ms ease, background 180ms ease, border-color 180ms ease, transform 180ms ease; }
+.back-to-top svg { width: 14px; height: 14px; }
+.back-to-top:hover, .back-to-top:focus-visible { color: var(--blue-dark); border-color: var(--white); background: var(--white); transform: translateY(-3px); }
 
 .has-motion [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity 620ms ease, transform 620ms ease; }
 .has-motion [data-reveal].is-visible { opacity: 1; transform: translateY(0); }

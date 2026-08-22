@@ -1,6 +1,7 @@
 import {
   PiArrowDownRightBold,
   PiArrowRightBold,
+  PiArrowUpBold,
   PiArrowUpRightBold,
   PiArticle,
   PiBrain,
@@ -219,7 +220,7 @@ export default function Home() {
         <div className="opensource-grid" data-reveal>{openSource.map((item, index) => <a className="opensource-row" href={item.href} key={item.name} {...externalLinkProps}><span>{String(index + 1).padStart(2, '0')}</span><img src={item.logo} alt="" /><div className="opensource-name"><h3>{item.name}</h3><small>Contributor</small></div><p><strong>项目功能</strong>{item.function}</p><p><strong>我的贡献</strong>{item.contribution}</p><PiArrowUpRightBold aria-hidden="true" /></a>)}</div>
       </div></section>
 
-      <section className="contact-section" id="contact"><div className="section-shell contact-layout" data-reveal><div><p className="contact-eyebrow"><span />CONTACT</p><h2>联系我</h2><p className="contact-note">欢迎通过邮件联系，也可以查看我的谷歌学术与 GitHub。</p></div><div className="contact-links"><a href="mailto:zhewentan1@gmail.com"><PiEnvelope aria-hidden="true" /><span><small>邮箱</small><strong>zhewentan1@gmail.com</strong></span><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><span><small>学术主页</small><strong>谷歌学术</strong></span><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><span><small>代码与贡献</small><strong>GitHub @tandede</strong></span><PiArrowUpRightBold aria-hidden="true" /></a></div></div><footer className="section-shell"><span>© 2026 TAN ZHEWEN</span><span>BEIJING · CHINA</span><a href="#top">回到顶部 ↑</a></footer></section>
+      <section className="contact-section" id="contact"><div className="section-shell contact-layout" data-reveal><div><p className="contact-eyebrow"><span />CONTACT</p><h2>联系我</h2><p className="contact-note">欢迎通过邮件联系，也可以查看我的谷歌学术与 GitHub。</p></div><div className="contact-links"><a href="mailto:zhewentan1@gmail.com"><PiEnvelope aria-hidden="true" /><span><small>邮箱</small><strong>zhewentan1@gmail.com</strong></span><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><span><small>学术主页</small><strong>谷歌学术</strong></span><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><span><small>代码与贡献</small><strong>GitHub @tandede</strong></span><PiArrowUpRightBold aria-hidden="true" /></a></div></div><footer className="section-shell"><span>© 2026 TAN ZHEWEN</span><span>BEIJING · CHINA</span><a className="back-to-top" href="#top"><PiArrowUpBold aria-hidden="true" />回到顶部</a></footer></section>
     </main>
   );
 }
