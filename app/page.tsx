@@ -1,6 +1,7 @@
 import {
   PiArrowDownRightBold,
   PiArrowRightBold,
+  PiArrowUpRightBold,
   PiArticle,
   PiBrain,
   PiBroom,
@@ -179,7 +180,7 @@ export default function Home() {
           </div>
           <div className="hero-evidence" data-reveal>
             <div className="evidence-stats"><div><strong>5</strong><span>篇 2026 论文</span></div><div><strong>4</strong><span>篇 CCF-A</span></div><div><strong>40T</strong><span>可训练 Token 目标</span></div><div><strong>OSS</strong><span>主流项目 Contributor</span></div></div>
-            <div className="hero-actions"><a className="action-link action-primary" href="#research"><PiArticle aria-hidden="true" /><span>查看代表论文</span><PiArrowDownRightBold aria-hidden="true" /></a><a className="action-link" href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><span>谷歌学术</span><PiArrowRightBold aria-hidden="true" /></a><a className="action-link" href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><span>GitHub @tandede</span><PiArrowRightBold aria-hidden="true" /></a></div>
+            <div className="hero-actions"><a className="action-link action-primary" href="#research"><PiArticle aria-hidden="true" /><span>查看代表论文</span><PiArrowDownRightBold aria-hidden="true" /></a><a className="action-link" href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><span>谷歌学术</span><PiArrowUpRightBold aria-hidden="true" /></a><a className="action-link" href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><span>GitHub @tandede</span><PiArrowUpRightBold aria-hidden="true" /></a></div>
           </div>
         </div>
       </section>
@@ -192,7 +193,7 @@ export default function Home() {
       <section className="research-section" id="research"><div className="section-shell">
         <SectionHeading index="02" label="研究论文" english="PUBLICATIONS" />
         <div className="venue-ticker" aria-hidden="true"><div><span>EMNLP 2026 MAIN</span><span>ACL 2026 MAIN</span><span>AAAI 2026</span><span>ICML 2026</span><span>ACL 2026 FINDINGS</span><span>EMNLP 2026 MAIN</span><span>ACL 2026 MAIN</span><span>AAAI 2026</span><span>ICML 2026</span><span>ACL 2026 FINDINGS</span></div></div>
-        <div className="paper-list" data-reveal>{papers.map((paper, index) => <details className="paper-row" key={paper.title} open={index === 0}><summary><span className="paper-index">{String(index + 1).padStart(2, '0')}</span><span className="paper-venue">{paper.venue}</span><strong>{paper.title}</strong><span className="paper-role">{paper.role}</span><span className="paper-metric">{paper.metric}</span><span className="paper-toggle">+</span></summary><div className="paper-detail"><div><span>研究问题</span><p>{paper.question}</p></div><div><span>核心方法</span><p>{paper.method}</p></div><div><span>公开结果</span><p>{paper.result}</p></div><a href={paper.href} {...externalLinkProps}>阅读论文原文 <PiArrowRightBold aria-hidden="true" /></a></div></details>)}</div>
+        <div className="paper-list" data-reveal>{papers.map((paper, index) => <details className="paper-row" key={paper.title} open={index === 0}><summary><span className="paper-index">{String(index + 1).padStart(2, '0')}</span><span className="paper-venue">{paper.venue}</span><strong>{paper.title}</strong><span className="paper-role">{paper.role}</span><span className="paper-metric">{paper.metric}</span><span className="paper-toggle">+</span></summary><div className="paper-detail"><div><span>研究问题</span><p>{paper.question}</p></div><div><span>核心方法</span><p>{paper.method}</p></div><div><span>公开结果</span><p>{paper.result}</p></div><a href={paper.href} {...externalLinkProps}>阅读论文原文 <PiArrowUpRightBold aria-hidden="true" /></a></div></details>)}</div>
       </div></section>
 
       <section className="experience-section" id="experience"><div className="section-shell">
@@ -202,15 +203,15 @@ export default function Home() {
 
       <section className="projects-section" id="projects"><div className="section-shell">
         <SectionHeading index="04" label="代表项目" english="PROJECTS" />
-        <div className="project-list">{projects.map((project) => <a className="project-row" href={project.href} key={project.title} {...externalLinkProps} data-reveal><div className="project-id"><span>{project.index}</span><small>{project.period}</small></div><div className="project-title"><p>{project.subtitle}</p><h3>{project.title}</h3></div><div className="project-copy"><p><strong>项目背景</strong>{project.overview}</p><p><strong>技术路径</strong>{project.technical}</p><p><strong>我的工作</strong>{project.work}</p></div><div className="metric-grid">{project.metrics.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div><PiArrowDownRightBold className="project-arrow" aria-hidden="true" /></a>)}</div>
+        <div className="project-list">{projects.map((project) => <a className="project-row" href={project.href} key={project.title} {...externalLinkProps} data-reveal><div className="project-id"><span>{project.index}</span><small>{project.period}</small></div><div className="project-title"><p>{project.subtitle}</p><h3>{project.title}</h3></div><div className="project-copy"><p><strong>项目背景</strong>{project.overview}</p><p><strong>技术路径</strong>{project.technical}</p><p><strong>我的工作</strong>{project.work}</p></div><div className="metric-grid">{project.metrics.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div><PiArrowUpRightBold className="project-arrow" aria-hidden="true" /></a>)}</div>
       </div></section>
 
       <section className="opensource-section" id="opensource"><div className="section-shell">
         <SectionHeading index="05" label="开源贡献" english="OPEN SOURCE" />
-        <div className="opensource-grid" data-reveal>{openSource.map((item, index) => <a className="opensource-row" href={item.href} key={item.name} {...externalLinkProps}><span>{String(index + 1).padStart(2, '0')}</span><img src={item.logo} alt="" /><div className="opensource-name"><h3>{item.name}</h3><small>Contributor</small></div><p><strong>项目功能</strong>{item.function}</p><p><strong>我的贡献</strong>{item.contribution}</p><PiArrowDownRightBold aria-hidden="true" /></a>)}</div>
+        <div className="opensource-grid" data-reveal>{openSource.map((item, index) => <a className="opensource-row" href={item.href} key={item.name} {...externalLinkProps}><span>{String(index + 1).padStart(2, '0')}</span><img src={item.logo} alt="" /><div className="opensource-name"><h3>{item.name}</h3><small>Contributor</small></div><p><strong>项目功能</strong>{item.function}</p><p><strong>我的贡献</strong>{item.contribution}</p><PiArrowUpRightBold aria-hidden="true" /></a>)}</div>
       </div></section>
 
-      <section className="contact-section" id="contact"><div className="section-shell contact-layout" data-reveal><div><p className="contact-eyebrow"><span />CONTACT</p><h2>联系我</h2><p className="contact-note">欢迎通过邮件联系，也可以查看我的谷歌学术与 GitHub。</p></div><div className="contact-links"><a href="mailto:zhewentan1@gmail.com"><PiEnvelope aria-hidden="true" /><span><small>邮箱</small><strong>zhewentan1@gmail.com</strong></span><PiArrowRightBold aria-hidden="true" /></a><a href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><span><small>学术主页</small><strong>谷歌学术</strong></span><PiArrowRightBold aria-hidden="true" /></a><a href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><span><small>代码与贡献</small><strong>GitHub @tandede</strong></span><PiArrowRightBold aria-hidden="true" /></a></div></div><footer className="section-shell"><span>© 2026 TAN ZHEWEN</span><span>BEIJING · CHINA</span><a href="#top">回到顶部 ↑</a></footer></section>
+      <section className="contact-section" id="contact"><div className="section-shell contact-layout" data-reveal><div><p className="contact-eyebrow"><span />CONTACT</p><h2>联系我</h2><p className="contact-note">欢迎通过邮件联系，也可以查看我的谷歌学术与 GitHub。</p></div><div className="contact-links"><a href="mailto:zhewentan1@gmail.com"><PiEnvelope aria-hidden="true" /><span><small>邮箱</small><strong>zhewentan1@gmail.com</strong></span><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><span><small>学术主页</small><strong>谷歌学术</strong></span><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><span><small>代码与贡献</small><strong>GitHub @tandede</strong></span><PiArrowUpRightBold aria-hidden="true" /></a></div></div><footer className="section-shell"><span>© 2026 TAN ZHEWEN</span><span>BEIJING · CHINA</span><a href="#top">回到顶部 ↑</a></footer></section>
     </main>
   );
 }
