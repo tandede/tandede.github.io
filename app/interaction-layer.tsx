@@ -25,6 +25,7 @@ export default function InteractionLayer() {
     const updateScroll = () => {
       const scrollable = document.documentElement.scrollHeight - window.innerHeight;
       setProgress(scrollable > 0 ? Math.min(100, (window.scrollY / scrollable) * 100) : 0);
+      document.documentElement.classList.toggle('is-at-top', window.scrollY < 40);
 
       let activeId = 'top';
       sections.forEach((section) => {
@@ -44,6 +45,7 @@ export default function InteractionLayer() {
     return () => {
       revealObserver.disconnect();
       window.removeEventListener('scroll', updateScroll);
+      document.documentElement.classList.remove('is-at-top');
     };
   }, []);
 
