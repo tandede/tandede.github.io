@@ -176,7 +176,7 @@ export default function Home() {
             <div className="hero-actions"><a className="action-link action-primary" href="#research"><PiArticle aria-hidden="true" /><span>代表论文</span><PiArrowDownRightBold aria-hidden="true" /></a><a className="action-link" href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><span>谷歌学术</span><PiArrowUpRightBold aria-hidden="true" /></a><a className="action-link" href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><span>GitHub</span><PiArrowUpRightBold aria-hidden="true" /></a><a className="action-link" href="https://www.linkedin.com/in/zhewen-tan-0ba830401/" {...externalLinkProps}><SiLinkedin aria-hidden="true" /><span>LinkedIn</span><PiArrowUpRightBold aria-hidden="true" /></a></div>
           </div>
           <aside className="profile-card" data-reveal>
-            <img src="/tan-travel-portrait.jpg" alt="谭哲文旅行照片" />
+            <img src="/contact-mountain.jpg" alt="谭哲文山顶旅行照片" />
             <div className="profile-body"><div className="profile-name"><strong>谭哲文</strong><span>Tan Zhewen</span></div><p>大语言模型算法研究与工程</p><div className="profile-rule" /><p className="profile-role">小红书 · Dots（Pretrain）算法实习生</p><div className="profile-place"><PiMapPin aria-hidden="true" /> Beijing · Open to connect</div></div>
           </aside>
         </div>
