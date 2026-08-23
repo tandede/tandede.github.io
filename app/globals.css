@@ -306,8 +306,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .opensource-identity { display: flex; min-width: 0; align-items: center; gap: 12px; }
 .opensource-identity > img { flex: 0 0 auto; width: 50px; height: 50px; padding: 7px; border: 1px solid color-mix(in srgb, var(--repo-accent) 28%, var(--line)); border-radius: 13px; background: var(--white); object-fit: contain; }
 .opensource-identity > div { min-width: 0; }
-.opensource-identity small { display: block; color: var(--blue); font-family: var(--font-geist-mono), monospace; font-size: 7px; font-weight: 750; letter-spacing: 0.09em; }
-.opensource-identity h3 { margin: 6px 0 0; color: var(--ink); font-size: 16px; letter-spacing: -0.025em; line-height: 1.2; }
+.opensource-identity h3 { margin: 0; color: var(--ink); font-size: 16px; letter-spacing: -0.025em; line-height: 1.2; }
 .repo-stars { display: inline-flex; align-items: center; gap: 6px; width: fit-content; color: #875800; font-family: var(--font-geist-mono), monospace; font-size: 9px; font-weight: 750; white-space: nowrap; }
 .repo-stars svg { width: 12px; height: 12px; color: var(--orange); }
 .opensource-project { align-self: center; padding: 30px 0 20px; }

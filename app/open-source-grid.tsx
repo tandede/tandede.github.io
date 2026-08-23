@@ -8,6 +8,7 @@ type OpenSourceItem = {
   name: string;
   logo: string;
   accent: string;
+  role?: 'CONTRIBUTOR' | 'OWNER';
   href: string;
   function: string;
   problem: string;
@@ -87,7 +88,7 @@ export default function OpenSourceGrid({ items }: { items: OpenSourceItem[] }) {
         <div className="opensource-card-top">
           <div className="opensource-identity">
             <img src={item.logo} alt="" />
-            <div><small>CONTRIBUTOR</small><h3>{item.name}</h3></div>
+            <div><h3>{item.name}</h3></div>
           </div>
           <span className="repo-stars" title={typeof count === 'number' ? `${count.toLocaleString('en-US')} GitHub Stars` : '正在获取 GitHub Star'}><PiStarFill aria-hidden="true" />{starsLabel}</span>
         </div>
@@ -97,7 +98,7 @@ export default function OpenSourceGrid({ items }: { items: OpenSourceItem[] }) {
         <div className="opensource-card-link"><span>查看我的贡献</span><PiArrowUpRightBold aria-hidden="true" /></div>
       </div>
       <div className="opensource-face opensource-back" aria-hidden="true">
-        <div className="opensource-back-head"><strong>{item.name}</strong><span>ENGINEERING NOTE</span></div>
+        <div className="opensource-back-head"><strong>{item.name}</strong><span>{item.role ?? 'CONTRIBUTOR'}</span></div>
         <div className="opensource-story">
           <div><span>发现问题</span><p>{item.problem}</p></div>
           <div><span>问题思考</span><p>{item.reasoning}</p></div>
