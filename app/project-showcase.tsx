@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { PiArrowRightBold, PiArrowUpRightBold, PiCheckCircle, PiCirclesThreePlus, PiCube, PiFileText, PiGauge, PiGlobeHemisphereEast, PiShieldCheck, PiSlidersHorizontal, PiStack, PiTerminalWindow, PiWarning } from 'react-icons/pi';
+import { PiArrowRightBold, PiCheckCircle, PiCirclesThreePlus, PiCube, PiFileText, PiGauge, PiGlobeHemisphereEast, PiShieldCheck, PiSlidersHorizontal, PiStack, PiTerminalWindow, PiWarning } from 'react-icons/pi';
 import type { FeaturedProject } from './project-data';
 
 const tinyModes = [
@@ -189,7 +189,7 @@ function HarnessShowcase({ project }: { project: FeaturedProject }) {
 
     <section className="harness-evidence">
       <div className="evidence-number"><span>5,194</span><p>条完整执行轨迹，让评测从“答对没有”深入到“为什么失败”。</p></div>
-      <div className="evidence-copy"><small>MY SCOPE</small><h3>我把运行过程变成可以追溯的证据</h3><p>{project.contribution}</p><a href={project.paperHref} target="_blank" rel="noopener noreferrer">阅读 Harness-Bench 论文 <PiArrowUpRightBold aria-hidden="true" /></a></div>
+      <div className="evidence-copy"><small>MY SCOPE</small><h3>我把运行过程变成可以追溯的证据</h3><p>{project.contribution}</p></div>
     </section>
   </section>;
 }
