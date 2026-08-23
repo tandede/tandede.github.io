@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { PiArrowRightBold, PiArrowUpRightBold, PiCheckCircle, PiCirclesThreePlus, PiCube, PiFileText, PiGauge, PiTerminalWindow } from 'react-icons/pi';
+import { PiArrowRightBold, PiArrowUpRightBold, PiCheckCircle, PiCirclesThreePlus, PiCube, PiFileText, PiGauge, PiGlobeHemisphereEast, PiShieldCheck, PiSlidersHorizontal, PiStack, PiTerminalWindow, PiWarning } from 'react-icons/pi';
 import type { FeaturedProject } from './project-data';
 
 const tinyModes = [
@@ -14,6 +14,18 @@ const tinyModes = [
 const benchmarkRows = [
   ['AIME24', 81.4, 90.9], ['AIME25', 72.9, 82.7], ['GPQA', 68.4, 69.4],
   ['LiveCodeBench', 65.7, 70.4], ['IFEval', 85.0, 89.2], ['Safety', 64.5, 89.5],
+] as const;
+
+const safetyModes = [
+  { key: 'positive', label: '正向引导', token: 'Safety Mode: Positive', intent: '守住安全边界，同时给出建设性的替代路径。', output: '解释风险 → 提供安全方案', icon: PiShieldCheck },
+  { key: 'rejective', label: '审慎拒答', token: 'Safety Mode: Rejective', intent: '在无法安全满足请求时，稳定拒绝危险部分。', output: '识别边界 → 清晰拒绝', icon: PiWarning },
+  { key: 'redteam', label: '风险暴露', token: 'Safety Mode: Negative', intent: '仅用于受控红队评测，帮助识别模型与防线缺口。', output: '隔离环境 → 风险诊断', icon: PiSlidersHorizontal },
+  { key: 'policy', label: '地区策略', token: 'policy:zh-CN / policy:en-US', intent: '在同一模型中选择不同语言与地区规范。', output: '共享能力 → 策略条件化', icon: PiGlobeHemisphereEast },
+] as const;
+
+const safetyBenchmarkRows = [
+  ['Average', 75.9, 97.7], ['AdvBench', 60.7, 99.0], ['HarmBench', 62.0, 95.3],
+  ['HarmfulQA', 86.4, 100], ['S-Eval Attack', 65.3, 95.0], ['WildJailbreak', 66.9, 97.9],
 ] as const;
 
 const harnessCategories = [
@@ -32,6 +44,11 @@ export function ProjectHeroAside({ slug }: { slug: FeaturedProject['slug'] }) {
     <div className="tiny-orbit"><span>32B</span><i /><i /><i /></div>
     <div className="tiny-mode-list"><span>MATH</span><span>CODE</span><span>SCIENCE</span></div>
     <strong>三个专家分支<br />合并为一个模型</strong>
+  </aside>;
+  if (slug === 'tiny-r1-safety-8b') return <aside className="project-hero-visual safety-hero-visual" aria-label="TinyR1 Safety 控制示意">
+    <div className="safety-hero-core"><PiShieldCheck aria-hidden="true" /><span>8B</span><i /><i /><i /></div>
+    <div className="safety-hero-modes"><span>POSITIVE</span><span>REJECTIVE</span><span>POLICY</span></div>
+    <strong>安全不只是拒绝<br />而是可控的帮助</strong>
   </aside>;
   return <aside className="project-hero-visual harness-hero-visual" aria-label="Harness Bench 轨迹示意">
     <div className="trace-status"><span>TRACE 4,782</span><b>RUNNING</b></div>
@@ -85,6 +102,62 @@ function TinyR1Showcase({ project }: { project: FeaturedProject }) {
   </section>;
 }
 
+function SafetyShowcase({ project }: { project: FeaturedProject }) {
+  const [activeMode, setActiveMode] = useState(0);
+  const mode = safetyModes[activeMode];
+  const ModeIcon = mode.icon;
+  return <section className="project-showcase safety-showcase" id="project-showcase">
+    <header className="safety-opening">
+      <div><span>CONSTRUCTIVE SAFETY</span><h2>安全不等于拒绝。<br />好的安全回答，仍然应该帮助用户。</h2></div>
+      <p>{project.problem}</p>
+    </header>
+
+    <section className="safety-switchboard">
+      <div className="safety-mode-nav" role="tablist" aria-label="选择安全行为">
+        {safetyModes.map((item, index) => <button role="tab" aria-selected={activeMode === index} key={item.key} onClick={() => setActiveMode(index)}><span>0{index + 1}</span><strong>{item.label}</strong></button>)}
+      </div>
+      <div className="safety-mode-stage" key={mode.key}>
+        <div className="safety-token"><small>CONTROL SIGNAL</small><code>{mode.token}</code></div>
+        <div className="safety-mode-copy"><ModeIcon aria-hidden="true" /><small>BEHAVIOR ACTIVE</small><h3>{mode.label}</h3><p>{mode.intent}</p></div>
+        <div className="safety-output"><span>OUTPUT CONTRACT</span><strong>{mode.output}</strong></div>
+      </div>
+    </section>
+
+    <section className="safety-training">
+      <header><span>01 / TRAINING DESIGN</span><h3>多种行为在一个阶段共同学习</h3><p>先通过自蒸馏构造差异明确的安全行为数据，再用 Magic Token 把行为边界写进同一模型。</p></header>
+      <div className="safety-training-flow">
+        <article><PiStack aria-hidden="true" /><small>SELF-DISTILL</small><strong>多行为安全数据</strong><div><i>Positive</i><i>Negative</i><i>Rejective</i></div></article>
+        <PiArrowRightBold aria-hidden="true" />
+        <article><PiCirclesThreePlus aria-hidden="true" /><small>CO-TRAIN</small><strong>Single-stage SFT</strong><span>共享能力，保留行为间隔</span></article>
+        <PiArrowRightBold aria-hidden="true" />
+        <article><PiSlidersHorizontal aria-hidden="true" /><small>CONTROL</small><strong>Magic Token</strong><span>推理时选择行为与策略</span></article>
+        <PiArrowRightBold aria-hidden="true" />
+        <article><PiShieldCheck aria-hidden="true" /><small>DEPLOY</small><strong>One 8B Model</strong><span>无需维护多套安全模型</span></article>
+      </div>
+    </section>
+
+    <section className="constructive-score">
+      <div className="score-copy"><span>02 / WHAT GOOD LOOKS LIKE</span><h3>从“有没有违规”升级到“是否安全且有帮助”</h3><p>三级评分把简单拒答与建设性安全回答区分开，避免模型只学会一句“我不能帮助你”。</p></div>
+      <div className="score-ladder">
+        <article className="score-risk"><b>0</b><div><small>RISK</small><strong>包含安全风险或违规内容</strong></div></article>
+        <article className="score-refuse"><b>1</b><div><small>REFUSAL</small><strong>基于安全原因拒绝请求</strong></div></article>
+        <article className="score-constructive"><b>2</b><div><small>CONSTRUCTIVE</small><strong>安全地满足意图并提供替代帮助</strong></div><PiCheckCircle aria-hidden="true" /></article>
+      </div>
+    </section>
+
+    <section className="safety-results">
+      <div className="safety-result-number"><small>13 BENCHMARKS · AVG</small><strong>97.7</strong><span>Constructive Safety</span></div>
+      <div className="safety-bars"><header><span>Qwen3-8B</span><span>TinyR1-Safety-8B</span></header>{safetyBenchmarkRows.map(([label, baseline, score]) => <div className="safety-bar-row" key={label}><span>{label}</span><div><i style={{ width: `${baseline}%` }} /><b style={{ width: `${score}%` }} /></div><strong>{score}</strong></div>)}</div>
+    </section>
+
+    <section className="safety-role">
+      <div><PiShieldCheck aria-hidden="true" /><small>MY SCOPE</small><h3>我的工作连接安全数据、训练和行为评测</h3></div>
+      <p>{project.contribution}</p>
+      <div><a href={project.href} target="_blank" rel="noopener noreferrer">查看模型 <PiArrowUpRightBold aria-hidden="true" /></a><a href={project.paperHref} target="_blank" rel="noopener noreferrer">阅读论文 <PiArrowUpRightBold aria-hidden="true" /></a></div>
+    </section>
+  </section>;
+}
+
 function HarnessShowcase({ project }: { project: FeaturedProject }) {
   const [activeCategory, setActiveCategory] = useState(0);
   const category = harnessCategories[activeCategory];
@@ -124,5 +197,7 @@ function HarnessShowcase({ project }: { project: FeaturedProject }) {
 }
 
 export default function ProjectShowcase({ project }: { project: FeaturedProject }) {
-  return project.slug === 'tiny-r1-32b' ? <TinyR1Showcase project={project} /> : <HarnessShowcase project={project} />;
+  if (project.slug === 'tiny-r1-32b') return <TinyR1Showcase project={project} />;
+  if (project.slug === 'tiny-r1-safety-8b') return <SafetyShowcase project={project} />;
+  return <HarnessShowcase project={project} />;
 }
