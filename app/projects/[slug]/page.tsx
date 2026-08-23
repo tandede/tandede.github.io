@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { PiGlobeHemisphereWest } from 'react-icons/pi';
+import { PiFileText, PiGlobeHemisphereWest } from 'react-icons/pi';
 import DetailPage from '../../detail-page';
 import { featuredProjects } from '../../project-data';
 import ProjectShowcase, { ProjectHeroAside } from '../../project-showcase';
@@ -46,6 +46,7 @@ export default async function ProjectDetail({ params }: PageProps) {
     externalHref={project.href}
     externalLabel="查看项目主页"
     externalIcon={<PiGlobeHemisphereWest aria-hidden="true" />}
+    secondaryExternal={project.slug === 'tiny-r1-safety-8b' ? { href: project.paperHref, label: '查看论文', icon: <PiFileText aria-hidden="true" /> } : undefined}
     backHref="/#projects"
     backLabel="返回代表项目"
     contentHref="#project-showcase"

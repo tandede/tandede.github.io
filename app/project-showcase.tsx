@@ -153,7 +153,6 @@ function SafetyShowcase({ project }: { project: FeaturedProject }) {
     <section className="safety-role">
       <div><PiShieldCheck aria-hidden="true" /><small>MY SCOPE</small><h3>我的工作连接安全数据、训练和行为评测</h3></div>
       <p>{project.contribution}</p>
-      <div><a href={project.href} target="_blank" rel="noopener noreferrer">查看模型 <PiArrowUpRightBold aria-hidden="true" /></a><a href={project.paperHref} target="_blank" rel="noopener noreferrer">阅读论文 <PiArrowUpRightBold aria-hidden="true" /></a></div>
     </section>
   </section>;
 }

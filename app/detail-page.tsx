@@ -40,7 +40,7 @@ type DetailPageProps = {
   externalIcon?: ReactNode;
   showcase?: ReactNode;
   titleAddon?: ReactNode;
-  secondaryExternal?: { href: string; label: string };
+  secondaryExternal?: { href: string; label: string; icon?: ReactNode };
   contentHref?: string;
   contentLabel?: string;
   heroAside?: ReactNode;
@@ -98,7 +98,7 @@ export default function DetailPage({
         <div className="detail-actions">
           <a href={contentHref}>{contentLabel} <PiArrowDownBold aria-hidden="true" /></a>
           <a href={externalHref} target="_blank" rel="noopener noreferrer">{externalIcon ?? <PiGithubLogo aria-hidden="true" />}{externalLabel}<PiArrowUpRightBold aria-hidden="true" /></a>
-          {secondaryExternal && <a href={secondaryExternal.href} target="_blank" rel="noopener noreferrer"><PiGitPullRequest aria-hidden="true" />{secondaryExternal.label}<PiArrowUpRightBold aria-hidden="true" /></a>}
+          {secondaryExternal && <a href={secondaryExternal.href} target="_blank" rel="noopener noreferrer">{secondaryExternal.icon ?? <PiGitPullRequest aria-hidden="true" />}{secondaryExternal.label}<PiArrowUpRightBold aria-hidden="true" /></a>}
         </div>
       </div>
       {heroAside ?? <aside className="detail-highlight"><small>KEY TAKEAWAY</small><strong>{highlight}</strong></aside>}
