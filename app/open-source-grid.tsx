@@ -68,11 +68,11 @@ export default function OpenSourceGrid({ items }: { items: OpenSourceProject[] }
     return difference || left.originalIndex - right.originalIndex;
   }), [items, stars]);
 
-  return <div className="opensource-grid" data-reveal>{orderedItems.map(({ item }) => {
+  return <div className="opensource-grid" data-reveal data-motion>{orderedItems.map(({ item }) => {
     const count = stars?.[item.href];
     const starsLabel = typeof count === 'number' ? `${formatStars(count)} Stars` : 'Stars';
 
-    return <a className="opensource-card" href={`/open-source/${item.slug}/`} target="_blank" rel="noopener noreferrer" key={item.name} aria-label={`在新标签页查看 ${item.name} 开源贡献详情`} style={{ '--repo-accent': item.accent } as CSSProperties}>
+    return <a className="opensource-card" data-glow href={`/open-source/${item.slug}/`} target="_blank" rel="noopener noreferrer" key={item.name} aria-label={`在新标签页查看 ${item.name} 开源贡献详情`} style={{ '--repo-accent': item.accent } as CSSProperties}>
       <div className="opensource-face opensource-front">
         <div className="opensource-card-top">
           <div className="opensource-identity">

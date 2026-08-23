@@ -19,7 +19,6 @@ import {
 } from 'react-icons/pi';
 import type { CSSProperties } from 'react';
 import { SiGithub, SiGooglescholar, SiLinkedin } from 'react-icons/si';
-import InteractionLayer from './interaction-layer';
 import NavigationShell from './navigation-shell';
 import { openSourceProjects } from './open-source-data';
 import OpenSourceGrid from './open-source-grid';
@@ -139,10 +138,9 @@ function SectionHeading({ index, label, english }: { index: string; label: strin
 export default function Home() {
   return (
     <main>
-      <InteractionLayer />
       <NavigationShell />
 
-      <section className="hero" id="top">
+      <section className="hero" id="top" data-motion>
         <div className="section-shell hero-grid">
           <div className="hero-copy" data-reveal>
             <div className="hero-title"><p className="hero-eyebrow"><span />ZHEWEN TAN · PERSONAL HOMEPAGE</p><h1>谭哲文<span>大语言模型算法研究与工程</span></h1><p className="hero-lead">我主要做大语言模型预训练数据，也关注 Agent、安全对齐与模型评测。<br />这里记录我的研究、工程实践和开源贡献。</p></div>
@@ -153,33 +151,33 @@ export default function Home() {
 
       <section className="focus-section" id="focus"><div className="section-shell"><details className="section-fold" open>
         <SectionHeading index="01" label="研究方向" english="RESEARCH INTERESTS" />
-        <div className="section-fold-content"><div className="focus-table" data-reveal><div className="focus-table-head"><span>问题 / Problem</span><span>方法 / Method</span><span>证据 / Evidence</span><span>产出 / Output</span></div>{focusAreas.map((item) => { const Icon = item.icon; return <article className="focus-row" key={item.title}><div className="focus-problem"><span>{item.index}</span><Icon aria-hidden="true" /><div><h3>{item.title}</h3><p>{item.question}</p></div></div><ul>{item.method.map((method) => <li key={method}>{method}</li>)}</ul><ul>{item.evidence.map((proof) => <li key={proof}>{proof}</li>)}</ul><div className="focus-output"><strong>{item.output}</strong></div></article>; })}</div></div>
+        <div className="section-fold-content"><div className="focus-table" data-reveal data-motion><div className="focus-table-head"><span>问题 / Problem</span><span>方法 / Method</span><span>证据 / Evidence</span><span>产出 / Output</span></div>{focusAreas.map((item) => { const Icon = item.icon; return <article className="focus-row" key={item.title}><div className="focus-problem"><span>{item.index}</span><Icon aria-hidden="true" /><div><h3>{item.title}</h3><p>{item.question}</p></div></div><ul>{item.method.map((method) => <li key={method}>{method}</li>)}</ul><ul>{item.evidence.map((proof) => <li key={proof}>{proof}</li>)}</ul><div className="focus-output"><strong>{item.output}</strong></div></article>; })}</div></div>
       </details></div></section>
 
       <section className="research-section" id="research"><div className="section-shell"><details className="section-fold" open>
         <SectionHeading index="02" label="所选论文" english="SELECTED PUBLICATIONS" />
         <div className="section-fold-content"><div className="venue-ticker" aria-hidden="true"><div><span>EMNLP 2026 MAIN</span><span>ACL 2026 MAIN</span><span>AAAI 2026</span><span>ICML 2026</span><span>ACL 2026 FINDINGS</span><span>EMNLP 2026 MAIN</span><span>ACL 2026 MAIN</span><span>AAAI 2026</span><span>ICML 2026</span><span>ACL 2026 FINDINGS</span></div></div>
-        <div className="paper-list" data-reveal>{papers.map((paper, index) => <details className="paper-row" key={paper.title} open={index === 0}><summary><span className="paper-index">{String(index + 1).padStart(2, '0')}</span><span className="paper-venue">{paper.venue}</span><strong>{paper.title}</strong><span className="paper-role">{paper.role}</span><span className="paper-metric">{paper.metric}</span><span className="paper-toggle">+</span></summary><div className="paper-detail"><div><span>研究问题</span><p>{paper.question}</p></div><div><span>核心方法</span><p>{paper.method}</p></div><div><span>公开结果</span><p>{paper.result}</p></div><a href={paper.href} {...externalLinkProps}>阅读论文原文 <PiArrowUpRightBold aria-hidden="true" /></a></div></details>)}</div>
+        <div className="paper-list" data-reveal data-motion>{papers.map((paper, index) => <details className="paper-row" key={paper.title} open={index === 0}><summary><span className="paper-index">{String(index + 1).padStart(2, '0')}</span><span className="paper-venue">{paper.venue}</span><strong>{paper.title}</strong><span className="paper-role">{paper.role}</span><span className="paper-metric">{paper.metric}</span><span className="paper-toggle">+</span></summary><div className="paper-detail"><div><span>研究问题</span><p>{paper.question}</p></div><div><span>核心方法</span><p>{paper.method}</p></div><div><span>公开结果</span><p>{paper.result}</p></div><a href={paper.href} {...externalLinkProps}>阅读论文原文 <PiArrowUpRightBold aria-hidden="true" /></a></div></details>)}</div>
         </div>
       </details></div></section>
 
       <section className="experience-section" id="experience"><div className="section-shell"><details className="section-fold" open>
         <SectionHeading index="03" label="实习经历" english="EXPERIENCE" />
-        <div className="section-fold-content"><div className="experience-list">{experiences.map((item, index) => <article className="experience-card" key={item.company} data-reveal>
+        <div className="section-fold-content"><div className="experience-list">{experiences.map((item, index) => <article className="experience-card" key={item.company} data-reveal data-glow>
           <header className="experience-header"><span>{String(index + 1).padStart(2, '0')}</span><img src={item.logo} alt="" /><div><h3>{item.company}</h3><p>{item.role} · {item.date}</p></div><strong>{item.focus}</strong></header>
           <div className="experience-intro"><p>{item.summary}</p><span>{item.goal}</span></div>
-          {item.showPipeline && <div className="pipeline experience-pipeline" aria-label="网页预训练数据流水线">
+          {item.showPipeline && <div className="pipeline experience-pipeline" aria-label="网页预训练数据流水线" data-motion>
             <div className="pipeline-head"><p><span className="live-dot" />WEB PRETRAIN DATA PIPELINE</p><div><span>数据治理</span><span>质量信号</span><span>训练反馈</span></div></div>
             <div className="pipeline-flow">{pipeline.map((stage, stageIndex) => { const Icon = stage.icon; return <div className="pipeline-step" key={stage.title}><div className="pipeline-card"><div className="pipeline-card-top"><Icon aria-hidden="true" /><span>{String(stageIndex + 1).padStart(2, '0')}</span></div><strong>{stage.title}</strong><p>{stage.subtitle}</p><small><span />{stage.status}</small></div>{stageIndex < pipeline.length - 1 && <div className="pipeline-arrow"><PiArrowRightBold aria-hidden="true" /><span /></div>}</div>; })}</div>
             <div className="pipeline-proof"><PiShieldCheck aria-hidden="true" /><span>Provenance</span><i /><span>Quality Signals</span><i /><span>Training Feedback</span><i /><strong>40T TARGET</strong></div>
           </div>}
-          <div className="workstream-grid">{item.modules.map((module) => { const ModuleIcon = module.icon; return <div className="workstream-card" key={module.title}><div><span>{module.index}</span><ModuleIcon aria-hidden="true" /></div><small>{module.label}</small><h4>{module.title}</h4><p>{module.description}</p></div>; })}</div>
+          <div className="workstream-grid" data-motion>{item.modules.map((module) => { const ModuleIcon = module.icon; return <div className="workstream-card" key={module.title}><div><span>{module.index}</span><ModuleIcon aria-hidden="true" /></div><small>{module.label}</small><h4>{module.title}</h4><p>{module.description}</p></div>; })}</div>
         </article>)}</div></div>
       </details></div></section>
 
       <section className="projects-section" id="projects"><div className="section-shell"><details className="section-fold" open>
         <SectionHeading index="04" label="代表项目" english="PROJECTS" />
-        <div className="section-fold-content"><div className="project-grid" data-reveal>{featuredProjects.map((project) => <a className="project-card" href={`/projects/${project.slug}/`} target="_blank" rel="noopener noreferrer" key={project.title} style={{ '--project-accent': project.accent } as CSSProperties}><div className="project-card-index"><span>{project.index}</span><small>{project.subtitle}</small></div><div><h3>{project.cardTitle ?? project.title}</h3><p>{project.intro}</p></div><span className="project-card-link">查看项目详情 <PiArrowRightBold aria-hidden="true" /></span></a>)}</div></div>
+        <div className="section-fold-content"><div className="project-grid" data-reveal data-motion>{featuredProjects.map((project) => <a className="project-card" data-glow href={`/projects/${project.slug}/`} target="_blank" rel="noopener noreferrer" key={project.title} style={{ '--project-accent': project.accent } as CSSProperties}><div className="project-card-index"><span>{project.index}</span><small>{project.subtitle}</small></div><div><h3>{project.cardTitle ?? project.title}</h3><p>{project.intro}</p></div><span className="project-card-link">查看项目详情 <PiArrowRightBold aria-hidden="true" /></span></a>)}</div></div>
       </details></div></section>
 
       <section className="opensource-section" id="opensource"><div className="section-shell"><details className="section-fold" open>
@@ -187,7 +185,7 @@ export default function Home() {
         <div className="section-fold-content"><OpenSourceGrid items={openSourceProjects} /></div>
       </details></div></section>
 
-      <section className="contact-section" id="contact"><div className="section-shell contact-layout" data-reveal><div><p className="contact-eyebrow"><span />CONTACT</p><div className="contact-title"><h2>联系我</h2><PiSmiley aria-hidden="true" /></div><p className="contact-note">欢迎通过邮件联系，也可以在学术主页与开源社区找到我。</p></div><div className="contact-links"><a href="mailto:zhewentan1@gmail.com"><PiEnvelope aria-hidden="true" /><strong>邮箱</strong><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><strong>谷歌学术</strong><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><strong>GitHub</strong><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://www.linkedin.com/in/zhewen-tan-0ba830401/" {...externalLinkProps}><SiLinkedin aria-hidden="true" /><strong>LinkedIn</strong><PiArrowUpRightBold aria-hidden="true" /></a></div></div><footer className="section-shell"><span>© 2026 ZHEWEN TAN</span><span>BEIJING · CHINA</span><a className="back-to-top" href="#top"><PiArrowUpBold aria-hidden="true" />回到顶部</a></footer></section>
+      <section className="contact-section" id="contact"><div className="section-shell contact-layout" data-reveal data-motion><div><p className="contact-eyebrow"><span />CONTACT</p><div className="contact-title"><h2>联系我</h2><PiSmiley aria-hidden="true" /></div><p className="contact-note">欢迎通过邮件联系，也可以在学术主页与开源社区找到我。</p></div><div className="contact-links"><a href="mailto:zhewentan1@gmail.com"><PiEnvelope aria-hidden="true" /><strong>邮箱</strong><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><strong>谷歌学术</strong><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><strong>GitHub</strong><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://www.linkedin.com/in/zhewen-tan-0ba830401/" {...externalLinkProps}><SiLinkedin aria-hidden="true" /><strong>LinkedIn</strong><PiArrowUpRightBold aria-hidden="true" /></a></div></div><footer className="section-shell"><span>© 2026 ZHEWEN TAN</span><span>BEIJING · CHINA</span><a className="back-to-top" href="#top"><PiArrowUpBold aria-hidden="true" />回到顶部</a></footer></section>
     </main>
   );
 }

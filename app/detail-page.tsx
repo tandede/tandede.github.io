@@ -103,14 +103,14 @@ export default function DetailPage({
           {secondaryExternal && <a href={secondaryExternal.href} target="_blank" rel="noopener noreferrer">{secondaryExternal.icon ?? <PiGitPullRequest aria-hidden="true" />}{secondaryExternal.label}<PiArrowUpRightBold aria-hidden="true" /></a>}
         </div>
       </div>
-      {heroAside ?? <aside className="detail-highlight"><small>KEY TAKEAWAY</small><strong>{highlight}</strong></aside>}
+      {heroAside ?? <aside className="detail-highlight" data-glow data-motion><small>KEY TAKEAWAY</small><strong>{highlight}</strong></aside>}
     </section>
 
-    {metrics && metrics.length > 0 && <section className="detail-metrics" aria-label="项目指标">
+    {metrics && metrics.length > 0 && <section className="detail-metrics" aria-label="项目指标" data-motion>
       {metrics.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}
     </section>}
 
-    {steps && <section className="detail-story" id="story">
+    {steps && <section className="detail-story" id="story" data-motion>
       <header><span>ENGINEERING STORY</span><h2>从问题到结果</h2><p>按真实工作顺序展开，而不是只展示一个最终结论。</p></header>
       <div className="detail-flow">
         {steps.map((step, index) => {
