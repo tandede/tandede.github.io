@@ -97,7 +97,6 @@ function TinyR1Showcase({ project }: { project: FeaturedProject }) {
     <section className="tiny-role">
       <div><PiCirclesThreePlus aria-hidden="true" /><small>MY SCOPE</small><h3>我的工作落在数据与训练闭环</h3></div>
       <p>{project.contribution}</p>
-      <a href={project.href} target="_blank" rel="noopener noreferrer">查看模型主页 <PiArrowUpRightBold aria-hidden="true" /></a>
     </section>
   </section>;
 }
