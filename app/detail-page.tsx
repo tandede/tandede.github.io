@@ -80,6 +80,8 @@ export default function DetailPage({
   heroAside,
   pageClassName = '',
 }: DetailPageProps) {
+  const homeSectionLabel = backLabel.replace(/^返回/, '');
+
   return <main className={`detail-page ${pageClassName}`} style={{ '--detail-accent': accent } as CSSProperties}>
     <nav className="detail-nav" aria-label="详情页导航">
       <a className="detail-back" href={backHref}><PiArrowLeftBold aria-hidden="true" />{backLabel}</a>
@@ -129,8 +131,12 @@ export default function DetailPage({
     {showcase}
 
     <nav className="detail-pagination" aria-label="详情页切换">
-      {previous ? <a href={previous.href}><PiArrowLeftBold aria-hidden="true" /><span><small>上一个</small>{previous.label}</span></a> : <span />}
-      {next ? <a href={next.href}><span><small>下一个</small>{next.label}</span><PiArrowRightBold aria-hidden="true" /></a> : <span />}
+      {previous
+        ? <a href={previous.href}><PiArrowLeftBold aria-hidden="true" /><span><small>上一个</small>{previous.label}</span></a>
+        : <a href={backHref}><PiArrowLeftBold aria-hidden="true" /><span><small>返回首页</small>{homeSectionLabel}</span></a>}
+      {next
+        ? <a href={next.href}><span><small>下一个</small>{next.label}</span><PiArrowRightBold aria-hidden="true" /></a>
+        : <a href={backHref}><span><small>返回首页</small>{homeSectionLabel}</span><PiArrowRightBold aria-hidden="true" /></a>}
     </nav>
   </main>;
 }
