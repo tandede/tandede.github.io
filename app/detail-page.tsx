@@ -1,0 +1,123 @@
+import type { CSSProperties, ReactNode } from 'react';
+import Link from 'next/link';
+import {
+  PiArrowDownBold,
+  PiArrowLeftBold,
+  PiArrowRightBold,
+  PiArrowUpRightBold,
+  PiCheckCircle,
+  PiGithubLogo,
+  PiLightbulb,
+  PiMagnifyingGlass,
+  PiWrench,
+} from 'react-icons/pi';
+
+export type DetailStep = {
+  label: string;
+  title: string;
+  copy: string;
+  icon: 'problem' | 'reasoning' | 'solution' | 'result';
+};
+
+type DetailPageProps = {
+  category: string;
+  title: string;
+  subtitle: string;
+  intro: string;
+  accent: string;
+  highlight: string;
+  externalHref: string;
+  externalLabel: string;
+  backHref: string;
+  backLabel: string;
+  logo?: string;
+  role?: string;
+  metrics?: Array<[string, string]>;
+  steps: DetailStep[];
+  previous?: { href: string; label: string };
+  next?: { href: string; label: string };
+  externalIcon?: ReactNode;
+};
+
+const stepIcons = {
+  problem: PiMagnifyingGlass,
+  reasoning: PiLightbulb,
+  solution: PiWrench,
+  result: PiCheckCircle,
+};
+
+export default function DetailPage({
+  category,
+  title,
+  subtitle,
+  intro,
+  accent,
+  highlight,
+  externalHref,
+  externalLabel,
+  backHref,
+  backLabel,
+  logo,
+  role,
+  metrics,
+  steps,
+  previous,
+  next,
+  externalIcon,
+}: DetailPageProps) {
+  return <main className="detail-page" style={{ '--detail-accent': accent } as CSSProperties}>
+    <nav className="detail-nav" aria-label="详情页导航">
+      <a className="detail-back" href={backHref}><PiArrowLeftBold aria-hidden="true" />{backLabel}</a>
+      <Link className="detail-brand" href="/">ZHEWEN TAN</Link>
+      <a className="detail-external-mini" href={externalHref} target="_blank" rel="noopener noreferrer">{externalLabel}<PiArrowUpRightBold aria-hidden="true" /></a>
+    </nav>
+
+    <section className="detail-hero">
+      <div className="detail-hero-main">
+        <p className="detail-kicker">{category}{role ? ` · ${role}` : ''}</p>
+        <div className="detail-title-row">
+          {logo && <span className="detail-logo"><img src={logo} alt="" /></span>}
+          <div><small>{subtitle}</small><h1>{title}</h1></div>
+        </div>
+        <p className="detail-intro">{intro}</p>
+        <div className="detail-actions">
+          <a href="#story">查看完整思路 <PiArrowDownBold aria-hidden="true" /></a>
+          <a href={externalHref} target="_blank" rel="noopener noreferrer">{externalIcon ?? <PiGithubLogo aria-hidden="true" />}{externalLabel}<PiArrowUpRightBold aria-hidden="true" /></a>
+        </div>
+      </div>
+      <aside className="detail-highlight"><small>KEY TAKEAWAY</small><strong>{highlight}</strong></aside>
+    </section>
+
+    {metrics && metrics.length > 0 && <section className="detail-metrics" aria-label="项目指标">
+      {metrics.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}
+    </section>}
+
+    <section className="detail-story" id="story">
+      <header><span>ENGINEERING STORY</span><h2>从问题到结果</h2><p>按真实工作顺序展开，而不是只展示一个最终结论。</p></header>
+      <div className="detail-flow">
+        {steps.map((step, index) => {
+          const Icon = stepIcons[step.icon];
+          return <div className="detail-flow-item" key={step.label}>
+            <article className="detail-step">
+              <div className="detail-step-top"><span>{String(index + 1).padStart(2, '0')}</span><Icon aria-hidden="true" /></div>
+              <small>{step.label}</small>
+              <h3>{step.title}</h3>
+              <p>{step.copy}</p>
+            </article>
+            {index < steps.length - 1 && <span className="detail-connector" aria-hidden="true"><PiArrowRightBold /></span>}
+          </div>;
+        })}
+      </div>
+    </section>
+
+    <section className="detail-final-cta">
+      <div><small>UPSTREAM / PROJECT</small><h2>继续查看公开项目</h2><p>站内页面解释我的工作，外部链接保留项目原始上下文与最新进展。</p></div>
+      <a href={externalHref} target="_blank" rel="noopener noreferrer">{externalIcon ?? <PiGithubLogo aria-hidden="true" />}{externalLabel}<PiArrowUpRightBold aria-hidden="true" /></a>
+    </section>
+
+    <nav className="detail-pagination" aria-label="详情页切换">
+      {previous ? <a href={previous.href}><PiArrowLeftBold aria-hidden="true" /><span><small>上一个</small>{previous.label}</span></a> : <span />}
+      {next ? <a href={next.href}><span><small>下一个</small>{next.label}</span><PiArrowRightBold aria-hidden="true" /></a> : <span />}
+    </nav>
+  </main>;
+}

@@ -2,19 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
-import { PiArrowUpRightBold, PiStarFill } from 'react-icons/pi';
-
-type OpenSourceItem = {
-  name: string;
-  logo: string;
-  accent: string;
-  role?: 'CONTRIBUTOR' | 'OWNER';
-  href: string;
-  function: string;
-  problem: string;
-  reasoning: string;
-  solution: string;
-};
+import { PiArrowRightBold, PiStarFill } from 'react-icons/pi';
+import type { OpenSourceProject } from './open-source-data';
 
 const cacheDuration = 30 * 60 * 1000;
 
@@ -24,7 +13,7 @@ function formatStars(value: number) {
   return value.toLocaleString('en-US');
 }
 
-export default function OpenSourceGrid({ items }: { items: OpenSourceItem[] }) {
+export default function OpenSourceGrid({ items }: { items: OpenSourceProject[] }) {
   const [stars, setStars] = useState<Record<string, number> | null>(null);
 
   useEffect(() => {
@@ -83,8 +72,8 @@ export default function OpenSourceGrid({ items }: { items: OpenSourceItem[] }) {
     const count = stars?.[item.href];
     const starsLabel = typeof count === 'number' ? `${formatStars(count)} Stars` : 'Stars';
 
-    return <a className="opensource-card" href={item.href} key={item.name} target="_blank" rel="noopener noreferrer" aria-label={`前往 ${item.name} GitHub 项目`} style={{ '--repo-accent': item.accent } as CSSProperties}>
-      <div className="opensource-face opensource-front">
+    return <a className="opensource-card" href={`/open-source/${item.slug}/`} key={item.name} aria-label={`查看 ${item.name} 开源贡献详情`} style={{ '--repo-accent': item.accent } as CSSProperties}>
+      <div className="opensource-front">
         <div className="opensource-card-top">
           <div className="opensource-identity">
             <img src={item.logo} alt="" />
@@ -95,16 +84,7 @@ export default function OpenSourceGrid({ items }: { items: OpenSourceItem[] }) {
         <div className="opensource-project">
           <p>{item.function}</p>
         </div>
-        <div className="opensource-card-link"><span>查看我的贡献</span><PiArrowUpRightBold aria-hidden="true" /></div>
-      </div>
-      <div className="opensource-face opensource-back" aria-hidden="true">
-        <div className="opensource-back-head"><strong>{item.name}</strong><span>{item.role ?? 'CONTRIBUTOR'}</span></div>
-        <div className="opensource-story">
-          <div><span>发现问题</span><p>{item.problem}</p></div>
-          <div><span>问题思考</span><p>{item.reasoning}</p></div>
-          <div><span>解决方法</span><p>{item.solution}</p></div>
-        </div>
-        <div className="opensource-card-link"><span>前往 GitHub 项目</span><PiArrowUpRightBold aria-hidden="true" /></div>
+        <div className="opensource-card-link"><span>查看贡献详情</span><PiArrowRightBold aria-hidden="true" /></div>
       </div>
     </a>;
   })}</div>;

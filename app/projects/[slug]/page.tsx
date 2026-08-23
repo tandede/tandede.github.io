@@ -1,0 +1,60 @@
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import { PiGlobeHemisphereWest } from 'react-icons/pi';
+import DetailPage from '../../detail-page';
+import { featuredProjects } from '../../project-data';
+
+type PageProps = { params: Promise<{ slug: string }> };
+
+export function generateStaticParams() {
+  return featuredProjects.map(({ slug }) => ({ slug }));
+}
+
+export const dynamicParams = false;
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const project = featuredProjects.find((item) => item.slug === slug);
+  if (!project) return {};
+  const title = `${project.title}｜代表项目｜ZHEWEN TAN`;
+  const description = project.intro;
+  return {
+    title,
+    description,
+    alternates: { canonical: `/projects/${project.slug}/` },
+    openGraph: { title, description, url: `/projects/${project.slug}/`, images: [], type: 'article' },
+    twitter: { card: 'summary', title, description, images: [] },
+  };
+}
+
+export default async function ProjectDetail({ params }: PageProps) {
+  const { slug } = await params;
+  const index = featuredProjects.findIndex((item) => item.slug === slug);
+  if (index < 0) notFound();
+  const project = featuredProjects[index];
+  const previous = featuredProjects[index - 1];
+  const next = featuredProjects[index + 1];
+
+  return <DetailPage
+    category="FEATURED PROJECT"
+    title={project.title}
+    subtitle={project.subtitle}
+    intro={project.intro}
+    accent={project.accent}
+    highlight={project.highlight}
+    externalHref={project.href}
+    externalLabel="查看项目主页"
+    externalIcon={<PiGlobeHemisphereWest aria-hidden="true" />}
+    backHref="/#projects"
+    backLabel="返回代表项目"
+    metrics={project.metrics}
+    previous={previous ? { href: `/projects/${previous.slug}/`, label: previous.title } : undefined}
+    next={next ? { href: `/projects/${next.slug}/`, label: next.title } : undefined}
+    steps={[
+      { icon: 'problem', label: '项目问题', title: '为什么需要这个项目', copy: project.problem },
+      { icon: 'reasoning', label: '技术路径', title: '如何拆解复杂问题', copy: project.approach },
+      { icon: 'solution', label: '我的工作', title: '我负责的关键环节', copy: project.contribution },
+      { icon: 'result', label: '项目结果', title: '最终形成的能力', copy: project.result },
+    ]}
+  />;
+}

@@ -17,10 +17,13 @@ import {
   PiSmiley,
   PiStack,
 } from 'react-icons/pi';
+import type { CSSProperties } from 'react';
 import { SiGithub, SiGooglescholar, SiLinkedin } from 'react-icons/si';
 import InteractionLayer from './interaction-layer';
 import NavigationShell from './navigation-shell';
+import { openSourceProjects } from './open-source-data';
 import OpenSourceGrid from './open-source-grid';
+import { featuredProjects } from './project-data';
 
 const externalLinkProps = { target: '_blank', rel: 'noopener noreferrer' } as const;
 
@@ -129,36 +132,6 @@ const experiences = [
   },
 ];
 
-const projects = [
-  {
-    index: '01', title: 'Tiny-R1-32B 领域推理模型', href: 'https://huggingface.co/qihoo360/TinyR1-32B', subtitle: 'Branch–Merge Distillation',
-    overview: '面向数学、代码与科学推理任务，以 DeepSeek-R1-Distill-Qwen-32B 为底座构建领域增强模型。项目采用 Branch–Merge Distillation：各领域分别训练专家，再通过参数融合把专项能力合并到同一模型，降低多领域联合训练中的相互干扰。',
-    technical: '训练链路覆盖领域 CoT 数据收集与质量清洗、三类 SFT 专家训练、统一离线评测以及融合权重搜索；通过分支训练保留各领域的推理模式，再在合并阶段平衡专项增益和通用能力。',
-    work: '我参与领域 CoT 数据构建与清洗、数学/代码/科学专家训练、离线评测和融合权重选择，重点验证单领域增益是否真实，以及参数合并后是否出现能力回退。',
-    metrics: [['AIME24', '90.9'], ['AIME25', '82.7'], ['GPQA', '69.4'], ['LCB', '70.4'], ['IFEval', '89.2']],
-  },
-  {
-    index: '02', title: 'Harness-Bench', href: 'https://www.harness-bench.ai/', subtitle: 'Agent Harness Evaluation',
-    overview: 'Harness 不只是 Agent 的外壳，它会改变提示组织、工具接口、状态管理和失败恢复方式。项目在固定任务、模型池、预算与超时的条件下，系统比较不同 Harness 对成功率、Token 成本和失败模式的影响。',
-    technical: '构建 106 个离线沙箱任务，覆盖 8 类真实工作流；形成 6 类 Harness × 8 个模型后端的评测矩阵，保留原生提示、工具调用、状态转换和恢复行为，并通过可执行 Oracle 与 LLM Rubric 组合评分。',
-    work: '我参与任务环境与评测链路建设，汇总 5,194 条完整执行轨迹，从配置层分析任务失败、Token 消耗和长程执行差异，使实验能够复现并支持 Harness 级诊断。',
-    metrics: [['离线任务', '106'], ['执行轨迹', '5,194'], ['评测矩阵', '6 × 8']],
-  },
-];
-
-const openSource = [
-  { name: 'LM Evaluation Harness', logo: 'https://github.com/EleutherAI.png?size=128', accent: '#313131', href: 'https://github.com/EleutherAI/lm-evaluation-harness', function: '广泛使用的大语言模型评测框架，将任务定义、few-shot 模板、生成参数和推理后端统一到可复现流水线，支持跨模型、跨基准的标准化比较。', problem: '延迟注解使 dataclass 字段类型不再等同于运行时 dict，CLI 与 YAML 两条配置入口行为不一致。', reasoning: '定位到 f.type is dict 恒为假，核心不是单个配置，而是共享规范化边界缺失。', solution: '用 DICT_KEYS 统一识别字典字段，并将 YAML 字符串规范化前移到共享配置流水线。' },
-  { name: 'NumPyro', logo: 'https://github.com/pyro-ppl.png?size=128', accent: '#e94b2a', href: 'https://github.com/pyro-ppl/numpyro', function: '建立在 JAX 之上的概率编程框架，覆盖 HMC、NUTS、SVI 等贝叶斯推断算法，并利用 JIT、自动微分和多设备并行提升推断效率。', problem: 'JAX 0.11.1 将闭包常量提升进 jaxpr 后，provenance 动态输入与变量发生错位。', reasoning: '问题来自私有 tracing API 对常量布局的隐式假设，需要显式拆分常量与动态参数。', solution: '改用公共 jax.make_jaxpr 获取 ClosedJaxpr，重建输入映射并解除私有 API 耦合。' },
-  { name: 'OpenCV', logo: '/logos/opencv.svg', accent: '#6652d9', href: 'https://github.com/opencv/opencv', function: '跨平台计算机视觉基础库，提供图像处理、几何变换、特征提取、视频分析与深度学习推理等大量工程级算子和统一接口。', problem: '极端反射坐标在逐次修正中触发整数溢出，并可能执行十亿级循环。', reasoning: '反射边界本质是周期映射，可以一次定位，无需模拟每一次反射。', solution: '改为 int64 周期模运算，在完整坐标域内把最坏复杂度从 O(N) 降至 O(1)。' },
-  { name: 'OpenAI Agents SDK', logo: '/logos/openai.png', accent: '#111827', href: 'https://github.com/openai/openai-agents-python', function: '面向生产级 Agent 应用的轻量编排框架，统一 Agent、Tool、Handoff、Guardrail、Tracing 与 MCP 接入，支持构建可观测的多 Agent 工作流。', problem: '同名 Agent、Tool 与 MCP Server 以显示名为键，导致 Graphviz 合并节点或产生伪自环。', reasoning: '显示标签不等于实体身份，图遍历与节点注册必须分离可读名称和唯一标识。', solution: '以对象身份注册节点，显示名仅作为 label，并重构遍历与边生成链路。' },
-  { name: 'PEFT', logo: '/logos/huggingface.png', accent: '#d69300', href: 'https://github.com/huggingface/peft', function: 'Hugging Face 的参数高效微调框架，通过 LoRA、IA³、AdaLoRA 等方法只训练少量参数，降低 Transformer 与 Diffusion 模型适配成本。', problem: '重复 adapter_name 会静默覆盖配置并再次注入层，已有训练权重存在被破坏风险。', reasoning: '这是状态原子性问题，重复校验必须发生在任何模型或配置突变之前。', solution: '将唯一性校验前移，冲突时立即失败，确保失败路径不修改既有 Adapter 状态。' },
-  { name: 'Ultralytics YOLO', logo: '/logos/ultralytics.png', accent: '#052251', href: 'https://github.com/ultralytics/ultralytics', function: '覆盖目标检测、实例分割、图像分类、姿态估计与多目标跟踪的视觉平台，提供从数据训练到部署推理的一体化 Python 与 CLI 工作流。', problem: '非等比例 resize 与 LetterBox 组合后仍按单一比例恢复坐标，导致预测框位置失真。', reasoning: 'x、y 轴经历不同缩放和留白，逆变换必须沿完整预处理链逐轴求逆。', solution: '组合前置 resize 与 LetterBox 参数，使用双轴比例和偏移恢复原图坐标。' },
-  { name: 'timm', logo: '/logos/huggingface.png', accent: '#d69300', href: 'https://github.com/huggingface/pytorch-image-models', function: '大规模 PyTorch 图像模型库，汇集分类与视觉骨干网络、预训练权重、数据增强和训练工具，是视觉模型研究与复现的重要基础设施。', problem: 'CutMix minmax 边界使用上界排除采样，遗漏最右与最下的合法裁剪起点。', reasoning: '这是离散坐标区间的 off-by-one，会长期造成位置分布偏差而非直接崩溃。', solution: '修正采样上界并补齐边界位置，恢复覆盖全部合法区域的均匀采样。' },
-  { name: 'Supervision', logo: '/logos/supervision.png', accent: '#6f3ea3', href: 'https://github.com/roboflow/supervision', function: '面向计算机视觉工程的通用工具库，覆盖检测结果表示、几何计算、标注渲染、视频跟踪与数据集处理，连接模型输出与业务分析。', problem: '大坐标多边形计算质心时出现 int32 溢出与浮点消减，结果漂移甚至失真。', reasoning: '面积矩依赖坐标乘积，只提升精度仍不足以消除大基数带来的数值损失。', solution: '统一使用 float64 与局部坐标系完成计算，最后再映射回全局坐标。' },
-  { name: 'FunASR', logo: '/logos/funasr.png', accent: '#5368d9', href: 'https://github.com/modelscope/FunASR', function: '面向语音识别研究与部署的完整工具箱，支持模型训练、离线与流式推理、语音端点检测、标点恢复以及说话人日志等能力。', problem: '已知说话人数的大输入仍进入谱聚类，O(N²) 相似矩阵造成显著内存开销。', reasoning: '已知 K 时无需再估计簇数，可按规模与先验选择更直接、可重复的聚类路径。', solution: '新增归一化、确定性固定 K K-means 分支，让大输入绕开稠密谱分解。' },
-  { name: 'Burn', logo: '/logos/burn.png', accent: '#b44313', href: 'https://github.com/tracel-ai/burn', function: '以 Rust 构建的跨平台深度学习框架，兼顾训练、推理、自动微分和多后端部署，强调类型安全、性能以及从桌面到嵌入式设备的可移植性。', problem: '卷积快速路径对 Inf / NaN 权重的处理与通用实现不一致，破坏 IEEE 754 语义。', reasoning: '不能用全面回退牺牲有限权重性能，需要只在非有限值分支守住正确性。', solution: '为非有限权重选择语义一致的路径，同时保留普通权重的向量化热路径。' },
-];
-
 function SectionHeading({ index, label, english }: { index: string; label: string; english: string }) {
   return <summary className="section-heading" data-reveal><span>{index}</span><div><h2>{label}</h2><small>{english}</small></div><span className="section-toggle"><span className="section-toggle-open">收起</span><span className="section-toggle-closed">展开</span><PiCaretDownBold aria-hidden="true" /></span></summary>;
 }
@@ -206,12 +179,12 @@ export default function Home() {
 
       <section className="projects-section" id="projects"><div className="section-shell"><details className="section-fold" open>
         <SectionHeading index="04" label="代表项目" english="PROJECTS" />
-        <div className="section-fold-content"><div className="project-list">{projects.map((project) => <a className="project-row" href={project.href} key={project.title} {...externalLinkProps} data-reveal><div className="project-id"><span>{project.index}</span></div><div className="project-title"><p>{project.subtitle}</p><h3>{project.title}</h3></div><div className="project-copy"><p><strong>项目背景</strong>{project.overview}</p><p><strong>技术路径</strong>{project.technical}</p><p><strong>我的工作</strong>{project.work}</p></div><div className={`metric-grid${project.metrics.length > 3 ? ' metric-grid-split' : ''}`}>{project.metrics.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div><PiArrowUpRightBold className="project-arrow" aria-hidden="true" /></a>)}</div></div>
+        <div className="section-fold-content"><div className="project-grid" data-reveal>{featuredProjects.map((project) => <a className="project-card" href={`/projects/${project.slug}/`} key={project.title} style={{ '--project-accent': project.accent } as CSSProperties}><div className="project-card-index"><span>{project.index}</span><small>{project.subtitle}</small></div><div><h3>{project.title}</h3><p>{project.intro}</p></div><span className="project-card-link">查看项目详情 <PiArrowRightBold aria-hidden="true" /></span></a>)}</div></div>
       </details></div></section>
 
       <section className="opensource-section" id="opensource"><div className="section-shell"><details className="section-fold" open>
         <SectionHeading index="05" label="开源贡献" english="OPEN SOURCE" />
-        <div className="section-fold-content"><OpenSourceGrid items={openSource} /></div>
+        <div className="section-fold-content"><OpenSourceGrid items={openSourceProjects} /></div>
       </details></div></section>
 
       <section className="contact-section" id="contact"><div className="section-shell contact-layout" data-reveal><div><p className="contact-eyebrow"><span />CONTACT</p><div className="contact-title"><h2>联系我</h2><PiSmiley aria-hidden="true" /></div><p className="contact-note">欢迎通过邮件联系，也可以在学术主页与开源社区找到我。</p></div><div className="contact-links"><a href="mailto:zhewentan1@gmail.com"><PiEnvelope aria-hidden="true" /><strong>邮箱</strong><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><strong>谷歌学术</strong><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><strong>GitHub</strong><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://www.linkedin.com/in/zhewen-tan-0ba830401/" {...externalLinkProps}><SiLinkedin aria-hidden="true" /><strong>LinkedIn</strong><PiArrowUpRightBold aria-hidden="true" /></a></div></div><footer className="section-shell"><span>© 2026 ZHEWEN TAN</span><span>BEIJING · CHINA</span><a className="back-to-top" href="#top"><PiArrowUpBold aria-hidden="true" />回到顶部</a></footer></section>

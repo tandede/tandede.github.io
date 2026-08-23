@@ -1,0 +1,107 @@
+export type OpenSourceProject = {
+  slug: string;
+  name: string;
+  logo: string;
+  accent: string;
+  role: 'CONTRIBUTOR' | 'OWNER';
+  href: string;
+  function: string;
+  problem: string;
+  reasoning: string;
+  solution: string;
+  impact: string;
+  highlight: string;
+};
+
+export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'lm-evaluation-harness', name: 'LM Evaluation Harness', logo: 'https://github.com/EleutherAI.png?size=128', accent: '#313131', role: 'CONTRIBUTOR', href: 'https://github.com/EleutherAI/lm-evaluation-harness',
+    function: '广泛使用的大语言模型评测框架，将任务定义、few-shot 模板、生成参数和推理后端统一到可复现流水线，支持跨模型、跨基准的标准化比较。',
+    problem: '延迟注解使 dataclass 字段类型不再等同于运行时 dict，CLI 与 YAML 两条配置入口行为不一致。',
+    reasoning: '定位到 f.type is dict 恒为假，核心不是某个任务的配置错误，而是两条入口没有共享同一套类型识别与规范化边界。',
+    solution: '用 DICT_KEYS 统一识别字典字段，并将 YAML 字符串规范化前移到共享配置流水线，让 CLI 与纯 YAML 入口复用同一条解析路径。',
+    impact: '消除入口差异导致的静默配置偏差，使任务配置在不同调用方式下保持一致，也降低后续新增字典字段时重复修补的维护成本。',
+    highlight: 'ONE CONFIG PATH',
+  },
+  {
+    slug: 'numpyro', name: 'NumPyro', logo: 'https://github.com/pyro-ppl.png?size=128', accent: '#e94b2a', role: 'CONTRIBUTOR', href: 'https://github.com/pyro-ppl/numpyro',
+    function: '建立在 JAX 之上的概率编程框架，覆盖 HMC、NUTS、SVI 等贝叶斯推断算法，并利用 JIT、自动微分和多设备并行提升推断效率。',
+    problem: 'JAX 0.11.1 将闭包常量提升进 jaxpr 后，provenance 动态输入与变量发生错位。',
+    reasoning: '问题来自私有 tracing API 对常量布局的隐式假设；版本升级后常量和动态参数共用输入序列，旧映射关系不再成立。',
+    solution: '改用公共 jax.make_jaxpr 获取 ClosedJaxpr，显式分离常量与动态输入，重建 provenance 输入映射并解除对私有 tracing API 的耦合。',
+    impact: '恢复新版本 JAX 下的 provenance 正确性，并把实现建立在稳定公共接口上，减少后续 JAX 内部改动造成的兼容性风险。',
+    highlight: 'PUBLIC JAXPR',
+  },
+  {
+    slug: 'opencv', name: 'OpenCV', logo: '/logos/opencv.svg', accent: '#6652d9', role: 'CONTRIBUTOR', href: 'https://github.com/opencv/opencv',
+    function: '跨平台计算机视觉基础库，提供图像处理、几何变换、特征提取、视频分析与深度学习推理等大量工程级算子和统一接口。',
+    problem: '极端反射坐标在逐次修正中触发整数溢出，并可能执行十亿级循环。',
+    reasoning: '反射边界并不是需要逐次模拟的过程，而是一个具有固定周期的坐标映射；只要在更宽的整数域中求周期位置，就能一次确定结果。',
+    solution: '将循环反射改写为 int64 周期模运算，在完整坐标域内直接完成映射，并处理边界长度与负坐标等特殊情况。',
+    impact: '同时修复溢出与极端耗时问题，把最坏时间复杂度从随坐标距离增长的 O(N) 降为常数级 O(1)。',
+    highlight: 'O(N) → O(1)',
+  },
+  {
+    slug: 'openai-agents-sdk', name: 'OpenAI Agents SDK', logo: '/logos/openai.png', accent: '#111827', role: 'CONTRIBUTOR', href: 'https://github.com/openai/openai-agents-python',
+    function: '面向生产级 Agent 应用的轻量编排框架，统一 Agent、Tool、Handoff、Guardrail、Tracing 与 MCP 接入，支持构建可观测的多 Agent 工作流。',
+    problem: '同名 Agent、Tool 与 MCP Server 以显示名为键，导致 Graphviz 合并节点或产生伪自环。',
+    reasoning: '显示名称服务于阅读，但不能承担实体身份；图遍历、节点注册和边生成需要共享稳定的唯一标识，同时保留原始名称作为可读标签。',
+    solution: '以对象身份注册节点，把显示名降为 label，并重构遍历与边生成链路，确保不同类型或不同实例即使同名也不会被错误合并。',
+    impact: '生成的工作流图能够真实表达实体关系，避免错误节点、漏边和伪自环影响调试与架构理解。',
+    highlight: 'IDENTITY ≠ LABEL',
+  },
+  {
+    slug: 'peft', name: 'PEFT', logo: '/logos/huggingface.png', accent: '#d69300', role: 'CONTRIBUTOR', href: 'https://github.com/huggingface/peft',
+    function: 'Hugging Face 的参数高效微调框架，通过 LoRA、IA³、AdaLoRA 等方法只训练少量参数，降低 Transformer 与 Diffusion 模型适配成本。',
+    problem: '重复 adapter_name 会静默覆盖配置并再次注入层，已有训练权重存在被破坏风险。',
+    reasoning: '这不是简单的命名冲突，而是状态原子性问题；如果检查发生在修改之后，即使抛出异常，模型也可能已经处于部分更新状态。',
+    solution: '将 Adapter 唯一性校验前移到任何模型或配置突变之前，冲突时立即失败，并确保错误路径不触碰既有 Adapter。',
+    impact: '把危险的静默覆盖变成可解释的早期错误，同时保护已训练权重和模型结构，保证失败操作可安全回退。',
+    highlight: 'FAIL BEFORE MUTATE',
+  },
+  {
+    slug: 'ultralytics-yolo', name: 'Ultralytics YOLO', logo: '/logos/ultralytics.png', accent: '#052251', role: 'CONTRIBUTOR', href: 'https://github.com/ultralytics/ultralytics',
+    function: '覆盖目标检测、实例分割、图像分类、姿态估计与多目标跟踪的视觉平台，提供从数据训练到部署推理的一体化 Python 与 CLI 工作流。',
+    problem: '非等比例 resize 与 LetterBox 组合后仍按单一比例恢复坐标，导致预测框位置失真。',
+    reasoning: 'x、y 轴实际经历了不同缩放和留白，逆变换不能只使用一个 gain；必须沿完整预处理链，分别恢复两个轴的比例与偏移。',
+    solution: '组合前置 resize 与 LetterBox 的变换参数，使用 x/y 双轴比例和 padding 偏移逐轴恢复原图坐标。',
+    impact: '修复非方形输入与组合预处理场景中的坐标漂移，使检测、分割等任务输出能够稳定映射回原始图像。',
+    highlight: 'SCALE X ≠ SCALE Y',
+  },
+  {
+    slug: 'timm', name: 'timm', logo: '/logos/huggingface.png', accent: '#d69300', role: 'CONTRIBUTOR', href: 'https://github.com/huggingface/pytorch-image-models',
+    function: '大规模 PyTorch 图像模型库，汇集分类与视觉骨干网络、预训练权重、数据增强和训练工具，是视觉模型研究与复现的重要基础设施。',
+    problem: 'CutMix minmax 边界使用上界排除采样，遗漏最右与最下的合法裁剪起点。',
+    reasoning: '这是离散坐标区间的 off-by-one：不会直接崩溃，却会在长期训练中让边界位置永远无法被采样，形成隐蔽的位置分布偏差。',
+    solution: '修正随机采样上界并补齐右侧与底部边界位置，使所有合法裁剪起点进入同一均匀分布。',
+    impact: '恢复 CutMix 空间采样的完整覆盖，避免边界区域系统性欠采样，让增强行为与设计语义保持一致。',
+    highlight: 'FULL BOUNDARY COVERAGE',
+  },
+  {
+    slug: 'supervision', name: 'Supervision', logo: '/logos/supervision.png', accent: '#6f3ea3', role: 'CONTRIBUTOR', href: 'https://github.com/roboflow/supervision',
+    function: '面向计算机视觉工程的通用工具库，覆盖检测结果表示、几何计算、标注渲染、视频跟踪与数据集处理，连接模型输出与业务分析。',
+    problem: '大坐标多边形计算质心时出现 int32 溢出与浮点消减，结果漂移甚至失真。',
+    reasoning: '面积矩包含坐标乘积，既容易越过 int32 范围，也会因大基数相减损失有效精度；仅提升数据类型不能完全解决数值条件问题。',
+    solution: '统一转换为 float64，并把多边形平移到局部坐标系计算面积与质心，最后再映射回全局坐标。',
+    impact: '在大图像、地理坐标和远离原点的多边形上获得稳定结果，同时保持普通坐标场景的兼容性。',
+    highlight: 'FLOAT64 + LOCAL ORIGIN',
+  },
+  {
+    slug: 'funasr', name: 'FunASR', logo: '/logos/funasr.png', accent: '#5368d9', role: 'CONTRIBUTOR', href: 'https://github.com/modelscope/FunASR',
+    function: '面向语音识别研究与部署的完整工具箱，支持模型训练、离线与流式推理、语音端点检测、标点恢复以及说话人日志等能力。',
+    problem: '已知说话人数的大输入仍进入谱聚类，O(N²) 相似矩阵造成显著内存开销。',
+    reasoning: '当 K 已知时无需通过谱结构再次估计簇数；可以依据样本规模与先验信息选择线性内存、结果可重复的固定 K 路径。',
+    solution: '新增特征归一化与确定性固定 K K-means 分支，使大规模输入绕开稠密相似矩阵和谱分解。',
+    impact: '显著降低长音频和大说话人片段集合的内存压力，并通过固定初始化策略提升多次运行的一致性。',
+    highlight: 'NO DENSE N² MATRIX',
+  },
+  {
+    slug: 'burn', name: 'Burn', logo: '/logos/burn.png', accent: '#b44313', role: 'CONTRIBUTOR', href: 'https://github.com/tracel-ai/burn',
+    function: '以 Rust 构建的跨平台深度学习框架，兼顾训练、推理、自动微分和多后端部署，强调类型安全、性能以及从桌面到嵌入式设备的可移植性。',
+    problem: '卷积快速路径对 Inf / NaN 权重的处理与通用实现不一致，破坏 IEEE 754 语义。',
+    reasoning: '不能为了修复非有限值就让所有输入回退到慢路径；正确边界只影响异常权重，有限权重仍应保留向量化优化。',
+    solution: '检测非有限权重并选择语义一致的计算路径，同时让普通有限权重继续经过原有向量化热路径。',
+    impact: '统一快速路径与通用路径的数值语义，在保证 Inf / NaN 正确传播的同时避免正常模型性能回退。',
+    highlight: 'IEEE 754 + FAST PATH',
+  },
+];
