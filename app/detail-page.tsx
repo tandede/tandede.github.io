@@ -37,6 +37,8 @@ type DetailPageProps = {
   previous?: { href: string; label: string };
   next?: { href: string; label: string };
   externalIcon?: ReactNode;
+  summaryStrip?: ReactNode;
+  showcase?: ReactNode;
 };
 
 const stepIcons = {
@@ -64,6 +66,8 @@ export default function DetailPage({
   previous,
   next,
   externalIcon,
+  summaryStrip,
+  showcase,
 }: DetailPageProps) {
   return <main className="detail-page" style={{ '--detail-accent': accent } as CSSProperties}>
     <nav className="detail-nav" aria-label="详情页导航">
@@ -88,6 +92,8 @@ export default function DetailPage({
       <aside className="detail-highlight"><small>KEY TAKEAWAY</small><strong>{highlight}</strong></aside>
     </section>
 
+    {summaryStrip}
+
     {metrics && metrics.length > 0 && <section className="detail-metrics" aria-label="项目指标">
       {metrics.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}
     </section>}
@@ -109,6 +115,8 @@ export default function DetailPage({
         })}
       </div>
     </section>
+
+    {showcase}
 
     <section className="detail-final-cta">
       <div><small>UPSTREAM / PROJECT</small><h2>继续查看公开项目</h2><p>站内页面解释我的工作，外部链接保留项目原始上下文与最新进展。</p></div>
