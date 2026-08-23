@@ -4,6 +4,7 @@ export type FeaturedProject = {
   title: string;
   subtitle: string;
   href: string;
+  paperHref: string;
   accent: string;
   intro: string;
   problem: string;
@@ -21,12 +22,13 @@ export const featuredProjects: FeaturedProject[] = [
     title: 'Tiny-R1-32B 领域推理模型',
     subtitle: 'Branch–Merge Distillation',
     href: 'https://huggingface.co/qihoo360/TinyR1-32B',
+    paperHref: 'https://huggingface.co/qihoo360/TinyR1-32B',
     accent: '#155eef',
-    intro: '面向数学、代码与科学推理的 32B 领域增强模型，通过分支训练专家并在参数空间合并能力，兼顾专项增益与通用表现。',
+    intro: '面向数学、代码与科学推理的 32B 领域增强模型：先训练各自专精的领域分支，再把互补能力合并回同一模型，降低多领域混训中的相互干扰。',
     problem: '多领域数据直接混合训练容易产生梯度干扰：某一领域能力提升的同时，其他推理能力或通用指令遵循可能回退。如何在有限训练预算下保留各领域专家的推理模式，是模型构建的核心问题。',
     approach: '采用 Branch–Merge Distillation。首先按数学、代码、科学划分高质量 CoT 数据并分别训练领域专家，再在统一评测体系下分析各分支的真实增益，最后通过参数融合搜索把互补能力合并到同一模型。',
     contribution: '我参与领域 CoT 数据收集、清洗与质量筛选，完成数学、代码、科学专家训练与离线评测；在合并阶段参与融合权重选择，重点检查单领域增益是否稳定，以及合并后是否出现能力回退。',
-    result: '最终模型在 AIME24、AIME25、GPQA、LiveCodeBench 与 IFEval 上形成覆盖推理能力和指令遵循的完整结果。它验证了“领域分支训练—统一评测—参数合并”能够以较低成本获得多领域增强。',
+    result: '最终模型在 AIME24、AIME25、GPQA、LiveCodeBench 与 IFEval 上形成覆盖推理能力和指令遵循的完整结果，验证了“领域分支训练—统一评测—参数合并”的多领域增强路径。',
     highlight: 'SPECIALIZE → EVALUATE → MERGE',
     metrics: [['AIME24', '90.9'], ['AIME25', '82.7'], ['GPQA', '69.4'], ['LCB', '70.4'], ['IFEval', '89.2']],
   },
@@ -36,6 +38,7 @@ export const featuredProjects: FeaturedProject[] = [
     title: 'Harness-Bench',
     subtitle: 'Agent Harness Evaluation',
     href: 'https://www.harness-bench.ai/',
+    paperHref: 'https://arxiv.org/abs/2605.27922',
     accent: '#19a974',
     intro: '系统评估不同 Agent Harness 如何改变模型的任务成功率、Token 成本与失败模式，把“外壳差异”转化为可复现的实验结论。',
     problem: '同一个模型接入不同 Harness 后，提示组织、工具协议、状态管理与失败恢复都会变化。只比较最终成功率无法解释差异来自模型还是系统，也无法定位长程执行中真正的失败环节。',

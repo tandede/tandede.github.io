@@ -43,6 +43,8 @@ type DetailPageProps = {
   secondaryExternal?: { href: string; label: string };
   contentHref?: string;
   contentLabel?: string;
+  heroAside?: ReactNode;
+  pageClassName?: string;
 };
 
 const stepIcons = {
@@ -75,8 +77,10 @@ export default function DetailPage({
   secondaryExternal,
   contentHref = '#story',
   contentLabel = '查看完整思路',
+  heroAside,
+  pageClassName = '',
 }: DetailPageProps) {
-  return <main className="detail-page" style={{ '--detail-accent': accent } as CSSProperties}>
+  return <main className={`detail-page ${pageClassName}`} style={{ '--detail-accent': accent } as CSSProperties}>
     <nav className="detail-nav" aria-label="详情页导航">
       <a className="detail-back" href={backHref}><PiArrowLeftBold aria-hidden="true" />{backLabel}</a>
       <Link className="detail-brand" href="/">ZHEWEN TAN</Link>
@@ -97,7 +101,7 @@ export default function DetailPage({
           {secondaryExternal && <a href={secondaryExternal.href} target="_blank" rel="noopener noreferrer"><PiGitPullRequest aria-hidden="true" />{secondaryExternal.label}<PiArrowUpRightBold aria-hidden="true" /></a>}
         </div>
       </div>
-      <aside className="detail-highlight"><small>KEY TAKEAWAY</small><strong>{highlight}</strong></aside>
+      {heroAside ?? <aside className="detail-highlight"><small>KEY TAKEAWAY</small><strong>{highlight}</strong></aside>}
     </section>
 
     {metrics && metrics.length > 0 && <section className="detail-metrics" aria-label="项目指标">

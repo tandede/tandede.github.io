@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { PiGlobeHemisphereWest } from 'react-icons/pi';
 import DetailPage from '../../detail-page';
 import { featuredProjects } from '../../project-data';
+import ProjectShowcase, { ProjectHeroAside } from '../../project-showcase';
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -47,14 +48,12 @@ export default async function ProjectDetail({ params }: PageProps) {
     externalIcon={<PiGlobeHemisphereWest aria-hidden="true" />}
     backHref="/#projects"
     backLabel="返回代表项目"
-    metrics={project.metrics}
+    contentHref="#project-showcase"
+    contentLabel="进入项目"
+    heroAside={<ProjectHeroAside slug={project.slug} />}
+    pageClassName={`featured-detail featured-${project.slug}`}
+    showcase={<ProjectShowcase project={project} />}
     previous={previous ? { href: `/projects/${previous.slug}/`, label: previous.title } : undefined}
     next={next ? { href: `/projects/${next.slug}/`, label: next.title } : undefined}
-    steps={[
-      { icon: 'problem', label: '项目问题', title: '为什么需要这个项目', copy: project.problem },
-      { icon: 'reasoning', label: '技术路径', title: '如何拆解复杂问题', copy: project.approach },
-      { icon: 'solution', label: '我的工作', title: '我负责的关键环节', copy: project.contribution },
-      { icon: 'result', label: '项目结果', title: '最终形成的能力', copy: project.result },
-    ]}
   />;
 }
