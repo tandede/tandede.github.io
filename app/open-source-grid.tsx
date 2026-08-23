@@ -73,7 +73,7 @@ export default function OpenSourceGrid({ items }: { items: OpenSourceProject[] }
     const starsLabel = typeof count === 'number' ? `${formatStars(count)} Stars` : 'Stars';
 
     return <a className="opensource-card" href={`/open-source/${item.slug}/`} key={item.name} aria-label={`查看 ${item.name} 开源贡献详情`} style={{ '--repo-accent': item.accent } as CSSProperties}>
-      <div className="opensource-front">
+      <div className="opensource-face opensource-front">
         <div className="opensource-card-top">
           <div className="opensource-identity">
             <img src={item.logo} alt="" />
@@ -84,7 +84,16 @@ export default function OpenSourceGrid({ items }: { items: OpenSourceProject[] }
         <div className="opensource-project">
           <p>{item.function}</p>
         </div>
-        <div className="opensource-card-link"><span>查看贡献详情</span><PiArrowRightBold aria-hidden="true" /></div>
+        <div className="opensource-card-link"><span>查看我的贡献</span><PiArrowRightBold aria-hidden="true" /></div>
+      </div>
+      <div className="opensource-face opensource-back" aria-hidden="true">
+        <div className="opensource-back-head"><strong>{item.name}</strong><span>{item.role}</span></div>
+        <div className="opensource-story">
+          <div><span>发现问题</span><p>{item.problem}</p></div>
+          <div><span>问题思考</span><p>{item.reasoning}</p></div>
+          <div><span>解决方法</span><p>{item.solution}</p></div>
+        </div>
+        <div className="opensource-card-link"><span>查看完整贡献</span><PiArrowRightBold aria-hidden="true" /></div>
       </div>
     </a>;
   })}</div>;
