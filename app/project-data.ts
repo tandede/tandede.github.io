@@ -2,6 +2,7 @@ export type FeaturedProject = {
   slug: string;
   index: string;
   title: string;
+  cardTitle?: string;
   subtitle: string;
   href: string;
   paperHref: string;
@@ -20,6 +21,7 @@ export const featuredProjects: FeaturedProject[] = [
     slug: 'tiny-r1-32b',
     index: '01',
     title: 'Tiny-R1-32B 领域推理模型',
+    cardTitle: 'Tiny-R1-32B',
     subtitle: 'Branch–Merge Distillation',
     href: 'https://huggingface.co/qihoo360/TinyR1-32B',
     paperHref: 'https://huggingface.co/qihoo360/TinyR1-32B',

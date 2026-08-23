@@ -64,7 +64,7 @@ function TinyR1Showcase({ project }: { project: FeaturedProject }) {
   return <section className="project-showcase tiny-showcase" id="project-showcase">
     <header className="project-editorial-header">
       <span>01 / CONTROL SURFACE</span>
-      <h2>不是把所有数据混在一起，<br />而是先让能力分开生长。</h2>
+      <h2>不是把所有数据混在一起，而是先让能力分开生长。</h2>
       <p>数学、代码与科学数据先各自训练领域专家，再用同一套评测坐标观察增益与回退，最后把互补能力合并到一个 32B 模型。</p>
     </header>
 
@@ -108,7 +108,7 @@ function SafetyShowcase({ project }: { project: FeaturedProject }) {
   const ModeIcon = mode.icon;
   return <section className="project-showcase safety-showcase" id="project-showcase">
     <header className="safety-opening">
-      <div><span>CONSTRUCTIVE SAFETY</span><h2>安全不等于拒绝。<br />好的安全回答，仍然应该帮助用户。</h2></div>
+      <div><span>CONSTRUCTIVE SAFETY</span><h2>安全不等于拒绝。好的安全回答，仍然应该帮助用户。</h2></div>
       <p>{project.problem}</p>
     </header>
 
