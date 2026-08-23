@@ -12,8 +12,6 @@ export type OpenSourceProject = {
   solution: string;
   impact: string;
   highlight: string;
-  validation: string;
-  files: string[];
   visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric';
 };
 
@@ -26,8 +24,6 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '用 DICT_KEYS 统一识别字典字段，并将 YAML 字符串规范化前移到共享配置流水线，让 CLI 与纯 YAML 入口复用同一条解析路径。',
     impact: '消除入口差异导致的静默配置偏差，使任务配置在不同调用方式下保持一致，也降低后续新增字典字段时重复修补的维护成本。',
     highlight: 'ONE CONFIG PATH',
-    validation: '公开入口回归覆盖 CLI+YAML 与纯 YAML；70 项专项测试、613 项广泛测试通过，Python 3.10/3.11/3.12 CPU CI 与 lint 全部通过。',
-    files: ['lm_eval/config/evaluate_config.py', 'tests/test_cli_subcommands.py'],
     visualization: 'config',
   },
   {
@@ -38,8 +34,6 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '改用公共 jax.make_jaxpr 获取 ClosedJaxpr，显式分离常量与动态输入，重建 provenance 输入映射并解除对私有 tracing API 的耦合。',
     impact: '恢复新版本 JAX 下的 provenance 正确性，并把实现建立在稳定公共接口上，减少后续 JAX 内部改动造成的兼容性风险。',
     highlight: 'PUBLIC JAXPR',
-    validation: 'JAX 0.11.1 环境 415 项通过、4 项跳过；最低支持版 JAX 0.7.0 完整 ops 测试 337 项通过，32 项基准无显著性能回退。',
-    files: ['numpyro/ops/provenance.py', 'test/ops/test_provenance.py'],
     visualization: 'jaxpr',
   },
   {
@@ -50,8 +44,6 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '将循环反射改写为 int64 周期模运算，在完整坐标域内直接完成映射，并处理边界长度与负坐标等特殊情况。',
     impact: '同时修复溢出与极端耗时问题，把最坏时间复杂度从随坐标距离增长的 O(N) 降为常数级 O(1)。',
     highlight: 'O(N) → O(1)',
-    validation: '差分验证 20,010 个普通输入组合，并覆盖 INT_MIN / INT_MAX 的 12 个极端案例；ASan、UBSan 与跨平台 CI 全部通过。',
-    files: ['modules/core/src/copy.cpp', 'modules/core/test/test_misc.cpp'],
     visualization: 'reflection',
   },
   {
@@ -62,8 +54,6 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '以对象身份注册节点，把显示名降为 label，并重构遍历与边生成链路，确保不同类型或不同实例即使同名也不会被错误合并。',
     impact: '生成的工作流图能够真实表达实体关系，避免错误节点、漏边和伪自环影响调试与架构理解。',
     highlight: 'IDENTITY ≠ LABEL',
-    validation: '19 项可视化专项测试全部通过，覆盖跨类型重名、同名 Agent、转义碰撞、保留名与真实循环；完整格式、类型和测试检查通过。',
-    files: ['src/agents/extensions/visualization.py', 'tests/test_visualization.py'],
     visualization: 'identity',
   },
   {
@@ -74,8 +64,6 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '将 Adapter 唯一性校验前移到任何模型或配置突变之前，冲突时立即失败，并确保错误路径不触碰既有 Adapter。',
     impact: '把危险的静默覆盖变成可解释的早期错误，同时保护已训练权重和模型结构，保证失败操作可安全回退。',
     highlight: 'FAIL BEFORE MUTATE',
-    validation: '用原配置对象与完整 state_dict 逐项验证失败原子性；127 项针对性测试与 1,317 项扩展测试通过，Linux/Windows 多版本 CI 通过。',
-    files: ['src/peft/peft_model.py', 'src/peft/mixed_model.py', 'tests/test_custom_models.py', 'tests/testing_common.py'],
     visualization: 'adapter',
   },
   {
@@ -86,8 +74,6 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '组合前置 resize 与 LetterBox 的变换参数，使用 x/y 双轴比例和 padding 偏移逐轴恢复原图坐标。',
     impact: '修复非方形输入与组合预处理场景中的坐标漂移，使检测、分割等任务输出能够稳定映射回原始图像。',
     highlight: 'SCALE X ≠ SCALE Y',
-    validation: '覆盖 boxes 与 coords 两条消费路径、嵌套 ratio_pad 和 scale_fill 非等比例场景；相关 Python 测试 134 项全部通过。',
-    files: ['ultralytics/data/augment.py', 'ultralytics/utils/ops.py', 'tests/test_python.py'],
     visualization: 'axis',
   },
   {
@@ -98,8 +84,6 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '修正随机采样上界并补齐右侧与底部边界位置，使所有合法裁剪起点进入同一均匀分布。',
     impact: '恢复 CutMix 空间采样的完整覆盖，避免边界区域系统性欠采样，让增强行为与设计语义保持一致。',
     highlight: 'FULL BOUNDARY COVERAGE',
-    validation: '确定性回归覆盖单框和批量生成；20 万次固定种子抽样的最大偏差约 0.162 个百分点，30 项相关测试与 440 项扩展测试通过。',
-    files: ['timm/data/mixup.py', 'tests/test_data.py'],
     visualization: 'boundary',
   },
   {
@@ -110,8 +94,6 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '统一转换为 float64，并把多边形平移到局部坐标系计算面积与质心，最后再映射回全局坐标。',
     impact: '在大图像、地理坐标和远离原点的多边形上获得稳定结果，同时保持普通坐标场景的兼容性。',
     highlight: 'FLOAT64 + LOCAL ORIGIN',
-    validation: '回归覆盖百万级 int32、万亿级 int64 偏移和零面积多边形；项目完整测试 3,575 项通过、20 项跳过，pre-commit 全部通过。',
-    files: ['src/supervision/geometry/utils.py', 'tests/geometry/test_utils.py', 'docs/changelog.md'],
     visualization: 'coordinate',
   },
   {
@@ -122,8 +104,6 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '新增特征归一化与确定性固定 K K-means 分支，使大规模输入绕开稠密相似矩阵和谱分解。',
     impact: '显著降低长音频和大说话人片段集合的内存压力，并通过固定初始化策略提升多次运行的一致性。',
     highlight: 'NO DENSE N² MATRIX',
-    validation: '10,639 × 192 的模拟 embedding、K=2 在 CPU 上约 0.098 秒完成；边界路由与真实聚类结果均有独立回归测试。',
-    files: ['funasr/models/campplus/cluster_backend.py', 'tests/test_cluster_backend.py'],
     visualization: 'routing',
   },
   {
@@ -134,8 +114,6 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '检测非有限权重并选择语义一致的计算路径，同时让普通有限权重继续经过原有向量化热路径。',
     impact: '统一快速路径与通用路径的数值语义，在保证 Inf / NaN 正确传播的同时避免正常模型性能回退。',
     highlight: 'IEEE 754 + FAST PATH',
-    validation: '覆盖小通道、通用和 depthwise 三类分发路径与通道隔离；391 项默认测试、331 项 std 测试和 19 项后端卷积测试通过。',
-    files: ['crates/burn-flex/src/ops/conv.rs'],
     visualization: 'numeric',
   },
 ];

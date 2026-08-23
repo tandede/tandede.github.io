@@ -402,44 +402,30 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .case-header p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.72; }
 .case-visual { grid-column: 1 / -1; }
 .case-visual > .contribution-visual { height: 100%; }
-.case-story { grid-column: 1 / 9; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.case-story { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
 .case-story article { min-height: 236px; padding: 25px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(255, 255, 255, 0.65); }
-.case-story small, .case-validation small, .case-files small { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 8px; font-weight: 750; letter-spacing: 0.08em; }
+.case-story small { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 8px; font-weight: 750; letter-spacing: 0.08em; }
 .case-story h3 { margin: 11px 0 0; font-size: 18px; letter-spacing: -0.03em; }
-.case-story p, .case-validation p { margin: 15px 0 0; color: #465266; font-size: 12px; line-height: 1.78; }
-.case-validation, .case-files { grid-column: 9 / -1; display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 15px; padding: 24px; border: 1px solid var(--line); background: var(--white); }
-.case-validation { align-self: stretch; }
-.case-validation > svg, .case-files > svg { width: 23px; height: 23px; color: var(--detail-accent); }
-.case-files { align-self: stretch; }
+.case-story p { margin: 15px 0 0; color: #465266; font-size: 12px; line-height: 1.78; }
 
 .case-routing .case-header, .case-config .case-header { grid-column: 1 / 5; grid-template-columns: 1fr; align-content: center; margin: 0; padding-right: 26px; }
 .case-routing .case-visual, .case-config .case-visual { grid-column: 5 / -1; }
 .case-routing .case-story, .case-config .case-story { grid-column: 1 / -1; }
-.case-routing .case-validation, .case-config .case-validation { grid-column: 1 / 7; }
-.case-routing .case-files, .case-config .case-files { grid-column: 7 / -1; }
 
 .case-identity .case-visual, .case-jaxpr .case-visual { grid-column: 1 / 8; grid-row: span 2; }
 .case-identity .case-header, .case-jaxpr .case-header { grid-column: 8 / -1; grid-template-columns: 1fr; align-content: end; margin: 0; }
 .case-identity .case-story, .case-jaxpr .case-story { grid-column: 8 / -1; grid-template-columns: 1fr; }
 .case-identity .case-story article, .case-jaxpr .case-story article { min-height: 0; }
-.case-identity .case-validation, .case-jaxpr .case-validation { grid-column: 1 / 7; }
-.case-identity .case-files, .case-jaxpr .case-files { grid-column: 7 / -1; }
 
 .case-adapter .case-story, .case-numeric .case-story { grid-column: 1 / 6; grid-template-columns: 1fr; }
 .case-adapter .case-story article, .case-numeric .case-story article { min-height: 0; }
 .case-adapter .case-visual, .case-numeric .case-visual { grid-column: 6 / -1; }
-.case-adapter .case-validation, .case-numeric .case-validation { grid-column: 1 / 7; }
-.case-adapter .case-files, .case-numeric .case-files { grid-column: 7 / -1; }
 
 .case-axis .case-visual, .case-coordinate .case-visual { grid-column: 1 / 9; }
 .case-axis .case-story, .case-coordinate .case-story { grid-column: 9 / -1; grid-template-columns: 1fr; }
 .case-axis .case-story article, .case-coordinate .case-story article { min-height: 0; }
-.case-axis .case-validation, .case-coordinate .case-validation { grid-column: 1 / 8; }
-.case-axis .case-files, .case-coordinate .case-files { grid-column: 8 / -1; }
 
 .case-boundary .case-story, .case-reflection .case-story { grid-column: 1 / -1; }
-.case-boundary .case-validation, .case-reflection .case-validation { grid-column: 1 / 7; }
-.case-boundary .case-files, .case-reflection .case-files { grid-column: 7 / -1; }
 
 .visual-reflection { grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr); gap: 18px; }
 .visual-adapter, .visual-coordinate, .visual-config { grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr) 42px minmax(0, 1fr); gap: 18px; }
@@ -752,7 +738,6 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .case-header h2 { font-size: 38px; }
   .case-story { grid-template-columns: 1fr; }
   .case-story article { min-height: 0; padding: 22px 18px; }
-  .case-validation, .case-files { padding: 22px 18px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,4 +1,3 @@
-import { PiCheckCircle, PiCode } from 'react-icons/pi';
 import type { OpenSourceProject } from './open-source-data';
 import OpenSourceVisual from './open-source-visual';
 
@@ -25,7 +24,5 @@ export default function OpenSourceContribution({ project }: { project: OpenSourc
       <article><small>我的修改</small><h3>如何解决</h3><p>{project.solution}</p></article>
       <article><small>结果</small><h3>带来了什么</h3><p>{project.impact}</p></article>
     </div>
-    <aside className="case-validation"><PiCheckCircle aria-hidden="true" /><div><small>验证</small><p>{project.validation}</p></div></aside>
-    <div className="case-files"><PiCode aria-hidden="true" /><div><small>改动文件</small><div className="changed-files">{project.files.map((file) => <code key={file}>{file}</code>)}</div></div></div>
   </section>;
 }
