@@ -72,7 +72,7 @@ export default function OpenSourceGrid({ items }: { items: OpenSourceProject[] }
     const count = stars?.[item.href];
     const starsLabel = typeof count === 'number' ? `${formatStars(count)} Stars` : 'Stars';
 
-    return <a className="opensource-card" href={`/open-source/${item.slug}/`} key={item.name} aria-label={`查看 ${item.name} 开源贡献详情`} style={{ '--repo-accent': item.accent } as CSSProperties}>
+    return <a className="opensource-card" href={`/open-source/${item.slug}/`} target="_blank" rel="noopener noreferrer" key={item.name} aria-label={`在新标签页查看 ${item.name} 开源贡献详情`} style={{ '--repo-accent': item.accent } as CSSProperties}>
       <div className="opensource-face opensource-front">
         <div className="opensource-card-top">
           <div className="opensource-identity">

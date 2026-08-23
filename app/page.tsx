@@ -179,7 +179,7 @@ export default function Home() {
 
       <section className="projects-section" id="projects"><div className="section-shell"><details className="section-fold" open>
         <SectionHeading index="04" label="代表项目" english="PROJECTS" />
-        <div className="section-fold-content"><div className="project-grid" data-reveal>{featuredProjects.map((project) => <a className="project-card" href={`/projects/${project.slug}/`} key={project.title} style={{ '--project-accent': project.accent } as CSSProperties}><div className="project-card-index"><span>{project.index}</span><small>{project.subtitle}</small></div><div><h3>{project.title}</h3><p>{project.intro}</p></div><span className="project-card-link">查看项目详情 <PiArrowRightBold aria-hidden="true" /></span></a>)}</div></div>
+        <div className="section-fold-content"><div className="project-grid" data-reveal>{featuredProjects.map((project) => <a className="project-card" href={`/projects/${project.slug}/`} target="_blank" rel="noopener noreferrer" key={project.title} style={{ '--project-accent': project.accent } as CSSProperties}><div className="project-card-index"><span>{project.index}</span><small>{project.subtitle}</small></div><div><h3>{project.title}</h3><p>{project.intro}</p></div><span className="project-card-link">查看项目详情 <PiArrowRightBold aria-hidden="true" /></span></a>)}</div></div>
       </details></div></section>
 
       <section className="opensource-section" id="opensource"><div className="section-shell"><details className="section-fold" open>
