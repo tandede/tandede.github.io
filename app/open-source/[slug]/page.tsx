@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import DetailPage from '../../detail-page';
-import GitHubProjectStats from '../../github-project-stats';
+import GitHubStars from '../../github-project-stats';
 import OpenSourceContribution from '../../open-source-contribution';
 import { openSourceProjects } from '../../open-source-data';
 
@@ -52,13 +52,10 @@ export default async function OpenSourceDetail({ params }: PageProps) {
     backLabel="返回开源贡献"
     previous={previous ? { href: `/open-source/${previous.slug}/`, label: previous.name } : undefined}
     next={next ? { href: `/open-source/${next.slug}/`, label: next.name } : undefined}
-    summaryStrip={<GitHubProjectStats repositoryUrl={project.href} prUrl={project.prHref} />}
+    titleAddon={<GitHubStars repositoryUrl={project.href} />}
+    secondaryExternal={{ href: project.prHref, label: '查看我的 PR' }}
+    contentHref="#contribution"
+    contentLabel="查看贡献详情"
     showcase={<OpenSourceContribution project={project} />}
-    steps={[
-      { icon: 'problem', label: '发现问题', title: '真实工程边界', copy: project.problem },
-      { icon: 'reasoning', label: '定位根因', title: '从现象回到机制', copy: project.reasoning },
-      { icon: 'solution', label: '设计方案', title: '在约束内完成修复', copy: project.solution },
-      { icon: 'result', label: '工程结果', title: '可验证的改进', copy: project.impact },
-    ]}
   />;
 }

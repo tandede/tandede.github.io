@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { PiArrowUpRightBold, PiGitPullRequest, PiStarFill } from 'react-icons/pi';
+import { PiStarFill } from 'react-icons/pi';
 
 const cacheDuration = 30 * 60 * 1000;
 
@@ -11,10 +11,9 @@ function formatStars(value: number) {
   return value.toLocaleString('en-US');
 }
 
-export default function GitHubProjectStats({ repositoryUrl, prUrl }: { repositoryUrl: string; prUrl: string }) {
+export default function GitHubStars({ repositoryUrl }: { repositoryUrl: string }) {
   const [stars, setStars] = useState<number | null>(null);
   const repository = new URL(repositoryUrl).pathname.replace(/^\//, '').replace(/\/$/, '');
-  const prNumber = new URL(prUrl).pathname.split('/').filter(Boolean).at(-1);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -48,8 +47,5 @@ export default function GitHubProjectStats({ repositoryUrl, prUrl }: { repositor
     return () => controller.abort();
   }, [repository]);
 
-  return <section className="github-detail-stats" aria-label="GitHub 项目信息">
-    <div><PiStarFill aria-hidden="true" /><span>GitHub Stars</span><strong title={stars ? `${stars.toLocaleString('en-US')} Stars` : undefined}>{stars === null ? '—' : formatStars(stars)}</strong><small>每 30 分钟更新</small></div>
-    <a href={prUrl} target="_blank" rel="noopener noreferrer"><PiGitPullRequest aria-hidden="true" /><span>我的 Pull Request</span><strong>#{prNumber} · MERGED</strong><small>查看上游合并记录 <PiArrowUpRightBold aria-hidden="true" /></small></a>
-  </section>;
+  return <span className="detail-title-stars" title={stars === null ? '正在获取 GitHub Stars' : `${stars.toLocaleString('en-US')} GitHub Stars`}><PiStarFill aria-hidden="true" /><strong>{stars === null ? '—' : formatStars(stars)}</strong><small>Stars</small></span>;
 }

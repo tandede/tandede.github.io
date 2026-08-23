@@ -7,6 +7,7 @@ import {
   PiArrowUpRightBold,
   PiCheckCircle,
   PiGithubLogo,
+  PiGitPullRequest,
   PiLightbulb,
   PiMagnifyingGlass,
   PiWrench,
@@ -33,12 +34,15 @@ type DetailPageProps = {
   logo?: string;
   role?: string;
   metrics?: Array<[string, string]>;
-  steps: DetailStep[];
+  steps?: DetailStep[];
   previous?: { href: string; label: string };
   next?: { href: string; label: string };
   externalIcon?: ReactNode;
-  summaryStrip?: ReactNode;
   showcase?: ReactNode;
+  titleAddon?: ReactNode;
+  secondaryExternal?: { href: string; label: string };
+  contentHref?: string;
+  contentLabel?: string;
 };
 
 const stepIcons = {
@@ -66,8 +70,11 @@ export default function DetailPage({
   previous,
   next,
   externalIcon,
-  summaryStrip,
   showcase,
+  titleAddon,
+  secondaryExternal,
+  contentHref = '#story',
+  contentLabel = '查看完整思路',
 }: DetailPageProps) {
   return <main className="detail-page" style={{ '--detail-accent': accent } as CSSProperties}>
     <nav className="detail-nav" aria-label="详情页导航">
@@ -81,24 +88,23 @@ export default function DetailPage({
         <p className="detail-kicker">{category}{role ? ` · ${role}` : ''}</p>
         <div className="detail-title-row">
           {logo && <span className="detail-logo"><img src={logo} alt="" /></span>}
-          <div><small>{subtitle}</small><h1>{title}</h1></div>
+          <div><small>{subtitle}</small><div className="detail-heading-line"><h1>{title}</h1>{titleAddon}</div></div>
         </div>
         <p className="detail-intro">{intro}</p>
         <div className="detail-actions">
-          <a href="#story">查看完整思路 <PiArrowDownBold aria-hidden="true" /></a>
+          <a href={contentHref}>{contentLabel} <PiArrowDownBold aria-hidden="true" /></a>
           <a href={externalHref} target="_blank" rel="noopener noreferrer">{externalIcon ?? <PiGithubLogo aria-hidden="true" />}{externalLabel}<PiArrowUpRightBold aria-hidden="true" /></a>
+          {secondaryExternal && <a href={secondaryExternal.href} target="_blank" rel="noopener noreferrer"><PiGitPullRequest aria-hidden="true" />{secondaryExternal.label}<PiArrowUpRightBold aria-hidden="true" /></a>}
         </div>
       </div>
       <aside className="detail-highlight"><small>KEY TAKEAWAY</small><strong>{highlight}</strong></aside>
     </section>
 
-    {summaryStrip}
-
     {metrics && metrics.length > 0 && <section className="detail-metrics" aria-label="项目指标">
       {metrics.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}
     </section>}
 
-    <section className="detail-story" id="story">
+    {steps && <section className="detail-story" id="story">
       <header><span>ENGINEERING STORY</span><h2>从问题到结果</h2><p>按真实工作顺序展开，而不是只展示一个最终结论。</p></header>
       <div className="detail-flow">
         {steps.map((step, index) => {
@@ -114,14 +120,9 @@ export default function DetailPage({
           </div>;
         })}
       </div>
-    </section>
+    </section>}
 
     {showcase}
-
-    <section className="detail-final-cta">
-      <div><small>UPSTREAM / PROJECT</small><h2>继续查看公开项目</h2><p>站内页面解释我的工作，外部链接保留项目原始上下文与最新进展。</p></div>
-      <a href={externalHref} target="_blank" rel="noopener noreferrer">{externalIcon ?? <PiGithubLogo aria-hidden="true" />}{externalLabel}<PiArrowUpRightBold aria-hidden="true" /></a>
-    </section>
 
     <nav className="detail-pagination" aria-label="详情页切换">
       {previous ? <a href={previous.href}><PiArrowLeftBold aria-hidden="true" /><span><small>上一个</small>{previous.label}</span></a> : <span />}
