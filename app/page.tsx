@@ -104,6 +104,8 @@ const papers = [
   },
 ];
 
+const paperVenues = Array.from(new Set(papers.map((paper) => paper.venue.toUpperCase())));
+
 const experiences = [
   {
     company: '小红书 · Dots（Pretrain）', role: '算法实习生', date: '2026.07 — 至今', logo: '/logos/xiaohongshu.png',
@@ -156,7 +158,7 @@ export default function Home() {
 
       <section className="research-section" id="research"><div className="section-shell"><details className="section-fold" open>
         <SectionHeading index="02" label="所选论文" english="SELECTED PUBLICATIONS" />
-        <div className="section-fold-content"><div className="venue-ticker" aria-hidden="true"><div><span>EMNLP 2026 MAIN</span><span>ACL 2026 MAIN</span><span>AAAI 2026</span><span>ICML 2026</span><span>ACL 2026 FINDINGS</span><span>EMNLP 2026 MAIN</span><span>ACL 2026 MAIN</span><span>AAAI 2026</span><span>ICML 2026</span><span>ACL 2026 FINDINGS</span></div></div>
+        <div className="section-fold-content"><div className="venue-ticker" aria-hidden="true"><div className="venue-ticker-track" style={{ '--ticker-duration': `${Math.max(24, paperVenues.length * 4.8)}s` } as CSSProperties}>{[0, 1].map((group) => <div className="venue-ticker-group" key={group}>{paperVenues.map((venue) => <span key={`${group}-${venue}`}>{venue}</span>)}</div>)}</div></div>
         <div className="paper-list" data-reveal data-motion>{papers.map((paper, index) => <details className="paper-row" key={paper.title} open={index === 0}><summary><span className="paper-index">{String(index + 1).padStart(2, '0')}</span><span className="paper-venue">{paper.venue}</span><strong>{paper.title}</strong><span className="paper-role">{paper.role}</span><span className="paper-metric">{paper.metric}</span><span className="paper-toggle">+</span></summary><div className="paper-detail"><div><span>研究问题</span><p>{paper.question}</p></div><div><span>核心方法</span><p>{paper.method}</p></div><div><span>公开结果</span><p>{paper.result}</p></div><a href={paper.href} {...externalLinkProps}>阅读论文原文 <PiArrowUpRightBold aria-hidden="true" /></a></div></details>)}</div>
         </div>
       </details></div></section>
