@@ -650,6 +650,20 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .fresh-containers i { color: var(--muted); }
 .shared-state-after > strong { color: #067647; font-family: var(--font-geist-mono), monospace; text-align: right; }
 
+.visual-reshape-semantics { grid-template-columns: minmax(210px, .55fr) minmax(0, 1.45fr); gap: 30px; }
+.reshape-source { display: grid; padding: 28px; align-content: center; justify-items: center; border: 1px solid var(--detail-accent); border-radius: 18px; background: color-mix(in srgb, var(--detail-accent) 6%, white); text-align: center; }
+.reshape-source strong { margin: 16px 0 12px; font-size: 22px; }
+.reshape-source code { padding: 12px 16px; color: var(--white); border-radius: 10px; background: var(--detail-accent); font-size: 15px; }
+.reshape-source span { margin-top: 14px; color: var(--muted); font-size: 10px; }
+.reshape-routes { display: grid; gap: 11px; }
+.reshape-routes > div { display: grid; grid-template-columns: minmax(145px, .75fr) minmax(190px, 1fr) minmax(150px, .8fr); gap: 20px; padding: 21px 23px; align-items: center; border: 1px solid var(--line); border-radius: 14px; background: #fbfcfe; animation: reshape-route 4.2s ease-in-out infinite; }
+.reshape-routes > div:nth-child(2) { animation-delay: .55s; }
+.reshape-routes > div:nth-child(3) { animation-delay: 1.1s; }
+.reshape-routes span, .reshape-routes small { font-family: var(--font-geist-mono), monospace; font-size: 9px; }
+.reshape-routes span { color: var(--detail-accent); }
+.reshape-routes strong { font-size: 15px; }
+.reshape-routes small { color: var(--muted); }
+
 .visual-numeric { grid-template-columns: minmax(0, 1fr) 180px minmax(0, 1fr); gap: 24px; }
 .numeric-path { display: grid; padding: 28px; align-content: center; border: 1px solid var(--line); border-radius: 18px; background: #fbfcfe; }
 .numeric-path strong { margin: 17px 0 8px; font-size: 20px; }
@@ -794,6 +808,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 @keyframes numeric-check { 0%, 100% { background: var(--white); } 50% { background: color-mix(in srgb, var(--detail-accent) 10%, white); transform: translateY(-3px); } }
 @keyframes shared-state-leak { 0%, 100% { box-shadow: 0 0 0 0 rgba(180, 35, 24, 0); transform: scale(.98); } 50% { box-shadow: 0 0 0 10px rgba(180, 35, 24, .08); transform: scale(1); } }
 @keyframes fresh-state-pulse { 0%, 100% { transform: translateY(0); } 50% { border-color: var(--detail-accent); box-shadow: 0 10px 24px color-mix(in srgb, var(--detail-accent) 12%, transparent); transform: translateY(-4px); } }
+@keyframes reshape-route { 0%, 18%, 100% { border-color: var(--line); background: #fbfcfe; transform: translateX(0); } 8% { border-color: var(--detail-accent); background: color-mix(in srgb, var(--detail-accent) 7%, white); box-shadow: 0 9px 24px color-mix(in srgb, var(--detail-accent) 12%, transparent); transform: translateX(5px); } }
 @keyframes motion-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes pipeline-stage-in { from { opacity: .15; transform: translateY(12px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes evidence-pulse { 0%, 34%, 100% { opacity: .38; box-shadow: 0 0 0 0 rgba(31, 103, 240, .22); } 12% { opacity: 1; box-shadow: 0 0 0 8px rgba(31, 103, 240, 0); } }
@@ -935,9 +950,10 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .detail-final-cta { grid-template-columns: 1fr; }
   .contribution-showcase > header { grid-template-columns: 150px 1fr; }
   .contribution-showcase > header p { grid-column: 2; }
-  .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state { grid-template-columns: 1fr; }
+  .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics { grid-template-columns: 1fr; }
   .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow, .visual-shared-state > .visual-arrow { transform: rotate(90deg); }
   .visual-numeric { grid-template-columns: 1fr; }
+  .reshape-routes > div { grid-template-columns: 1fr; gap: 8px; }
   .numeric-condition { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .contribution-case { display: flex; flex-direction: column; padding-block: 72px; }
   .case-header { display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 12px; padding-right: 0 !important; }

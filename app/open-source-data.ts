@@ -12,7 +12,7 @@ export type OpenSourceProject = {
   solution: string;
   impact: string;
   highlight: string;
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
@@ -125,5 +125,15 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: 'Concept 实例恢复真正的状态隔离，避免标签、闭包和扩展集合发生跨对象泄漏；修复覆盖全部三个默认容器，并作为 NLTK 贡献者写入 AUTHORS.md。',
     highlight: 'INSTANCE STATE ISOLATED',
     visualization: 'shared-state',
+  },
+  {
+    slug: 'apache-tvm', name: 'Apache TVM', logo: 'https://github.com/apache.png?size=128', accent: '#d1492e', role: 'CONTRIBUTOR', href: 'https://github.com/apache/tvm', prHref: 'https://github.com/apache/tvm/pull/20161',
+    function: '面向深度学习模型的开源编译器栈，将来自 ONNX、PyTorch 等框架的计算图导入统一中间表示，并针对不同硬件完成图优化、算子生成与高性能部署。',
+    problem: 'Relax ONNX 导入器没有正确区分 Reshape 的零值语义：默认模式下 `[0, 3]` 未先复制输入维度便进入 NumPy 常量折叠；`allowzero=1` 时又会触发 Relax 自身的零复制规则，无法保留字面零维。',
+    reasoning: 'ONNX 的 `0` 同时受 `allowzero` 控制，而 `-1` 仍负责维度推断。特殊处理不能覆盖所有 `allowzero=1` 情况，否则没有字面零的 `[-1, 2]` 也会绕过正常推断并在运行期失败。',
+    solution: '默认模式先把目标形状中的 `0` 规范化为对应输入维度再做常量折叠；仅当 `allowzero=1` 且目标形状确实含有字面零时构造 ShapeExpr，其余情况继续使用正常 Reshape 路径保留 `-1` 推断。',
+    impact: '同时覆盖默认零复制、真实零维输出与动态 `-1` 推断三条路径，使 ONNX 模型语义能够忠实落到 Relax；审查中发现的推断回退也被纳入回归覆盖。',
+    highlight: '0 COPY · 0 LITERAL · −1 INFER',
+    visualization: 'reshape-semantics',
   },
 ];

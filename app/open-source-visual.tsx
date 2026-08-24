@@ -51,6 +51,15 @@ export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['vi
     <div className="shared-state-after"><small>AFTER · NONE SENTINEL</small><div className="fresh-containers"><span><b>Concept A</b><i>labels_A · set_A</i></span><span><b>Concept B</b><i>labels_B · set_B</i></span></div><strong>A ≠ B · ISOLATED</strong></div>
   </div>;
 
+  if (kind === 'reshape-semantics') return <div className="contribution-visual visual-reshape-semantics">
+    <div className="reshape-source"><small>ONNX RESHAPE</small><strong>Target Shape</strong><code>[ 0 · −1 · N ]</code><span>读取 allowzero 与字面值</span></div>
+    <div className="reshape-routes">
+      <div><span>allowzero = 0</span><strong>0 → input_dim[i]</strong><small>规范化后常量折叠</small></div>
+      <div><span>allowzero = 1 · has 0</span><strong>0 stays literal 0</strong><small>ShapeExpr 保留零维输出</small></div>
+      <div><span>no literal 0</span><strong>−1 keeps inference</strong><small>继续使用正常 Reshape 路径</small></div>
+    </div>
+  </div>;
+
   return <div className="contribution-visual visual-numeric">
     <div className="numeric-path"><small>COMMON PATH</small><strong>finite weights</strong><span>原向量化快速卷积</span><b>FAST</b></div><div className="numeric-condition"><span>padding?</span><span>Inf / NaN?</span></div><div className="numeric-path"><small>RARE PATH</small><strong>non-finite weights</strong><span>精确后处理 padding 区域</span><b>IEEE 754</b></div>
   </div>;

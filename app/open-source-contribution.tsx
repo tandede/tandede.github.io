@@ -16,6 +16,7 @@ const presentation: Record<OpenSourceProject['visualization'], Presentation> = {
   jaxpr: { eyebrow: 'PROBABILISTIC PROGRAMMING · JAXPR', title: '从私有追踪假设回到公共接口', lead: '闭包常量参与计算，却不应占据显式参数的 provenance 位置。', story: [{ label: '版本变化', title: '闭包常量进入了输入序列' }, { label: '错位本质', title: '私有 API 隐藏了布局假设' }, { label: '公共接口', title: 'ClosedJaxpr 显式拆分常量' }, { label: '长期兼容', title: 'Provenance 再次准确对齐' }] },
   numeric: { eyebrow: 'RUST TENSOR KERNEL · IEEE 754', title: '保住快速路径，也保住浮点语义', lead: '常见有限权重继续走向量化热路径，只有非有限值和 padding 同时出现时才精确修正。', story: [{ label: '路径差异', title: '快速卷积改变了 Inf / NaN 行为' }, { label: '性能边界', title: '异常值不能拖慢普通输入' }, { label: '条件分发', title: '只让罕见组合走修正路径' }, { label: '语义一致', title: '速度与 IEEE 754 同时保留' }] },
   'shared-state': { eyebrow: 'PYTHON OBJECT MODEL · STATE ISOLATION', title: '看似独立的对象，不该共享同一份状态', lead: '可变默认参数只创建一次。两个 Concept 实例如果拿到同一个容器，一次局部修改就会变成跨对象污染。', story: [{ label: '状态泄漏', title: '三个默认容器跨实例复用' }, { label: '语言语义', title: '默认参数在定义时创建一次' }, { label: '初始化边界', title: 'None 哨兵按实例分配容器' }, { label: '兼容结果', title: '隔离默认状态，保留显式输入' }] },
+  'reshape-semantics': { eyebrow: 'ML COMPILER · ONNX SEMANTICS', title: '同一个 0，在不同模式下代表不同形状', lead: '编译器不能只看到一个整数零；它还必须知道 ONNX 的 allowzero 规则，并且不能破坏 `-1` 原有的维度推断。', story: [{ label: '语义冲突', title: 'ONNX 与 Relax 对 0 的解释不同' }, { label: '边界识别', title: 'allowzero 只改变字面零语义' }, { label: '三路分发', title: '复制、保留与推断各走其路' }, { label: '回归结果', title: '零维输出与 −1 推断同时成立' }] },
 };
 
 export default function OpenSourceContribution({ project }: { project: OpenSourceProject }) {
