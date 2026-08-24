@@ -9,7 +9,6 @@ export default function InteractionLayer() {
     document.documentElement.classList.add('has-motion');
     const revealItems = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
     const motionItems = Array.from(document.querySelectorAll<HTMLElement>('[data-motion]'));
-    const glowItems = Array.from(document.querySelectorAll<HTMLElement>('[data-glow]'));
     const sections = Array.from(document.querySelectorAll<HTMLElement>('main section[id]'));
     const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('.top-nav a[href^="#"], .side-nav-panel a[href^="#"]'));
     const detailPage = document.querySelector<HTMLElement>('.detail-page');
@@ -39,13 +38,17 @@ export default function InteractionLayer() {
     );
     motionItems.forEach((item) => motionObserver.observe(item));
 
-    const updateGlow = (event: PointerEvent) => {
-      const target = event.currentTarget as HTMLElement;
-      const bounds = target.getBoundingClientRect();
-      target.style.setProperty('--glow-x', `${event.clientX - bounds.left}px`);
-      target.style.setProperty('--glow-y', `${event.clientY - bounds.top}px`);
+    const updatePagePointer = (event: PointerEvent) => {
+      document.documentElement.style.setProperty('--pointer-x', `${event.clientX}px`);
+      document.documentElement.style.setProperty('--pointer-y', `${event.clientY}px`);
+      const target = event.target instanceof Element ? event.target.closest<HTMLElement>('[data-glow]') : null;
+      if (target) {
+        const bounds = target.getBoundingClientRect();
+        target.style.setProperty('--glow-x', `${event.clientX - bounds.left}px`);
+        target.style.setProperty('--glow-y', `${event.clientY - bounds.top}px`);
+      }
     };
-    glowItems.forEach((item) => item.addEventListener('pointermove', updateGlow));
+    window.addEventListener('pointermove', updatePagePointer, { passive: true });
 
     const updateScroll = () => {
       const scrollable = document.documentElement.scrollHeight - window.innerHeight;
@@ -71,11 +74,13 @@ export default function InteractionLayer() {
     return () => {
       revealObserver.disconnect();
       motionObserver.disconnect();
-      glowItems.forEach((item) => item.removeEventListener('pointermove', updateGlow));
+      window.removeEventListener('pointermove', updatePagePointer);
       window.removeEventListener('scroll', updateScroll);
       document.documentElement.classList.remove('is-at-top');
       document.documentElement.style.removeProperty('--hero-shift');
       document.documentElement.style.removeProperty('--progress-color');
+      document.documentElement.style.removeProperty('--pointer-x');
+      document.documentElement.style.removeProperty('--pointer-y');
     };
   }, []);
 

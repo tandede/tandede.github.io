@@ -24,9 +24,9 @@ export default function OpenSourceContribution({ project }: { project: OpenSourc
   const paragraphs = [project.problem, project.reasoning, project.solution, project.impact];
   return <section className={`contribution-case case-${project.visualization}`} id="contribution">
     <header className="case-header"><span>{copy.eyebrow}</span><h2>{copy.title}</h2><p>{copy.lead}</p></header>
-    <div className="case-visual" data-motion><OpenSourceVisual kind={project.visualization} /></div>
+    <div className="case-visual" data-motion data-glow><OpenSourceVisual kind={project.visualization} /></div>
     <div className="case-story" data-motion>
-      {copy.story.map((item, index) => <article key={item.title}><small>{item.label}</small><h3>{item.title}</h3><p>{paragraphs[index]}</p></article>)}
+      {copy.story.map((item, index) => <article key={item.title} data-glow><small>{item.label}</small><h3>{item.title}</h3><p>{paragraphs[index]}</p></article>)}
     </div>
   </section>;
 }

@@ -118,7 +118,7 @@ export default function DetailPage({
         {steps.map((step, index) => {
           const Icon = stepIcons[step.icon];
           return <div className="detail-flow-item" key={step.label}>
-            <article className="detail-step">
+            <article className="detail-step" data-glow>
               <div className="detail-step-top"><span>{String(index + 1).padStart(2, '0')}</span><Icon aria-hidden="true" /></div>
               <small>{step.label}</small>
               <h3>{step.title}</h3>
@@ -134,11 +134,11 @@ export default function DetailPage({
 
     {pagination ?? <nav className="detail-pagination" aria-label="详情页切换">
       {previous
-        ? <a href={previous.href}><PiArrowLeftBold aria-hidden="true" /><span><small>上一个</small>{previous.label}</span></a>
-        : <a href={backHref}><PiArrowLeftBold aria-hidden="true" /><span><small>返回首页</small>{homeSectionLabel}</span></a>}
+        ? <a href={previous.href} data-glow><PiArrowLeftBold aria-hidden="true" /><span><small>上一个</small>{previous.label}</span></a>
+        : <a href={backHref} data-glow><PiArrowLeftBold aria-hidden="true" /><span><small>返回首页</small>{homeSectionLabel}</span></a>}
       {next
-        ? <a href={next.href}><span><small>下一个</small>{next.label}</span><PiArrowRightBold aria-hidden="true" /></a>
-        : <a href={backHref}><span><small>返回首页</small>{homeSectionLabel}</span><PiArrowRightBold aria-hidden="true" /></a>}
+        ? <a href={next.href} data-glow><span><small>下一个</small>{next.label}</span><PiArrowRightBold aria-hidden="true" /></a>
+        : <a href={backHref} data-glow><span><small>返回首页</small>{homeSectionLabel}</span><PiArrowRightBold aria-hidden="true" /></a>}
     </nav>}
   </main>;
 }
