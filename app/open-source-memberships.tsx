@@ -54,6 +54,7 @@ const repositoryGroups = [
 ] as const;
 
 const repositoryCount = repositoryGroups.reduce((total, group) => total + group.repositories.length, 0);
+const repositoryRowCount = Math.max(...repositoryGroups.map((group) => group.repositories.length));
 
 export default function OpenSourceMemberships() {
   return <section className="membership-panel" data-reveal data-motion>
@@ -63,10 +64,13 @@ export default function OpenSourceMemberships() {
       <a href="https://github.com/cyberbotics" target="_blank" rel="noopener noreferrer">查看 GitHub 组织 <PiArrowUpRightBold aria-hidden="true" /></a>
     </header>
     <div className="membership-repository-groups">
-      {repositoryGroups.map((group, groupIndex) => <article key={group.label}>
-        <header><span>{String(groupIndex + 1).padStart(2, '0')}</span><div><small>{group.label}</small><h4>{group.title}</h4></div></header>
-        <div>{group.repositories.map(([name, description]) => <a href={`https://github.com/cyberbotics/${name}`} target="_blank" rel="noopener noreferrer" key={name}><span><strong>{name}</strong></span><p>{description}</p><PiArrowUpRightBold aria-hidden="true" /></a>)}</div>
-      </article>)}
+      {repositoryGroups.map((group, groupIndex) => {
+        const emptySlots = repositoryRowCount - group.repositories.length;
+        return <article key={group.label}>
+          <header><span>{String(groupIndex + 1).padStart(2, '0')}</span><div><small>{group.label}</small><h4>{group.title}</h4></div></header>
+          <div>{group.repositories.map(([name, description]) => <a href={`https://github.com/cyberbotics/${name}`} target="_blank" rel="noopener noreferrer" key={name}><span><strong>{name}</strong></span><p>{description}</p><PiArrowUpRightBold aria-hidden="true" /></a>)}{Array.from({ length: emptySlots }, (_, index) => <div className="membership-repository-placeholder" aria-hidden="true" key={`empty-${index}`} />)}</div>
+        </article>;
+      })}
     </div>
   </section>;
 }

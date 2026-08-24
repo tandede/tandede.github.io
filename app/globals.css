@@ -326,6 +326,10 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .membership-repository-groups article > div > a { position: relative; display: grid; min-height: 84px; padding: 15px 38px 15px 18px; align-content: center; border-bottom: 1px solid var(--line); background: var(--white); transition: background 170ms ease, transform 170ms ease; }
 .membership-repository-groups article > div > a:last-child { border-bottom: 0; }
 .membership-repository-groups article > div > a:hover, .membership-repository-groups article > div > a:focus-visible { z-index: 1; background: #eef5fc; transform: translateX(4px); }
+.membership-repository-placeholder { position: relative; min-height: 84px; border-bottom: 1px solid var(--line); background: linear-gradient(145deg, #fbfcfe, #f7fafe); }
+.membership-repository-placeholder:last-child { border-bottom: 0; }
+.membership-repository-placeholder::before, .membership-repository-placeholder::after { position: absolute; top: 50%; left: 50%; width: 14px; height: 1px; background: #cdd9e8; content: ''; transform: translate(-50%, -50%); }
+.membership-repository-placeholder::after { transform: translate(-50%, -50%) rotate(90deg); }
 .membership-repository-groups a > span { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
 .membership-repository-groups a strong { color: #102b49; font-family: var(--font-geist-mono), monospace; font-size: 10px; overflow-wrap: anywhere; }
 .membership-repository-groups a p { margin: 7px 0 0; color: #617087; font-size: 9px; line-height: 1.55; }
