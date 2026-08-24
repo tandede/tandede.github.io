@@ -301,8 +301,10 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .opensource-identity > img { flex: 0 0 auto; width: 50px; height: 50px; padding: 7px; border: 1px solid color-mix(in srgb, var(--repo-accent) 28%, var(--line)); border-radius: 13px; background: var(--white); object-fit: contain; }
 .opensource-identity > div { display: grid; min-width: 0; gap: 7px; }
 .opensource-identity h3 { margin: 0; color: var(--ink); font-size: 16px; letter-spacing: -0.025em; line-height: 1.2; white-space: nowrap; }
+.opensource-meta { display: flex; flex-wrap: wrap; gap: 7px 10px; align-items: center; }
 .repo-stars { display: inline-flex; align-items: center; gap: 6px; width: fit-content; color: #875800; font-family: var(--font-geist-mono), monospace; font-size: 9px; font-weight: 750; white-space: nowrap; }
 .repo-stars svg { width: 12px; height: 12px; color: var(--orange); }
+.opensource-role { padding: 3px 6px; color: var(--repo-accent); border: 1px solid color-mix(in srgb, var(--repo-accent) 42%, var(--line)); border-radius: 999px; background: color-mix(in srgb, var(--repo-accent) 7%, white); font-family: var(--font-geist-mono), monospace; font-size: 7px; font-weight: 800; letter-spacing: .06em; }
 .opensource-project { align-self: center; padding: 30px 0 20px; }
 .opensource-project p { margin: 0; color: #4b5565; font-size: 12px; line-height: 1.82; }
 .opensource-card-link { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 15px; color: var(--blue); font-family: var(--font-geist-mono), monospace; font-size: 9px; font-weight: 750; border-top: 1px solid var(--line); }
@@ -567,6 +569,9 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .case-axis .case-story article, .case-coordinate .case-story article { min-height: 0; }
 
 .case-boundary .case-story, .case-reflection .case-story { grid-column: 1 / -1; }
+.case-quaternion .case-header { grid-column: 1 / 5; grid-row: 1; grid-template-columns: 1fr; align-content: center; margin: 0; padding-right: 26px; }
+.case-quaternion .case-visual { grid-column: 5 / -1; grid-row: 1; }
+.case-quaternion .case-story { grid-column: 1 / -1; grid-row: 2; }
 
 .visual-reflection { grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr); gap: 18px; }
 .visual-adapter, .visual-coordinate, .visual-config { grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr) 42px minmax(0, 1fr); gap: 18px; }
@@ -716,6 +721,30 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .reshape-routes strong { font-size: 15px; }
 .reshape-routes small { color: var(--muted); }
 
+.visual-quaternion { grid-template-columns: minmax(170px, .58fr) minmax(170px, .64fr) minmax(220px, .9fr); grid-template-rows: 1fr auto; gap: 18px; }
+.quaternion-equivalence, .quaternion-guard { display: grid; padding: 24px; align-content: center; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
+.quaternion-equivalence > div { display: flex; gap: 12px; margin: 22px 0 16px; align-items: center; justify-content: center; }
+.quaternion-equivalence > div span { display: grid; width: 56px; height: 56px; place-items: center; color: var(--white); border-radius: 50%; background: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 18px; animation: quaternion-pair 3s ease-in-out infinite; }
+.quaternion-equivalence > div span:last-child { animation-delay: .5s; }
+.quaternion-equivalence > div i { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 20px; font-style: normal; }
+.quaternion-equivalence > strong { color: var(--detail-accent); font-size: 12px; text-align: center; }
+.quaternion-orbit { position: relative; display: grid; min-height: 230px; place-items: center; border: 1px solid color-mix(in srgb, var(--detail-accent) 44%, var(--line)); border-radius: 50%; background: color-mix(in srgb, var(--detail-accent) 5%, white); }
+.quaternion-orbit::before { position: absolute; inset: 28px; border: 1px dashed color-mix(in srgb, var(--detail-accent) 50%, transparent); border-radius: 50%; content: ''; animation: quaternion-ring 10s linear infinite; }
+.quaternion-orbit > span { position: absolute; z-index: 2; display: grid; width: 62px; height: 62px; place-items: center; color: var(--white); border-radius: 18px; background: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 20px; font-weight: 800; }
+.quaternion-orbit > i { position: absolute; top: 18px; left: 50%; width: 13px; height: 13px; border: 3px solid var(--white); border-radius: 50%; background: var(--detail-accent); box-shadow: 0 0 0 5px color-mix(in srgb, var(--detail-accent) 15%, transparent); transform-origin: 0 97px; animation: quaternion-node 5.4s linear infinite; }
+.quaternion-orbit > i:nth-of-type(2) { animation-delay: -1.8s; }
+.quaternion-orbit > i:nth-of-type(3) { animation-delay: -3.6s; }
+.quaternion-orbit > b { position: absolute; bottom: 28px; color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 8px; letter-spacing: .1em; }
+.quaternion-guard { border-color: color-mix(in srgb, var(--detail-accent) 45%, var(--line)); }
+.quaternion-guard code { margin-top: 18px; padding: 12px; color: #b42318; border: 1px solid #fda29b; border-radius: 10px; background: #fff1f0; font-size: 13px; text-align: center; }
+.quaternion-guard .visual-arrow { margin-block: 10px; transform: rotate(90deg); }
+.quaternion-guard strong { padding: 12px; color: var(--white); border-radius: 10px; background: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 15px; text-align: center; animation: quaternion-safe 2.8s ease-in-out infinite; }
+.quaternion-guard > span { margin-top: 10px; color: #067647; font-family: var(--font-geist-mono), monospace; font-size: 8px; text-align: center; }
+.quaternion-status { grid-column: 1 / -1; display: grid; grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr); gap: 14px; padding: 14px 18px; align-items: center; border: 1px solid var(--line); border-radius: 13px; background: var(--white); font-family: var(--font-geist-mono), monospace; }
+.quaternion-status span { color: var(--muted); font-size: 8px; }
+.quaternion-status b { color: #b42318; font-size: 10px; }
+.quaternion-status strong { color: #067647; font-size: 10px; }
+
 .visual-numeric { grid-template-columns: minmax(0, 1fr) 180px minmax(0, 1fr); gap: 24px; }
 .numeric-path { display: grid; padding: 28px; align-content: center; border: 1px solid var(--line); border-radius: 18px; background: #fbfcfe; }
 .numeric-path strong { margin: 17px 0 8px; font-size: 20px; }
@@ -850,6 +879,10 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 @keyframes pulse-ring { 0% { opacity: 0.8; transform: scale(0.75); } 100% { opacity: 0; transform: scale(1.7); } }
 @keyframes flow-shift { 0%, 100% { transform: translateX(-2px); } 50% { transform: translateX(3px); } }
 @keyframes ticker { to { transform: translate3d(-50%, 0, 0); } }
+@keyframes quaternion-pair { 0%, 100% { transform: scale(.94); } 50% { box-shadow: 0 0 0 9px color-mix(in srgb, var(--detail-accent) 10%, transparent); transform: scale(1); } }
+@keyframes quaternion-ring { to { transform: rotate(360deg); } }
+@keyframes quaternion-node { to { transform: rotate(360deg); } }
+@keyframes quaternion-safe { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--detail-accent) 10%, transparent); } 50% { box-shadow: 0 10px 24px color-mix(in srgb, var(--detail-accent) 22%, transparent); } }
 @keyframes reflection-step { 0%, 100% { opacity: .25; transform: translateX(-2px); } 50% { opacity: 1; transform: translateX(3px); } }
 @keyframes route-focus { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--detail-accent) 18%, transparent); } 50% { box-shadow: 0 12px 28px color-mix(in srgb, var(--detail-accent) 23%, transparent); transform: translateX(4px); } }
 @keyframes identity-jitter { 0%, 42%, 50%, 58%, 100% { transform: translateX(0); } 46% { transform: translateX(-4px); } 54% { transform: translateX(4px); } }
@@ -1021,10 +1054,12 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .detail-final-cta { grid-template-columns: 1fr; }
   .contribution-showcase > header { grid-template-columns: 150px 1fr; }
   .contribution-showcase > header p { grid-column: 2; }
-  .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics { grid-template-columns: 1fr; }
+  .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion { grid-template-columns: 1fr; }
   .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow, .visual-shared-state > .visual-arrow { transform: rotate(90deg); }
   .visual-numeric { grid-template-columns: 1fr; }
   .reshape-routes > div { grid-template-columns: 1fr; gap: 8px; }
+  .visual-quaternion { grid-template-rows: auto; }
+  .quaternion-status { grid-template-columns: auto minmax(0, 1fr); }
   .numeric-condition { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .contribution-case { display: flex; flex-direction: column; padding-block: 72px; }
   .case-header { display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 12px; padding-right: 0 !important; }

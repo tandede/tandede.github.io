@@ -60,6 +60,13 @@ export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['vi
     </div>
   </div>;
 
+  if (kind === 'quaternion') return <div className="contribution-visual visual-quaternion">
+    <div className="quaternion-equivalence"><small>ROTATION EQUIVALENCE</small><div><span>q</span><i>≡</i><span>−q</span></div><strong>同一个 SO(3) 姿态</strong></div>
+    <div className="quaternion-orbit" aria-hidden="true"><span>−1</span><i /><i /><i /><b>IDENTITY</b></div>
+    <div className="quaternion-guard"><small>VECTOR NORM GUARD</small><code>‖(x, y, z)‖ ≈ 0</code><Arrow /><strong>(0, 0, 1, 0)</strong><span>FINITE CANONICAL ROTATION</span></div>
+    <div className="quaternion-status"><span>BEFORE</span><b>NaN · NaN · NaN · 2π</b><span>AFTER</span><strong>0 · 0 · 1 · 0</strong></div>
+  </div>;
+
   return <div className="contribution-visual visual-numeric">
     <div className="numeric-path"><small>COMMON PATH</small><strong>finite weights</strong><span>原向量化快速卷积</span><b>FAST</b></div><div className="numeric-condition"><span>padding?</span><span>Inf / NaN?</span></div><div className="numeric-path"><small>RARE PATH</small><strong>non-finite weights</strong><span>精确后处理 padding 区域</span><b>IEEE 754</b></div>
   </div>;

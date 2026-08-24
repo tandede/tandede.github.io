@@ -3,7 +3,7 @@ export type OpenSourceProject = {
   name: string;
   logo: string;
   accent: string;
-  role: 'CONTRIBUTOR' | 'OWNER';
+  role: 'CONTRIBUTOR' | 'COMMITTER' | 'OWNER';
   href: string;
   prHref: string;
   function: string;
@@ -12,10 +12,20 @@ export type OpenSourceProject = {
   solution: string;
   impact: string;
   highlight: string;
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'webots', name: 'Webots', logo: 'https://github.com/cyberbotics.png?size=128', accent: '#e1261c', role: 'COMMITTER', href: 'https://github.com/cyberbotics/webots', prHref: 'https://github.com/cyberbotics/webots/pull/7009#pullrequestreview-5006270169',
+    function: 'Cyberbotics 维护的开源机器人仿真平台，用于建模、编程和仿真机器人、车辆与机械系统，覆盖三维物理环境、传感器、控制器以及 ROS / ROS 2 工作流。',
+    problem: '负单位四元数 `(-1, 0, 0, 0)` 与正单位四元数描述相同的恒等旋转，但旧转换会得到 2π 角度并继续归一化零长度向量，除零后生成 NaN 旋转轴，可能沿场景树或渲染路径触发崩溃。',
+    reasoning: '四元数 q 与 −q 表示同一个三维旋转；当向量部分范数接近零时，不论标量符号如何都应落到恒等旋转。同时，向量部分非零的负标量四元数仍需保留原有轴与旋转角，不能被一概折叠。',
+    solution: '在 `WbRotation::fromQuaternion()` 中只计算一次向量范数；遇到近零向量时直接返回有限的规范恒等轴角 `(0, 0, 1, 0)`，其余输入复用该范数继续正常归一化，并补充变更记录。',
+    impact: '负单位、近退化与正单位四元数都稳定得到有限结果，非退化负标量输入仍保留预期旋转；完成维护者评审协作后，受 Olivier Michel 邀请加入 Cyberbotics Ltd. 的 Committers 团队。',
+    highlight: 'CONTRIBUTOR → COMMITTER',
+    visualization: 'quaternion',
+  },
   {
     slug: 'lm-evaluation-harness', name: 'LM Evaluation Harness', logo: 'https://github.com/EleutherAI.png?size=128', accent: '#313131', role: 'CONTRIBUTOR', href: 'https://github.com/EleutherAI/lm-evaluation-harness', prHref: 'https://github.com/EleutherAI/lm-evaluation-harness/pull/4020',
     function: '广泛使用的大语言模型评测框架，将任务定义、few-shot 模板、生成参数和推理后端统一到可复现流水线，支持跨模型、跨基准的标准化比较。',
