@@ -60,7 +60,7 @@ export default function OpenSourceMemberships() {
   return <section className="membership-panel" data-reveal data-motion>
     <header className="membership-identity">
       <div className="membership-organization"><img src="https://github.com/cyberbotics.png?size=160" alt="" /><div><small>ORGANIZATION MEMBERSHIP</small><h3>Cyberbotics Ltd.</h3><p>Committers Team Member</p></div></div>
-      <div className="membership-summary"><strong>{repositoryCount}</strong><div><span>PUBLIC REPOSITORIES</span><p>受 Olivier Michel 邀请加入 Cyberbotics Ltd. 的 Committers 团队。团队围绕 Webots 机器人仿真平台，协同维护核心工具、ROS / ROS 2 集成、云端仿真、控制器与发布基础设施，并持续建设面向开发者的机器人仿真生态。</p></div></div>
+      <div className="membership-summary"><strong>{repositoryCount}</strong><div><span>PUBLIC REPOSITORIES</span><p>团队围绕 Webots 机器人仿真平台，协同维护核心仿真工具、ROS / ROS 2 集成、云端运行环境、机器人控制器与跨平台发布基础设施，并通过项目模板、文档和社区资源持续建设面向开发者的机器人仿真生态。</p></div></div>
       <a href="https://github.com/cyberbotics" target="_blank" rel="noopener noreferrer">查看 GitHub 组织 <PiArrowUpRightBold aria-hidden="true" /></a>
     </header>
     <div className="membership-repository-groups">
