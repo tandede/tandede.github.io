@@ -3,9 +3,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { PiArrowRightBold, PiStarFill } from 'react-icons/pi';
+import { getGitHubStarsCacheKey, githubStarsCacheDuration } from './github-stars-cache';
 import type { OpenSourceProject } from './open-source-data';
-
-const cacheDuration = 30 * 60 * 1000;
 
 function formatStars(value: number) {
   if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(value >= 10_000_000 ? 0 : 1)}m`;
@@ -23,7 +22,7 @@ export default function OpenSourceGrid({ items }: { items: OpenSourceProject[] }
     const loadStars = async () => {
       const entries = await Promise.all(items.map(async (item) => {
         const repository = new URL(item.href).pathname.replace(/^\//, '').replace(/\/$/, '');
-        const cacheKey = `github-stars:${repository}`;
+        const cacheKey = getGitHubStarsCacheKey(repository);
         let staleValue: number | null = null;
 
         try {
@@ -32,7 +31,7 @@ export default function OpenSourceGrid({ items }: { items: OpenSourceProject[] }
             const parsed = JSON.parse(cached) as { value: number; updatedAt: number };
             if (typeof parsed.value === 'number') {
               staleValue = parsed.value;
-              if (Date.now() - parsed.updatedAt < cacheDuration) return [item.href, parsed.value] as const;
+              if (Date.now() - parsed.updatedAt < githubStarsCacheDuration) return [item.href, parsed.value] as const;
             }
           }
 

@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { PiStarFill } from 'react-icons/pi';
-
-const cacheDuration = 30 * 60 * 1000;
+import { getGitHubStarsCacheKey, githubStarsCacheDuration } from './github-stars-cache';
 
 function formatStars(value: number) {
   if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(value >= 10_000_000 ? 0 : 1)}m`;
@@ -17,7 +16,7 @@ export default function GitHubStars({ repositoryUrl }: { repositoryUrl: string }
 
   useEffect(() => {
     const controller = new AbortController();
-    const cacheKey = `github-stars:${repository}`;
+    const cacheKey = getGitHubStarsCacheKey(repository);
 
     const load = async () => {
       try {
@@ -26,7 +25,7 @@ export default function GitHubStars({ repositoryUrl }: { repositoryUrl: string }
           const parsed = JSON.parse(cached) as { value: number; updatedAt: number };
           if (typeof parsed.value === 'number') {
             setStars(parsed.value);
-            if (Date.now() - parsed.updatedAt < cacheDuration) return;
+            if (Date.now() - parsed.updatedAt < githubStarsCacheDuration) return;
           }
         }
         const response = await fetch(`https://api.github.com/repos/${repository}`, {
