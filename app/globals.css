@@ -636,6 +636,20 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .jaxpr-split small { color: var(--detail-accent); }
 .visual-jaxpr > div:last-child > strong { color: #067647; text-align: right; }
 
+.visual-shared-state { grid-template-columns: minmax(0, 1fr) 44px minmax(0, 1fr); gap: 22px; }
+.visual-shared-state > div { display: grid; padding: 26px; align-content: space-between; border: 1px solid var(--line); border-radius: 18px; background: #fbfcfe; }
+.shared-instances, .fresh-containers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 28px 0 12px; }
+.shared-instances span, .fresh-containers span { display: grid; gap: 6px; padding: 14px; border: 1px solid var(--line); border-radius: 11px; background: var(--white); font-size: 11px; }
+.shared-container { display: grid; gap: 8px; margin: 0 auto 24px; padding: 18px 28px; color: #b42318; border: 1px solid #fda29b; border-radius: 999px; background: #fff1f0; text-align: center; animation: shared-state-leak 3s ease-in-out infinite; }
+.shared-container b, .shared-container i, .fresh-containers i { font-family: var(--font-geist-mono), monospace; font-size: 9px; font-style: normal; }
+.shared-state-before > strong { color: #b42318; font-family: var(--font-geist-mono), monospace; }
+.shared-state-after { border-color: color-mix(in srgb, var(--detail-accent) 48%, var(--line)) !important; background: color-mix(in srgb, var(--detail-accent) 5%, white) !important; }
+.fresh-containers span { border-color: color-mix(in srgb, var(--detail-accent) 36%, var(--line)); animation: fresh-state-pulse 3s ease-in-out infinite; }
+.fresh-containers span:last-child { animation-delay: .35s; }
+.fresh-containers b { color: var(--detail-accent); }
+.fresh-containers i { color: var(--muted); }
+.shared-state-after > strong { color: #067647; font-family: var(--font-geist-mono), monospace; text-align: right; }
+
 .visual-numeric { grid-template-columns: minmax(0, 1fr) 180px minmax(0, 1fr); gap: 24px; }
 .numeric-path { display: grid; padding: 28px; align-content: center; border: 1px solid var(--line); border-radius: 18px; background: #fbfcfe; }
 .numeric-path strong { margin: 17px 0 8px; font-size: 20px; }
@@ -776,6 +790,8 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 @keyframes jaxpr-split-left { 0%, 100% { transform: translateX(5px); } 50% { transform: translateX(-4px); } }
 @keyframes jaxpr-split-right { 0%, 100% { transform: translateX(-5px); } 50% { transform: translateX(4px); } }
 @keyframes numeric-check { 0%, 100% { background: var(--white); } 50% { background: color-mix(in srgb, var(--detail-accent) 10%, white); transform: translateY(-3px); } }
+@keyframes shared-state-leak { 0%, 100% { box-shadow: 0 0 0 0 rgba(180, 35, 24, 0); transform: scale(.98); } 50% { box-shadow: 0 0 0 10px rgba(180, 35, 24, .08); transform: scale(1); } }
+@keyframes fresh-state-pulse { 0%, 100% { transform: translateY(0); } 50% { border-color: var(--detail-accent); box-shadow: 0 10px 24px color-mix(in srgb, var(--detail-accent) 12%, transparent); transform: translateY(-4px); } }
 @keyframes motion-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes pipeline-stage-in { from { opacity: .15; transform: translateY(12px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes evidence-pulse { 0%, 34%, 100% { opacity: .38; box-shadow: 0 0 0 0 rgba(31, 103, 240, .22); } 12% { opacity: 1; box-shadow: 0 0 0 8px rgba(31, 103, 240, 0); } }
@@ -795,14 +811,12 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .paper-row summary { grid-template-columns: 38px 125px minmax(0, 1fr) 100px 22px; }
   .paper-metric { display: none; }
   .paper-detail { padding-left: 180px; }
-  .opensource-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .detail-hero { grid-template-columns: 1fr; min-height: 0; padding-block: 90px 70px; }
   .detail-highlight { min-height: 170px; }
   .detail-story > header { grid-template-columns: 150px 1fr; }
   .detail-story > header p { grid-column: 2; }
   .detail-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .detail-flow-item:nth-child(2) .detail-connector { display: none; }
-  .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .project-editorial-header { grid-template-columns: 150px 1fr; }
   .project-editorial-header p { grid-column: 2; }
   .tiny-role { grid-template-columns: .8fr 1.2fr; }
@@ -902,6 +916,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .workstream-grid { grid-template-columns: 1fr; }
   .workstream-card { min-height: 0; }
   .project-grid { grid-template-columns: 1fr; }
+  .opensource-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .opensource-face { padding: 22px; }
   .contact-layout { grid-template-columns: 1fr; gap: 54px; }
   .detail-page { padding-inline: 20px; }
@@ -918,8 +933,8 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .detail-final-cta { grid-template-columns: 1fr; }
   .contribution-showcase > header { grid-template-columns: 150px 1fr; }
   .contribution-showcase > header p { grid-column: 2; }
-  .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary { grid-template-columns: 1fr; }
-  .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow { transform: rotate(90deg); }
+  .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state { grid-template-columns: 1fr; }
+  .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow, .visual-shared-state > .visual-arrow { transform: rotate(90deg); }
   .visual-numeric { grid-template-columns: 1fr; }
   .numeric-condition { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .contribution-case { display: flex; flex-direction: column; padding-block: 72px; }

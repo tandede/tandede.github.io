@@ -15,6 +15,7 @@ const presentation: Record<OpenSourceProject['visualization'], Presentation> = {
   config: { eyebrow: 'EVALUATION INFRA · CONFIGURATION', title: '让两种配置入口走同一条路', lead: 'CLI 和 YAML 表达方式不同，但进入评测系统前应该被规范化成完全相同的数据结构。', story: [{ label: '入口分裂', title: '同一字段得到两种运行时类型' }, { label: '根因定位', title: '延迟注解破坏了身份判断' }, { label: '统一边界', title: 'DICT_KEYS 成为单一事实来源' }, { label: '配置语义', title: 'CLI 与 YAML 得到同样结果' }] },
   jaxpr: { eyebrow: 'PROBABILISTIC PROGRAMMING · JAXPR', title: '从私有追踪假设回到公共接口', lead: '闭包常量参与计算，却不应占据显式参数的 provenance 位置。', story: [{ label: '版本变化', title: '闭包常量进入了输入序列' }, { label: '错位本质', title: '私有 API 隐藏了布局假设' }, { label: '公共接口', title: 'ClosedJaxpr 显式拆分常量' }, { label: '长期兼容', title: 'Provenance 再次准确对齐' }] },
   numeric: { eyebrow: 'RUST TENSOR KERNEL · IEEE 754', title: '保住快速路径，也保住浮点语义', lead: '常见有限权重继续走向量化热路径，只有非有限值和 padding 同时出现时才精确修正。', story: [{ label: '路径差异', title: '快速卷积改变了 Inf / NaN 行为' }, { label: '性能边界', title: '异常值不能拖慢普通输入' }, { label: '条件分发', title: '只让罕见组合走修正路径' }, { label: '语义一致', title: '速度与 IEEE 754 同时保留' }] },
+  'shared-state': { eyebrow: 'PYTHON OBJECT MODEL · STATE ISOLATION', title: '看似独立的对象，不该共享同一份状态', lead: '可变默认参数只创建一次。两个 Concept 实例如果拿到同一个容器，一次局部修改就会变成跨对象污染。', story: [{ label: '状态泄漏', title: '三个默认容器跨实例复用' }, { label: '语言语义', title: '默认参数在定义时创建一次' }, { label: '初始化边界', title: 'None 哨兵按实例分配容器' }, { label: '兼容结果', title: '隔离默认状态，保留显式输入' }] },
 };
 
 export default function OpenSourceContribution({ project }: { project: OpenSourceProject }) {

@@ -45,6 +45,12 @@ export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['vi
     <div><small>PRIVATE TRACE · JAX 0.11.1</small><div className="jaxpr-stack"><span>invars</span><b>closed const</b><b>dynamic x</b></div><div className="jaxpr-stack provenance"><span>provenance</span><b>x</b></div><strong className="mismatch">[2] ≠ [1]</strong></div><Arrow /><div><small>PUBLIC jax.make_jaxpr</small><div className="jaxpr-split"><span><small>consts</small>closed const</span><span><small>invars</small>dynamic x</span></div><strong>ClosedJaxpr 对齐</strong></div>
   </div>;
 
+  if (kind === 'shared-state') return <div className="contribution-visual visual-shared-state">
+    <div className="shared-state-before"><small>BEFORE · MUTABLE DEFAULT</small><div className="shared-instances"><span>Concept A</span><span>Concept B</span></div><div className="shared-container"><b>shared [] / set()</b><i>A.add(...) → B changed</i></div><strong>STATE LEAK</strong></div>
+    <Arrow />
+    <div className="shared-state-after"><small>AFTER · NONE SENTINEL</small><div className="fresh-containers"><span><b>Concept A</b><i>labels_A · set_A</i></span><span><b>Concept B</b><i>labels_B · set_B</i></span></div><strong>A ≠ B · ISOLATED</strong></div>
+  </div>;
+
   return <div className="contribution-visual visual-numeric">
     <div className="numeric-path"><small>COMMON PATH</small><strong>finite weights</strong><span>原向量化快速卷积</span><b>FAST</b></div><div className="numeric-condition"><span>padding?</span><span>Inf / NaN?</span></div><div className="numeric-path"><small>RARE PATH</small><strong>non-finite weights</strong><span>精确后处理 padding 区域</span><b>IEEE 754</b></div>
   </div>;

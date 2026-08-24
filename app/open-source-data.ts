@@ -12,7 +12,7 @@ export type OpenSourceProject = {
   solution: string;
   impact: string;
   highlight: string;
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
@@ -115,5 +115,15 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '统一快速路径与通用路径的数值语义，在保证 Inf / NaN 正确传播的同时避免正常模型性能回退。',
     highlight: 'IEEE 754 + FAST PATH',
     visualization: 'numeric',
+  },
+  {
+    slug: 'nltk', name: 'NLTK', logo: 'https://github.com/nltk.png?size=128', accent: '#154f7d', role: 'CONTRIBUTOR', href: 'https://github.com/nltk/nltk', prHref: 'https://github.com/nltk/nltk/pull/3773',
+    function: '经典自然语言处理工具库，覆盖分词、词性标注、句法与语义分析、语料库接口和教学资源，为 NLP 研究、原型验证与课程实践提供稳定基础设施。',
+    problem: 'chat80.Concept 的 altLabels、closures 与 extension 使用可变默认参数，多个默认构造实例会静默共享同一组容器；修改一个概念，后续概念的状态也会被污染。',
+    reasoning: '根因不是 chat80 数据内容，而是 Python 默认参数只在函数定义时创建一次。三个容器跨实例复用，因此对象表面独立，底层状态实际相连；显式传入的容器则应继续保留调用者语义。',
+    solution: '将三个可变默认值替换为 None 哨兵，仅在调用者未提供容器时为当前实例创建新的 list 与 set，同时保留显式传入容器，并加入双实例状态隔离回归用例。',
+    impact: 'Concept 实例恢复真正的状态隔离，避免标签、闭包和扩展集合发生跨对象泄漏；修复覆盖全部三个默认容器，并作为 NLTK 贡献者写入 AUTHORS.md。',
+    highlight: 'INSTANCE STATE ISOLATED',
+    visualization: 'shared-state',
   },
 ];
