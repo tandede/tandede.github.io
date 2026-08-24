@@ -38,10 +38,21 @@ export default function InteractionLayer() {
     );
     motionItems.forEach((item) => motionObserver.observe(item));
 
+    let activeGlow: HTMLElement | null = null;
+    const clearActiveGlow = () => {
+      activeGlow?.classList.remove('is-glow-active');
+      activeGlow = null;
+    };
+
     const updatePagePointer = (event: PointerEvent) => {
       document.documentElement.style.setProperty('--pointer-x', `${event.clientX}px`);
       document.documentElement.style.setProperty('--pointer-y', `${event.clientY}px`);
       const target = event.target instanceof Element ? event.target.closest<HTMLElement>('[data-glow]') : null;
+      if (target !== activeGlow) {
+        activeGlow?.classList.remove('is-glow-active');
+        activeGlow = target;
+        activeGlow?.classList.add('is-glow-active');
+      }
       if (target) {
         const bounds = target.getBoundingClientRect();
         target.style.setProperty('--glow-x', `${event.clientX - bounds.left}px`);
@@ -49,6 +60,7 @@ export default function InteractionLayer() {
       }
     };
     window.addEventListener('pointermove', updatePagePointer, { passive: true });
+    window.addEventListener('blur', clearActiveGlow);
 
     const updateScroll = () => {
       const scrollable = document.documentElement.scrollHeight - window.innerHeight;
@@ -74,7 +86,9 @@ export default function InteractionLayer() {
     return () => {
       revealObserver.disconnect();
       motionObserver.disconnect();
+      clearActiveGlow();
       window.removeEventListener('pointermove', updatePagePointer);
+      window.removeEventListener('blur', clearActiveGlow);
       window.removeEventListener('scroll', updateScroll);
       document.documentElement.classList.remove('is-at-top');
       document.documentElement.style.removeProperty('--hero-shift');
