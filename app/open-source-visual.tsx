@@ -67,6 +67,15 @@ export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['vi
     <div className="quaternion-status"><span>BEFORE</span><b>NaN · NaN · NaN · 2π</b><span>AFTER</span><strong>0 · 0 · 1 · 0</strong></div>
   </div>;
 
+  if (kind === 'tensor-layout') return <div className="contribution-visual visual-tensor-layout">
+    <div className="tensor-layout-input"><small>TRANSPOSED BATCH</small><div className="tensor-shape"><span>3</span><span>2</span><span>3</span><span>16</span><span>16</span></div><strong>shape is valid</strong><code>stride is non-contiguous</code></div>
+    <div className="tensor-layout-paths">
+      <div className="tensor-view-path"><span>BEFORE</span><code>.view(-1, C, H, W)</code><strong>RuntimeError</strong><small>内存布局不兼容</small></div>
+      <div className="tensor-reshape-path"><span>AFTER</span><code>.reshape(-1, C, H, W)</code><strong>6 × 3 × 16 × 16</strong><small>兼容时零复制，必要时物化</small></div>
+    </div>
+    <div className="tensor-layout-output"><small>JPEG KERNEL</small><div><i /><i /><i /><i /><i /><i /></div><Arrow /><strong>restore original shape</strong><code>[3, 2, 3, H′, W′]</code></div>
+  </div>;
+
   return <div className="contribution-visual visual-numeric">
     <div className="numeric-path"><small>COMMON PATH</small><strong>finite weights</strong><span>原向量化快速卷积</span><b>FAST</b></div><div className="numeric-condition"><span>padding?</span><span>Inf / NaN?</span></div><div className="numeric-path"><small>RARE PATH</small><strong>non-finite weights</strong><span>精确后处理 padding 区域</span><b>IEEE 754</b></div>
   </div>;

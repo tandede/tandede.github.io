@@ -12,7 +12,7 @@ export type OpenSourceProject = {
   solution: string;
   impact: string;
   highlight: string;
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
@@ -145,5 +145,15 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '同时覆盖默认零复制、真实零维输出与动态 `-1` 推断三条路径，使 ONNX 模型语义能够忠实落到 Relax；审查中发现的推断回退也被纳入回归覆盖。',
     highlight: '0 COPY · 0 LITERAL · −1 INFER',
     visualization: 'reshape-semantics',
+  },
+  {
+    slug: 'torchvision', name: 'Torchvision', logo: 'https://github.com/pytorch.png?size=128', accent: '#ee4c2c', role: 'CONTRIBUTOR', href: 'https://github.com/pytorch/vision', prHref: 'https://github.com/pytorch/vision/pull/9615',
+    function: 'PyTorch 官方计算机视觉库，提供主流视觉数据集、预训练模型、图像与视频变换以及高性能算子，是视觉训练和推理工作流中的核心基础设施。',
+    problem: '`transforms.v2.JPEG` 支持形如 `[..., C, H, W]` 的任意前导批次维度，但内核使用 `view()` 展平批次轴；一旦输入由 transpose 等操作产生非连续布局，合法 Tensor 会在进入 JPEG 编码前直接报错。',
+    reasoning: 'Tensor 的逻辑形状与底层内存是否连续是两个维度。这里需要的是保持逻辑元素顺序的展平，而不是强制要求调用方先复制；`reshape()` 在布局兼容时仍返回视图，仅在必要时才物化连续副本，正好覆盖这条语义边界。',
+    solution: '将 JPEG v2 内核的前导维展平从 `view()` 改为 `reshape()`，编码完成后继续恢复原始形状；同时用转置批次轴构造真实的非连续输入，并与其 contiguous 等价输入对照，锁定多前导维场景。',
+    impact: '非连续批次 Tensor 现在可以直接进入 JPEG 变换，无需用户手动调用 `.contiguous()`；原有连续输入仍沿零额外复制路径执行，接口承诺与 PyTorch 的 Tensor 布局语义重新一致。',
+    highlight: 'LOGICAL SHAPE ≠ MEMORY LAYOUT',
+    visualization: 'tensor-layout',
   },
 ];
