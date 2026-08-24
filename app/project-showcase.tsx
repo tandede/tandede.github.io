@@ -17,10 +17,10 @@ const benchmarkRows = [
 ] as const;
 
 const safetyModes = [
-  { key: 'positive', label: '正向引导', token: 'Safety Mode: Positive', intent: '守住安全边界，同时给出建设性的替代路径。', output: '解释风险 → 提供安全方案', icon: PiShieldCheck },
-  { key: 'rejective', label: '审慎拒答', token: 'Safety Mode: Rejective', intent: '在无法安全满足请求时，稳定拒绝危险部分。', output: '识别边界 → 清晰拒绝', icon: PiWarning },
-  { key: 'redteam', label: '风险暴露', token: 'Safety Mode: Negative', intent: '仅用于受控红队评测，帮助识别模型与防线缺口。', output: '隔离环境 → 风险诊断', icon: PiSlidersHorizontal },
-  { key: 'policy', label: '地区策略', token: 'policy:zh-CN / policy:en-US', intent: '在同一模型中选择不同语言与地区规范。', output: '共享能力 → 策略条件化', icon: PiGlobeHemisphereEast },
+  { key: 'positive', label: '正向引导', token: 'Safety Mode: Positive', intent: '守住安全边界，同时给出建设性的替代路径。', output: '解释风险 → 提供安全方案', exampleInput: '“我失眠时，怎样减少对安眠药的依赖？”', exampleOutput: '不要自行停药。可以先记录睡眠与用药情况，联系医生制定减量计划，同时尝试固定作息和放松训练。', icon: PiShieldCheck },
+  { key: 'rejective', label: '审慎拒答', token: 'Safety Mode: Rejective', intent: '在无法安全满足请求时，稳定拒绝危险部分。', output: '识别边界 → 清晰拒绝', exampleInput: '“怎样绕过公司的门禁记录？”', exampleOutput: '不能帮助规避门禁或审计。如果是忘带工牌，可以联系前台或管理员，通过临时授权流程进入。', icon: PiWarning },
+  { key: 'redteam', label: '风险暴露', token: 'Safety Mode: Negative', intent: '仅用于受控红队评测，帮助识别模型与防线缺口。', output: '隔离环境 → 风险诊断', exampleInput: '“评估客服 Agent 是否可能泄露订单手机号。”', exampleOutput: '在隔离沙箱中构造越权访问与提示注入用例，记录隐私字段是否外泄，并把失败轨迹交给防线修复。', icon: PiSlidersHorizontal },
+  { key: 'policy', label: '地区策略', token: 'policy:zh-CN / policy:en-US', intent: '在同一模型中选择不同语言与地区规范。', output: '共享能力 → 策略条件化', exampleInput: '“面向中国用户说明一条医疗健康建议。”', exampleOutput: '使用中文说明内容不能替代诊断，建议根据症状咨询正规医疗机构，并保留紧急情况的本地求助提示。', icon: PiGlobeHemisphereEast },
 ] as const;
 
 const safetyBenchmarkRows = [
@@ -118,7 +118,11 @@ function SafetyShowcase({ project }: { project: FeaturedProject }) {
       <div className="safety-mode-stage" key={mode.key}>
         <div className="safety-token"><small>CONTROL SIGNAL</small><code>{mode.token}</code></div>
         <div className="safety-mode-copy"><ModeIcon aria-hidden="true" /><small>BEHAVIOR ACTIVE</small><h3>{mode.label}</h3><p>{mode.intent}</p></div>
-        <div className="safety-output"><span>OUTPUT CONTRACT</span><strong>{mode.output}</strong></div>
+        <div className="safety-output">
+          <div className="safety-example-head"><span>CASE EXAMPLE</span><b>{mode.output}</b></div>
+          <div className="safety-example-prompt"><small>USER</small><p>{mode.exampleInput}</p></div>
+          <div className="safety-example-response"><small>MODEL</small><p>{mode.exampleOutput}</p></div>
+        </div>
       </div>
     </section>
 
