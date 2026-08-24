@@ -45,6 +45,7 @@ type DetailPageProps = {
   contentLabel?: string;
   heroAside?: ReactNode;
   pageClassName?: string;
+  pagination?: ReactNode;
 };
 
 const stepIcons = {
@@ -79,6 +80,7 @@ export default function DetailPage({
   contentLabel = '查看完整思路',
   heroAside,
   pageClassName = '',
+  pagination,
 }: DetailPageProps) {
   const homeSectionLabel = backLabel.replace(/^返回/, '');
 
@@ -130,13 +132,13 @@ export default function DetailPage({
 
     {showcase}
 
-    <nav className="detail-pagination" aria-label="详情页切换">
+    {pagination ?? <nav className="detail-pagination" aria-label="详情页切换">
       {previous
         ? <a href={previous.href}><PiArrowLeftBold aria-hidden="true" /><span><small>上一个</small>{previous.label}</span></a>
         : <a href={backHref}><PiArrowLeftBold aria-hidden="true" /><span><small>返回首页</small>{homeSectionLabel}</span></a>}
       {next
         ? <a href={next.href}><span><small>下一个</small>{next.label}</span><PiArrowRightBold aria-hidden="true" /></a>
         : <a href={backHref}><span><small>返回首页</small>{homeSectionLabel}</span><PiArrowRightBold aria-hidden="true" /></a>}
-    </nav>
+    </nav>}
   </main>;
 }

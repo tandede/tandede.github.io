@@ -4,6 +4,7 @@ import DetailPage from '../../detail-page';
 import GitHubStars from '../../github-project-stats';
 import OpenSourceContribution from '../../open-source-contribution';
 import { openSourceProjects } from '../../open-source-data';
+import OpenSourcePagination from '../../open-source-pagination';
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -34,8 +35,6 @@ export default async function OpenSourceDetail({ params }: PageProps) {
   const index = openSourceProjects.findIndex((item) => item.slug === slug);
   if (index < 0) notFound();
   const project = openSourceProjects[index];
-  const previous = openSourceProjects[index - 1];
-  const next = openSourceProjects[index + 1];
 
   return <DetailPage
     category="OPEN SOURCE CONTRIBUTION"
@@ -50,8 +49,7 @@ export default async function OpenSourceDetail({ params }: PageProps) {
     externalLabel="查看 GitHub 项目"
     backHref="/#opensource"
     backLabel="返回开源贡献"
-    previous={previous ? { href: `/open-source/${previous.slug}/`, label: previous.name } : undefined}
-    next={next ? { href: `/open-source/${next.slug}/`, label: next.name } : undefined}
+    pagination={<OpenSourcePagination items={openSourceProjects} currentSlug={project.slug} />}
     titleAddon={<GitHubStars repositoryUrl={project.href} />}
     secondaryExternal={{ href: project.prHref, label: '查看我的 PR' }}
     contentHref="#contribution"
