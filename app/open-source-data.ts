@@ -17,7 +17,7 @@ export type OpenSourceProject = {
 
 export const openSourceProjects: OpenSourceProject[] = [
   {
-    slug: 'webots', name: 'Webots', logo: 'https://github.com/cyberbotics.png?size=128', accent: '#e1261c', role: 'COMMITTER', href: 'https://github.com/cyberbotics/webots', prHref: 'https://github.com/cyberbotics/webots/pull/7009#pullrequestreview-5006270169',
+    slug: 'webots', name: 'Webots', logo: 'https://github.com/cyberbotics.png?size=128', accent: '#e1261c', role: 'CONTRIBUTOR', href: 'https://github.com/cyberbotics/webots', prHref: 'https://github.com/cyberbotics/webots/pull/7009#pullrequestreview-5006270169',
     function: 'Cyberbotics 维护的开源机器人仿真平台，用于建模、编程和仿真机器人、车辆与机械系统，覆盖三维物理环境、传感器、控制器以及 ROS / ROS 2 工作流。',
     problem: '负单位四元数 `(-1, 0, 0, 0)` 与正单位四元数描述相同的恒等旋转，但旧转换会得到 2π 角度并继续归一化零长度向量，除零后生成 NaN 旋转轴，可能沿场景树或渲染路径触发崩溃。',
     reasoning: '四元数 q 与 −q 表示同一个三维旋转；当向量部分范数接近零时，不论标量符号如何都应落到恒等旋转。同时，向量部分非零的负标量四元数仍需保留原有轴与旋转角，不能被一概折叠。',

@@ -285,6 +285,41 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .project-card:hover .project-card-link svg, .project-card:focus-visible .project-card-link svg { transform: translateX(5px); }
 
 .opensource-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; padding-top: 8px; }
+.opensource-category-heading { display: flex; gap: 15px; align-items: center; margin: 8px 0 22px; }
+.opensource-category-heading > span { display: grid; width: 38px; height: 38px; place-items: center; color: var(--blue); border: 1px solid #a9c4f5; border-radius: 50%; font-family: var(--font-geist-mono), monospace; font-size: 9px; font-weight: 800; }
+.opensource-category-heading > div { display: grid; gap: 4px; }
+.opensource-category-heading small { color: var(--blue); font-family: var(--font-geist-mono), monospace; font-size: 8px; font-weight: 750; letter-spacing: .1em; }
+.opensource-category-heading h3 { margin: 0; font-size: 23px; letter-spacing: -.035em; }
+.opensource-pr-heading { margin-top: 74px; padding-top: 28px; border-top: 1px solid var(--line-strong); }
+.membership-panel { overflow: hidden; border: 1px solid #9fb8df; border-radius: 24px; background: var(--white); box-shadow: 0 18px 54px rgba(28, 69, 126, .08); }
+.membership-identity { display: grid; grid-template-columns: minmax(260px, .72fr) minmax(380px, 1.28fr) auto; gap: 34px; padding: 30px; align-items: center; color: var(--white); background: linear-gradient(122deg, #0a284b 0%, #154f7d 58%, #17667f 100%); }
+.membership-organization { display: flex; gap: 16px; align-items: center; }
+.membership-organization img { width: 66px; height: 66px; padding: 9px; border: 1px solid rgba(255,255,255,.32); border-radius: 18px; background: var(--white); object-fit: contain; }
+.membership-organization small, .membership-summary span { color: #9fc7ed; font-family: var(--font-geist-mono), monospace; font-size: 8px; font-weight: 750; letter-spacing: .1em; }
+.membership-organization h3 { margin: 6px 0 2px; font-size: 24px; letter-spacing: -.04em; }
+.membership-organization p { margin: 0; color: #d7e9f7; font-size: 11px; }
+.membership-summary { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: center; }
+.membership-summary > strong { color: #ffffff; font-family: var(--font-geist-mono), monospace; font-size: 50px; letter-spacing: -.07em; line-height: 1; }
+.membership-summary p { max-width: 720px; margin: 7px 0 0; color: #d7e4f0; font-size: 11px; line-height: 1.7; }
+.membership-identity > a { display: inline-flex; gap: 8px; min-height: 44px; padding: 0 15px; align-items: center; justify-content: center; color: #0a284b; border-radius: 12px; background: var(--white); font-size: 10px; font-weight: 750; white-space: nowrap; transition: box-shadow 180ms ease, transform 180ms ease; }
+.membership-identity > a:hover, .membership-identity > a:focus-visible { box-shadow: 0 12px 28px rgba(0,0,0,.22); transform: translateY(-3px); }
+.membership-repository-groups { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid #b9c9de; }
+.membership-repository-groups > article { min-width: 0; border-right: 1px solid var(--line); }
+.membership-repository-groups > article:last-child { border-right: 0; }
+.membership-repository-groups article > header { display: flex; gap: 12px; min-height: 82px; padding: 18px; align-items: center; border-bottom: 1px solid var(--line); background: #f5f8fc; }
+.membership-repository-groups article > header > span { color: #6b87a8; font-family: var(--font-geist-mono), monospace; font-size: 9px; }
+.membership-repository-groups article > header small { color: #57799e; font-family: var(--font-geist-mono), monospace; font-size: 7px; font-weight: 750; letter-spacing: .08em; }
+.membership-repository-groups article > header h4 { margin: 5px 0 0; font-size: 15px; }
+.membership-repository-groups article > div { display: grid; }
+.membership-repository-groups article > div > a { position: relative; display: grid; min-height: 84px; padding: 15px 38px 15px 18px; align-content: center; border-bottom: 1px solid var(--line); background: var(--white); transition: background 170ms ease, transform 170ms ease; }
+.membership-repository-groups article > div > a:last-child { border-bottom: 0; }
+.membership-repository-groups article > div > a:hover, .membership-repository-groups article > div > a:focus-visible { z-index: 1; background: #eef5fc; transform: translateX(4px); }
+.membership-repository-groups a > span { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+.membership-repository-groups a strong { color: #102b49; font-family: var(--font-geist-mono), monospace; font-size: 10px; overflow-wrap: anywhere; }
+.membership-repository-groups a b { padding: 3px 5px; color: #b42318; border: 1px solid #fda29b; border-radius: 999px; background: #fff1f0; font-family: var(--font-geist-mono), monospace; font-size: 6px; }
+.membership-repository-groups a p { margin: 7px 0 0; color: #617087; font-size: 9px; line-height: 1.55; }
+.membership-repository-groups a > svg { position: absolute; top: 17px; right: 16px; width: 13px; height: 13px; color: #6784a6; transition: color 170ms ease, transform 170ms ease; }
+.membership-repository-groups a:hover > svg, .membership-repository-groups a:focus-visible > svg { color: var(--blue); transform: translate(2px, -2px); }
 .opensource-card { --repo-accent: var(--blue); position: relative; isolation: isolate; min-height: 356px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--repo-accent) 58%, white); border-radius: 18px; background: var(--white); box-shadow: 0 8px 24px rgba(16, 24, 40, 0.055); transition: border-color 260ms ease, box-shadow 320ms ease, transform 360ms cubic-bezier(0.22, 1, 0.36, 1); }
 .opensource-card::before { position: absolute; z-index: -1; inset: 0; background: radial-gradient(circle 190px at var(--glow-x, 50%) var(--glow-y, 50%), color-mix(in srgb, var(--repo-accent) 16%, transparent), transparent 72%), linear-gradient(145deg, #ffffff 0%, color-mix(in srgb, var(--repo-accent) 7%, white) 44%, color-mix(in srgb, var(--repo-accent) 13%, white) 100%); content: ""; opacity: 0; transition: opacity 360ms ease; }
 .opensource-card::after { position: absolute; z-index: 3; top: 0; right: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--repo-accent), color-mix(in srgb, var(--repo-accent) 42%, white)); content: ""; transform: scaleX(0); transform-origin: left; transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1); }
@@ -1038,6 +1073,11 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .workstream-card { min-height: 0; }
   .project-grid { grid-template-columns: 1fr; }
   .opensource-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .membership-identity { grid-template-columns: 1fr; gap: 24px; }
+  .membership-identity > a { justify-self: start; }
+  .membership-repository-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .membership-repository-groups > article:nth-child(2n) { border-right: 0; }
+  .membership-repository-groups > article:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
   .opensource-face { padding: 22px; }
   .contact-layout { grid-template-columns: 1fr; gap: 54px; }
   .detail-page { --detail-gutter: 20px; padding-inline: var(--detail-gutter); }
@@ -1105,6 +1145,15 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .workstream-card { padding: 18px; }
   .project-card { min-height: 285px; padding: 24px 20px; }
   .opensource-grid { grid-template-columns: 1fr; }
+  .opensource-category-heading h3 { font-size: 20px; }
+  .membership-identity { padding: 24px 20px; }
+  .membership-organization { align-items: flex-start; }
+  .membership-organization img { width: 56px; height: 56px; }
+  .membership-summary { align-items: start; }
+  .membership-summary > strong { font-size: 42px; }
+  .membership-repository-groups { grid-template-columns: 1fr; }
+  .membership-repository-groups > article { border-right: 0; border-bottom: 1px solid var(--line); }
+  .membership-repository-groups > article:last-child { border-bottom: 0; }
   .opensource-card { min-height: 330px; }
   .opensource-face { padding: 22px 20px; }
   .contact-section { padding-top: 78px; }

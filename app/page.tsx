@@ -22,6 +22,7 @@ import { SiGithub, SiGooglescholar, SiLinkedin } from 'react-icons/si';
 import NavigationShell from './navigation-shell';
 import { openSourceProjects } from './open-source-data';
 import OpenSourceGrid from './open-source-grid';
+import OpenSourceMemberships from './open-source-memberships';
 import { featuredProjects } from './project-data';
 
 const externalLinkProps = { target: '_blank', rel: 'noopener noreferrer' } as const;
@@ -184,7 +185,7 @@ export default function Home() {
 
       <section className="opensource-section" id="opensource"><div className="section-shell"><details className="section-fold" open>
         <SectionHeading index="05" label="开源贡献" english="OPEN SOURCE" />
-        <div className="section-fold-content"><OpenSourceGrid items={openSourceProjects} /></div>
+        <div className="section-fold-content"><div className="opensource-category-heading"><span>01</span><div><small>OPEN-SOURCE MEMBERSHIP</small><h3>组织与团队身份</h3></div></div><OpenSourceMemberships /><div className="opensource-category-heading opensource-pr-heading"><span>02</span><div><small>PULL REQUEST CONTRIBUTIONS</small><h3>代码贡献</h3></div></div><OpenSourceGrid items={openSourceProjects} /></div>
       </details></div></section>
 
       <section className="contact-section" id="contact"><div className="section-shell contact-layout" data-reveal data-motion><div><p className="contact-eyebrow"><span />CONTACT</p><div className="contact-title"><h2>联系我</h2><PiSmiley aria-hidden="true" /></div><p className="contact-note">欢迎通过邮件联系，也可以在学术主页与开源社区找到我。</p></div><div className="contact-links"><a href="mailto:zhewentan1@gmail.com"><PiEnvelope aria-hidden="true" /><strong>邮箱</strong><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><strong>谷歌学术</strong><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><strong>GitHub</strong><PiArrowUpRightBold aria-hidden="true" /></a><a href="https://www.linkedin.com/in/zhewen-tan-0ba830401/" {...externalLinkProps}><SiLinkedin aria-hidden="true" /><strong>LinkedIn</strong><PiArrowUpRightBold aria-hidden="true" /></a></div></div><footer className="section-shell"><span>© 2026 ZHEWEN TAN</span><span>BEIJING · CHINA</span><a className="back-to-top" href="#top"><PiArrowUpBold aria-hidden="true" />回到顶部</a></footer></section>
