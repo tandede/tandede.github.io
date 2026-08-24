@@ -65,7 +65,7 @@ export default function OpenSourceMemberships() {
     <div className="membership-repository-groups">
       {repositoryGroups.map((group, groupIndex) => <article key={group.label}>
         <header><span>{String(groupIndex + 1).padStart(2, '0')}</span><div><small>{group.label}</small><h4>{group.title}</h4></div></header>
-        <div>{group.repositories.map(([name, description]) => <a href={`https://github.com/cyberbotics/${name}`} target="_blank" rel="noopener noreferrer" key={name}><span><strong>{name}</strong>{name === 'webots' && <b>PR #7009</b>}</span><p>{description}</p><PiArrowUpRightBold aria-hidden="true" /></a>)}</div>
+        <div>{group.repositories.map(([name, description]) => <a href={`https://github.com/cyberbotics/${name}`} target="_blank" rel="noopener noreferrer" key={name}><span><strong>{name}</strong></span><p>{description}</p><PiArrowUpRightBold aria-hidden="true" /></a>)}</div>
       </article>)}
     </div>
   </section>;
