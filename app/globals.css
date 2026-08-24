@@ -824,6 +824,34 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .tensor-layout-output > strong { color: #067647; font-size: 12px; text-align: center; }
 .tensor-layout-output > code { margin-top: 8px; color: var(--detail-accent); font-size: 10px; text-align: center; }
 
+.visual-parallel-inputs { grid-template-columns: minmax(330px, 1.2fr) minmax(230px, .8fr) minmax(260px, .92fr); gap: 20px; }
+.parallel-input-stack, .parallel-input-gate, .parallel-input-result { display: grid; padding: 24px; align-content: center; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
+.parallel-input-stack { gap: 12px; }
+.parallel-input-row { display: grid; grid-template-columns: 66px repeat(4, minmax(0, 1fr)); gap: 6px; align-items: center; }
+.parallel-input-row > span { color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 8px; }
+.parallel-input-row > i, .parallel-input-row > b { min-width: 0; padding: 10px 5px; border: 1px solid var(--line); border-radius: 8px; background: var(--white); font-family: var(--font-geist-mono), monospace; font-size: 8px; font-style: normal; text-align: center; overflow: hidden; text-overflow: ellipsis; }
+.parallel-input-row > i { animation: parallel-pair 4.2s ease-in-out infinite; }
+.parallel-input-row > i:nth-child(3) { animation-delay: .22s; }
+.parallel-input-row > i:nth-child(4) { animation-delay: .44s; }
+.parallel-input-row > i:nth-child(5) { animation-delay: .66s; }
+.parallel-input-row .orphan, .parallel-input-row > b { color: #b42318; border-color: #fda29b; background: #fff1f0; }
+.parallel-input-row .orphan { animation: parallel-orphan 3.2s ease-in-out infinite; }
+.parallel-input-gate { border-color: color-mix(in srgb, var(--detail-accent) 45%, var(--line)); background: color-mix(in srgb, var(--detail-accent) 5%, white); }
+.parallel-input-gate > code { margin: 20px 0 15px; padding: 12px; color: var(--detail-accent); border: 1px solid color-mix(in srgb, var(--detail-accent) 40%, var(--line)); border-radius: 10px; background: var(--white); font-size: 10px; text-align: center; }
+.parallel-input-gate > div { display: grid; grid-template-columns: auto 30px minmax(0, 1fr); gap: 8px; align-items: center; }
+.parallel-input-gate > div span { color: #b42318; font-family: var(--font-geist-mono), monospace; font-size: 9px; font-weight: 750; }
+.parallel-input-gate > div .visual-arrow { width: 18px; height: 18px; }
+.parallel-input-gate > div strong { padding: 10px; color: var(--white); border-radius: 9px; background: #b42318; font-family: var(--font-geist-mono), monospace; font-size: 10px; text-align: center; animation: fail-fast-pulse 3.2s ease-in-out infinite; }
+.parallel-input-gate > p { margin: 14px 0 0; color: #067647; font-family: var(--font-geist-mono), monospace; font-size: 8px; text-align: right; }
+.parallel-input-result > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 20px 0; }
+.parallel-input-result > div span { display: flex; gap: 8px; padding: 11px; align-items: center; justify-content: center; border: 1px solid color-mix(in srgb, var(--detail-accent) 38%, var(--line)); border-radius: 9px; background: var(--white); animation: aggregate-pair 3.8s ease-in-out infinite; }
+.parallel-input-result > div span:nth-child(2) { animation-delay: .25s; }
+.parallel-input-result > div span:nth-child(3) { animation-delay: .5s; }
+.parallel-input-result > div span:nth-child(4) { animation-delay: .75s; }
+.parallel-input-result b { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; }
+.parallel-input-result i { color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 9px; font-style: normal; }
+.parallel-input-result > strong { color: #067647; font-family: var(--font-geist-mono), monospace; font-size: 9px; text-align: center; }
+
 .visual-numeric { grid-template-columns: minmax(0, 1fr) 180px minmax(0, 1fr); gap: 24px; }
 .numeric-path { display: grid; padding: 28px; align-content: center; border: 1px solid var(--line); border-radius: 18px; background: #fbfcfe; }
 .numeric-path strong { margin: 17px 0 8px; font-size: 20px; }
@@ -967,6 +995,10 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 @keyframes tensor-view-fail { 0%, 34%, 100% { border-color: var(--line); transform: translateX(0); } 12%, 22% { border-color: #fda29b; background: #fff8f7; transform: translateX(-4px); } }
 @keyframes tensor-reshape-pass { 0%, 34%, 100% { box-shadow: none; transform: translateX(0); } 12%, 22% { box-shadow: 0 10px 24px color-mix(in srgb, var(--detail-accent) 14%, transparent); transform: translateX(5px); } }
 @keyframes jpeg-batch { 0%, 100% { background: color-mix(in srgb, var(--detail-accent) 18%, white); transform: scale(.9); } 50% { background: var(--detail-accent); transform: scale(1); } }
+@keyframes parallel-pair { 0%, 100% { border-color: var(--line); transform: translateY(0); } 45% { border-color: var(--detail-accent); transform: translateY(-3px); } }
+@keyframes parallel-orphan { 0%, 100% { opacity: 1; transform: translateX(0); } 50% { box-shadow: 0 8px 18px rgba(180, 35, 24, .12); opacity: .48; transform: translateX(4px); } }
+@keyframes fail-fast-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(180, 35, 24, 0); } 50% { box-shadow: 0 0 0 7px rgba(180, 35, 24, .08); } }
+@keyframes aggregate-pair { 0%, 100% { box-shadow: none; transform: scale(.98); } 50% { box-shadow: 0 8px 18px color-mix(in srgb, var(--detail-accent) 10%, transparent); transform: scale(1); } }
 @keyframes reflection-step { 0%, 100% { opacity: .25; transform: translateX(-2px); } 50% { opacity: 1; transform: translateX(3px); } }
 @keyframes route-focus { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--detail-accent) 18%, transparent); } 50% { box-shadow: 0 12px 28px color-mix(in srgb, var(--detail-accent) 23%, transparent); transform: translateX(4px); } }
 @keyframes identity-jitter { 0%, 42%, 50%, 58%, 100% { transform: translateX(0); } 46% { transform: translateX(-4px); } 54% { transform: translateX(4px); } }
@@ -1143,7 +1175,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .detail-final-cta { grid-template-columns: 1fr; }
   .contribution-showcase > header { grid-template-columns: 150px 1fr; }
   .contribution-showcase > header p { grid-column: 2; }
-  .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout { grid-template-columns: 1fr; }
+  .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs { grid-template-columns: 1fr; }
   .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow, .visual-shared-state > .visual-arrow { transform: rotate(90deg); }
   .visual-numeric { grid-template-columns: 1fr; }
   .reshape-routes > div { grid-template-columns: 1fr; gap: 8px; }

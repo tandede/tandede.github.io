@@ -76,6 +76,12 @@ export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['vi
     <div className="tensor-layout-output"><small>JPEG KERNEL</small><div><i /><i /><i /><i /><i /><i /></div><Arrow /><strong>restore original shape</strong><code>[3, 2, 3, H′, W′]</code></div>
   </div>;
 
+  if (kind === 'parallel-inputs') return <div className="contribution-visual visual-parallel-inputs">
+    <div className="parallel-input-stack"><small>PARALLEL INPUTS</small><div className="parallel-input-row"><span>repo_ids</span><i>dataset_a</i><i>dataset_b</i><i>dataset_c</i><i className="orphan">dataset_d</i></div><div className="parallel-input-row"><span>roots</span><i>/a</i><i>/b</i><i>/c</i><b>missing</b></div></div>
+    <div className="parallel-input-gate"><small>PUBLIC API BOUNDARY</small><code>len(repo_ids) == len(roots)</code><div><span>FALSE</span><Arrow /><strong>ValueError</strong></div><p>0 metadata loaded</p></div>
+    <div className="parallel-input-result"><small>VALID REQUEST</small><div><span><b>A</b><i>/a</i></span><span><b>B</b><i>/b</i></span><span><b>C</b><i>/c</i></span><span><b>D</b><i>/d</i></span></div><strong>STRICT 1 : 1 AGGREGATION</strong></div>
+  </div>;
+
   return <div className="contribution-visual visual-numeric">
     <div className="numeric-path"><small>COMMON PATH</small><strong>finite weights</strong><span>原向量化快速卷积</span><b>FAST</b></div><div className="numeric-condition"><span>padding?</span><span>Inf / NaN?</span></div><div className="numeric-path"><small>RARE PATH</small><strong>non-finite weights</strong><span>精确后处理 padding 区域</span><b>IEEE 754</b></div>
   </div>;

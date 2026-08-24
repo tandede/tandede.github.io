@@ -12,7 +12,7 @@ export type OpenSourceProject = {
   solution: string;
   impact: string;
   highlight: string;
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
@@ -155,5 +155,15 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '非连续批次 Tensor 现在可以直接进入 JPEG 变换，无需用户手动调用 `.contiguous()`；原有连续输入仍沿零额外复制路径执行，接口承诺与 PyTorch 的 Tensor 布局语义重新一致。',
     highlight: 'LOGICAL SHAPE ≠ MEMORY LAYOUT',
     visualization: 'tensor-layout',
+  },
+  {
+    slug: 'lerobot', name: 'LeRobot', logo: 'https://github.com/huggingface.png?size=128', accent: '#d69300', role: 'CONTRIBUTOR', href: 'https://github.com/huggingface/lerobot', prHref: 'https://github.com/huggingface/lerobot/pull/4488',
+    function: 'Hugging Face 面向真实机器人学习的开源平台，覆盖数据采集与可视化、机器人数据集、模仿学习策略、预训练模型和硬件接入，让端到端机器人学习更易复现与部署。',
+    problem: '`aggregate_datasets` 接收一一对应的 `repo_ids` 与 `roots`，旧实现却使用非严格 `zip`；当根目录数量更少时，尾部源数据集会被静默截断，聚合任务可能在数据缺失的情况下继续完成。',
+    reasoning: '两个列表共同描述同一组数据源，长度相等是公开 API 的前置不变量。依赖普通 `zip` 不仅掩盖非法输入，还会在已经读取部分数据后才暴露无关错误，因此必须在任何元信息加载前验证这条边界。',
+    solution: '在聚合入口显式校验 `roots` 与 `repo_ids` 数量完全一致，不匹配时立即抛出清晰的 `ValueError`；校验通过后再使用 strict pairing，使后续实现也无法重新引入静默截断。',
+    impact: '无效聚合请求在触碰数据集前就会失败，避免机器人训练数据悄然缺失、来源数量与产物不一致；合法调用保持原有行为，数据聚合链路获得可验证的完整性保证。',
+    highlight: 'SILENT DROP → FAIL FAST',
+    visualization: 'parallel-inputs',
   },
 ];
