@@ -38,10 +38,7 @@ export default async function OpenSourceDetail({ params }: PageProps) {
   const project = openSourceProjects[index];
 
   return <DetailPage
-    category="OPEN SOURCE CONTRIBUTION"
-    role={project.role}
     title={project.name}
-    subtitle="Upstream Engineering Contribution"
     intro={project.function}
     logo={project.logo}
     accent={project.accent}

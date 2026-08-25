@@ -21,9 +21,9 @@ export type DetailStep = {
 };
 
 type DetailPageProps = {
-  category: string;
+  category?: string;
   title: string;
-  subtitle: string;
+  subtitle?: string;
   intro: string;
   accent: string;
   highlight: string;
@@ -99,10 +99,10 @@ export default function DetailPage({
 
     <section className="detail-hero">
       <div className="detail-hero-main">
-        <p className="detail-kicker">{category}{role ? ` · ${role}` : ''}</p>
+        {category && <p className="detail-kicker">{category}{role ? ` · ${role}` : ''}</p>}
         <div className="detail-title-row">
           {logo && <span className="detail-logo"><img src={logo} alt="" /></span>}
-          <div><small>{subtitle}</small><div className="detail-heading-line"><h1>{title}</h1>{titleAddon}</div></div>
+          <div>{subtitle && <small>{subtitle}</small>}<div className="detail-heading-line"><h1>{title}</h1>{titleAddon}</div></div>
         </div>
         <p className="detail-intro">{intro}</p>
         {heroMeta}
