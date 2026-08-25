@@ -82,6 +82,12 @@ export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['vi
     <div className="parallel-input-result"><small>VALID REQUEST</small><div><span><b>A</b><i>/a</i></span><span><b>B</b><i>/b</i></span><span><b>C</b><i>/c</i></span><span><b>D</b><i>/d</i></span></div><strong>STRICT 1 : 1 AGGREGATION</strong></div>
   </div>;
 
+  if (kind === 'zenflow') return <div className="contribution-visual visual-zenflow">
+    <div className="zenflow-config"><small>CONFIG BOUNDARY</small><div className="zenflow-ratio"><span>0</span><i><b /></i><span>1</span></div><code>0 &lt; topk_ratio &lt; 1</code><div className="zenflow-interval"><span>auto</span><b>OR</b><strong>update_interval ≥ 1</strong></div></div>
+    <div className="zenflow-paths"><article><small>AUTO UPDATE</small><code>selected / ratio</code><code>unselected / (1 − ratio)</code><strong>两个除数都非零</strong></article><article><small>EXPLICIT UPDATE</small><code>micro_step // interval</code><strong>调度间隔始终有效</strong></article></div>
+    <div className="zenflow-partition"><small>PER-PARTITION INVARIANT</small><div><span>50 columns</span><b>× 0.01</b><strong>→ 1 selected</strong></div><code>max(1, int(columns × ratio))</code><p><span>selection</span><i>=</i><span>index buffer</span><i>=</i><span>grad buffer</span></p></div>
+  </div>;
+
   return <div className="contribution-visual visual-numeric">
     <div className="numeric-path"><small>COMMON PATH</small><strong>finite weights</strong><span>原向量化快速卷积</span><b>FAST</b></div><div className="numeric-condition"><span>padding?</span><span>Inf / NaN?</span></div><div className="numeric-path"><small>RARE PATH</small><strong>non-finite weights</strong><span>精确后处理 padding 区域</span><b>IEEE 754</b></div>
   </div>;

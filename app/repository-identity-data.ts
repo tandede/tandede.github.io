@@ -29,6 +29,9 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     },
     tags: ['Robot Simulation', 'ROS / ROS 2', 'Desktop · Cloud'],
   },
+  deepspeed: {
+    tags: ['Distributed Training', 'ZeRO', 'ZenFlow'],
+  },
   'lm-evaluation-harness': {
     tags: ['Open LLM Leaderboard Backend', 'Reproducible Evaluation'],
   },

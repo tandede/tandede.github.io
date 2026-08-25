@@ -19,7 +19,7 @@ export type OpenSourceProject = {
     credit: string;
     steps: string[];
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
@@ -62,6 +62,16 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '同时修复溢出与极端耗时问题，把最坏时间复杂度从随坐标距离增长的 O(N) 降为常数级 O(1)。',
     highlight: 'O(N) → O(1)',
     visualization: 'reflection',
+  },
+  {
+    slug: 'deepspeed', name: 'DeepSpeed', logo: 'https://github.com/deepspeedai.png?size=128', accent: '#2859a8', role: 'CONTRIBUTOR', href: 'https://github.com/deepspeedai/DeepSpeed', prHref: 'https://github.com/deepspeedai/DeepSpeed/pull/8274',
+    function: '面向大模型训练与推理的分布式深度学习优化系统，通过 ZeRO、并行训练、通信优化与内存管理降低超大模型的训练成本，并提升多 GPU / 多节点执行效率。',
+    problem: 'ZenFlow 配置曾接受 `topk_ratio=0/1` 以及非正数 `update_interval`，训练初始化后可能分别触发梯度归一化除零和非法调度；即使比例合法，ZeRO-1/2 的小分区也可能因整数截断选择 0 列，进一步让 `torch.topk(k=0)` 与缓冲区尺寸失去有效语义。',
+    reasoning: '自动更新路径同时除以 `topk_ratio` 与 `1-topk_ratio`，显式更新路径执行 `micro_step // update_interval`，因此两组除数都必须在配置边界被约束。对小比例选择，还必须以分区为单位统一计算选择数，并让索引缓冲区、梯度缓冲区和实际选择逻辑复用同一公式。',
+    solution: '将比例约束为严格的 `(0,1)`，要求数值更新间隔至少为 1；新增共享的分区选择计数逻辑：空分区保持 0，非空分区使用 `max(1, int(columns × ratio))`，并同步应用到两条选择路径及对应缓冲区分配。',
+    impact: '非法配置现在会在训练启动前直接失败；`topk_ratio=0.01` 与 50 列参数等小比例场景在 ZeRO-1/2 中仍保持非空选择，索引和梯度缓冲区与实际分区选择严格对齐。该修复经多轮维护者审查后以 PR #8274 合入 DeepSpeed master。',
+    highlight: 'VALIDATE → SELECT → ALLOCATE',
+    visualization: 'zenflow',
   },
   {
     slug: 'openai-agents-sdk', name: 'OpenAI Agents SDK', logo: '/logos/openai.png', accent: '#111827', role: 'CONTRIBUTOR', href: 'https://github.com/openai/openai-agents-python', prHref: 'https://github.com/openai/openai-agents-python/pull/4512',
