@@ -561,7 +561,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .detail-repository-badge img { width: auto; max-width: 280px; height: 44px; object-fit: contain; }
 .detail-repository-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
 .detail-repository-tags span { padding: 7px 10px; color: var(--detail-accent); border: 1px solid color-mix(in srgb, var(--detail-accent) 24%, var(--line)); border-radius: 999px; background: color-mix(in srgb, var(--detail-accent) 4%, white); font-family: var(--font-geist-mono), monospace; font-size: 8px; font-weight: 700; }
-.repository-banner { position: relative; display: block; margin: 28px 0 0; border: 1px solid color-mix(in srgb, var(--detail-accent) 34%, var(--line)); border-radius: 24px; background: color-mix(in srgb, var(--detail-accent) 7%, white); box-shadow: 0 24px 58px color-mix(in srgb, var(--detail-accent) 8%, transparent); overflow: hidden; }
+.repository-banner { position: relative; display: block; margin: 28px 0 0; border: 0; border-radius: 24px; background: color-mix(in srgb, var(--detail-accent) 7%, white); box-shadow: 0 24px 58px color-mix(in srgb, var(--detail-accent) 8%, transparent); overflow: hidden; }
 .repository-banner > img { display: block; width: 100%; height: auto; object-fit: contain; transition: transform 700ms cubic-bezier(.22, 1,.36, 1); }
 .repository-banner.repository-media-contain { padding: 0; }
 .repository-banner.repository-media-contain > img { width: 100%; height: auto; max-height: none; object-fit: contain; }
@@ -572,10 +572,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .repository-showcase > div img { width: 100%; height: 100%; object-fit: cover; transition: transform 720ms cubic-bezier(.22, 1, .36, 1); }
 .repository-showcase.repository-media-contain > div img { padding: 38px; object-fit: contain; }
 .repository-showcase:hover > div img { transform: scale(1.025); }
-.repository-showcase figcaption { display: flex; gap: 16px; padding: 30px; align-items: flex-end; color: #465266; font-size: 12px; line-height: 1.75; }
-.repository-showcase figcaption > svg { flex: 0 0 auto; width: 24px; height: 24px; color: var(--detail-accent); }
-.repository-showcase figcaption span { display: grid; gap: 10px; }
-.repository-showcase figcaption small { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 8px; font-weight: 750; letter-spacing: .1em; }
+.repository-showcase figcaption { display: block; padding: 36px 34px; align-self: stretch; color: #465266; font-size: 14px; line-height: 1.95; }
 
 .contribution-showcase { padding: 94px 0 100px; border-top: 1px solid var(--line-strong); }
 .contribution-showcase > header { display: grid; grid-template-columns: 190px minmax(0, 1fr) minmax(280px, 0.7fr); gap: 34px; align-items: end; margin-bottom: 48px; }

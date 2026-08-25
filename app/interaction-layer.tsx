@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function InteractionLayer() {
   const [progress, setProgress] = useState(0);
+  const pathname = usePathname();
 
   useEffect(() => {
     document.documentElement.classList.add('has-motion');
@@ -96,7 +98,7 @@ export default function InteractionLayer() {
       document.documentElement.style.removeProperty('--pointer-x');
       document.documentElement.style.removeProperty('--pointer-y');
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <div className="scroll-progress" aria-hidden="true">

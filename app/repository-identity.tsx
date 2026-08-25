@@ -1,4 +1,3 @@
-import { PiImageSquare } from 'react-icons/pi';
 import type { OpenSourceProject } from './open-source-data';
 import { repositoryVisuals } from './repository-identity-data';
 
@@ -35,6 +34,6 @@ export function RepositoryShowcase({ project }: { project: OpenSourceProject }) 
 
   return <figure className={`repository-showcase repository-media-${showcase.mode ?? 'cover'}`} data-motion data-glow>
     <div><img src={showcase.image} alt={showcase.alt} /></div>
-    <figcaption><PiImageSquare aria-hidden="true" /><span><small>FROM THE README</small>{showcase.caption}</span></figcaption>
+    <figcaption>{showcase.caption}</figcaption>
   </figure>;
 }

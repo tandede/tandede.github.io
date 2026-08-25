@@ -25,23 +25,18 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     showcase: {
       image: 'https://raw.githubusercontent.com/cyberbotics/webots/master/docs/guide/images/main_window.png',
       alt: 'Webots 官方三维机器人仿真界面',
-      caption: 'README 展示的 Webots 三维仿真工作区：场景、传感器、控制器与调试界面在同一环境中协作。',
+      caption: 'Webots 三维仿真工作区把场景树、机器人传感器、控制器代码与运行日志集中在同一界面中。开发者可以一边观察机器人在虚拟环境中的行为，一边调整控制逻辑、检查设备状态并定位仿真问题。',
     },
     tags: ['Robot Simulation', 'ROS / ROS 2', 'Desktop · Cloud'],
   },
   'lm-evaluation-harness': {
-    badge: {
-      image: 'https://zenodo.org/badge/DOI/10.5281/zenodo.10256836.svg',
-      alt: 'LM Evaluation Harness Zenodo DOI',
-      href: 'https://doi.org/10.5281/zenodo.10256836',
-    },
     tags: ['Open LLM Leaderboard Backend', 'Reproducible Evaluation'],
   },
   'openai-agents-sdk': {
     showcase: {
       image: 'https://cdn.openai.com/API/docs/images/orchestration.png',
       alt: 'OpenAI Agents SDK 官方编排与追踪界面',
-      caption: '官方文档中的编排与追踪界面，展示 Agent、工具调用和 Handoff 如何进入同一条可观测链路。',
+      caption: '这张编排图集中展示 Agent、工具调用、Handoff 与追踪关系，使多智能体工作流中的控制流、任务交接和可观测链路能够被快速理解与定位。',
     },
     tags: ['Agents · Tools · Handoffs', 'Tracing', 'MCP'],
   },
@@ -59,11 +54,6 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     tags: ['Detect · Segment · Pose', 'Python · CLI', 'Multi-format Export'],
   },
   timm: {
-    badge: {
-      image: 'https://zenodo.org/badge/168799526.svg',
-      alt: 'timm Zenodo DOI',
-      href: 'https://doi.org/10.5281/zenodo.4414861',
-    },
     tags: ['Models · Weights · Recipes'],
   },
   supervision: {
@@ -96,7 +86,7 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     showcase: {
       image: 'https://raw.githubusercontent.com/tracel-ai/burn/main/assets/burn-train-tui.png',
       alt: 'Burn 官方训练终端界面',
-      caption: 'Burn README 展示的训练终端：在 Rust 深度学习工作流中实时查看指标、学习率和设备状态。',
+      caption: 'Burn 的训练终端将损失、学习率、训练进度和设备状态组织在同一个实时界面中，让 Rust 深度学习任务在运行过程中也能保持清晰、可观察和便于诊断。',
     },
     tags: ['Rust', 'Multi-backend', 'Train · Infer · Deploy'],
   },
@@ -104,7 +94,7 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     showcase: {
       image: 'https://raw.githubusercontent.com/huggingface/lerobot/main/media/readme/robots_control_video.webp',
       alt: 'LeRobot 官方机器人控制演示',
-      caption: 'LeRobot README 中的真实机器人控制演示，连接数据采集、策略训练与硬件执行。',
+      caption: '真实机器人控制演示呈现了从动作数据采集、策略训练到硬件执行的完整链路，直观说明 LeRobot 如何把机器人数据、学习算法和具体设备连接起来。',
     },
     tags: ['Robotics', 'Datasets · Policies', 'Hardware Ecosystem'],
   },
