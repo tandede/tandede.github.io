@@ -950,7 +950,6 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .has-motion .project-grid[data-motion] .project-card,
 .has-motion .opensource-grid[data-motion] .opensource-card,
 .has-motion .workstream-grid[data-motion] .workstream-card,
-.has-motion .case-story[data-motion] article,
 .has-motion .detail-metrics[data-motion] > div,
 .has-motion .detail-story[data-motion] .detail-flow-item {
   opacity: 0;
@@ -961,7 +960,6 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .has-motion .is-motion-visible.project-grid .project-card,
 .has-motion .is-motion-visible.opensource-grid .opensource-card,
 .has-motion .is-motion-visible.workstream-grid .workstream-card,
-.has-motion .is-motion-visible.case-story article,
 .has-motion .is-motion-visible.detail-metrics > div,
 .has-motion .is-motion-visible.detail-story .detail-flow-item {
   animation: motion-rise 640ms cubic-bezier(.22, 1, .36, 1) both;
