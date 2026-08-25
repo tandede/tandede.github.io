@@ -12,6 +12,7 @@ export type OpenSourceProject = {
   solution: string;
   impact: string;
   highlight: string;
+  takeaway: string;
   release?: {
     label: string;
     title: string;
@@ -31,6 +32,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '在 `WbRotation::fromQuaternion()` 中只计算一次向量范数；遇到近零向量时直接返回有限的规范恒等轴角 `(0, 0, 1, 0)`，其余输入复用该范数继续正常归一化，并补充变更记录。',
     impact: '负单位、近退化与正单位四元数都稳定得到有限结果，非退化负标量输入仍保留预期旋转；完成维护者评审协作后，受 Olivier Michel 邀请加入 Cyberbotics Ltd. 的 Committers 团队。',
     highlight: 'CONTRIBUTOR → COMMITTER',
+    takeaway: '修复退化四元数崩溃，并获邀成为 Committer',
     visualization: 'quaternion',
   },
   {
@@ -41,6 +43,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '复用现有 `jacob0_analytical()` 与带同一角度表示的 `jacob0_dot()`，直接计算完整解析关系；将单点和轨迹输出统一为固定 6 维，并同步修正文档中的速度、外力和轨迹形状语义。',
     impact: 'Puma 560 的单点及双样本轨迹现在得到一致的有限数值结果，7 轴 Panda 也稳定返回 `(6,)` 笛卡尔向量。PR #629 关闭长期存在的 #576，并通过 Linux、Windows、macOS 与 Python 3.10–3.14 的完整 CI 后合入主分支。',
     highlight: 'xdd = J̇a q̇ + Ja q̈',
+    takeaway: '恢复六维末端加速度的完整动力学关系',
     visualization: 'operational-acceleration',
   },
   {
@@ -51,6 +54,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '用 DICT_KEYS 统一识别字典字段，并将 YAML 字符串规范化前移到共享配置流水线，让 CLI 与纯 YAML 入口复用同一条解析路径。',
     impact: '消除入口差异导致的静默配置偏差，使任务配置在不同调用方式下保持一致，也降低后续新增字典字段时重复修补的维护成本。',
     highlight: 'ONE CONFIG PATH',
+    takeaway: '让 CLI 与 YAML 配置进入同一条解析路径',
     visualization: 'config',
   },
   {
@@ -61,6 +65,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '改用公共 jax.make_jaxpr 获取 ClosedJaxpr，显式分离常量与动态输入，重建 provenance 输入映射并解除对私有 tracing API 的耦合。',
     impact: '恢复新版本 JAX 下的 provenance 正确性，并把实现建立在稳定公共接口上，减少后续 JAX 内部改动造成的兼容性风险。',
     highlight: 'PUBLIC JAXPR',
+    takeaway: '用公共 JAXPR 接口恢复输入映射',
     visualization: 'jaxpr',
   },
   {
@@ -71,6 +76,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '将循环反射改写为 int64 周期模运算，在完整坐标域内直接完成映射，并处理边界长度与负坐标等特殊情况。',
     impact: '同时修复溢出与极端耗时问题，把最坏时间复杂度从随坐标距离增长的 O(N) 降为常数级 O(1)。',
     highlight: 'O(N) → O(1)',
+    takeaway: '极端反射坐标从十亿次循环降为常数时间',
     visualization: 'reflection',
   },
   {
@@ -81,6 +87,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '将比例约束为严格的 `(0,1)`，要求数值更新间隔至少为 1；新增共享的分区选择计数逻辑：空分区保持 0，非空分区使用 `max(1, int(columns × ratio))`，并同步应用到两条选择路径及对应缓冲区分配。',
     impact: '非法配置现在会在训练启动前直接失败；`topk_ratio=0.01` 与 50 列参数等小比例场景在 ZeRO-1/2 中仍保持非空选择，索引和梯度缓冲区与实际分区选择严格对齐。该修复经多轮维护者审查后以 PR #8274 合入 DeepSpeed master。',
     highlight: 'VALIDATE → SELECT → ALLOCATE',
+    takeaway: '训练前拦截非法配置，小比例分区也不再空选',
     visualization: 'zenflow',
   },
   {
@@ -91,6 +98,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '以对象身份注册节点，把显示名降为 label，并重构遍历与边生成链路，确保不同类型或不同实例即使同名也不会被错误合并。',
     impact: '生成的工作流图能够真实表达实体关系，避免错误节点、漏边和伪自环影响调试与架构理解。',
     highlight: 'IDENTITY ≠ LABEL',
+    takeaway: '实体身份与显示名称分离，工作流图不再错连',
     visualization: 'identity',
   },
   {
@@ -101,6 +109,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '将 Adapter 唯一性校验前移到任何模型或配置突变之前，冲突时立即失败，并确保错误路径不触碰既有 Adapter。',
     impact: '把危险的静默覆盖变成可解释的早期错误，同时保护已训练权重和模型结构，保证失败操作可安全回退。',
     highlight: 'FAIL BEFORE MUTATE',
+    takeaway: '在修改模型之前拒绝重复 Adapter',
     visualization: 'adapter',
   },
   {
@@ -111,6 +120,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '组合前置 resize 与 LetterBox 的变换参数，使用 x/y 双轴比例和 padding 偏移逐轴恢复原图坐标。',
     impact: '修复非方形输入与组合预处理场景中的坐标漂移，使检测、分割等任务输出能够稳定映射回原始图像。',
     highlight: 'SCALE X ≠ SCALE Y',
+    takeaway: '分别还原 x / y 轴，让预测结果准确回到原图',
     visualization: 'axis',
   },
   {
@@ -121,6 +131,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '修正随机采样上界并补齐右侧与底部边界位置，使所有合法裁剪起点进入同一均匀分布。',
     impact: '恢复 CutMix 空间采样的完整覆盖，避免边界区域系统性欠采样，让增强行为与设计语义保持一致。',
     highlight: 'FULL BOUNDARY COVERAGE',
+    takeaway: '补回 CutMix 从未采到的右侧与底部边界',
     visualization: 'boundary',
   },
   {
@@ -131,6 +142,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '统一转换为 float64，并把多边形平移到局部坐标系计算面积与质心，最后再映射回全局坐标。',
     impact: '修复已随 Supervision v0.30.1 正式发布，被列入官方数值精度与稳定性修复，并在版本 Contributors 中以 Zhewen Tan（@tandede）署名；大图像、地理坐标和远离原点的多边形现在能够稳定计算质心。',
     highlight: 'LOCAL ORIGIN + FLOAT64',
+    takeaway: '局部坐标加 float64，稳定计算大坐标质心',
     release: {
       label: 'v0.30.1 正式发布',
       title: 'PR #2491 已随 Supervision v0.30.1 正式发布',
@@ -148,6 +160,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '新增特征归一化与确定性固定 K K-means 分支，使大规模输入绕开稠密相似矩阵和谱分解。',
     impact: '显著降低长音频和大说话人片段集合的内存压力，并通过固定初始化策略提升多次运行的一致性。',
     highlight: 'NO DENSE N² MATRIX',
+    takeaway: '已知 K 时绕开 O(N²) 稠密相似矩阵',
     visualization: 'routing',
   },
   {
@@ -158,6 +171,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '检测非有限权重并选择语义一致的计算路径，同时让普通有限权重继续经过原有向量化热路径。',
     impact: '统一快速路径与通用路径的数值语义，在保证 Inf / NaN 正确传播的同时避免正常模型性能回退。',
     highlight: 'IEEE 754 + FAST PATH',
+    takeaway: '保留卷积快速路径，同时恢复 IEEE 754 语义',
     visualization: 'numeric',
   },
   {
@@ -168,6 +182,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '将三个可变默认值替换为 None 哨兵，仅在调用者未提供容器时为当前实例创建新的 list 与 set，同时保留显式传入容器，并加入双实例状态隔离回归用例。',
     impact: 'Concept 实例恢复真正的状态隔离，避免标签、闭包和扩展集合发生跨对象泄漏；修复覆盖全部三个默认容器，并作为 NLTK 贡献者写入 AUTHORS.md。',
     highlight: 'INSTANCE STATE ISOLATED',
+    takeaway: '按实例创建默认容器，消除跨对象状态泄漏',
     visualization: 'shared-state',
   },
   {
@@ -178,6 +193,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '默认模式先把目标形状中的 `0` 规范化为对应输入维度再做常量折叠；仅当 `allowzero=1` 且目标形状确实含有字面零时构造 ShapeExpr，其余情况继续使用正常 Reshape 路径保留 `-1` 推断。',
     impact: '同时覆盖默认零复制、真实零维输出与动态 `-1` 推断三条路径，使 ONNX 模型语义能够忠实落到 Relax；审查中发现的推断回退也被纳入回归覆盖。',
     highlight: '0 COPY · 0 LITERAL · −1 INFER',
+    takeaway: '同时保留零复制、字面零与 −1 推断语义',
     visualization: 'reshape-semantics',
   },
   {
@@ -188,6 +204,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '将 JPEG v2 内核的前导维展平从 `view()` 改为 `reshape()`，编码完成后继续恢复原始形状；同时用转置批次轴构造真实的非连续输入，并与其 contiguous 等价输入对照，锁定多前导维场景。',
     impact: '非连续批次 Tensor 现在可以直接进入 JPEG 变换，无需用户手动调用 `.contiguous()`；原有连续输入仍沿零额外复制路径执行，接口承诺与 PyTorch 的 Tensor 布局语义重新一致。',
     highlight: 'LOGICAL SHAPE ≠ MEMORY LAYOUT',
+    takeaway: '非连续批次无需手动 contiguous 也能编码 JPEG',
     visualization: 'tensor-layout',
   },
   {
@@ -198,6 +215,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     solution: '在聚合入口显式校验 `roots` 与 `repo_ids` 数量完全一致，不匹配时立即抛出清晰的 `ValueError`；校验通过后再使用 strict pairing，使后续实现也无法重新引入静默截断。',
     impact: '无效聚合请求在触碰数据集前就会失败，避免机器人训练数据悄然缺失、来源数量与产物不一致；合法调用保持原有行为，数据聚合链路获得可验证的完整性保证。',
     highlight: 'SILENT DROP → FAIL FAST',
+    takeaway: '聚合前校验并行输入，阻止数据集被静默截断',
     visualization: 'parallel-inputs',
   },
 ];

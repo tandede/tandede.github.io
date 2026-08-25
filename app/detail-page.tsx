@@ -27,6 +27,7 @@ type DetailPageProps = {
   intro: string;
   accent: string;
   highlight: string;
+  takeaway?: string;
   externalHref: string;
   externalLabel: string;
   backHref: string;
@@ -64,6 +65,7 @@ export default function DetailPage({
   intro,
   accent,
   highlight,
+  takeaway,
   externalHref,
   externalLabel,
   backHref,
@@ -116,7 +118,11 @@ export default function DetailPage({
           {secondaryExternal && <a href={secondaryExternal.href} target="_blank" rel="noopener noreferrer">{secondaryExternal.icon ?? <PiGitPullRequest aria-hidden="true" />}{secondaryExternal.label}<PiArrowUpRightBold aria-hidden="true" /></a>}
         </div>
       </div>
-      {heroAside ?? <aside className="detail-highlight" data-glow data-motion><small>KEY TAKEAWAY</small><strong>{highlight}</strong></aside>}
+      {heroAside ?? <aside className="detail-highlight" data-glow data-motion>
+        <small>核心修复结论</small>
+        <strong>{takeaway ?? highlight}</strong>
+        {takeaway && <span>{highlight}</span>}
+      </aside>}
     </section>
 
     {metrics && metrics.length > 0 && <section className="detail-metrics" aria-label="项目指标" data-motion>

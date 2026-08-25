@@ -43,6 +43,7 @@ export default async function OpenSourceDetail({ params }: PageProps) {
     logo={project.logo}
     accent={project.accent}
     highlight={project.highlight}
+    takeaway={project.takeaway}
     externalHref={project.href}
     externalLabel="查看 GitHub 项目"
     backHref="/#opensource"
