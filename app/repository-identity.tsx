@@ -1,42 +1,41 @@
-import { PiArrowUpRightBold, PiSealCheckFill } from 'react-icons/pi';
+import { PiArrowUpRightBold, PiImageSquare } from 'react-icons/pi';
 import type { OpenSourceProject } from './open-source-data';
-import { repositoryIdentities } from './repository-identity-data';
+import { repositoryVisuals } from './repository-identity-data';
 
-export default function RepositoryIdentity({ project }: { project: OpenSourceProject }) {
-  const identity = repositoryIdentities[project.slug];
-  if (!identity) return null;
+export function RepositoryBadge({ project }: { project: OpenSourceProject }) {
+  const badge = repositoryVisuals[project.slug]?.badge;
+  if (!badge) return null;
 
-  return <section className="repository-identity" aria-labelledby={`repository-${project.slug}`} data-motion>
-    <header>
-      <span>ABOUT THE REPOSITORY</span>
-      <h2 id={`repository-${project.slug}`}>{project.name} 项目生态</h2>
-      <p>{identity.summary}</p>
-    </header>
+  return <a className="detail-repository-badge" href={badge.href} target="_blank" rel="noopener noreferrer" title={badge.alt}>
+    <img src={badge.image} alt={badge.alt} />
+  </a>;
+}
 
-    <div className={`repository-identity-stage repository-image-${identity.imageMode ?? 'cover'}`} data-glow>
-      <div className="repository-identity-media">
-        <img src={identity.image} alt={identity.imageAlt} style={{ objectPosition: identity.imagePosition }} />
-        <div className="repository-identity-label">
-          <span className="repository-mini-logo"><img src={project.logo} alt="" /></span>
-          <span><small>UPSTREAM PROJECT</small><strong>{project.name}</strong></span>
-        </div>
-      </div>
+export function RepositoryTags({ project }: { project: OpenSourceProject }) {
+  const tags = repositoryVisuals[project.slug]?.tags;
+  if (!tags?.length) return null;
 
-      <div className="repository-identity-aside">
-        <div className="repository-mark-list">
-          {identity.marks.map((mark, index) => <article key={mark.label}>
-            <span>{String(index + 1).padStart(2, '0')} · {mark.label}</span>
-            <strong>{mark.value}</strong>
-          </article>)}
-        </div>
+  return <div className="detail-repository-tags" aria-label="项目标签">
+    {tags.map((tag) => <span key={tag}>{tag}</span>)}
+  </div>;
+}
 
-        {identity.badge && <a className="repository-award" href={identity.badge.href} target="_blank" rel="noopener noreferrer">
-          <span><PiSealCheckFill aria-hidden="true" /> PROJECT MARK</span>
-          <img src={identity.badge.image} alt={identity.badge.alt} />
-          <small>{identity.badge.caption}</small>
-          <PiArrowUpRightBold aria-hidden="true" />
-        </a>}
-      </div>
-    </div>
-  </section>;
+export function RepositoryBanner({ project }: { project: OpenSourceProject }) {
+  const banner = repositoryVisuals[project.slug]?.banner;
+  if (!banner) return null;
+
+  return <a className={`repository-banner repository-media-${banner.mode ?? 'cover'}`} href={project.href} target="_blank" rel="noopener noreferrer" data-glow>
+    <img src={banner.image} alt={banner.alt} />
+    <span><small>OFFICIAL REPOSITORY</small>{project.name}<PiArrowUpRightBold aria-hidden="true" /></span>
+  </a>;
+}
+
+export function RepositoryShowcase({ project }: { project: OpenSourceProject }) {
+  const showcase = repositoryVisuals[project.slug]?.showcase;
+  if (!showcase) return null;
+
+  return <figure className={`repository-showcase repository-media-${showcase.mode ?? 'cover'}`} data-motion data-glow>
+    <div><img src={showcase.image} alt={showcase.alt} /></div>
+    <figcaption><PiImageSquare aria-hidden="true" /><span><small>FROM THE README</small>{showcase.caption}</span></figcaption>
+  </figure>;
 }

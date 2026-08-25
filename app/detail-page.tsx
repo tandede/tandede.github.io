@@ -46,6 +46,8 @@ type DetailPageProps = {
   heroAside?: ReactNode;
   pageClassName?: string;
   pagination?: ReactNode;
+  topVisual?: ReactNode;
+  heroMeta?: ReactNode;
 };
 
 const stepIcons = {
@@ -81,6 +83,8 @@ export default function DetailPage({
   heroAside,
   pageClassName = '',
   pagination,
+  topVisual,
+  heroMeta,
 }: DetailPageProps) {
   const homeSectionLabel = backLabel.replace(/^返回/, '');
 
@@ -91,6 +95,8 @@ export default function DetailPage({
       <a className="detail-external-mini" href={externalHref} target="_blank" rel="noopener noreferrer">{externalLabel}<PiArrowUpRightBold aria-hidden="true" /></a>
     </nav>
 
+    {topVisual}
+
     <section className="detail-hero">
       <div className="detail-hero-main">
         <p className="detail-kicker">{category}{role ? ` · ${role}` : ''}</p>
@@ -99,6 +105,7 @@ export default function DetailPage({
           <div><small>{subtitle}</small><div className="detail-heading-line"><h1>{title}</h1>{titleAddon}</div></div>
         </div>
         <p className="detail-intro">{intro}</p>
+        {heroMeta}
         <div className="detail-actions">
           <a href={contentHref}>{contentLabel} <PiArrowDownBold aria-hidden="true" /></a>
           <a href={externalHref} target="_blank" rel="noopener noreferrer">{externalIcon ?? <PiGithubLogo aria-hidden="true" />}{externalLabel}<PiArrowUpRightBold aria-hidden="true" /></a>
