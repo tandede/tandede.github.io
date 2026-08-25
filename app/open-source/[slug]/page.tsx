@@ -5,6 +5,7 @@ import GitHubStars from '../../github-project-stats';
 import OpenSourceContribution from '../../open-source-contribution';
 import { openSourceProjects } from '../../open-source-data';
 import OpenSourcePagination from '../../open-source-pagination';
+import RepositoryIdentity from '../../repository-identity';
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -52,8 +53,11 @@ export default async function OpenSourceDetail({ params }: PageProps) {
     pagination={<OpenSourcePagination items={openSourceProjects} currentSlug={project.slug} />}
     titleAddon={<GitHubStars repositoryUrl={project.href} />}
     secondaryExternal={{ href: project.prHref, label: '查看我的 PR' }}
-    contentHref="#contribution"
-    contentLabel="查看贡献详情"
-    showcase={<OpenSourceContribution project={project} />}
+    contentHref={`#repository-${project.slug}`}
+    contentLabel="了解项目与贡献"
+    showcase={<>
+      <RepositoryIdentity project={project} />
+      <OpenSourceContribution project={project} />
+    </>}
   />;
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
 import { PiArrowLeftBold, PiArrowRightBold } from 'react-icons/pi';
 import { getGitHubStarsCacheKey, githubStarsCacheDuration } from './github-stars-cache';
 import type { OpenSourceProject } from './open-source-data';
@@ -60,16 +61,16 @@ export default function OpenSourcePagination({ items, currentSlug }: { items: Op
   const next = currentIndex >= 0 && currentIndex < orderedItems.length - 1 ? orderedItems[currentIndex + 1] : undefined;
 
   if (!stars) return <nav className="detail-pagination detail-pagination-loading" aria-label="正在同步开源贡献排序" aria-busy="true">
-    <a href="/#opensource" data-glow><PiArrowLeftBold aria-hidden="true" /><span><small>返回首页</small>开源贡献</span></a>
+    <Link href="/#opensource" data-glow><PiArrowLeftBold aria-hidden="true" /><span><small>返回首页</small>开源贡献</span></Link>
     <span><small>正在同步</small>GitHub Star 排序</span>
   </nav>;
 
   return <nav className="detail-pagination" aria-label="按 GitHub Star 排序切换开源贡献">
     {previous
-      ? <a href={`/open-source/${previous.slug}/`} data-glow><PiArrowLeftBold aria-hidden="true" /><span><small>上一个</small>{previous.name}</span></a>
-      : <a href="/#opensource" data-glow><PiArrowLeftBold aria-hidden="true" /><span><small>返回首页</small>开源贡献</span></a>}
+      ? <Link href={`/open-source/${previous.slug}/`} data-glow><PiArrowLeftBold aria-hidden="true" /><span><small>上一个</small>{previous.name}</span></Link>
+      : <Link href="/#opensource" data-glow><PiArrowLeftBold aria-hidden="true" /><span><small>返回首页</small>开源贡献</span></Link>}
     {next
-      ? <a href={`/open-source/${next.slug}/`} data-glow><span><small>下一个</small>{next.name}</span><PiArrowRightBold aria-hidden="true" /></a>
-      : <a href="/#opensource" data-glow><span><small>返回首页</small>开源贡献</span><PiArrowRightBold aria-hidden="true" /></a>}
+      ? <Link href={`/open-source/${next.slug}/`} data-glow><span><small>下一个</small>{next.name}</span><PiArrowRightBold aria-hidden="true" /></Link>
+      : <Link href="/#opensource" data-glow><span><small>返回首页</small>开源贡献</span><PiArrowRightBold aria-hidden="true" /></Link>}
   </nav>;
 }
