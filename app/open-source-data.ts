@@ -34,7 +34,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     visualization: 'quaternion',
   },
   {
-    slug: 'robotics-toolbox-python', name: 'Robotics Toolbox for Python', logo: 'https://raw.githubusercontent.com/petercorke/robotics-toolbox-python/main/docs/figs/RobToolBox_RoundLogoB.png', accent: '#2f6f9f', role: 'CONTRIBUTOR', href: 'https://github.com/petercorke/robotics-toolbox-python', prHref: 'https://github.com/petercorke/robotics-toolbox-python/pull/629',
+    slug: 'robotics-toolbox-python', name: 'Robotics Toolbox', logo: 'https://raw.githubusercontent.com/petercorke/robotics-toolbox-python/main/docs/figs/RobToolBox_RoundLogoB.png', accent: '#2f6f9f', role: 'CONTRIBUTOR', href: 'https://github.com/petercorke/robotics-toolbox-python', prHref: 'https://github.com/petercorke/robotics-toolbox-python/pull/629',
     function: '面向机器人研究与教学的 Python 工具箱，覆盖串联机械臂的运动学与动力学、雅可比矩阵、轨迹规划和控制，并提供 Puma 560、Franka Panda 等 50 余种机器人模型。',
     problem: '`DynamicsMixin.accel_x()` 的正常调用会走到未定义的 `T` 与 `J`，使已发布的 1.4.0 包直接抛出 `NameError`；同时结果缓冲区错误地使用关节数 `self.n` 作为列数，7 轴冗余机器人无法返回应有的六维笛卡尔加速度。',
     reasoning: '调用入口提供的是操作空间速度 `xd`。由 `xd = Ja · qd` 恢复关节速度后，末端加速度必须同时包含解析雅可比的时间导数项与关节加速度映射：`xdd = Jad · qd + Ja · qdd`。原实现混用了未生成的变换矩阵与几何雅可比，还隐含假设其变换导数为零。',
