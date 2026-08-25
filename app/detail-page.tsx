@@ -87,6 +87,13 @@ export default function DetailPage({
   heroMeta,
 }: DetailPageProps) {
   const homeSectionLabel = backLabel.replace(/^返回/, '');
+  const heroTitle = <>
+    {category && <p className="detail-kicker">{category}{role ? ` · ${role}` : ''}</p>}
+    <div className="detail-title-row">
+      {logo && <span className="detail-logo"><img src={logo} alt="" /></span>}
+      <div>{subtitle && <small>{subtitle}</small>}<div className="detail-heading-line"><h1>{title}</h1>{titleAddon}</div></div>
+    </div>
+  </>;
 
   return <main className={`detail-page ${pageClassName}`} style={{ '--detail-accent': accent } as CSSProperties}>
     <nav className="detail-nav" aria-label="详情页导航">
@@ -97,13 +104,10 @@ export default function DetailPage({
 
     {topVisual}
 
-    <section className="detail-hero">
+    <section className={`detail-hero ${heroAside ? '' : 'detail-hero-key-layout'}`}>
+      {!heroAside && <div className="detail-hero-title">{heroTitle}</div>}
       <div className="detail-hero-main">
-        {category && <p className="detail-kicker">{category}{role ? ` · ${role}` : ''}</p>}
-        <div className="detail-title-row">
-          {logo && <span className="detail-logo"><img src={logo} alt="" /></span>}
-          <div>{subtitle && <small>{subtitle}</small>}<div className="detail-heading-line"><h1>{title}</h1>{titleAddon}</div></div>
-        </div>
+        {heroAside && heroTitle}
         <p className="detail-intro">{intro}</p>
         {heroMeta}
         <div className="detail-actions">
