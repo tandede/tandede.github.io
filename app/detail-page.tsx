@@ -119,7 +119,7 @@ export default function DetailPage({
         </div>
       </div>
       {heroAside ?? <aside className="detail-highlight" data-glow data-motion>
-        <small>核心修复结论</small>
+        <small>核心修复</small>
         <strong>{takeaway ?? highlight}</strong>
         {takeaway && <span>{highlight}</span>}
       </aside>}
