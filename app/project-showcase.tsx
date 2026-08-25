@@ -69,15 +69,16 @@ function TinyR1Showcase({ project }: { project: FeaturedProject }) {
     </header>
 
     <div className="tiny-control-lab" data-motion>
-      <nav aria-label="选择专家分支" role="tablist">
-        {tinyModes.map((item, index) => <button key={item.key} role="tab" aria-selected={activeMode === index} onMouseEnter={() => setActiveMode(index)} onFocus={() => setActiveMode(index)} onClick={() => setActiveMode(index)}><span>0{index + 1}</span>{item.label}</button>)}
-      </nav>
       <div className={`tiny-console tone-${mode.tone}`} key={mode.key}>
         <div className="console-bar"><span>BRANCH INSPECTOR</span><i /><i /><i /></div>
         <code>{mode.token}</code>
         <p>{mode.prompt}</p>
         <div className="console-result"><PiCheckCircle aria-hidden="true" /><span>EVALUATION TARGET</span><strong>{mode.result}</strong></div>
       </div>
+      <nav aria-label="选择专家分支" role="tablist">
+        <small className="switch-hint">HOVER TO SWITCH · 悬停切换</small>
+        {tinyModes.map((item, index) => <button key={item.key} role="tab" aria-selected={activeMode === index} onMouseEnter={() => setActiveMode(index)} onFocus={() => setActiveMode(index)} onClick={() => setActiveMode(index)}><span>0{index + 1}</span>{item.label}</button>)}
+      </nav>
     </div>
 
     <div className="tiny-training-map" data-motion>
@@ -112,9 +113,6 @@ function SafetyShowcase({ project }: { project: FeaturedProject }) {
     </header>
 
     <section className="safety-switchboard" data-motion>
-      <div className="safety-mode-nav" role="tablist" aria-label="选择安全行为">
-        {safetyModes.map((item, index) => <button role="tab" aria-selected={activeMode === index} key={item.key} onMouseEnter={() => setActiveMode(index)} onFocus={() => setActiveMode(index)} onClick={() => setActiveMode(index)}><span>0{index + 1}</span><strong>{item.label}</strong></button>)}
-      </div>
       <div className="safety-mode-stage" key={mode.key}>
         <div className="safety-token"><small>CONTROL SIGNAL</small><code>{mode.token}</code></div>
         <div className="safety-mode-copy"><ModeIcon aria-hidden="true" /><small>BEHAVIOR ACTIVE</small><h3>{mode.label}</h3><p>{mode.intent}</p></div>
@@ -123,6 +121,10 @@ function SafetyShowcase({ project }: { project: FeaturedProject }) {
           <div className="safety-example-prompt"><small>USER</small><p>{mode.exampleInput}</p></div>
           <div className="safety-example-response"><small>MODEL</small><p>{mode.exampleOutput}</p></div>
         </div>
+      </div>
+      <div className="safety-mode-nav" role="tablist" aria-label="选择安全行为">
+        <small className="switch-hint">HOVER TO SWITCH · 悬停切换</small>
+        {safetyModes.map((item, index) => <button role="tab" aria-selected={activeMode === index} key={item.key} onMouseEnter={() => setActiveMode(index)} onFocus={() => setActiveMode(index)} onClick={() => setActiveMode(index)}><span>0{index + 1}</span><strong>{item.label}</strong></button>)}
       </div>
     </section>
 
@@ -171,10 +173,6 @@ function HarnessShowcase({ project }: { project: FeaturedProject }) {
     </header>
 
     <section className="harness-browser" data-motion>
-      <div className="harness-categories">
-        <header><span>106 TASKS</span><strong>选择一个真实工作域</strong></header>
-        {harnessCategories.map((item, index) => <button key={item.key} className={activeCategory === index ? 'active' : ''} onMouseEnter={() => setActiveCategory(index)} onFocus={() => setActiveCategory(index)} onClick={() => setActiveCategory(index)}><span>{String(index + 1).padStart(2, '0')}</span><strong>{item.label}</strong><b>{item.count}</b></button>)}
-      </div>
       <div className="trace-inspector" key={category.key}>
         <div className="inspector-bar"><span>TRACE INSPECTOR</span><b>{category.count} TASKS</b></div>
         <h3>{category.label}</h3><p>{category.pressure}</p>
@@ -184,6 +182,10 @@ function HarnessShowcase({ project }: { project: FeaturedProject }) {
           <article className="trace-alert"><PiGauge aria-hidden="true" /><small>03 · FAILURE SIGNAL</small><strong>{category.event}</strong></article>
           <article><PiCheckCircle aria-hidden="true" /><small>04 · ORACLE</small><strong>检查产物，而不只读最终回答</strong></article>
         </div>
+      </div>
+      <div className="harness-categories">
+        <header><span>106 TASKS</span><strong>选择一个真实工作域</strong><small className="switch-hint">HOVER TO SWITCH · 悬停切换</small></header>
+        {harnessCategories.map((item, index) => <button key={item.key} className={activeCategory === index ? 'active' : ''} onMouseEnter={() => setActiveCategory(index)} onFocus={() => setActiveCategory(index)} onClick={() => setActiveCategory(index)}><span>{String(index + 1).padStart(2, '0')}</span><strong>{item.label}</strong><b>{item.count}</b></button>)}
       </div>
     </section>
 
