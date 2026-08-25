@@ -22,6 +22,7 @@ const presentation: Record<OpenSourceProject['visualization'], Presentation> = {
   'tensor-layout': { eyebrow: 'PYTORCH VISION · TENSOR LAYOUT', title: '让 JPEG 变换理解非连续批次', lead: '转置改变的是 Tensor 的 stride，不是它作为图像批次的合法性；变换内核应该处理这种布局差异，而不是把约束转嫁给调用方。', story: [{ label: '合法输入', title: '任意前导维不等于连续内存' }, { label: '算子语义', title: 'view 要求连续，reshape 保持逻辑顺序' }, { label: '内核修复', title: '仅在必要时物化连续布局' }, { label: '接口结果', title: 'JPEG 直接接受转置后的批次' }] },
   'parallel-inputs': { eyebrow: 'ROBOT DATA · AGGREGATION INTEGRITY', title: '聚合不能以静默丢失数据为代价', lead: '机器人数据集的来源与本地根目录必须逐项对应；如果输入结构已经不完整，系统应该在读取第一份数据之前明确拒绝。', story: [{ label: '静默缺失', title: '普通 zip 截掉最后的数据集' }, { label: '数据契约', title: '两组并行参数必须等长' }, { label: '入口闸门', title: '加载元信息前先验证完整性' }, { label: '聚合结果', title: '每个来源都有唯一对应根目录' }] },
   zenflow: { eyebrow: 'DISTRIBUTED TRAINING · ZENFLOW', title: '把除零、空选择和错配挡在训练之前', lead: '两个除数、两条更新路径和一组分区缓冲区必须共享同一套配置与尺寸边界。', story: [{ label: '迟发故障', title: '非法值在训练启动后才爆炸' }, { label: '路径审计', title: '自动与显式更新各有一个除数' }, { label: '分区不变量', title: '选择数与缓冲区必须同源' }, { label: '训练边界', title: '错误配置早失败，小比例仍可运行' }] },
+  'operational-acceleration': { eyebrow: 'ROBOT DYNAMICS · OPERATIONAL SPACE', title: '让关节动力学正确落到末端六维加速度', lead: '这里不是把一个 NameError 换成能运行的表达式，而是重新接通从操作空间速度、解析雅可比到末端加速度的完整动力学关系。', story: [{ label: '运行故障', title: '公开方法引用了从未定义的矩阵' }, { label: '动力学关系', title: '加速度需要雅可比及其时间导数' }, { label: '维度修复', title: '末端输出始终属于六维操作空间' }, { label: '机器人覆盖', title: '6 轴与冗余 7 轴模型都能正确执行' }] },
 };
 
 export default function OpenSourceContribution({ project }: { project: OpenSourceProject }) {

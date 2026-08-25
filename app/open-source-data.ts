@@ -19,7 +19,7 @@ export type OpenSourceProject = {
     credit: string;
     steps: string[];
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
@@ -32,6 +32,16 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '负单位、近退化与正单位四元数都稳定得到有限结果，非退化负标量输入仍保留预期旋转；完成维护者评审协作后，受 Olivier Michel 邀请加入 Cyberbotics Ltd. 的 Committers 团队。',
     highlight: 'CONTRIBUTOR → COMMITTER',
     visualization: 'quaternion',
+  },
+  {
+    slug: 'robotics-toolbox-python', name: 'Robotics Toolbox for Python', logo: 'https://raw.githubusercontent.com/petercorke/robotics-toolbox-python/main/docs/figs/RobToolBox_RoundLogoB.png', accent: '#2f6f9f', role: 'CONTRIBUTOR', href: 'https://github.com/petercorke/robotics-toolbox-python', prHref: 'https://github.com/petercorke/robotics-toolbox-python/pull/629',
+    function: '面向机器人研究与教学的 Python 工具箱，覆盖串联机械臂的运动学与动力学、雅可比矩阵、轨迹规划和控制，并提供 Puma 560、Franka Panda 等 50 余种机器人模型。',
+    problem: '`DynamicsMixin.accel_x()` 的正常调用会走到未定义的 `T` 与 `J`，使已发布的 1.4.0 包直接抛出 `NameError`；同时结果缓冲区错误地使用关节数 `self.n` 作为列数，7 轴冗余机器人无法返回应有的六维笛卡尔加速度。',
+    reasoning: '调用入口提供的是操作空间速度 `xd`。由 `xd = Ja · qd` 恢复关节速度后，末端加速度必须同时包含解析雅可比的时间导数项与关节加速度映射：`xdd = Jad · qd + Ja · qdd`。原实现混用了未生成的变换矩阵与几何雅可比，还隐含假设其变换导数为零。',
+    solution: '复用现有 `jacob0_analytical()` 与带同一角度表示的 `jacob0_dot()`，直接计算完整解析关系；将单点和轨迹输出统一为固定 6 维，并同步修正文档中的速度、外力和轨迹形状语义。',
+    impact: 'Puma 560 的单点及双样本轨迹现在得到一致的有限数值结果，7 轴 Panda 也稳定返回 `(6,)` 笛卡尔向量。PR #629 关闭长期存在的 #576，并通过 Linux、Windows、macOS 与 Python 3.10–3.14 的完整 CI 后合入主分支。',
+    highlight: 'xdd = J̇a q̇ + Ja q̈',
+    visualization: 'operational-acceleration',
   },
   {
     slug: 'lm-evaluation-harness', name: 'LM Evaluation Harness', logo: 'https://github.com/EleutherAI.png?size=128', accent: '#313131', role: 'CONTRIBUTOR', href: 'https://github.com/EleutherAI/lm-evaluation-harness', prHref: 'https://github.com/EleutherAI/lm-evaluation-harness/pull/4020',

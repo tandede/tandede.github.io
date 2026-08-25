@@ -29,6 +29,9 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     },
     tags: ['Robot Simulation', 'ROS / ROS 2', 'Desktop · Cloud'],
   },
+  'robotics-toolbox-python': {
+    tags: ['Robot Kinematics · Dynamics', '50+ Robot Models', 'Python 3.10+'],
+  },
   deepspeed: {
     tags: ['Distributed Training', 'ZeRO', 'ZenFlow'],
   },

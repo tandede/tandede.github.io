@@ -82,6 +82,12 @@ export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['vi
     <div className="parallel-input-result"><small>VALID REQUEST</small><div><span><b>A</b><i>/a</i></span><span><b>B</b><i>/b</i></span><span><b>C</b><i>/c</i></span><span><b>D</b><i>/d</i></span></div><strong>STRICT 1 : 1 AGGREGATION</strong></div>
   </div>;
 
+  if (kind === 'operational-acceleration') return <div className="contribution-visual visual-operational-acceleration">
+    <div className="accel-inputs"><small>OPERATIONAL INPUT</small><div><span><b>q</b><i>n joints</i></span><span><b>ẋ</b><i>6D velocity</i></span><span><b>w</b><i>6D wrench</i></span></div><p>Puma 560 · Panda 7-DoF</p></div>
+    <div className="accel-kinematics"><small>ANALYTICAL KINEMATICS</small><div className="accel-recover"><code>q̇ = Jₐ⁺ ẋ</code><span>recover joint velocity</span></div><div className="accel-equation"><b>ẍ</b><i>=</i><code>J̇ₐ q̇</code><i>+</i><code>Jₐ q̈</code></div><div className="accel-components"><span>frame motion</span><span>joint dynamics</span></div><p><del>T · (J̇q̇ + Jq̈)</del><strong> no undefined T / J</strong></p></div>
+    <div className="accel-output"><small>CARTESIAN OUTPUT</small><div className="accel-six-axis"><span>ẍ</span><span>ÿ</span><span>z̈</span><span>ω̇x</span><span>ω̇y</span><span>ω̇z</span></div><strong>shape = (6,)</strong><p>independent of joint count</p></div>
+  </div>;
+
   if (kind === 'zenflow') return <div className="contribution-visual visual-zenflow">
     <div className="zenflow-config"><small>CONFIG BOUNDARY</small><div className="zenflow-ratio"><span>0</span><i><b /></i><span>1</span></div><code>0 &lt; topk_ratio &lt; 1</code><div className="zenflow-interval"><span>auto</span><b>OR</b><strong>update_interval ≥ 1</strong></div></div>
     <div className="zenflow-paths"><article><small>AUTO UPDATE</small><code>selected / ratio</code><code>unselected / (1 − ratio)</code><strong>两个除数都非零</strong></article><article><small>EXPLICIT UPDATE</small><code>micro_step // interval</code><strong>调度间隔始终有效</strong></article></div>
