@@ -180,7 +180,11 @@ export default function Home() {
 
       <section className="projects-section" id="projects"><div className="section-shell"><details className="section-fold" open>
         <SectionHeading index="04" label="代表项目" english="PROJECTS" />
-        <div className="section-fold-content"><div className="project-grid" data-reveal data-motion>{featuredProjects.map((project) => <a className="project-card" data-glow href={`/projects/${project.slug}/`} target="_blank" rel="noopener noreferrer" key={project.title} style={{ '--project-accent': project.accent } as CSSProperties}><div className="project-card-index"><span>{project.index}</span><small>{project.subtitle}</small></div><div><h3>{project.cardTitle ?? project.title}</h3><p>{project.intro}</p></div><span className="project-card-link">查看项目详情 <PiArrowRightBold aria-hidden="true" /></span></a>)}</div></div>
+        <div className="section-fold-content"><div className="project-grid" data-reveal data-motion>{featuredProjects.map((project) => <a className="project-card" data-glow href={`/projects/${project.slug}/`} target="_blank" rel="noopener noreferrer" key={project.title} style={{ '--project-accent': project.accent } as CSSProperties}>
+          <div className="project-card-main"><div className="project-card-index"><span>{project.index}</span><small>{project.subtitle}</small></div><h3>{project.cardTitle ?? project.title}</h3><p>{project.intro}</p></div>
+          <div className="project-card-method"><small>CORE APPROACH</small><p>{project.approach}</p><strong>{project.highlight}</strong></div>
+          <div className="project-card-results"><small>KEY RESULTS</small><div>{project.metrics.map(([label, value]) => <span key={label}><i>{label}</i><b>{value}</b></span>)}</div><span className="project-card-link">查看项目详情 <PiArrowRightBold aria-hidden="true" /></span></div>
+        </a>)}</div></div>
       </details></div></section>
 
       <section className="opensource-section" id="opensource"><div className="section-shell"><details className="section-fold" open>
