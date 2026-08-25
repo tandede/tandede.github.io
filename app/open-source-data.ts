@@ -14,9 +14,10 @@ export type OpenSourceProject = {
   highlight: string;
   release?: {
     label: string;
+    title: string;
     href: string;
     credit: string;
-    steps: [string, string, string, string];
+    steps: string[];
   };
   visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs';
 };
@@ -109,12 +110,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     reasoning: '面积矩包含坐标乘积，既容易越过 int32 范围，也会因大基数相减损失有效精度；仅提升数据类型不能完全解决数值条件问题。',
     solution: '统一转换为 float64，并把多边形平移到局部坐标系计算面积与质心，最后再映射回全局坐标。',
     impact: '修复已随 Supervision v0.30.1 正式发布，被列入官方数值精度与稳定性修复，并在版本 Contributors 中以 Zhewen Tan（@tandede）署名；大图像、地理坐标和远离原点的多边形现在能够稳定计算质心。',
-    highlight: 'SHIPPED IN v0.30.1',
+    highlight: 'LOCAL ORIGIN + FLOAT64',
     release: {
-      label: 'Released in v0.30.1',
+      label: 'v0.30.1 正式发布',
+      title: 'PR #2491 已随 Supervision v0.30.1 正式发布',
       href: 'https://github.com/roboflow/supervision/releases/tag/0.30.1',
-      credit: 'Official release notes · Zhewen Tan (@tandede)',
-      steps: ['PR #2491 合并', '纳入 v0.30.1', 'Release Notes 单独列出', 'Contributors 官方署名'],
+      credit: '这项多边形质心数值稳定性修复已经进入用户可安装的正式版本，并由项目方在版本说明中单独列出；Zhewen Tan（@tandede）同时出现在该版本的 Contributors 名单中。',
+      steps: ['数值精度与稳定性修复', 'Release Notes 收录 PR #2491', 'Contributors 官方署名'],
     },
     visualization: 'coordinate',
   },

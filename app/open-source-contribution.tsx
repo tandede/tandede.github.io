@@ -1,6 +1,6 @@
 import type { OpenSourceProject } from './open-source-data';
 import OpenSourceVisual from './open-source-visual';
-import { PiArrowUpRightBold } from 'react-icons/pi';
+import { PiArrowUpRightBold, PiConfettiBold } from 'react-icons/pi';
 
 type StoryHeading = { label: string; title: string };
 type Presentation = { eyebrow: string; title: string; lead: string; story: [StoryHeading, StoryHeading, StoryHeading, StoryHeading] };
@@ -29,13 +29,13 @@ export default function OpenSourceContribution({ project }: { project: OpenSourc
   return <section className={`contribution-case case-${project.visualization}`} id="contribution">
     <header className="case-header"><span>{copy.eyebrow}</span><h2>{copy.title}</h2><p>{copy.lead}</p></header>
     <div className="case-visual" data-motion data-glow><OpenSourceVisual kind={project.visualization} /></div>
-    {project.release && <a className="contribution-release" href={project.release.href} target="_blank" rel="noopener noreferrer" data-motion data-glow>
-      <div><small>UPSTREAM ADOPTION</small><strong>{project.release.label}</strong><p>{project.release.credit}</p></div>
-      <ol>{project.release.steps.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, '0')}</span><b>{step}</b></li>)}</ol>
-      <PiArrowUpRightBold aria-hidden="true" />
-    </a>}
     <div className="case-story" data-motion>
       {copy.story.map((item, index) => <article key={item.title} data-glow><small>{item.label}</small><h3>{item.title}</h3><p>{paragraphs[index]}</p></article>)}
     </div>
+    {project.release && <a className="contribution-release" href={project.release.href} target="_blank" rel="noopener noreferrer" data-motion data-glow>
+      <span className="release-celebration"><PiConfettiBold aria-hidden="true" /></span>
+      <div className="release-copy"><small>CONTRIBUTION SHIPPED</small><strong>{project.release.title}</strong><p>{project.release.credit}</p><ul>{project.release.steps.map((step) => <li key={step}>{step}</li>)}</ul></div>
+      <span className="release-link">查看正式版本 <PiArrowUpRightBold aria-hidden="true" /></span>
+    </a>}
   </section>;
 }
