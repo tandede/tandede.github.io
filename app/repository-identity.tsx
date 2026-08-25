@@ -1,4 +1,4 @@
-import { PiArrowUpRightBold, PiImageSquare } from 'react-icons/pi';
+import { PiImageSquare } from 'react-icons/pi';
 import type { OpenSourceProject } from './open-source-data';
 import { repositoryVisuals } from './repository-identity-data';
 
@@ -24,10 +24,9 @@ export function RepositoryBanner({ project }: { project: OpenSourceProject }) {
   const banner = repositoryVisuals[project.slug]?.banner;
   if (!banner) return null;
 
-  return <a className={`repository-banner repository-media-${banner.mode ?? 'cover'}`} href={project.href} target="_blank" rel="noopener noreferrer" data-glow>
+  return <figure className={`repository-banner repository-media-${banner.mode ?? 'cover'}`}>
     <img src={banner.image} alt={banner.alt} />
-    <span><small>OFFICIAL REPOSITORY</small>{project.name}<PiArrowUpRightBold aria-hidden="true" /></span>
-  </a>;
+  </figure>;
 }
 
 export function RepositoryShowcase({ project }: { project: OpenSourceProject }) {

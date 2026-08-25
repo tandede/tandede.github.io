@@ -556,20 +556,16 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 @keyframes safety-mode-cycle { 0%, 25%, 100% { color: var(--detail-accent); background: rgba(255,255,255,.78); transform: translateY(0); } 10% { color: var(--white); background: var(--detail-accent); box-shadow: 0 8px 18px color-mix(in srgb, var(--detail-accent) 22%, transparent); transform: translateY(-3px); } }
 @keyframes constructive-glow { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--detail-accent) 10%, transparent); } 50% { box-shadow: 0 16px 34px color-mix(in srgb, var(--detail-accent) 14%, transparent); transform: translateX(4px); } }
 
-.detail-repository-badge { display: inline-flex; min-height: 28px; padding: 3px 7px; align-items: center; border: 1px solid color-mix(in srgb, var(--detail-accent) 34%, var(--line)); border-radius: 8px; background: rgba(255,255,255,.74); transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease; }
-.detail-repository-badge:hover, .detail-repository-badge:focus-visible { border-color: var(--detail-accent); box-shadow: 0 8px 18px color-mix(in srgb, var(--detail-accent) 12%, transparent); transform: translateY(-2px); }
-.detail-repository-badge img { width: auto; max-width: 128px; height: 20px; object-fit: contain; }
+.detail-repository-badge { display: inline-flex; min-height: 58px; padding: 7px 12px; align-items: center; border: 1px solid color-mix(in srgb, var(--detail-accent) 42%, var(--line)); border-radius: 14px; background: rgba(255,255,255,.9); box-shadow: 0 10px 28px color-mix(in srgb, var(--detail-accent) 10%, transparent); transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease; }
+.detail-repository-badge:hover, .detail-repository-badge:focus-visible { border-color: var(--detail-accent); box-shadow: 0 16px 36px color-mix(in srgb, var(--detail-accent) 18%, transparent); transform: translateY(-3px); }
+.detail-repository-badge img { width: auto; max-width: 280px; height: 44px; object-fit: contain; }
 .detail-repository-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
 .detail-repository-tags span { padding: 7px 10px; color: var(--detail-accent); border: 1px solid color-mix(in srgb, var(--detail-accent) 24%, var(--line)); border-radius: 999px; background: color-mix(in srgb, var(--detail-accent) 4%, white); font-family: var(--font-geist-mono), monospace; font-size: 8px; font-weight: 700; }
-.repository-banner { position: relative; display: grid; min-height: 250px; margin-top: 28px; place-items: center; border: 1px solid color-mix(in srgb, var(--detail-accent) 34%, var(--line)); border-radius: 24px; background: linear-gradient(145deg, color-mix(in srgb, var(--detail-accent) 7%, white), #f8faff); box-shadow: 0 24px 58px color-mix(in srgb, var(--detail-accent) 8%, transparent); overflow: hidden; }
-.repository-banner > img { width: 100%; height: 100%; object-fit: cover; transition: transform 700ms cubic-bezier(.22, 1, .36, 1); }
-.repository-banner.repository-media-contain { padding: 30px; }
-.repository-banner.repository-media-contain > img { height: auto; max-height: 190px; object-fit: contain; }
-.repository-banner:hover > img, .repository-banner:focus-visible > img { transform: scale(1.025); }
-.repository-banner > span { position: absolute; right: 18px; bottom: 18px; display: flex; gap: 10px; padding: 10px 12px; align-items: center; color: var(--white); border-radius: 10px; background: rgba(8,14,27,.76); backdrop-filter: blur(14px); font-size: 11px; font-weight: 750; }
-.repository-banner > span small { color: rgba(255,255,255,.62); font-family: var(--font-geist-mono), monospace; font-size: 7px; letter-spacing: .1em; }
-.repository-banner > span svg { width: 14px; height: 14px; transition: transform 180ms ease; }
-.repository-banner:hover > span svg { transform: translate(2px, -2px); }
+.repository-banner { position: relative; display: block; margin: 28px 0 0; border: 1px solid color-mix(in srgb, var(--detail-accent) 34%, var(--line)); border-radius: 24px; background: color-mix(in srgb, var(--detail-accent) 7%, white); box-shadow: 0 24px 58px color-mix(in srgb, var(--detail-accent) 8%, transparent); overflow: hidden; }
+.repository-banner > img { display: block; width: 100%; height: auto; object-fit: contain; transition: transform 700ms cubic-bezier(.22, 1,.36, 1); }
+.repository-banner.repository-media-contain { padding: 0; }
+.repository-banner.repository-media-contain > img { width: 100%; height: auto; max-height: none; object-fit: contain; }
+.repository-banner:hover > img { transform: scale(1.018); }
 .repository-banner + .detail-hero { min-height: 460px; padding-top: 52px; }
 .repository-showcase { --glow-x: 50%; --glow-y: 50%; display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(250px, .45fr); min-height: 420px; margin: 0 0 88px; border: 1px solid color-mix(in srgb, var(--detail-accent) 32%, var(--line)); border-radius: 24px; background: var(--white); overflow: hidden; }
 .repository-showcase > div { min-width: 0; min-height: 420px; border-right: 1px solid var(--line); background: #eef2f7; overflow: hidden; }
@@ -1312,12 +1308,9 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .detail-step > small { margin-top: 36px; }
   .detail-final-cta { padding: 28px 22px; }
   .detail-final-cta > a { width: 100%; }
-  .detail-repository-badge img { max-width: 110px; }
-  .repository-banner { min-height: 190px; margin-top: 16px; border-radius: 17px; }
-  .repository-banner.repository-media-contain { padding: 20px; }
-  .repository-banner.repository-media-contain > img { max-height: 145px; }
-  .repository-banner > span { right: 10px; bottom: 10px; }
-  .repository-banner > span small { display: none; }
+  .detail-repository-badge { min-height: 48px; padding: 6px 9px; border-radius: 11px; }
+  .detail-repository-badge img { max-width: min(240px, 72vw); height: 34px; }
+  .repository-banner { margin-top: 16px; border-radius: 17px; }
   .repository-banner + .detail-hero { min-height: 0; }
   .repository-showcase { min-height: 0; margin-bottom: 62px; border-radius: 18px; }
   .repository-showcase > div { min-height: 270px; }
