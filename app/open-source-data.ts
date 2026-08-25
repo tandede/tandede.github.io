@@ -12,6 +12,12 @@ export type OpenSourceProject = {
   solution: string;
   impact: string;
   highlight: string;
+  release?: {
+    label: string;
+    href: string;
+    credit: string;
+    steps: [string, string, string, string];
+  };
   visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs';
 };
 
@@ -102,8 +108,14 @@ export const openSourceProjects: OpenSourceProject[] = [
     problem: '大坐标多边形计算质心时出现 int32 溢出与浮点消减，结果漂移甚至失真。',
     reasoning: '面积矩包含坐标乘积，既容易越过 int32 范围，也会因大基数相减损失有效精度；仅提升数据类型不能完全解决数值条件问题。',
     solution: '统一转换为 float64，并把多边形平移到局部坐标系计算面积与质心，最后再映射回全局坐标。',
-    impact: '在大图像、地理坐标和远离原点的多边形上获得稳定结果，同时保持普通坐标场景的兼容性。',
-    highlight: 'FLOAT64 + LOCAL ORIGIN',
+    impact: '修复已随 Supervision v0.30.1 正式发布，被列入官方数值精度与稳定性修复，并在版本 Contributors 中以 Zhewen Tan（@tandede）署名；大图像、地理坐标和远离原点的多边形现在能够稳定计算质心。',
+    highlight: 'SHIPPED IN v0.30.1',
+    release: {
+      label: 'Released in v0.30.1',
+      href: 'https://github.com/roboflow/supervision/releases/tag/0.30.1',
+      credit: 'Official release notes · Zhewen Tan (@tandede)',
+      steps: ['PR #2491 合并', '纳入 v0.30.1', 'Release Notes 单独列出', 'Contributors 官方署名'],
+    },
     visualization: 'coordinate',
   },
   {

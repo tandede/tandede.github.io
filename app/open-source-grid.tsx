@@ -78,7 +78,7 @@ export default function OpenSourceGrid({ items }: { items: OpenSourceProject[] }
             <img src={item.logo} alt="" />
             <div>
               <h3>{item.name}</h3>
-              <div className="opensource-meta"><span className="repo-stars" title={typeof count === 'number' ? `${count.toLocaleString('en-US')} GitHub Stars` : '正在获取 GitHub Star'}><PiStarFill aria-hidden="true" />{starsLabel}</span>{item.role !== 'CONTRIBUTOR' && <span className="opensource-role">{item.role}</span>}</div>
+              <div className="opensource-meta"><span className="repo-stars" title={typeof count === 'number' ? `${count.toLocaleString('en-US')} GitHub Stars` : '正在获取 GitHub Star'}><PiStarFill aria-hidden="true" />{starsLabel}</span>{item.release && <span className="opensource-release">{item.release.label}</span>}{item.role !== 'CONTRIBUTOR' && <span className="opensource-role">{item.role}</span>}</div>
             </div>
           </div>
         </div>
