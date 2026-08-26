@@ -94,6 +94,24 @@ export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['vi
     <div className="zenflow-partition"><small>PER-PARTITION INVARIANT</small><div><span>50 columns</span><b>× 0.01</b><strong>→ 1 selected</strong></div><code>max(1, int(columns × ratio))</code><p><span>selection</span><i>=</i><span>index buffer</span><i>=</i><span>grad buffer</span></p></div>
   </div>;
 
+  if (kind === 'obj-whitespace') return <div className="contribution-visual visual-obj-whitespace">
+    <div className="obj-record">
+      <small>OBJ FACE RECORD · MIXED WHITESPACE</small>
+      <div className="obj-token-line"><b>f</b><span>1/1/1</span><i>⇥ TAB</i><span>2/2/1</span><i>↕ VT</i><span>3/3/1</span><i>↡ FF</i><span>4/4/1</span></div>
+      <div className="obj-token-line"><b>f</b><span>1/1/1</span><i>SPACE × 2</i><span>2/2/1</span><i>↩ CONTINUE</i><span>3/3/1</span><i>↕ VT</i><span>4/4/1</span></div>
+    </div>
+    <div className="obj-parser-paths">
+      <article className="obj-parser-before"><small>BEFORE · DOUBLE PARSING</small><code>stream &gt;&gt; token</code><b>+</b><code>ignore(..., &apos; &apos;)</code><strong>继续扫描，吞掉后续 token</strong></article>
+      <article className="obj-parser-after"><small>AFTER · SINGLE EXTRACTION PATH</small><code>while (stream &gt;&gt; token)</code><div><span>SPACE</span><span>TAB</span><span>VT</span><span>FF</span></div><strong>每次只消费一个顶点 token</strong></article>
+    </div>
+    <div className="obj-face-output">
+      <small>PARSED GEOMETRY</small>
+      <div><span><b>FACE 01</b><i>1</i><i>2</i><i>3</i><i>4</i></span><span><b>FACE 02</b><i>1</i><i>2</i><i>3</i><i>4</i></span></div>
+      <code>vertex / texture / normal ✓</code>
+      <strong>2 faces · 4 vertices each</strong>
+    </div>
+  </div>;
+
   return <div className="contribution-visual visual-numeric">
     <div className="numeric-path"><small>COMMON PATH</small><strong>finite weights</strong><span>原向量化快速卷积</span><b>FAST</b></div><div className="numeric-condition"><span>padding?</span><span>Inf / NaN?</span></div><div className="numeric-path"><small>RARE PATH</small><strong>non-finite weights</strong><span>精确后处理 padding 区域</span><b>IEEE 754</b></div>
   </div>;

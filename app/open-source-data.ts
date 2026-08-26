@@ -20,7 +20,7 @@ export type OpenSourceProject = {
     credit: string;
     steps: string[];
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
@@ -45,6 +45,17 @@ export const openSourceProjects: OpenSourceProject[] = [
     highlight: 'xdd = J̇a q̇ + Ja q̈',
     takeaway: '恢复六维末端加速度的完整动力学关系',
     visualization: 'operational-acceleration',
+  },
+  {
+    slug: 'simbody', name: 'Simbody', logo: 'https://github.com/simbody.png?size=128', accent: '#26799e', role: 'CONTRIBUTOR', href: 'https://github.com/simbody/simbody', prHref: 'https://github.com/simbody/simbody/pull/863',
+    function: '高性能 C++ 多体动力学与物理仿真库，用于模拟人体骨骼、机器人、车辆等关节化生物力学与机械系统，是 OpenSim 等科学计算项目的底层基础设施。',
+    problem: 'OBJ 面片解析循环已经通过格式化流提取读取每个 `v/vt/vn` token，却在每次读取后额外执行 `ignore(..., \' \')`。当分隔符是 Tab、垂直制表符或换页符而不是字面空格时，这次查找会越过分隔符并继续吞掉后续顶点，四边形最终被解析成少于四个顶点。',
+    reasoning: '`operator>>` 本身会跳过 C++ 流所识别的全部前导空白，并以空白作为 token 边界；额外寻找字面空格与既有提取机制职责重叠。真正需要保留的是斜杠分隔的顶点、纹理和法线索引语义，以及反斜杠续行，而不是再建立第二套分隔规则。',
+    solution: '删除 token 提取后的冗余字面空格 `ignore`，让格式化提取成为唯一的空白处理路径；新增包含 Tab、垂直制表符、换页符、重复空格和续行的双面片用例，并逐项验证顶点、纹理坐标与法线索引。',
+    impact: '普通与续行 OBJ 面片现在都能在混合空白符下完整保留四个顶点及对应 `v/vt/vn` 三元组；修复通过项目 114/114 项测试，PR #863 经两位维护者批准后合入 master，并关闭长期存在的 #747。',
+    highlight: 'FORMATTED EXTRACTION > LITERAL SPACE',
+    takeaway: '不再让空格查找吞掉后续 OBJ 顶点',
+    visualization: 'obj-whitespace',
   },
   {
     slug: 'lm-evaluation-harness', name: 'LM Evaluation Harness', logo: 'https://github.com/EleutherAI.png?size=128', accent: '#313131', role: 'CONTRIBUTOR', href: 'https://github.com/EleutherAI/lm-evaluation-harness', prHref: 'https://github.com/EleutherAI/lm-evaluation-harness/pull/4020',

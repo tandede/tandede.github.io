@@ -32,6 +32,9 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
   'robotics-toolbox-python': {
     tags: ['Robot Kinematics · Dynamics', '50+ Robot Models', 'Python 3.10+'],
   },
+  simbody: {
+    tags: ['C++ · CMake', 'Multibody Dynamics', 'Biomechanics · Robotics'],
+  },
   deepspeed: {
     tags: ['Distributed Training', 'ZeRO', 'ZenFlow'],
   },

@@ -23,6 +23,7 @@ const presentation: Record<OpenSourceProject['visualization'], Presentation> = {
   'parallel-inputs': { eyebrow: 'ROBOT DATA · AGGREGATION INTEGRITY', title: '聚合不能以静默丢失数据为代价', lead: '机器人数据集的来源与本地根目录必须逐项对应；如果输入结构已经不完整，系统应该在读取第一份数据之前明确拒绝。', story: [{ label: '静默缺失', title: '普通 zip 截掉最后的数据集' }, { label: '数据契约', title: '两组并行参数必须等长' }, { label: '入口闸门', title: '加载元信息前先验证完整性' }, { label: '聚合结果', title: '每个来源都有唯一对应根目录' }] },
   zenflow: { eyebrow: 'DISTRIBUTED TRAINING · ZENFLOW', title: '把除零、空选择和错配挡在训练之前', lead: '两个除数、两条更新路径和一组分区缓冲区必须共享同一套配置与尺寸边界。', story: [{ label: '迟发故障', title: '非法值在训练启动后才爆炸' }, { label: '路径审计', title: '自动与显式更新各有一个除数' }, { label: '分区不变量', title: '选择数与缓冲区必须同源' }, { label: '训练边界', title: '错误配置早失败，小比例仍可运行' }] },
   'operational-acceleration': { eyebrow: 'ROBOT DYNAMICS · OPERATIONAL SPACE', title: '让关节动力学正确落到末端六维加速度', lead: '这里不是把一个 NameError 换成能运行的表达式，而是重新接通从操作空间速度、解析雅可比到末端加速度的完整动力学关系。', story: [{ label: '运行故障', title: '公开方法引用了从未定义的矩阵' }, { label: '动力学关系', title: '加速度需要雅可比及其时间导数' }, { label: '维度修复', title: '末端输出始终属于六维操作空间' }, { label: '机器人覆盖', title: '6 轴与冗余 7 轴模型都能正确执行' }] },
+  'obj-whitespace': { eyebrow: 'C++ STREAM PARSING · OBJ FORMAT', title: '让每个面片顶点都停在正确的 token 边界', lead: '格式化提取已经理解全部空白符；再去寻找一个字面空格，只会把合法输入继续向后吞。', story: [{ label: '解析故障', title: '非空格分隔符后仍继续扫描' }, { label: '根因判断', title: '两套分隔逻辑争夺同一输入流' }, { label: '最小修复', title: '让 operator>> 成为唯一提取路径' }, { label: '格式覆盖', title: '面片、续行与 v/vt/vn 全部保留' }] },
 };
 
 export default function OpenSourceContribution({ project }: { project: OpenSourceProject }) {
