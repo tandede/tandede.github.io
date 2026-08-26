@@ -58,7 +58,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     visualization: 'obj-whitespace',
   },
   {
-    slug: 'faiss', name: 'Faiss', logo: '', accent: '#0668e1', role: 'CONTRIBUTOR', href: 'https://github.com/facebookresearch/faiss', prHref: 'https://github.com/facebookresearch/faiss/pull/5528',
+    slug: 'faiss', name: 'Faiss', logo: 'https://github.com/facebookresearch.png?size=128', accent: '#0668e1', role: 'CONTRIBUTOR', href: 'https://github.com/facebookresearch/faiss', prHref: 'https://github.com/facebookresearch/faiss/pull/5528',
     function: 'Meta Fundamental AI Research 维护的高性能向量相似度搜索与聚类库，使用 C++ 实现并提供完整 Python / NumPy 接口，支持 CPU、GPU 以及十亿级稠密向量索引。',
     problem: '空 `IndexFlat` 在小查询批次下会正确返回距离哨兵值与 `-1` 标签，但当 `nq × d` 达到 BLAS 分发阈值后，BLAS helper 会因 `ny == 0` 提前返回，结果处理器尚未初始化，调用者传入的距离与标签缓冲区可能继续保留原来的 `42` 和 `99`。',
     reasoning: '空数据库搜索仍然是一条有明确定义的公开接口：每个查询的全部槽位都必须由对应 result handler 写成中性距离和 `-1` 标签。Top1、Heap 与 Reservoir 已经各自掌握正确的哨兵语义，因此修复不应在外层复制结果规则，而应确保空索引进入能够完整执行处理器生命周期的路径。',
