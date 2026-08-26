@@ -20,7 +20,7 @@ export type OpenSourceProject = {
     credit: string;
     steps: string[];
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
@@ -56,6 +56,17 @@ export const openSourceProjects: OpenSourceProject[] = [
     highlight: 'FORMATTED EXTRACTION > LITERAL SPACE',
     takeaway: '不再让空格查找吞掉后续 OBJ 顶点',
     visualization: 'obj-whitespace',
+  },
+  {
+    slug: 'faiss', name: 'Faiss', logo: '', accent: '#0668e1', role: 'CONTRIBUTOR', href: 'https://github.com/facebookresearch/faiss', prHref: 'https://github.com/facebookresearch/faiss/pull/5528',
+    function: 'Meta Fundamental AI Research 维护的高性能向量相似度搜索与聚类库，使用 C++ 实现并提供完整 Python / NumPy 接口，支持 CPU、GPU 以及十亿级稠密向量索引。',
+    problem: '空 `IndexFlat` 在小查询批次下会正确返回距离哨兵值与 `-1` 标签，但当 `nq × d` 达到 BLAS 分发阈值后，BLAS helper 会因 `ny == 0` 提前返回，结果处理器尚未初始化，调用者传入的距离与标签缓冲区可能继续保留原来的 `42` 和 `99`。',
+    reasoning: '空数据库搜索仍然是一条有明确定义的公开接口：每个查询的全部槽位都必须由对应 result handler 写成中性距离和 `-1` 标签。Top1、Heap 与 Reservoir 已经各自掌握正确的哨兵语义，因此修复不应在外层复制结果规则，而应确保空索引进入能够完整执行处理器生命周期的路径。',
+    solution: '在内积与 L2 两个搜索分发器中把 `ny == 0` 纳入顺序路径条件，避开 BLAS 的提前返回；回归测试强制触发原 BLAS 边界，预填输出缓冲区，并覆盖两种距离度量及 `k=1/10/150` 对应的三类 result handler。',
+    impact: '空索引无论查询规模和 `k` 如何都稳定写出完整哨兵结果，不再把未初始化的调用方数据当作搜索输出；6 组回归子测试均由失败转为通过，并完成 49 项 Python 测试、290 项 C++ 测试及 ASan / UBSan 验证，修复上游长期问题 #3830。',
+    highlight: 'EMPTY INDEX ≠ UNTOUCHED OUTPUT',
+    takeaway: '空索引搜索也必须写出完整的哨兵结果',
+    visualization: 'empty-index',
   },
   {
     slug: 'lm-evaluation-harness', name: 'LM Evaluation Harness', logo: 'https://github.com/EleutherAI.png?size=128', accent: '#313131', role: 'CONTRIBUTOR', href: 'https://github.com/EleutherAI/lm-evaluation-harness', prHref: 'https://github.com/EleutherAI/lm-evaluation-harness/pull/4020',

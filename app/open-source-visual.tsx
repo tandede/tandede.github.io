@@ -112,6 +112,26 @@ export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['vi
     </div>
   </div>;
 
+  if (kind === 'empty-index') return <div className="contribution-visual visual-empty-index">
+    <div className="empty-index-input">
+      <small>EXHAUSTIVE SEARCH INPUT</small>
+      <div className="query-batch"><span><b>Q</b><i>001</i></span><span><b>Q</b><i>···</i></span><span><b>Q</b><i>1000</i></span></div>
+      <code>nq × d ≥ BLAS threshold</code>
+      <div className="empty-database"><b>INDEX FLAT</b><strong>0</strong><span>database vectors · ny</span></div>
+    </div>
+    <div className="empty-index-paths">
+      <article className="empty-path-before"><small>BEFORE · BLAS PATH</small><code>if (ny == 0) return;</code><div><span>D = 42</span><span>I = 99</span></div><strong>CALLER BUFFER UNTOUCHED</strong></article>
+      <article className="empty-path-after"><small>AFTER · EMPTY INDEX ROUTE</small><code>res.sel || ny == 0 || below_threshold</code><div><span>TOP 1</span><span>HEAP</span><span>RESERVOIR</span></div><strong>RESULT HANDLER COMPLETES</strong></article>
+    </div>
+    <div className="empty-index-output">
+      <small>OUTPUT CONTRACT · 2 METRICS × 3 HANDLERS</small>
+      <div className="sentinel-row"><span>L2</span><code>+ FLOAT MAX</code><b>label −1</b></div>
+      <div className="sentinel-row"><span>IP</span><code>− FLOAT MAX</code><b>label −1</b></div>
+      <div className="empty-test-grid"><i /><i /><i /><i /><i /><i /></div>
+      <strong>6 / 6 REGRESSION CASES PASS</strong>
+    </div>
+  </div>;
+
   return <div className="contribution-visual visual-numeric">
     <div className="numeric-path"><small>COMMON PATH</small><strong>finite weights</strong><span>原向量化快速卷积</span><b>FAST</b></div><div className="numeric-condition"><span>padding?</span><span>Inf / NaN?</span></div><div className="numeric-path"><small>RARE PATH</small><strong>non-finite weights</strong><span>精确后处理 padding 区域</span><b>IEEE 754</b></div>
   </div>;

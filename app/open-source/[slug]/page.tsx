@@ -21,13 +21,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!project) return {};
   const title = `${project.name} 开源贡献｜ZHEWEN TAN`;
   const description = `${project.function} ${project.solution}`;
-  const image = project.logo.startsWith('http') ? project.logo : `https://tandede.github.io${project.logo}`;
+  const image = project.logo ? (project.logo.startsWith('http') ? project.logo : `https://tandede.github.io${project.logo}`) : null;
   return {
     title,
     description,
     alternates: { canonical: `/open-source/${project.slug}/` },
-    openGraph: { title, description, url: `/open-source/${project.slug}/`, images: [{ url: image }], type: 'article' },
-    twitter: { card: 'summary', title, description, images: [image] },
+    openGraph: { title, description, url: `/open-source/${project.slug}/`, images: image ? [{ url: image }] : [], type: 'article' },
+    twitter: { card: 'summary', title, description, images: image ? [image] : [] },
   };
 }
 

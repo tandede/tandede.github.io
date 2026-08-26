@@ -35,6 +35,9 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
   simbody: {
     tags: ['C++ · CMake', 'Multibody Dynamics', 'Biomechanics · Robotics'],
   },
+  faiss: {
+    tags: ['C++ · Python', 'CPU · GPU', 'Billion-scale Vector Search'],
+  },
   deepspeed: {
     tags: ['Distributed Training', 'ZeRO', 'ZenFlow'],
   },
