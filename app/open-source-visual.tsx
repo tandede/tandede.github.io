@@ -154,6 +154,30 @@ export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['vi
     </div>
   </div>;
 
+  if (kind === 'gjk-simplex') return <div className="contribution-visual visual-gjk-simplex">
+    <div className="gjk-cast-stage">
+      <small>SHAPE CAST · CYLINDER → CAPSULE</small>
+      <div className="gjk-shapes">
+        <span className="gjk-cylinder"><i /></span>
+        <b><i />CAST &lt; 1 CM</b>
+        <span className="gjk-capsule"><i /></span>
+      </div>
+      <div className="gjk-cast-facts"><span><b>FRACTION</b><strong>0.0</strong></span><span><b>START</b><strong>TOUCHING</strong></span></div>
+    </div>
+    <div className="gjk-invalid-stage">
+      <small>BEFORE · REJECTED POINT RETAINED</small>
+      <div className="gjk-simplex-map gjk-simplex-invalid"><i className="gjk-edge edge-ab" /><i className="gjk-edge edge-bc" /><i className="gjk-edge edge-ca" /><span className="point-a">A</span><span className="point-b">B</span><span className="point-c">C<sup>×</sup></span></div>
+      <code>mNumPoints still includes C</code>
+      <div className="gjk-error-metric"><span>near-degenerate triangle</span><strong>7.24732 m</strong><b>FALSE PENETRATION</b></div>
+    </div>
+    <div className="gjk-restored-stage">
+      <small>AFTER · PREVIOUS VALID SIMPLEX</small>
+      <div className="gjk-pop-step"><span>C<sup>×</sup></span><code>--mNumPoints</code><b>REJECT</b></div>
+      <div className="gjk-valid-simplex"><span>A</span><i /><span>B</span><strong>CONTACT RECONSTRUCTION</strong></div>
+      <div className="gjk-result-metric"><span>penetration depth</span><strong>4.81e-6 m</strong><b>&lt; 1e-4 m · PASS</b></div>
+    </div>
+  </div>;
+
   return <div className="contribution-visual visual-numeric">
     <div className="numeric-path"><small>COMMON PATH</small><strong>finite weights</strong><span>原向量化快速卷积</span><b>FAST</b></div><div className="numeric-condition"><span>padding?</span><span>Inf / NaN?</span></div><div className="numeric-path"><small>RARE PATH</small><strong>non-finite weights</strong><span>精确后处理 padding 区域</span><b>IEEE 754</b></div>
   </div>;

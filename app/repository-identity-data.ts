@@ -46,6 +46,15 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     },
     tags: ['Factor Graphs', 'Smoothing · Mapping', 'C++ · Python · MATLAB'],
   },
+  'jolt-physics': {
+    showcase: {
+      image: 'https://img.youtube.com/vi/pwyCW0yNKMA/hqdefault.jpg',
+      alt: 'Jolt Physics 官方刚体堆叠仿真演示',
+      caption: '刚体堆叠演示呈现了大量关节化物体在重力、碰撞和约束共同作用下的实时运动，也直观体现 Jolt Physics 面向游戏与 VR 场景的多核刚体仿真能力。',
+      mode: 'cover',
+    },
+    tags: ['C++17', 'Rigid Body · Collision', 'Games · VR · Deterministic'],
+  },
   deepspeed: {
     tags: ['Distributed Training', 'ZeRO', 'ZenFlow'],
   },

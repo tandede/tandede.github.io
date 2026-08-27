@@ -20,7 +20,7 @@ export type OpenSourceProject = {
     credit: string;
     steps: string[];
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
@@ -78,6 +78,17 @@ export const openSourceProjects: OpenSourceProject[] = [
     highlight: 'VALUE FIRST · FACTOR LATER · SAFE EXPIRY',
     takeaway: '让值与因子异步到达，也能在固定时窗内安全收敛',
     visualization: 'fixed-lag-pending',
+  },
+  {
+    slug: 'jolt-physics', name: 'Jolt Physics', logo: 'https://raw.githubusercontent.com/jrouwe/JoltPhysics/master/Docs/LogoSmall.png', accent: '#1673a5', role: 'CONTRIBUTOR', href: 'https://github.com/jrouwe/JoltPhysics', prHref: 'https://github.com/jrouwe/JoltPhysics/pull/2108',
+    function: '面向游戏与 VR 的多核友好型 C++17 刚体物理和碰撞检测库，支持连续碰撞、约束、角色、车辆、布料与确定性仿真，已用于 Horizon Forbidden West 与 Death Stranding 2。',
+    problem: '`GJKClosestPoint::CastShape()` 在新增支撑点无法生成更近单纯形、第二次收敛仍失败时，会返回命中却把被拒绝的点继续留在 `mP`、`mQ` 与点计数中。接触点重建因此把试探点误当作有效顶点，组成近退化三角形并产生极大的重心权重，使仅仅接触的圆柱与胶囊报告约 7.24732 米穿透深度。',
+    reasoning: 'GJK 单纯形只应包含当前能够描述最近几何关系的有效支撑点；未让距离继续收敛的最后一点只是试探样本。既然第二次失败后选择接受当前命中，接触重建就必须回到加入该点之前的有效单纯形，而不能用一个几何上已被判定无效的顶点插值接触位置。',
+    solution: '在失败返回前递减 `mNumPoints`，明确将最后一个无效支撑点从单纯形中弹出，让 `mP` / `mQ` 的接触点重建只读取上一个有效单纯形；同时加入使用收缩形状与凸半径的圆柱—胶囊回归用例，锁定 `fraction == 0` 且穿透深度小于 `1e-4` 米。',
+    impact: '复现中的穿透深度由约 7.24732 米降至约 `4.81e-6` 米，远低于回归阈值。Debug 与 Release 各 583 项单元测试全部通过，ReleaseUBSAN 的 GJK、EPA 和 CastShape 共 26 项测试通过，并完成 Linux、Windows、macOS、Android、iOS、WebAssembly 及多架构确定性检查；PR #2108 获作者 Jorrit Rouwe 确认并合入 master，关闭 #2103。',
+    highlight: 'REJECT POINT · RESTORE SIMPLEX · REBUILD CONTACT',
+    takeaway: '让接触点只由最后一个有效单纯形重建',
+    visualization: 'gjk-simplex',
   },
   {
     slug: 'lm-evaluation-harness', name: 'LM Evaluation Harness', logo: 'https://github.com/EleutherAI.png?size=128', accent: '#313131', role: 'CONTRIBUTOR', href: 'https://github.com/EleutherAI/lm-evaluation-harness', prHref: 'https://github.com/EleutherAI/lm-evaluation-harness/pull/4020',

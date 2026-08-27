@@ -26,6 +26,7 @@ const presentation: Record<OpenSourceProject['visualization'], Presentation> = {
   'obj-whitespace': { eyebrow: 'C++ STREAM PARSING · OBJ FORMAT', title: '让每个面片顶点都停在正确的 token 边界', lead: '格式化提取已经理解全部空白符；再去寻找一个字面空格，只会把合法输入继续向后吞。', story: [{ label: '解析故障', title: '非空格分隔符后仍继续扫描' }, { label: '根因判断', title: '两套分隔逻辑争夺同一输入流' }, { label: '最小修复', title: '让 operator>> 成为唯一提取路径' }, { label: '格式覆盖', title: '面片、续行与 v/vt/vn 全部保留' }] },
   'empty-index': { eyebrow: 'VECTOR SEARCH · RESULT CONTRACT', title: '零个数据库向量，也必须返回完整结果', lead: '空索引不是“什么都不用做”；对每个查询来说，它仍然必须写出距离哨兵值和明确的无结果标签。', story: [{ label: '规模分叉', title: '大批次进入 BLAS 后输出反而失效' }, { label: '根因定位', title: '提前返回绕过了结果处理器生命周期' }, { label: '路径修复', title: '空索引统一进入可完成初始化的路径' }, { label: '契约覆盖', title: '两种度量与三类处理器全部锁定' }] },
   'fixed-lag-pending': { eyebrow: 'FACTOR GRAPH · FIXED-LAG LIFECYCLE', title: '值可以先到，因子可以晚到', lead: '等待连接的 value 既不能提前删除，也不能在过期后被送进一个要求 Bayes-tree clique 的边缘化路径。', story: [{ label: '异步输入', title: 'Value 已存在，Factor 仍在路上' }, { label: '状态区分', title: 'Pending 与 Connected 必须分流' }, { label: '时窗语义', title: '时窗内保留，过期后完整回收' }, { label: '图结构安全', title: '无 Clique 的变量不再进入边缘化' }] },
+  'gjk-simplex': { eyebrow: 'COLLISION DETECTION · GJK SIMPLEX', title: '被拒绝的支撑点，不能参与接触重建', lead: '一次没有带来更近解的试探点，如果继续留在单纯形里，就会把微小接触放大成数米级穿透。', story: [{ label: '异常结果', title: '不到一厘米的投射得到 7.25 米穿透' }, { label: '几何根因', title: '无效点构成近退化三角形' }, { label: '状态回退', title: '失败返回前恢复上一个有效单纯形' }, { label: '跨平台验证', title: '接触深度与确定性同时锁定' }] },
 };
 
 export default function OpenSourceContribution({ project }: { project: OpenSourceProject }) {
