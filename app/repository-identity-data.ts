@@ -38,6 +38,14 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
   faiss: {
     tags: ['C++ · Python', 'CPU · GPU', 'Billion-scale Vector Search'],
   },
+  gtsam: {
+    banner: {
+      image: 'https://raw.githubusercontent.com/borglab/gtsam/develop/doc/images/gtsam-manifold-optimization-light.png',
+      alt: 'GTSAM 官方流形优化工作流：构建因子图、在线性空间求解并映射回流形',
+      mode: 'contain',
+    },
+    tags: ['Factor Graphs', 'Smoothing · Mapping', 'C++ · Python · MATLAB'],
+  },
   deepspeed: {
     tags: ['Distributed Training', 'ZeRO', 'ZenFlow'],
   },

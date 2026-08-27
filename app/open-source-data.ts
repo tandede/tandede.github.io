@@ -20,7 +20,7 @@ export type OpenSourceProject = {
     credit: string;
     steps: string[];
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
@@ -67,6 +67,17 @@ export const openSourceProjects: OpenSourceProject[] = [
     highlight: 'EMPTY INDEX ≠ UNTOUCHED OUTPUT',
     takeaway: '空索引搜索也必须写出完整的哨兵结果',
     visualization: 'empty-index',
+  },
+  {
+    slug: 'gtsam', name: 'GTSAM', logo: 'https://github.com/borglab.png?size=128', accent: '#147d92', role: 'CONTRIBUTOR', href: 'https://github.com/borglab/gtsam', prHref: 'https://github.com/borglab/gtsam/pull/2749',
+    function: 'Georgia Tech Borg Lab 面向机器人与计算机视觉的平滑和建图库，以因子图与贝叶斯网络表达状态估计问题，提供 C++ 核心以及 Python、MATLAB 接口。',
+    problem: '`ISAM2` 允许先把 value 放入 `newTheta`、再由后续更新中的 factor 建立连接；这类 pending value 存在线性化点中，却暂时没有 `VariableIndex` 条目或 Bayes-tree clique。旧固定时窗逻辑会把所有过期时间戳键都送入排序与叶节点边缘化，使从未连接的 value 在需要 clique 的路径中失败。',
+    reasoning: '“尚未连接”与“已经失效”是两个不同状态：value 在 lag window 内必须继续保留，以便迟到的 factor 仍能接入；只有超过时窗且依旧没有 factor 或 clique 时才应直接回收。同时，当前更新中新到达的 factor 必须立刻把对应键视为 active，不能被同一轮过期判断误删。',
+    solution: '从新 factor 与现有 `VariableIndex` 建立 active key 集合，将过期键拆成 connected 与 pending 两组：前者继续走约束排序和 `marginalizeLeaves`，后者直接从 ISAM2 value、增量状态及时间戳映射中清理；并让变量删除逻辑兼容从未拥有索引条目的 pending value。',
+    impact: '固定时窗平滑器现在支持 value 与 factor 异步到达：时窗内迟到的 factor 可以正常连接，始终未连接的 value 则会在过期后完整回收且不触碰 Bayes-tree 边缘化。两条生命周期均有回归覆盖，相关四组测试与 Linux、macOS、Windows CI 全部通过，修复 #2741。',
+    highlight: 'VALUE FIRST · FACTOR LATER · SAFE EXPIRY',
+    takeaway: '让值与因子异步到达，也能在固定时窗内安全收敛',
+    visualization: 'fixed-lag-pending',
   },
   {
     slug: 'lm-evaluation-harness', name: 'LM Evaluation Harness', logo: 'https://github.com/EleutherAI.png?size=128', accent: '#313131', role: 'CONTRIBUTOR', href: 'https://github.com/EleutherAI/lm-evaluation-harness', prHref: 'https://github.com/EleutherAI/lm-evaluation-harness/pull/4020',

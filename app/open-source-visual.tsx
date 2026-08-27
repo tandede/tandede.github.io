@@ -132,6 +132,28 @@ export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['vi
     </div>
   </div>;
 
+  if (kind === 'fixed-lag-pending') return <div className="contribution-visual visual-fixed-lag">
+    <div className="lag-timeline">
+      <small>TIME-ORDERED UPDATES · LAG = 1.0</small>
+      <div className="lag-axis"><i /><span>t0</span><span>t1</span><span>t2</span><span>t3</span></div>
+      <article><b>X0</b><div><strong>VALUE + PRIOR</strong><span>connected · clique ✓</span></div></article>
+      <article className="lag-pending"><b>X1</b><div><strong>VALUE FIRST</strong><span>factor ∅ · clique ∅</span></div></article>
+      <article><b>X2</b><div><strong>CLOCK ADVANCES</strong><span>X1 leaves lag window</span></div></article>
+    </div>
+    <div className="lag-classifier">
+      <small>ACTIVE KEY SPLIT</small>
+      <div><span>new factor keys</span><b>+</b><span>VariableIndex</span></div>
+      <code>is key active?</code>
+      <article className="lag-old-route"><span>BEFORE</span><strong>all expired → marginalizeLeaves</strong><i>clique required ✕</i></article>
+      <article className="lag-new-route"><span>AFTER</span><strong>connected ≠ pending</strong><i>two safe lifecycles ✓</i></article>
+    </div>
+    <div className="lag-outcomes">
+      <small>FIXED-LAG LIFECYCLE</small>
+      <article className="lag-connect-outcome"><span>FACTOR ARRIVES IN WINDOW</span><div><b>X0</b><i>— factor —</i><b>X1</b></div><strong>CONNECT · OPTIMIZE · MARGINALIZE</strong></article>
+      <article className="lag-reap-outcome"><span>STILL UNCONNECTED AT EXPIRY</span><div><b>X1</b><i>→</i><code>remove value</code><code>erase timestamp</code></div><strong>REAP DIRECTLY · NO BAYES CLIQUE</strong></article>
+    </div>
+  </div>;
+
   return <div className="contribution-visual visual-numeric">
     <div className="numeric-path"><small>COMMON PATH</small><strong>finite weights</strong><span>原向量化快速卷积</span><b>FAST</b></div><div className="numeric-condition"><span>padding?</span><span>Inf / NaN?</span></div><div className="numeric-path"><small>RARE PATH</small><strong>non-finite weights</strong><span>精确后处理 padding 区域</span><b>IEEE 754</b></div>
   </div>;
