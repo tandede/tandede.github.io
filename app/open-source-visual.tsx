@@ -178,6 +178,27 @@ export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['vi
     </div>
   </div>;
 
+  if (kind === 'frustum-culling') return <div className="contribution-visual visual-frustum-culling">
+    <div className="frustum-tensor-stage">
+      <small>TENSOR LAYOUT · FACE_VERTS</small>
+      <div className="frustum-tensor-shape"><span><b>F</b><i>FACE</i></span><span><b>3</b><i>VERTEX</i></span><span><b>3</b><i>XYZ</i></span></div>
+      <article className="frustum-index-old"><span>BEFORE</span><code>face_verts[:, axis]</code><strong>selects one vertex · [F, xyz]</strong></article>
+      <article className="frustum-index-new"><span>AFTER</span><code>face_verts[:, :, axis]</code><strong>selects one coordinate · [F, vertex]</strong></article>
+    </div>
+    <div className="frustum-plane-stage">
+      <small>SIX-PLANE CULLING CONTRACT</small>
+      <div className="frustum-frame"><span className="plane-left">L</span><span className="plane-right">R</span><span className="plane-top">T</span><span className="plane-bottom">B</span><span className="plane-near">N</span><span className="plane-far">F</span><div className="frustum-triangle"><i /><i /><i /><b /><b /><b /></div></div>
+      <div className="frustum-rule"><span>v0</span><span>v1</span><span>v2</span><strong>all(dim=1)</strong></div>
+      <p>只有三个顶点位于同一裁剪平面外，面片才会被删除。</p>
+    </div>
+    <div className="frustum-camera-stage">
+      <small>PERSPECTIVE CAMERA GUARD</small>
+      <div className="camera-plane"><b>CAMERA PLANE · Z = 0</b><i /><span className="camera-front">FRONT</span><span className="camera-behind">BEHIND</span><div className="straddling-face"><em>A</em><em>B</em><em>C</em><u /><u /></div></div>
+      <article><span>all vertices in front?</span><code>xy_cullable = False</code><strong>DEFER TO Z CLIPPING</strong></article>
+      <div className="frustum-oracle"><span><b>604</b> false positive</span><span><b>603</b> false negative</span><strong>FIX · 0 / 4096 MISMATCH</strong></div>
+    </div>
+  </div>;
+
   return <div className="contribution-visual visual-numeric">
     <div className="numeric-path"><small>COMMON PATH</small><strong>finite weights</strong><span>原向量化快速卷积</span><b>FAST</b></div><div className="numeric-condition"><span>padding?</span><span>Inf / NaN?</span></div><div className="numeric-path"><small>RARE PATH</small><strong>non-finite weights</strong><span>精确后处理 padding 区域</span><b>IEEE 754</b></div>
   </div>;

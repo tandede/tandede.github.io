@@ -20,7 +20,7 @@ export type OpenSourceProject = {
     credit: string;
     steps: string[];
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
@@ -89,6 +89,17 @@ export const openSourceProjects: OpenSourceProject[] = [
     highlight: 'REJECT POINT · RESTORE SIMPLEX · REBUILD CONTACT',
     takeaway: '让接触点只由最后一个有效单纯形重建',
     visualization: 'gjk-simplex',
+  },
+  {
+    slug: 'pytorch3d', name: 'PyTorch3D', logo: 'https://github.com/facebookresearch.png?size=128', accent: '#ee4c2c', role: 'CONTRIBUTOR', href: 'https://github.com/facebookresearch/pytorch3d', prHref: 'https://github.com/facebookresearch/pytorch3d/pull/2044',
+    function: 'Meta FAIR 面向三维计算机视觉研究构建的 PyTorch 组件库，覆盖异构三角网格、几何变换、可微分渲染、点云与隐式表示，并支持自动微分、批处理和 GPU 加速。',
+    problem: '`face_verts` 的布局是 `[F, 3, 3] = [face, vertex, xyz]`，旧视锥剔除却使用 `face_verts[:, axis]`，把 plane axis 当成了顶点索引，随后 `sum(1) == 3` 实际判断的是“一个顶点的三个坐标是否同时越界”，而不是“三个顶点是否在同一裁剪平面之外”。修正索引后又暴露出透视投影边界：跨越相机平面的三角形会因后方顶点经过透视除法被镜像，可能在 XY 上看似全部越界，却仍有前方部分穿过视锥。',
+    reasoning: '面片只有在三个顶点都位于同一个视锥平面外时才能安全删除，因此必须沿坐标维取 `face_verts[:, :, axis]`，再以 `all(dim=1)` 聚合顶点维。对于 perspective-correct 投影，XY 的 NDC 坐标只对完全位于相机前方的面片可直接用于剔除；跨越相机平面的面片应交给后续 Z clipping 处理。正交投影不发生这种镜像，Z 轴也始终使用世界坐标。',
+    solution: '把坐标访问改为 `face_verts[:, :, axis]` 并使用 `all(dim=1)` 明确表达三顶点同侧条件；在关闭剔除时提前返回，并为透视投影建立 `xy_cullable` 掩码：只有全部顶点满足 `z >= z_clip_value`（未设置时为 `z > 0`）才执行 XY 剔除。回归测试覆盖六个视锥平面、三种顶点顺序、透视投影有无 Z clip、正交投影及 Z 轴剔除。',
+    impact: '针对 4,096 个固定种子随机三角形的独立 oracle，修复后保持 0 个不一致；旧实现同一输入产生 604 个误剔除与 603 个漏剔除。最终上游版本的定向渲染与裁剪测试 34 项通过、8 项 OpenGL 用例跳过，Meta 内部 Builds & Tests 与 Linter 均通过；PR #2044 经 CodeSync 以提交 `e73a7e7` 合入 main，关闭长期问题 #1936。',
+    highlight: 'VERTEX AXIS ≠ COORDINATE AXIS',
+    takeaway: '按同一坐标检查三个顶点，并保护跨越相机平面的可见面片',
+    visualization: 'frustum-culling',
   },
   {
     slug: 'lm-evaluation-harness', name: 'LM Evaluation Harness', logo: 'https://github.com/EleutherAI.png?size=128', accent: '#313131', role: 'CONTRIBUTOR', href: 'https://github.com/EleutherAI/lm-evaluation-harness', prHref: 'https://github.com/EleutherAI/lm-evaluation-harness/pull/4020',

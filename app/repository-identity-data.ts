@@ -55,6 +55,20 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     },
     tags: ['C++17', 'Rigid Body · Collision', 'Games · VR · Deterministic'],
   },
+  pytorch3d: {
+    banner: {
+      image: 'https://raw.githubusercontent.com/facebookresearch/pytorch3d/main/.github/pytorch3dlogo.png',
+      alt: 'PyTorch3D 官方项目标识',
+      mode: 'contain',
+    },
+    showcase: {
+      image: 'https://raw.githubusercontent.com/facebookresearch/pytorch3d/main/.github/camera_position_teapot.gif',
+      alt: 'PyTorch3D 官方可微分相机位置优化演示',
+      caption: '相机位置优化演示展示了 PyTorch3D 如何把三维几何、相机投影与可微分渲染连接进同一条 PyTorch 计算链，使渲染结果能够反向驱动相机参数收敛。',
+      mode: 'contain',
+    },
+    tags: ['3D Computer Vision', 'Differentiable Rendering', 'PyTorch · GPU'],
+  },
   deepspeed: {
     tags: ['Distributed Training', 'ZeRO', 'ZenFlow'],
   },
