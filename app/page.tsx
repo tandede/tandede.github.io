@@ -18,6 +18,7 @@ import {
   PiStack,
 } from 'react-icons/pi';
 import type { CSSProperties } from 'react';
+import Image from 'next/image';
 import { SiGithub, SiGooglescholar, SiLinkedin } from 'react-icons/si';
 import NavigationShell from './navigation-shell';
 import { openSourceProjects } from './open-source-data';
@@ -201,7 +202,7 @@ export default function Home() {
               <div className="product-title-row"><div><small>AI-RESETS.COM</small><h3>Codex 重置了吗？</h3></div><span className="product-live"><i />LIVE</span></div>
               <p className="product-summary">面向中文 Codex 用户的额度重置追踪站。自动同步公开重置公告，以北京时间和中文速读呈现，并将分散的重置信号整理成清晰、可持续追踪的信息入口。</p>
               <div className="product-features" aria-label="产品功能"><span>公开数据同步</span><span>北京时间</span><span>历史日历</span><span>邮件 + 微信提醒</span></div>
-              <a className="product-link" href="https://ai-resets.com/" {...externalLinkProps}><PiGlobeHemisphereWest aria-hidden="true" /><span><small>访问独立产品</small>ai-resets.com</span><PiArrowUpRightBold aria-hidden="true" /></a>
+              <a className="product-link" href="https://ai-resets.com/" {...externalLinkProps}><Image className="product-link-logo" src="/ai-resets-icon.png" alt="" width={38} height={38} /><span><small>访问独立产品</small>ai-resets.com</span><PiArrowUpRightBold aria-hidden="true" /></a>
             </div>
           </article>
         </div>
