@@ -20,7 +20,7 @@ export type OpenSourceProject = {
     credit: string;
     steps: string[];
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
@@ -100,6 +100,17 @@ export const openSourceProjects: OpenSourceProject[] = [
     highlight: 'VERTEX AXIS ≠ COORDINATE AXIS',
     takeaway: '按同一坐标检查三个顶点，并保护跨越相机平面的可见面片',
     visualization: 'frustum-culling',
+  },
+  {
+    slug: 'rtabmap', name: 'RTAB-Map', logo: 'https://raw.githubusercontent.com/introlab/rtabmap/master/guilib/src/images/RTAB-Map.png', accent: '#273bd4', role: 'CONTRIBUTOR', href: 'https://github.com/introlab/rtabmap', prHref: 'https://github.com/introlab/rtabmap/pull/1755',
+    function: '面向机器人感知与自主导航的实时外观建图系统，融合视觉、RGB-D、双目与 LiDAR 数据，覆盖回环检测、图优化、定位和三维建图，并提供 C++ 核心、Qt 桌面工具及 ROS / ROS 2 集成。',
+    problem: '`DatabaseViewer::detectMoreLoopClosures()` 在验证检测选项之前就创建并显示 `ProgressDialog`。当 intra-session 与 inter-session 都关闭、同时又没有选择图节点时，函数弹出配置警告后直接返回，但已经可见的进度窗口没有任何任务可以推进或完成，因而成为无法正常收尾的孤立对话框。',
+    reasoning: '进度窗口不是输入表单，而是“有效任务已经开始”的运行期资源；它的生命周期必须由同一条工作路径负责取消、推进和关闭。若请求连前置条件都不满足，就不存在可报告的进度。与其在每个错误出口补清理逻辑，不如让校验闸门支配资源创建，从控制流上保证失败发生时对话框尚不存在。',
+    solution: '将原有七行 `ProgressDialog` 构造与配置代码原样移动到无效选项检查之后：错误配置现在只显示警告并返回，创建的对话框数量为零；合法配置仍沿用相同父对象、`WA_DeleteOnClose`、取消按钮、宽度与显示行为，回环检测本身没有改变。',
+    impact: '单文件 `+7/-7` 的控制流修复关闭了自 2025 年 3 月存在的 #1462，由维护者 Mathieu Labbé 确认并合入 `master`。GitHub 的 28 项检查全部结束，其中 Linux、macOS、Windows、ROS、Docker 与 Coverage 等 26 项成功，2 项按条件跳过；无效请求不再遗留窗口，正常检测路径保持原有行为。',
+    highlight: 'VALIDATE → ALLOCATE → RUN',
+    takeaway: '先验证检测任务，再创建只属于有效工作的进度对话框',
+    visualization: 'ui-lifecycle',
   },
   {
     slug: 'lm-evaluation-harness', name: 'LM Evaluation Harness', logo: 'https://github.com/EleutherAI.png?size=128', accent: '#313131', role: 'CONTRIBUTOR', href: 'https://github.com/EleutherAI/lm-evaluation-harness', prHref: 'https://github.com/EleutherAI/lm-evaluation-harness/pull/4020',

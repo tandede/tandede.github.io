@@ -69,6 +69,15 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     },
     tags: ['3D Computer Vision', 'Differentiable Rendering', 'PyTorch · GPU'],
   },
+  rtabmap: {
+    showcase: {
+      image: 'https://github.com/user-attachments/assets/8306f095-5bf0-416d-88f3-e5a82fa23af8',
+      alt: 'RTAB-Map DatabaseViewer 在无效回环检测配置下遗留进度对话框的原始问题截图',
+      caption: '原始问题截图中，intra-session 与 inter-session 均未启用，检测任务无法开始；但空白进度窗口已经显示在 DatabaseViewer 上方，既没有进度可推进，也无法沿正常完成路径关闭。修复把这类无效请求挡在窗口创建之前。',
+      mode: 'contain',
+    },
+    tags: ['Visual · LiDAR SLAM', 'Loop Closure · Graph Optimization', 'C++ · Qt · ROS / ROS 2'],
+  },
   deepspeed: {
     tags: ['Distributed Training', 'ZeRO', 'ZenFlow'],
   },

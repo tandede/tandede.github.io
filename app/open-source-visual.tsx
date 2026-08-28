@@ -199,6 +199,30 @@ export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['vi
     </div>
   </div>;
 
+  if (kind === 'ui-lifecycle') return <div className="contribution-visual visual-ui-lifecycle">
+    <div className="loop-config-stage">
+      <small>REQUEST · DETECT MORE LOOP CLOSURES</small>
+      <div className="loop-option-list">
+        <article><span>INTRA-SESSION</span><b>OFF</b></article>
+        <article><span>INTER-SESSION</span><b>OFF</b></article>
+        <article><span>SELECTED NODES</span><b>0</b></article>
+      </div>
+      <strong className="loop-invalid-state">NO EXECUTABLE WORK</strong>
+    </div>
+    <div className="dialog-before-stage">
+      <small>BEFORE · ALLOCATE THEN VALIDATE</small>
+      <div className="orphan-dialog"><span>rtabmap-databaseViewer</span><i /><i /><strong>Cancel</strong></div>
+      <div className="dialog-before-flow"><b>SHOW DIALOG</b><i>→</i><b>WARNING</b><i>→</i><b>RETURN</b></div>
+      <strong className="orphan-status">1 ORPHANED WINDOW</strong>
+    </div>
+    <div className="dialog-after-stage">
+      <small>AFTER · VALIDATE THEN ALLOCATE</small>
+      <div className="lifecycle-gate"><span>OPTIONS VALID?</span><b>NO</b></div>
+      <div className="lifecycle-safe-return"><span>warning</span><i>→</i><strong>RETURN · 0 DIALOGS</strong></div>
+      <div className="lifecycle-valid-path"><span>YES</span><i>→</i><code>same 7 lines</code><i>→</i><strong>RUN</strong></div>
+    </div>
+  </div>;
+
   return <div className="contribution-visual visual-numeric">
     <div className="numeric-path"><small>COMMON PATH</small><strong>finite weights</strong><span>原向量化快速卷积</span><b>FAST</b></div><div className="numeric-condition"><span>padding?</span><span>Inf / NaN?</span></div><div className="numeric-path"><small>RARE PATH</small><strong>non-finite weights</strong><span>精确后处理 padding 区域</span><b>IEEE 754</b></div>
   </div>;
