@@ -223,6 +223,29 @@ export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['vi
     </div>
   </div>;
 
+  if (kind === 'matrix-codegen') return <div className="contribution-visual visual-matrix-codegen">
+    <div className="matrix-symbolic-stage">
+      <small>SYMBOLIC RETURN · MATRIX23</small>
+      <div className="matrix-shape-grid"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
+      <div className="matrix-shape-meta"><span><b>ROWS</b>2</span><i>×</i><span><b>COLS</b>3</span></div>
+      <strong>SHAPE · 2 × 3</strong>
+    </div>
+    <div className="matrix-flatten-stage">
+      <small>BEFORE · ELEMENT COUNT ONLY</small>
+      <code>SVector&lt;f64, 6&gt;</code>
+      <div className="matrix-flat-cells"><i>1</i><i>4</i><i>2</i><i>5</i><i>3</i><i>6</i></div>
+      <div className="matrix-lost-axes"><span>ROWS ?</span><span>COLS ?</span></div>
+      <strong>2 × 3 → 6 × 1</strong>
+    </div>
+    <div className="matrix-typed-stage">
+      <small>AFTER · SHAPE-AWARE FORMATTER</small>
+      <div className="matrix-type-gate"><span>rows == 1<br />or cols == 1?</span><b>NO</b></div>
+      <code>SMatrix&lt;f64, 2, 3&gt;</code>
+      <div className="matrix-contract-pair"><span>RETURN SIGNATURE</span><i>＝</i><span>CONSTRUCTOR</span></div>
+      <strong>2 BACKENDS · CARGO BUILD ✓</strong>
+    </div>
+  </div>;
+
   return <div className="contribution-visual visual-numeric">
     <div className="numeric-path"><small>COMMON PATH</small><strong>finite weights</strong><span>原向量化快速卷积</span><b>FAST</b></div><div className="numeric-condition"><span>padding?</span><span>Inf / NaN?</span></div><div className="numeric-path"><small>RARE PATH</small><strong>non-finite weights</strong><span>精确后处理 padding 区域</span><b>IEEE 754</b></div>
   </div>;

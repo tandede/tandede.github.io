@@ -78,6 +78,20 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     },
     tags: ['Visual · LiDAR SLAM', 'Loop Closure · Graph Optimization', 'C++ · Qt · ROS / ROS 2'],
   },
+  symforce: {
+    banner: {
+      image: 'https://raw.githubusercontent.com/symforce-org/symforce/main/docs/static/images/symforce_banner.png',
+      alt: 'SymForce 官方项目横幅',
+      mode: 'contain',
+    },
+    showcase: {
+      image: 'https://raw.githubusercontent.com/symforce-org/symforce/main/docs/static/images/symforce_diagram.png',
+      alt: 'SymForce 官方符号计算、代码生成与优化架构图',
+      caption: '官方架构图展示了 SymForce 的完整数据链：符号工具箱建立几何与用户函数，Codegen 将同一模型生成面向运行时的代码，再把残差和导数交给 C++ 或 Python 优化器。本次修复位于中间的 Rust 代码生成边界，确保符号矩阵的行列结构能够准确进入 nalgebra 静态类型。',
+      mode: 'contain',
+    },
+    tags: ['Symbolic Computation', 'Code Generation · Optimization', 'Python · C++ · Rust'],
+  },
   deepspeed: {
     tags: ['Distributed Training', 'ZeRO', 'ZenFlow'],
   },

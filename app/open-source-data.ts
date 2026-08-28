@@ -20,7 +20,7 @@ export type OpenSourceProject = {
     credit: string;
     steps: string[];
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
@@ -111,6 +111,17 @@ export const openSourceProjects: OpenSourceProject[] = [
     highlight: 'VALIDATE → ALLOCATE → RUN',
     takeaway: '先验证检测任务，再创建只属于有效工作的进度对话框',
     visualization: 'ui-lifecycle',
+  },
+  {
+    slug: 'symforce', name: 'SymForce', logo: 'https://github.com/symforce-org.png?size=128', accent: '#3979d4', role: 'CONTRIBUTOR', href: 'https://github.com/symforce-org/symforce', prHref: 'https://github.com/symforce-org/symforce/pull/467',
+    function: '面向机器人系统的高性能符号计算、代码生成与非线性优化库，将 Python 中的几何和符号模型转换为可部署的 C++、Rust 等运行时代码，并服务于 SLAM、计算机视觉、运动规划和自主系统。',
+    problem: 'Rust codegen 的单返回值路径把所有 `Matrix` 都格式化为 `nalgebra::SVector<scalar, rows × cols>`。这虽然保留了元素数量，却丢失二维形状：`Matrix23` 的函数签名和构造器都会变成 `SVector<f64, 6>`，调用方在 Rust 类型系统中再也看不到 2 行、3 列的矩阵语义。',
+    reasoning: '元素数量相同不等于类型等价，`2×3`、`3×2` 与 `6×1` 必须拥有不同的静态形状。项目的多输出路径已经用 `format_typename` 正确区分向量和矩阵，因此单返回值不应另写一套压平规则；同时，返回签名与实际构造器必须复用同一个判断，否则生成代码仍会出现类型不一致。',
+    solution: '在单返回值模板的两处关键位置——函数返回类型和返回值构造器——把 `format_vector` 统一替换为现有的 shape-aware `format_typename`。新增非方阵 `Matrix23` 回归，让 SymEngine 与 SymPy 两个后端都生成并编译 `SMatrix<f64, 2, 3>`；原有 `Matrix31` 则继续保持 `SVector<f64, 3>`。',
+    impact: '修复关闭 #439，并由维护者 Aaron Miller 批准后以作者为 Zhewen Tan 的上游提交 `6582930` 进入 `main`，提交正文明确关闭 PR #467。全部 29 项检查完成，其中 28 项成功、1 项发布任务按条件跳过；覆盖 Python 3.10–3.14、GCC、Clang、macOS、x86_64 与 aarch64 wheel 构建。',
+    highlight: 'ELEMENT COUNT ≠ MATRIX SHAPE',
+    takeaway: '让 2×3 矩阵在 Rust 类型系统中仍然保持 2×3',
+    visualization: 'matrix-codegen',
   },
   {
     slug: 'lm-evaluation-harness', name: 'LM Evaluation Harness', logo: 'https://github.com/EleutherAI.png?size=128', accent: '#313131', role: 'CONTRIBUTOR', href: 'https://github.com/EleutherAI/lm-evaluation-harness', prHref: 'https://github.com/EleutherAI/lm-evaluation-harness/pull/4020',

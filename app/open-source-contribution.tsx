@@ -29,6 +29,7 @@ const presentation: Record<OpenSourceProject['visualization'], Presentation> = {
   'gjk-simplex': { eyebrow: 'COLLISION DETECTION · GJK SIMPLEX', title: '被拒绝的支撑点，不能参与接触重建', lead: '一次没有带来更近解的试探点，如果继续留在单纯形里，就会把微小接触放大成数米级穿透。', story: [{ label: '异常结果', title: '不到一厘米的投射得到 7.25 米穿透' }, { label: '几何根因', title: '无效点构成近退化三角形' }, { label: '状态回退', title: '失败返回前恢复上一个有效单纯形' }, { label: '跨平台验证', title: '接触深度与确定性同时锁定' }] },
   'frustum-culling': { eyebrow: 'DIFFERENTIABLE RENDERING · FRUSTUM CULLING', title: '判断面片出界，要看三个顶点的同一坐标', lead: '一次维度索引错位同时混淆了 vertex 与 xyz；真正启用剔除后，还必须守住透视相机平面的几何边界。', story: [{ label: '张量语义', title: '[F, vertex, xyz] 的两个轴不能互换' }, { label: '剔除条件', title: '三个顶点必须越过同一个平面' }, { label: '透视边界', title: '跨越相机平面的面片交给 Z clipping' }, { label: '验证规模', title: '六平面、三顺序与 4,096 个随机三角形' }] },
   'ui-lifecycle': { eyebrow: 'DESKTOP SLAM · GUI RESOURCE LIFECYCLE', title: '没有任务，就不应该留下进度窗口', lead: '一个对话框何时创建，决定错误返回之后是否还会残留孤立的 UI 资源。', story: [{ label: '无效请求', title: '三个检测入口同时不可用' }, { label: '顺序错误', title: '先显示窗口，再发现任务不能开始' }, { label: '前置闸门', title: '校验支配资源创建与生命周期' }, { label: '行为边界', title: '错误路径归零，正常路径完全不变' }] },
+  'matrix-codegen': { eyebrow: 'SYMBOLIC CODEGEN · RUST TYPE SYSTEM', title: '六个元素，不代表它就是六维向量', lead: '生成代码不仅要保留数值，还必须把符号矩阵的行列结构带进目标语言的静态类型。', story: [{ label: '形状丢失', title: '2×3 被压平成 SVector<6>' }, { label: '类型语义', title: '元素数量不能替代行列维度' }, { label: '路径统一', title: '签名与构造器共享 shape-aware formatter' }, { label: '回归边界', title: '矩阵恢复形状，向量保持原行为' }] },
 };
 
 export default function OpenSourceContribution({ project }: { project: OpenSourceProject }) {
