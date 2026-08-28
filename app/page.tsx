@@ -146,7 +146,7 @@ export default function Home() {
       <section className="hero" id="top" data-motion>
         <div className="section-shell hero-grid">
           <div className="hero-copy" data-reveal>
-            <div className="hero-title"><p className="hero-eyebrow"><span />ZHEWEN TAN · PERSONAL HOMEPAGE</p><h1>谭哲文<span>大语言模型算法研究与工程</span></h1><p className="hero-lead">我主要做大语言模型预训练数据，也关注 Agent、安全对齐与模型评测。<br />这里记录我的研究、工程实践和开源贡献。</p></div>
+            <div className="hero-title"><p className="hero-eyebrow"><span />ZHEWEN TAN · PERSONAL HOMEPAGE</p><h1>谭哲文<span>大语言模型算法研究与工程</span></h1><p className="hero-lead">我主要做大语言模型预训练数据，也关注 Agent、安全对齐与模型评测。<br />这里记录我的研究、工程实践、独立产品和开源贡献。</p></div>
             <div className="hero-summary"><p className="hero-guide">从这里继续了解我的研究与实践</p><div className="hero-actions"><a className="action-link action-primary" href="#focus"><PiArticle aria-hidden="true" /><span>开始探索</span><PiArrowDownRightBold aria-hidden="true" /></a><a className="action-link" href="https://scholar.google.com/citations?user=6uw9ALUAAAAJ" {...externalLinkProps}><SiGooglescholar aria-hidden="true" /><span>谷歌学术</span><PiArrowUpRightBold aria-hidden="true" /></a><a className="action-link" href="https://github.com/tandede" {...externalLinkProps}><SiGithub aria-hidden="true" /><span>GitHub</span><PiArrowUpRightBold aria-hidden="true" /></a><a className="action-link" href="https://www.linkedin.com/in/zhewen-tan-0ba830401/" {...externalLinkProps}><SiLinkedin aria-hidden="true" /><span>LinkedIn</span><PiArrowUpRightBold aria-hidden="true" /></a></div></div>
           </div>
         </div>
@@ -187,8 +187,28 @@ export default function Home() {
         </a>)}</div></div>
       </details></div></section>
 
+      <section className="product-section" id="product"><div className="section-shell"><details className="section-fold" open>
+        <SectionHeading index="05" label="个人产品" english="INDEPENDENT PRODUCT" />
+        <div className="section-fold-content">
+          <article className="product-card" data-reveal data-motion data-glow>
+            <div className="product-copy">
+              <p className="product-kicker"><span>独立设计与开发</span><i />PERSONAL PRODUCT</p>
+              <div className="product-title-row"><div><small>AI-RESETS.COM</small><h3>Codex 重置了吗？</h3></div><span className="product-live"><i />LIVE</span></div>
+              <p className="product-summary">面向中文 Codex 用户的额度重置追踪站。自动同步公开重置公告，以北京时间和中文速读呈现，并将分散的重置信号整理成清晰、可持续追踪的信息入口。</p>
+              <div className="product-features" aria-label="产品功能"><span>公开数据同步</span><span>北京时间</span><span>历史日历</span><span>邮件 + 微信提醒</span></div>
+              <a className="product-link" href="https://ai-resets.com/" {...externalLinkProps}><PiGlobeHemisphereWest aria-hidden="true" /><span><small>访问独立产品</small>ai-resets.com</span><PiArrowUpRightBold aria-hidden="true" /></a>
+            </div>
+            <div className="product-preview" aria-label="Codex 重置追踪产品界面概览">
+              <div className="product-preview-head"><span><i />RESET SIGNAL</span><small>BEIJING TIME · AUTO SYNC</small></div>
+              <div className="product-radar"><div className="product-radar-orbit"><i /><i /><i /></div><div className="product-radar-core"><small>CODEX</small><strong>重置了吗？</strong><span>公开信号追踪中</span></div></div>
+              <div className="product-preview-grid"><div><small>最近一次重置</small><strong>中文已同步</strong><span>公开来源可追溯</span></div><div><small>历史记录</small><strong>26 周日历</strong><span>按北京时间整理</span></div><div><small>到达提醒</small><strong>邮件 · 微信</strong><span>重要更新及时获知</span></div></div>
+            </div>
+          </article>
+        </div>
+      </details></div></section>
+
       <section className="opensource-section" id="opensource"><div className="section-shell"><details className="section-fold" open>
-        <SectionHeading index="05" label="开源贡献" english="OPEN SOURCE" />
+        <SectionHeading index="06" label="开源贡献" english="OPEN SOURCE" />
         <div className="section-fold-content">
           <details className="opensource-subsection" open>
             <summary className="opensource-category-heading"><div className="opensource-category-title"><span>01</span><div><small>OPEN-SOURCE MEMBERSHIP</small><h3>组织与团队身份</h3></div></div><span className="opensource-category-toggle"><span className="opensource-toggle-open">收起</span><span className="opensource-toggle-closed">展开</span><PiCaretDownBold aria-hidden="true" /></span></summary>

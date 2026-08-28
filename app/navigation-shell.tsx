@@ -8,6 +8,7 @@ import {
   PiCpu,
   PiEnvelope,
   PiFolderOpenBold,
+  PiGlobeHemisphereWest,
   PiHouseBold,
   PiListBold,
   PiPushPinBold,
@@ -23,6 +24,7 @@ const navigationItems = [
   { href: '#research', label: '所选论文', english: 'SELECTED PUBLICATIONS', icon: PiArticle },
   { href: '#experience', label: '实习经历', english: 'EXPERIENCE', icon: PiBriefcaseBold },
   { href: '#projects', label: '代表项目', english: 'PROJECTS', icon: PiFolderOpenBold },
+  { href: '#product', label: '个人产品', english: 'INDEPENDENT PRODUCT', icon: PiGlobeHemisphereWest },
   { href: '#opensource', label: '开源贡献', english: 'OPEN SOURCE', icon: SiGithub },
   { href: '#contact', label: '联系我', english: 'CONTACT', icon: PiEnvelope },
 ];
