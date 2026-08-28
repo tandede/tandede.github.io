@@ -31,8 +31,14 @@ function OpenSourceStory({ slug, summary }: { slug: string; summary: OpenSourceC
     setLockedTab((current) => current === key ? null : key);
   };
 
-  return <div className="opensource-story-switcher" onMouseLeave={() => {
-    if (!lockedTab) setActiveTab('problem');
+  return <div className="opensource-story-switcher" onMouseLeave={(event) => {
+    if (lockedTab) return;
+    setActiveTab('problem');
+
+    const focusedElement = document.activeElement;
+    if (focusedElement instanceof HTMLElement && event.currentTarget.contains(focusedElement)) {
+      focusedElement.blur();
+    }
   }}>
     <div className="opensource-story-tabs" role="tablist" aria-label="贡献摘要切换">
       {storyTabs.map((tab, index) => <button
