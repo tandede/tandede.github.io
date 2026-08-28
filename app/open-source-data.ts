@@ -20,10 +20,21 @@ export type OpenSourceProject = {
     credit: string;
     steps: string[];
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'instructor', name: 'Instructor', logo: 'https://github.com/567-labs.png?size=128', accent: '#5b4cf0', role: 'CONTRIBUTOR', href: 'https://github.com/567-labs/instructor', prHref: 'https://github.com/567-labs/instructor/pull/2551',
+    function: '基于 Pydantic 的 LLM 结构化输出框架，将响应模型、验证、重试与多提供商适配统一到类型安全的 Python 接口，支持 OpenAI、Anthropic、Gemini、Bedrock 等主流模型服务。',
+    problem: '`update_gemini_kwargs()` 虽然复制了最外层请求参数，却继续复用调用者传入的嵌套 `safety_settings` 映射；合并 Gemini 默认阈值时会原地修改应用持有的配置，使同一字典在后续请求中携带 Instructor 写入的状态。',
+    reasoning: '外层浅拷贝只隔离字典壳，不能改变嵌套可变对象仍被共享的事实。请求规范化应把调用方输入视为只读：既要把默认阈值写入即将发送的请求，也必须保证返回映射与原对象不再别名，避免一次调用改变之后的应用行为。',
+    solution: '在应用默认阈值前显式复制 `safety_settings`，再把独立映射写回结果；回归测试同时锁定三条契约：原始配置保持不变、输出不与输入共享对象身份、发送给 Gemini 的默认安全阈值仍然完整生效。',
+    impact: 'PR #2551 随维护者的整合 PR #2566 进入 `main`：合并说明明确将其列为 superseded contribution，并保留原始 provider contributor commits 与作者；1.16.1 Changelog 单独链接 #2551，维护者关闭原 PR 时也确认修复已整合并致谢。',
+    highlight: 'COPY → MERGE → NO MUTATION',
+    takeaway: '默认安全阈值照常生效，调用者配置始终保持只读',
+    visualization: 'caller-immutability',
+  },
   {
     slug: 'webots', name: 'Webots', logo: 'https://github.com/cyberbotics.png?size=128', accent: '#e1261c', role: 'CONTRIBUTOR', href: 'https://github.com/cyberbotics/webots', prHref: 'https://github.com/cyberbotics/webots/pull/7009#pullrequestreview-5006270169',
     function: 'Cyberbotics 维护的开源机器人仿真平台，用于建模、编程和仿真机器人、车辆与机械系统，覆盖三维物理环境、传感器、控制器以及 ROS / ROS 2 工作流。',

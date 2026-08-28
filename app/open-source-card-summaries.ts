@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  instructor: {
+    problem: 'Gemini 请求只浅拷贝最外层参数，嵌套 `safety_settings` 仍与调用方共享；合并默认阈值会原地污染应用配置。复用同一字典发起后续请求时，行为因此取决于它是否曾经过 Instructor。',
+    reasoning: '请求规范化必须把调用者输入当作只读。外层字典已复制并不代表嵌套映射也被隔离；只有打断对象别名，才能同时保留默认补全和跨请求状态独立性。',
+    solution: '先复制安全设置，再在独立映射中合并默认阈值，并用身份与内容断言锁定输入不变。修复经 #2566 整合进入主分支，1.16.1 Changelog 继续直接链接原 PR #2551。',
+  },
   webots: {
     problem: '负单位四元数表示恒等旋转，却会走到零向量归一化，生成 NaN 旋转轴并把崩溃风险带入场景树。这个输入在数学上完全合法，旧实现却把等价表示变成了渲染与仿真的不稳定源。',
     reasoning: 'q 与 −q 描述同一旋转；近零向量应规范化为有限的恒等轴角，同时保留非退化负标量输入的真实旋转。判断边界应基于向量部分的范数，而不是简单检查标量正负。',

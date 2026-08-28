@@ -6,6 +6,12 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'caller-immutability') return <div className="contribution-visual visual-caller-immutability">
+    <div className="caller-input-stage"><small>CALLER-OWNED CONFIG</small><strong>safety_settings</strong><div><span>HATE</span><b>BLOCK_ONLY_HIGH</b></div><code>id: config_A</code></div>
+    <div className="caller-alias-stage"><small>BEFORE · SHALLOW COPY</small><div><code>result = kwargs.copy()</code><b>nested mapping</b><strong>config_A ↔ config_A</strong></div><span>apply defaults</span><em>CALLER MUTATED</em></div>
+    <div className="caller-copy-stage"><small>AFTER · DETACHED MERGE</small><div className="caller-copy-flow"><span><b>INPUT</b><code>config_A</code></span><i>→ copy →</i><span><b>OUTPUT</b><code>config_B</code></span></div><div className="caller-contracts"><span>input unchanged ✓</span><span>identity differs ✓</span><span>defaults applied ✓</span></div><strong>NO SHARED MUTABLE STATE</strong></div>
+  </div>;
+
   if (kind === 'reflection') return <div className="contribution-visual visual-reflection">
     <div className="visual-lane visual-lane-old"><small>BEFORE · 逐次反射</small><div><span>INT_MAX</span><i>↔</i><i>↔</i><i>↔</i><b>… 10⁹ 次</b></div><strong>O(N) + overflow risk</strong></div>
     <Arrow />
