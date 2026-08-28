@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { PiArrowRightBold, PiStarFill } from 'react-icons/pi';
+import { openSourceCardSummaries } from './open-source-card-summaries';
+import type { OpenSourceCardSummary } from './open-source-card-summaries';
 import { getGitHubStarsCacheKey, githubStarsCacheDuration } from './github-stars-cache';
 import type { OpenSourceProject } from './open-source-data';
 
@@ -10,6 +12,102 @@ function formatStars(value: number) {
   if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(value >= 10_000_000 ? 0 : 1)}m`;
   if (value >= 1_000) return `${(value / 1_000).toFixed(value >= 100_000 ? 0 : 1)}k`;
   return value.toLocaleString('en-US');
+}
+
+const storyTabs = [
+  { key: 'problem', label: '发现问题' },
+  { key: 'reasoning', label: '问题思考' },
+  { key: 'solution', label: '解决方法' },
+] as const;
+
+type StoryTabKey = (typeof storyTabs)[number]['key'];
+
+function OpenSourceStory({ slug, summary }: { slug: string; summary: OpenSourceCardSummary }) {
+  const [activeTab, setActiveTab] = useState<StoryTabKey>('problem');
+  const [lockedTab, setLockedTab] = useState<StoryTabKey | null>(null);
+
+  const selectTab = (key: StoryTabKey) => {
+    setActiveTab(key);
+    setLockedTab((current) => current === key ? null : key);
+  };
+
+  return <div className="opensource-story-switcher" onMouseLeave={() => {
+    if (!lockedTab) setActiveTab('problem');
+  }}>
+    <div className="opensource-story-tabs" role="tablist" aria-label="贡献摘要切换">
+      {storyTabs.map((tab, index) => <button
+        id={`${slug}-${tab.key}-tab`}
+        className={activeTab === tab.key ? 'is-active' : undefined}
+        type="button"
+        role="tab"
+        aria-selected={activeTab === tab.key}
+        aria-controls={`${slug}-story-panel`}
+        tabIndex={activeTab === tab.key ? 0 : -1}
+        key={tab.key}
+        onMouseEnter={() => {
+          if (!lockedTab) setActiveTab(tab.key);
+        }}
+        onFocus={() => setActiveTab(tab.key)}
+        onClick={() => selectTab(tab.key)}
+        onKeyDown={(event) => {
+          if (!['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft'].includes(event.key)) return;
+          event.preventDefault();
+          const direction = event.key === 'ArrowDown' || event.key === 'ArrowRight' ? 1 : -1;
+          const nextIndex = (index + direction + storyTabs.length) % storyTabs.length;
+          const nextKey = storyTabs[nextIndex].key;
+          setActiveTab(nextKey);
+          if (lockedTab) setLockedTab(nextKey);
+          document.getElementById(`${slug}-${nextKey}-tab`)?.focus();
+        }}
+      >
+        <span>0{index + 1}</span>
+        <strong>{tab.label}</strong>
+      </button>)}
+    </div>
+    <div
+      id={`${slug}-story-panel`}
+      className="opensource-story-panel"
+      role="tabpanel"
+      aria-labelledby={`${slug}-${activeTab}-tab`}
+      key={activeTab}
+    >
+      <span>{storyTabs.find((tab) => tab.key === activeTab)?.label}</span>
+      <p>{summary[activeTab]}</p>
+      <small>{lockedTab === activeTab ? '已固定 · 再点一次解除' : '悬停预览 · 点击固定'}</small>
+    </div>
+  </div>;
+}
+
+function OpenSourceCard({ item, count }: { item: OpenSourceProject; count?: number }) {
+  const starsLabel = typeof count === 'number' ? `${formatStars(count)} Stars` : 'Stars';
+  const summary = openSourceCardSummaries[item.slug] ?? {
+    problem: item.problem,
+    reasoning: item.reasoning,
+    solution: item.solution,
+  };
+
+  return <article className="opensource-card" data-glow style={{ '--repo-accent': item.accent } as CSSProperties}>
+    <div className="opensource-face opensource-front">
+      <div className="opensource-card-top">
+        <div className="opensource-identity">
+          {item.logo && <img src={item.logo} alt="" />}
+          <div>
+            <h3>{item.name}</h3>
+            <div className="opensource-meta"><span className="repo-stars" title={typeof count === 'number' ? `${count.toLocaleString('en-US')} GitHub Stars` : '正在获取 GitHub Star'}><PiStarFill aria-hidden="true" />{starsLabel}</span>{item.release && <span className="opensource-release">{item.release.label}</span>}{item.role !== 'CONTRIBUTOR' && <span className="opensource-role">{item.role}</span>}</div>
+          </div>
+        </div>
+      </div>
+      <div className="opensource-project">
+        <p>{item.function}</p>
+      </div>
+      <a className="opensource-card-link" href={`/open-source/${item.slug}/`} target="_blank" rel="noopener noreferrer" aria-label={`在新标签页查看 ${item.name} 开源贡献详情`}><span>查看我的贡献</span><PiArrowRightBold aria-hidden="true" /></a>
+    </div>
+    <div className="opensource-face opensource-back">
+      <div className="opensource-back-head"><strong>{item.name}</strong><span>{item.role}</span></div>
+      <OpenSourceStory slug={item.slug} summary={summary} />
+      <a className="opensource-card-link" href={`/open-source/${item.slug}/`} target="_blank" rel="noopener noreferrer"><span>查看完整贡献</span><PiArrowRightBold aria-hidden="true" /></a>
+    </div>
+  </article>;
 }
 
 export default function OpenSourceGrid({ items }: { items: OpenSourceProject[] }) {
@@ -67,35 +165,5 @@ export default function OpenSourceGrid({ items }: { items: OpenSourceProject[] }
     return difference || left.originalIndex - right.originalIndex;
   }), [items, stars]);
 
-  return <div className="opensource-grid" data-reveal data-motion>{orderedItems.map(({ item }) => {
-    const count = stars?.[item.href];
-    const starsLabel = typeof count === 'number' ? `${formatStars(count)} Stars` : 'Stars';
-
-    return <a className="opensource-card" data-glow href={`/open-source/${item.slug}/`} target="_blank" rel="noopener noreferrer" key={item.name} aria-label={`在新标签页查看 ${item.name} 开源贡献详情`} style={{ '--repo-accent': item.accent } as CSSProperties}>
-      <div className="opensource-face opensource-front">
-        <div className="opensource-card-top">
-          <div className="opensource-identity">
-            {item.logo && <img src={item.logo} alt="" />}
-            <div>
-              <h3>{item.name}</h3>
-              <div className="opensource-meta"><span className="repo-stars" title={typeof count === 'number' ? `${count.toLocaleString('en-US')} GitHub Stars` : '正在获取 GitHub Star'}><PiStarFill aria-hidden="true" />{starsLabel}</span>{item.release && <span className="opensource-release">{item.release.label}</span>}{item.role !== 'CONTRIBUTOR' && <span className="opensource-role">{item.role}</span>}</div>
-            </div>
-          </div>
-        </div>
-        <div className="opensource-project">
-          <p>{item.function}</p>
-        </div>
-        <div className="opensource-card-link"><span>查看我的贡献</span><PiArrowRightBold aria-hidden="true" /></div>
-      </div>
-      <div className="opensource-face opensource-back" aria-hidden="true">
-        <div className="opensource-back-head"><strong>{item.name}</strong><span>{item.role}</span></div>
-        <div className="opensource-story">
-          <div><span>发现问题</span><p>{item.problem}</p></div>
-          <div><span>问题思考</span><p>{item.reasoning}</p></div>
-          <div><span>解决方法</span><p>{item.solution}</p></div>
-        </div>
-        <div className="opensource-card-link"><span>查看完整贡献</span><PiArrowRightBold aria-hidden="true" /></div>
-      </div>
-    </a>;
-  })}</div>;
+  return <div className="opensource-grid" data-reveal data-motion>{orderedItems.map(({ item }) => <OpenSourceCard item={item} count={stars?.[item.href]} key={item.name} />)}</div>;
 }

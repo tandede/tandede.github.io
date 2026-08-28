@@ -348,14 +348,15 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .opensource-card { --repo-accent: var(--blue); position: relative; isolation: isolate; min-height: 356px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--repo-accent) 58%, white); border-radius: 18px; background: var(--white); box-shadow: 0 8px 24px rgba(16, 24, 40, 0.055); transition: border-color 260ms ease, box-shadow 320ms ease, transform 360ms cubic-bezier(0.22, 1, 0.36, 1); }
 .opensource-card::before { position: absolute; z-index: -1; inset: 0; background: radial-gradient(circle 190px at var(--glow-x, 50%) var(--glow-y, 50%), color-mix(in srgb, var(--repo-accent) 16%, transparent), transparent 72%), linear-gradient(145deg, #ffffff 0%, color-mix(in srgb, var(--repo-accent) 7%, white) 44%, color-mix(in srgb, var(--repo-accent) 13%, white) 100%); content: ""; opacity: 0; transition: opacity 360ms ease; }
 .opensource-card::after { position: absolute; z-index: 3; top: 0; right: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--repo-accent), color-mix(in srgb, var(--repo-accent) 42%, white)); content: ""; transform: scaleX(0); transform-origin: left; transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1); }
-.opensource-card:hover, .opensource-card:focus-visible { z-index: 2; border-color: var(--repo-accent); box-shadow: 0 20px 42px color-mix(in srgb, var(--repo-accent) 18%, transparent); transform: translateY(-7px); }
-.opensource-card:hover::before, .opensource-card:focus-visible::before { opacity: 1; }
-.opensource-card:hover::after, .opensource-card:focus-visible::after { transform: scaleX(1); }
+.opensource-card:hover, .opensource-card:focus-within { z-index: 2; border-color: var(--repo-accent); box-shadow: 0 20px 42px color-mix(in srgb, var(--repo-accent) 18%, transparent); transform: translateY(-7px); }
+.opensource-card:hover::before, .opensource-card:focus-within::before { opacity: 1; }
+.opensource-card:hover::after, .opensource-card:focus-within::after { transform: scaleX(1); }
 .opensource-face { position: absolute; inset: 0; display: grid; padding: 24px; transition: opacity 260ms ease, transform 420ms cubic-bezier(0.22, 1, 0.36, 1), filter 260ms ease; }
 .opensource-front { grid-template-rows: auto 1fr auto; opacity: 1; transform: translateY(0); }
 .opensource-back { grid-template-rows: auto 1fr auto; background: linear-gradient(160deg, rgba(255, 255, 255, 0.9), color-mix(in srgb, var(--repo-accent) 11%, white)); opacity: 0; transform: translateY(28px); }
-.opensource-card:hover .opensource-front, .opensource-card:focus-visible .opensource-front { opacity: 0; filter: blur(2px); transform: translateY(-24px) scale(0.985); }
-.opensource-card:hover .opensource-back, .opensource-card:focus-visible .opensource-back { opacity: 1; transform: translateY(0); }
+.opensource-card:hover .opensource-front, .opensource-card:focus-within .opensource-front { pointer-events: none; opacity: 0; filter: blur(2px); transform: translateY(-24px) scale(0.985); }
+.opensource-card:hover .opensource-back, .opensource-card:focus-within .opensource-back { pointer-events: auto; opacity: 1; transform: translateY(0); }
+.opensource-back { pointer-events: none; }
 .opensource-card-top { display: block; }
 .opensource-identity { display: flex; min-width: 0; align-items: center; gap: 12px; }
 .opensource-identity > img { flex: 0 0 auto; width: 50px; height: 50px; padding: 7px; border: 1px solid color-mix(in srgb, var(--repo-accent) 28%, var(--line)); border-radius: 13px; background: var(--white); object-fit: contain; }
@@ -369,15 +370,30 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .opensource-project { align-self: center; padding: 30px 0 20px; }
 .opensource-project p { margin: 0; color: #4b5565; font-size: 12px; line-height: 1.82; }
 .opensource-card-link { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 15px; color: var(--blue); font-family: var(--font-geist-mono), monospace; font-size: 9px; font-weight: 750; border-top: 1px solid var(--line); }
+.opensource-card-link:focus-visible { outline: 2px solid var(--repo-accent); outline-offset: 7px; }
 .opensource-card-link svg { width: 15px; height: 15px; transition: transform 220ms ease; }
-.opensource-card:hover .opensource-card-link svg, .opensource-card:focus-visible .opensource-card-link svg { transform: translateX(5px); }
+.opensource-card:hover .opensource-card-link svg, .opensource-card:focus-within .opensource-card-link svg { transform: translateX(5px); }
 .opensource-back-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding-bottom: 13px; border-bottom: 1px solid #c9d7ed; }
 .opensource-back-head strong { color: var(--ink); font-size: 12px; line-height: 1.3; }
 .opensource-back-head span { color: var(--blue); font-family: var(--font-geist-mono), monospace; font-size: 7px; font-weight: 750; letter-spacing: 0.08em; white-space: nowrap; }
-.opensource-story { display: grid; align-content: center; gap: 12px; padding: 13px 0; }
-.opensource-story > div { display: grid; grid-template-columns: 54px minmax(0, 1fr); gap: 9px; align-items: start; }
-.opensource-story span { padding-top: 2px; color: var(--blue); font-size: 9px; font-weight: 750; }
-.opensource-story p { margin: 0; color: #3f4b5d; font-size: 10px; line-height: 1.58; }
+.opensource-story-switcher { display: grid; grid-template-columns: 82px minmax(0, 1fr); gap: 15px; min-height: 0; padding: 14px 0 12px; align-items: stretch; }
+.opensource-story-tabs { display: grid; grid-template-rows: repeat(3, 1fr); border: 1px solid color-mix(in srgb, var(--repo-accent) 18%, var(--line)); border-radius: 11px; overflow: hidden; background: rgba(255,255,255,.55); }
+.opensource-story-tabs button { position: relative; display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 4px; width: 100%; min-width: 0; padding: 0 7px; align-items: center; color: #667085; border: 0; border-bottom: 1px solid color-mix(in srgb, var(--repo-accent) 14%, var(--line)); background: transparent; cursor: pointer; text-align: left; transition: color 180ms ease, background 180ms ease; }
+.opensource-story-tabs button:last-child { border-bottom: 0; }
+.opensource-story-tabs button::before { position: absolute; top: 7px; bottom: 7px; left: 0; width: 2px; border-radius: 999px; background: var(--repo-accent); content: ''; opacity: 0; transform: scaleY(.4); transition: opacity 180ms ease, transform 180ms ease; }
+.opensource-story-tabs button:hover, .opensource-story-tabs button:focus-visible, .opensource-story-tabs button.is-active { color: var(--repo-accent); background: color-mix(in srgb, var(--repo-accent) 8%, white); outline: none; }
+.opensource-story-tabs button.is-active::before { opacity: 1; transform: scaleY(1); }
+.opensource-story-tabs button > span { font-family: var(--font-geist-mono), monospace; font-size: 6px; opacity: .68; }
+.opensource-story-tabs button > strong { font-size: 8px; line-height: 1.2; white-space: nowrap; }
+.opensource-story-panel { position: relative; display: grid; min-width: 0; padding: 13px 13px 11px; align-content: start; border: 1px solid color-mix(in srgb, var(--repo-accent) 22%, var(--line)); border-radius: 11px; background: rgba(255,255,255,.7); animation: opensource-story-enter 220ms cubic-bezier(.22, 1, .36, 1) both; }
+.opensource-story-panel > span { color: var(--repo-accent); font-family: var(--font-geist-mono), monospace; font-size: 7px; font-weight: 800; letter-spacing: .08em; }
+.opensource-story-panel p { display: -webkit-box; margin: 13px 0 22px; overflow: hidden; color: #334155; font-size: 10.5px; line-height: 1.68; text-wrap: pretty; -webkit-box-orient: vertical; -webkit-line-clamp: 6; }
+.opensource-story-panel small { position: absolute; right: 12px; bottom: 9px; color: color-mix(in srgb, var(--repo-accent) 54%, #667085); font-family: var(--font-geist-mono), monospace; font-size: 6px; letter-spacing: .03em; }
+
+@keyframes opensource-story-enter {
+  from { opacity: 0; transform: translateY(7px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 .detail-page { --detail-accent: var(--blue); --detail-gutter: max(28px, calc((100vw - var(--shell)) / 2)); min-height: 100vh; padding: 0 var(--detail-gutter) 70px; color: var(--ink); background: var(--paper); }
 @media (pointer: fine) {
