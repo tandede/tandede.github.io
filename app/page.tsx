@@ -191,17 +191,17 @@ export default function Home() {
         <SectionHeading index="05" label="个人产品" english="INDEPENDENT PRODUCT" />
         <div className="section-fold-content">
           <article className="product-card" data-reveal data-motion data-glow>
+            <div className="product-preview" aria-label="Codex 重置追踪产品界面概览">
+              <div className="product-preview-head"><span><i />RESET SIGNAL</span><small>BEIJING TIME · AUTO SYNC</small></div>
+              <div className="product-radar"><div className="product-radar-orbit"><i /><i /><i /></div><div className="product-radar-core"><small>CODEX</small><strong>重置了吗？</strong><span>公开信号追踪中</span></div></div>
+              <div className="product-preview-grid"><div><small>最近一次重置</small><strong>中文已同步</strong><span>公开来源可追溯</span></div><div><small>历史记录</small><strong>26 周日历</strong><span>按北京时间整理</span></div><div><small>到达提醒</small><strong>邮件 · 微信</strong><span>重要更新及时获知</span></div></div>
+            </div>
             <div className="product-copy">
               <p className="product-kicker"><span>独立设计与开发</span><i />PERSONAL PRODUCT</p>
               <div className="product-title-row"><div><small>AI-RESETS.COM</small><h3>Codex 重置了吗？</h3></div><span className="product-live"><i />LIVE</span></div>
               <p className="product-summary">面向中文 Codex 用户的额度重置追踪站。自动同步公开重置公告，以北京时间和中文速读呈现，并将分散的重置信号整理成清晰、可持续追踪的信息入口。</p>
               <div className="product-features" aria-label="产品功能"><span>公开数据同步</span><span>北京时间</span><span>历史日历</span><span>邮件 + 微信提醒</span></div>
               <a className="product-link" href="https://ai-resets.com/" {...externalLinkProps}><PiGlobeHemisphereWest aria-hidden="true" /><span><small>访问独立产品</small>ai-resets.com</span><PiArrowUpRightBold aria-hidden="true" /></a>
-            </div>
-            <div className="product-preview" aria-label="Codex 重置追踪产品界面概览">
-              <div className="product-preview-head"><span><i />RESET SIGNAL</span><small>BEIJING TIME · AUTO SYNC</small></div>
-              <div className="product-radar"><div className="product-radar-orbit"><i /><i /><i /></div><div className="product-radar-core"><small>CODEX</small><strong>重置了吗？</strong><span>公开信号追踪中</span></div></div>
-              <div className="product-preview-grid"><div><small>最近一次重置</small><strong>中文已同步</strong><span>公开来源可追溯</span></div><div><small>历史记录</small><strong>26 周日历</strong><span>按北京时间整理</span></div><div><small>到达提醒</small><strong>邮件 · 微信</strong><span>重要更新及时获知</span></div></div>
             </div>
           </article>
         </div>
