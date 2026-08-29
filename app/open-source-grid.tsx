@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import type { CSSProperties } from 'react';
+import type { CSSProperties, MouseEvent } from 'react';
 import { PiArrowRightBold, PiStarFill } from 'react-icons/pi';
 import { openSourceCardSummaries } from './open-source-card-summaries';
 import type { OpenSourceCardSummary } from './open-source-card-summaries';
@@ -86,6 +86,9 @@ function OpenSourceStory({ slug, summary }: { slug: string; summary: OpenSourceC
 
 function OpenSourceCard({ item, count }: { item: OpenSourceProject; count?: number }) {
   const starsLabel = typeof count === 'number' ? `${formatStars(count)} Stars` : 'Stars';
+  const releaseCardFocus = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.currentTarget.blur();
+  };
   const summary = openSourceCardSummaries[item.slug] ?? {
     problem: item.problem,
     reasoning: item.reasoning,
@@ -106,12 +109,12 @@ function OpenSourceCard({ item, count }: { item: OpenSourceProject; count?: numb
       <div className="opensource-project">
         <p>{item.function}</p>
       </div>
-      <a className="opensource-card-link" href={`/open-source/${item.slug}/`} target="_blank" rel="noopener noreferrer" aria-label={`在新标签页查看 ${item.name} 开源贡献详情`}><span>查看我的贡献</span><PiArrowRightBold aria-hidden="true" /></a>
+      <a className="opensource-card-link" href={`/open-source/${item.slug}/`} target="_blank" rel="noopener noreferrer" aria-label={`在新标签页查看 ${item.name} 开源贡献详情`} onClick={releaseCardFocus}><span>查看我的贡献</span><PiArrowRightBold aria-hidden="true" /></a>
     </div>
     <div className="opensource-face opensource-back">
       <div className="opensource-back-head"><strong>{item.name}</strong><span>{item.role}</span></div>
       <OpenSourceStory slug={item.slug} summary={summary} />
-      <a className="opensource-card-link" href={`/open-source/${item.slug}/`} target="_blank" rel="noopener noreferrer"><span>查看完整贡献</span><PiArrowRightBold aria-hidden="true" /></a>
+      <a className="opensource-card-link" href={`/open-source/${item.slug}/`} target="_blank" rel="noopener noreferrer" onClick={releaseCardFocus}><span>查看完整贡献</span><PiArrowRightBold aria-hidden="true" /></a>
     </div>
   </article>;
 }
