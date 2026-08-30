@@ -21,6 +21,7 @@ export type OpenSourceProject = {
     credit: string;
     steps: string[];
     linkLabel?: string;
+    showOnCard?: boolean;
   };
   visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability';
 };
@@ -42,6 +43,7 @@ export const openSourceProjects: OpenSourceProject[] = [
       credit: '维护者通过 PR #40022 合并修复，并在最终提交中以 Co-authored-by 明确保留 Zhewen Tan（@tandede）的共同作者署名。',
       steps: ['Issue #39821 最小复现与根因定位', 'PR #40022 合入 master', 'Merge Commit 共同作者署名'],
       linkLabel: '查看合并提交',
+      showOnCard: false,
     },
     visualization: 'content-immutability',
   },
