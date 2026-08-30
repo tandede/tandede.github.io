@@ -25,7 +25,10 @@ export default function InteractionLayer() {
           if (entry.isIntersecting) entry.target.classList.add('is-visible');
         });
       },
-      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+      // A tall grid (notably the mobile open-source list) can never occupy
+      // 12% of its own height inside the viewport. A small threshold keeps
+      // reveal-once motion without leaving long sections permanently hidden.
+      { threshold: 0.01, rootMargin: '0px 0px -6% 0px' },
     );
 
     revealItems.forEach((item) => revealObserver.observe(item));
@@ -36,7 +39,7 @@ export default function InteractionLayer() {
           if (entry.isIntersecting) entry.target.classList.add('is-motion-visible');
         });
       },
-      { threshold: 0.18, rootMargin: '0px 0px -7% 0px' },
+      { threshold: 0.01, rootMargin: '0px 0px -6% 0px' },
     );
     motionItems.forEach((item) => motionObserver.observe(item));
 
