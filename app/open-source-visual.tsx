@@ -6,6 +6,12 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'token-axis-sampling') return <div className="contribution-visual visual-token-axis-sampling">
+    <div className="token-input-stage"><small>VIT ACTIVATIONS</small><strong>[ L · B · N · D ]</strong><div><span><b>L</b>layer</span><span><b>B</b>batch</span><span className="token-axis"><b>N</b>token</span><span><b>D</b>embedding</span></div><code>sample_frac = 0.5</code></div>
+    <div className="token-before-stage"><small>BEFORE · WRONG AXIS</small><code>rand(tokens.shape[:2])</code><div><span>B₀</span><span>B₀</span><span>B₂</span></div><strong>N stays unchanged</strong><p>batch reordered / duplicated</p></div>
+    <div className="token-after-stage"><small>AFTER · TOKEN GATHER</small><code>argsort(..., dim=-1)[..., :k]</code><code>tokens.gather(-2, indices)</code><div><span>[ L · B ·</span><b>k</b><span>· D ]</span></div><strong>LEADING DIMS UNCHANGED</strong><p>actual loss = explicit token subset</p></div>
+  </div>;
+
   if (kind === 'content-immutability') return <div className="contribution-visual visual-content-immutability">
     <div className="content-mutation-before"><small>BEFORE · READ WITH SIDE EFFECTS</small><strong>message.content</strong><code>&quot;hello&quot;</code><div><span>content_blocks</span><b>READ #1</b></div><code>[&#123;&quot;type&quot;: &quot;text&quot;, …&#125;]</code><em>SOURCE MUTATED</em></div>
     <div className="content-read-contract"><small>AFTER · DERIVED VIEW</small><div className="content-derive-flow"><span><b>SOURCE</b><code>message.content</code></span><i>→ local derive →</i><span><b>VIEW</b><code>content_blocks</code></span></div><div className="content-index-lift"><code>&#123; type: &quot;custom&quot;, index: 3 &#125;</code><span>copy · lift index</span><code>source keeps index ✓</code></div><strong>READ #1 = READ #2 · SOURCE UNCHANGED</strong></div>

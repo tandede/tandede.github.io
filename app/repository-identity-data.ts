@@ -21,6 +21,14 @@ export type RepositoryVisual = {
 };
 
 export const repositoryVisuals: Record<string, RepositoryVisual> = {
+  'vit-pytorch': {
+    banner: {
+      image: 'https://raw.githubusercontent.com/lucidrains/vit-pytorch/main/images/vit.gif',
+      alt: 'vit-pytorch README 展示的 Vision Transformer 图像分块与序列建模动画',
+      mode: 'contain',
+    },
+    tags: ['Vision Transformer', 'PyTorch', 'Attention · Decorrelation'],
+  },
   langchain: {
     banner: {
       image: 'https://raw.githubusercontent.com/langchain-ai/langchain/master/.github/images/logo-light.svg',

@@ -779,6 +779,28 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .case-matrix-codegen .case-visual { grid-column: 5 / -1; grid-row: 1; }
 .case-matrix-codegen .case-story { grid-column: 1 / -1; grid-row: 2; }
 
+.visual-token-axis-sampling { grid-template-columns: minmax(220px, .72fr) minmax(250px, .82fr) minmax(310px, 1.08fr); gap: 18px; }
+.token-input-stage, .token-before-stage, .token-after-stage { display: grid; min-height: 330px; padding: 24px; align-content: center; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
+.token-input-stage > strong { margin: 24px 0 18px; color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 24px; text-align: center; }
+.token-input-stage > div { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.token-input-stage > div span { display: grid; gap: 5px; min-width: 0; padding: 11px 5px; color: var(--muted); border: 1px solid var(--line); border-radius: 9px; background: var(--white); font-family: var(--font-geist-mono), monospace; font-size: 11px; text-align: center; }
+.token-input-stage > div b { color: var(--ink); font-size: 14px; }
+.token-input-stage > div .token-axis { color: var(--detail-accent); border-color: color-mix(in srgb, var(--detail-accent) 48%, var(--line)); background: color-mix(in srgb, var(--detail-accent) 7%, white); }
+.token-input-stage > div .token-axis b { color: var(--detail-accent); }
+.token-input-stage > code { margin-top: 15px; color: var(--detail-accent); font-size: 12px; text-align: center; }
+.token-before-stage { gap: 14px; }
+.token-before-stage > code, .token-after-stage > code { padding: 11px 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--white); font-size: 11px; overflow-wrap: anywhere; }
+.token-before-stage > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
+.token-before-stage > div span { padding: 12px 6px; color: #b42318; border: 1px solid #fda29b; border-radius: 8px; background: #fff1f0; font-family: var(--font-geist-mono), monospace; font-size: 11px; text-align: center; }
+.token-before-stage > strong { color: #b42318; font-family: var(--font-geist-mono), monospace; font-size: 14px; }
+.token-before-stage > p, .token-after-stage > p { margin: 0; color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 11px; }
+.token-after-stage { gap: 12px; border-color: color-mix(in srgb, var(--detail-accent) 48%, var(--line)); background: color-mix(in srgb, var(--detail-accent) 5%, white); }
+.token-after-stage > code { border-color: color-mix(in srgb, var(--detail-accent) 28%, var(--line)); }
+.token-after-stage > div { display: flex; gap: 7px; align-items: center; justify-content: center; padding: 14px; border: 1px solid color-mix(in srgb, var(--detail-accent) 38%, var(--line)); border-radius: 10px; background: var(--white); font-family: var(--font-geist-mono), monospace; }
+.token-after-stage > div span { color: var(--muted); font-size: 12px; }
+.token-after-stage > div b { display: grid; width: 36px; height: 36px; place-items: center; color: var(--white); border-radius: 9px; background: var(--detail-accent); font-size: 15px; }
+.token-after-stage > strong { color: #067647; font-family: var(--font-geist-mono), monospace; font-size: 12px; text-align: right; }
+
 .visual-reflection { grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr); gap: 18px; }
 .visual-adapter, .visual-coordinate, .visual-config { grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr) 42px minmax(0, 1fr); gap: 18px; }
 .visual-lane { display: grid; padding: 26px; align-content: space-between; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
@@ -1679,7 +1701,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .repository-showcase figcaption { align-items: center; }
   .contribution-showcase > header { grid-template-columns: 150px 1fr; }
   .contribution-showcase > header p { grid-column: 2; }
-  .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
+  .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
   .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow, .visual-shared-state > .visual-arrow { transform: rotate(90deg); }
   .visual-numeric { grid-template-columns: 1fr; }
   .reshape-routes > div { grid-template-columns: 1fr; gap: 8px; }

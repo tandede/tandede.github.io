@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  'vit-pytorch': {
+    problem: '`DecorrelationLoss` 在降低采样比例时索引了 batch 而不是 token：序列长度不变，batch 却可能被重排或重复，损失因此没有作用于预期的 token 子集。',
+    reasoning: '采样比例只应改变序列维。任意 layer、batch 等前导维都必须保持原位，并为每组前导坐标独立生成 token 排序，不能依赖固定的二维输入假设。',
+    solution: '从完整前导形状生成随机索引，沿最后的 token 索引维截取，再通过 `gather(-2)` 选择 token。固定随机种子的测试将它与显式子集对照，确认损失值和维度都一致。',
+  },
   langchain: {
     problem: '`AIMessage.content_blocks` 在 Bedrock Converse 路径中会改写源消息：字符串被替换成块列表，未知块的 `index` 被移除；连续读取因此可能得到不同结果，持久化时也会保存被污染的内容。',
     reasoning: '派生属性应该只观察而不改变对象。字符串转换可以使用局部列表；只有需要提升 `index` 的未知块才需复制，无需为保证只读而深拷贝整条消息。',

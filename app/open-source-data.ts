@@ -23,10 +23,21 @@ export type OpenSourceProject = {
     linkLabel?: string;
     showOnCard?: boolean;
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'vit-pytorch', name: 'vit-pytorch', logo: 'https://github.com/lucidrains.png?size=128', accent: '#6c4de6', role: 'CONTRIBUTOR', href: 'https://github.com/lucidrains/vit-pytorch', prHref: 'https://github.com/lucidrains/vit-pytorch/pull/370',
+    function: '面向视觉 Transformer 研究的 PyTorch 实现集合，覆盖 ViT、DeiT、CaiT、CrossViT、NaViT 等大量架构与训练变体，并提供可直接组合的注意力、正则化和特征学习模块。',
+    problem: '`DecorrelationLoss(sample_frac < 1)` 会先把输入打包，再仅依据前两个维度生成随机索引。面对 ViT 产生的 `[layer, batch, token, dim]` 张量时，这些索引实际落在 batch 轴：序列长度完全没有减少，batch 却可能被重新排序或重复，最终损失并未计算预期的 token 子集。',
+    reasoning: '采样比例描述的是每个样本内部的 token 数量，因此无论前面存在多少层维或批次维，都必须保持这些 leading dimensions 原位，只沿倒数第二个 token 轴缩短 `N → k`。索引还要为每组前导坐标独立生成，并在特征维展开后交给同一条 gather 操作。',
+    solution: '直接从 `tokens.shape[:-1]` 生成随机分数，在最后一维排序并截取 `num_sampled` 个 token 索引；将索引扩展到 embedding 维后执行 `tokens.gather(-2, indices)`，删除 pack / unpack、batch arange 与高级索引。固定随机种子的回归将结果与显式选出的同一 token 子集逐项比较。',
+    impact: '`sample_frac=0.5` 现在会把每个 layer / batch 的 token 维从 4 正确缩到 2，而不会改写或复制 batch；任意前导维均保持不变，损失值与显式子集计算一致。完整 ViT 前向与反向传播也通过验证，采样路径重新符合参数语义。',
+    highlight: 'KEEP LAYER + BATCH · SAMPLE TOKEN AXIS',
+    takeaway: '保持所有前导维，只沿 token 轴执行独立采样',
+    visualization: 'token-axis-sampling',
+  },
   {
     slug: 'langchain', name: 'LangChain', logo: 'https://github.com/langchain-ai.png?size=128', accent: '#1c3c3c', role: 'CONTRIBUTOR', href: 'https://github.com/langchain-ai/langchain', prHref: 'https://github.com/langchain-ai/langchain/issues/39821', prLabel: '查看我的 Issue',
     function: '面向 Agent 与 LLM 应用的开源 Python 框架，通过统一的模型、消息、工具、检索与中间件接口连接不同提供商和组件，为可组合、可扩展的智能体工程提供核心基础设施。',
