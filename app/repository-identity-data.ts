@@ -21,6 +21,14 @@ export type RepositoryVisual = {
 };
 
 export const repositoryVisuals: Record<string, RepositoryVisual> = {
+  langchain: {
+    banner: {
+      image: 'https://raw.githubusercontent.com/langchain-ai/langchain/master/.github/images/logo-light.svg',
+      alt: 'LangChain 官方项目标识',
+      mode: 'contain',
+    },
+    tags: ['Agent Engineering', 'Python · LangChain Core', 'Models · Tools · Retrieval'],
+  },
   webots: {
     showcase: {
       image: 'https://raw.githubusercontent.com/cyberbotics/webots/master/docs/guide/images/main_window.png',

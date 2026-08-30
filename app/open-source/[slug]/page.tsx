@@ -52,7 +52,7 @@ export default async function OpenSourceDetail({ params }: PageProps) {
     titleAddon={<><GitHubStars repositoryUrl={project.href} /><RepositoryBadge project={project} /></>}
     topVisual={<RepositoryBanner project={project} />}
     heroMeta={<RepositoryTags project={project} />}
-    secondaryExternal={{ href: project.prHref, label: '查看我的 PR' }}
+    secondaryExternal={{ href: project.prHref, label: project.prLabel ?? '查看我的 PR' }}
     contentHref="#contribution"
     contentLabel="查看贡献详情"
     showcase={<>

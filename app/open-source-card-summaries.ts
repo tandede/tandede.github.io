@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  langchain: {
+    problem: '`AIMessage.content_blocks` 在 Bedrock Converse 路径中会改写源消息：字符串被替换成块列表，未知块的 `index` 被移除；连续读取因此可能得到不同结果，持久化时也会保存被污染的内容。',
+    reasoning: '派生属性应该只观察而不改变对象。字符串转换可以使用局部列表；只有需要提升 `index` 的未知块才需复制，无需为保证只读而深拷贝整条消息。',
+    solution: 'Issue #39821 给出最小复现、根因和回归边界；维护者在 PR #40022 采用局部转换与 copy-before-pop，最终合并提交明确以 Co-authored-by 保留共同作者署名。',
+  },
   instructor: {
     problem: 'Gemini 请求只浅拷贝最外层参数，嵌套 `safety_settings` 仍与调用方共享；合并默认阈值会原地污染应用配置。复用同一字典发起后续请求时，行为因此取决于它是否曾经过 Instructor。',
     reasoning: '请求规范化必须把调用者输入当作只读。外层字典已复制并不代表嵌套映射也被隔离；只有打断对象别名，才能同时保留默认补全和跨请求状态独立性。',

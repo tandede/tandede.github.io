@@ -6,6 +6,7 @@ export type OpenSourceProject = {
   role: 'CONTRIBUTOR' | 'COMMITTER' | 'OWNER';
   href: string;
   prHref: string;
+  prLabel?: string;
   function: string;
   problem: string;
   reasoning: string;
@@ -19,11 +20,31 @@ export type OpenSourceProject = {
     href: string;
     credit: string;
     steps: string[];
+    linkLabel?: string;
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'langchain', name: 'LangChain', logo: 'https://github.com/langchain-ai.png?size=128', accent: '#1c3c3c', role: 'CONTRIBUTOR', href: 'https://github.com/langchain-ai/langchain', prHref: 'https://github.com/langchain-ai/langchain/issues/39821', prLabel: '查看我的 Issue',
+    function: '面向 Agent 与 LLM 应用的开源 Python 框架，通过统一的模型、消息、工具、检索与中间件接口连接不同提供商和组件，为可组合、可扩展的智能体工程提供核心基础设施。',
+    problem: 'Bedrock Converse 消息的 `AIMessage.content_blocks` 看似只是读取派生表示，实际却会改写源 `message.content`：字符串会被替换成文本块列表，未知字典块的 `index` 会被 `pop()` 移除。第一次读取已经污染原始消息，连续两次读取还可能返回不同结果。',
+    reasoning: '`content_blocks` 是只读属性，调用方应能安全地重复读取，并继续序列化、持久化原始 provider 内容。修复边界不在于深拷贝整个消息，而是让字符串转换只使用局部列表，并在提升未知块的 `index` 前复制该字典，从最小范围切断写回源对象的路径。',
+    solution: '提交 Issue #39821，提供可直接运行的最小复现、两处原地修改的根因定位，以及覆盖 `AIMessage` / `AIMessageChunk`、字符串内容、未知块和重复读取的修复建议。维护者随后在 PR #40022 中采用局部列表与 copy-before-pop 方案，并加入参数化回归测试。',
+    impact: 'PR #40022 于 2026-08-30 合入 `master`；最终合并提交 `36f0d10` 明确包含 `Co-authored-by: Zhewen Tan`。修复后读取 `content_blocks` 不再改变原始字符串或删除未知块的 `index`，同一消息的连续读取保持一致，维护者也在 Issue 中确认合并并授予共同作者署名。',
+    highlight: 'READ → DERIVE · SOURCE UNCHANGED',
+    takeaway: '让 content_blocks 成为真正只读、可重复的消息视图',
+    release: {
+      label: 'MERGED · CO-AUTHORED',
+      title: 'Issue #39821 已转化为 LangChain 上游修复',
+      href: 'https://github.com/langchain-ai/langchain/commit/36f0d10348b0e5c4917602d80cc1b5f0ced1da8a',
+      credit: '维护者通过 PR #40022 合并修复，并在最终提交中以 Co-authored-by 明确保留 Zhewen Tan（@tandede）的共同作者署名。',
+      steps: ['Issue #39821 最小复现与根因定位', 'PR #40022 合入 master', 'Merge Commit 共同作者署名'],
+      linkLabel: '查看合并提交',
+    },
+    visualization: 'content-immutability',
+  },
   {
     slug: 'instructor', name: 'Instructor', logo: 'https://github.com/567-labs.png?size=128', accent: '#5b4cf0', role: 'CONTRIBUTOR', href: 'https://github.com/567-labs/instructor', prHref: 'https://github.com/567-labs/instructor/pull/2551',
     function: '基于 Pydantic 的 LLM 结构化输出框架，将响应模型、验证、重试与多提供商适配统一到类型安全的 Python 接口，支持 OpenAI、Anthropic、Gemini、Bedrock 等主流模型服务。',

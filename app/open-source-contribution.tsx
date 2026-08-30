@@ -6,6 +6,7 @@ type StoryHeading = { label: string; title: string };
 type Presentation = { eyebrow: string; title: string; lead: string; story: [StoryHeading, StoryHeading, StoryHeading, StoryHeading] };
 
 const presentation: Record<OpenSourceProject['visualization'], Presentation> = {
+  'content-immutability': { eyebrow: 'MESSAGE TRANSLATION · OBSERVATIONAL PURITY', title: '读取派生属性，不应该改写原始消息', lead: '`content_blocks` 可以规范化 provider 内容，但每次读取都必须从同一个未被污染的源消息出发。', story: [{ label: '隐式写入', title: '字符串与 index 在读取中被改写' }, { label: '接口契约', title: '派生视图必须保持源消息只读' }, { label: '局部隔离', title: '本地列表与 copy-before-pop 切断写回' }, { label: '上游采纳', title: '修复合并并保留共同作者署名' }] },
   'caller-immutability': { eyebrow: 'GEMINI REQUEST PIPELINE · INPUT OWNERSHIP', title: '补全请求参数，不代表可以改写调用者的配置', lead: '外层字典被复制后，嵌套映射仍可能指向同一个对象；真正的输入隔离必须切断这条别名关系。', story: [{ label: '隐蔽副作用', title: '默认阈值写回了调用方字典' }, { label: '对象边界', title: '浅拷贝没有隔离嵌套映射' }, { label: '安全合并', title: '先复制 safety settings，再应用默认值' }, { label: '上游采用', title: '代码、测试与原 PR 署名进入主分支' }] },
   reflection: { eyebrow: 'INTEGER SAFETY · CORE ALGORITHM', title: '把十亿次折返压成一次映射', lead: '极端坐标不是普通边界值，而是同时触发整数安全和算法复杂度的压力测试。', story: [{ label: '极端输入', title: '坐标越远，旧算法越慢' }, { label: '关键判断', title: '反射本质上是周期函数' }, { label: '算法改写', title: '在 int64 域内直接求模' }, { label: '复杂度', title: '从 O(N) 收敛到 O(1)' }] },
   routing: { eyebrow: 'SPEAKER DIARIZATION · SCALING', title: '让已知 K 真正成为有用的信息', lead: '样本规模决定能不能算，K 是否已知决定应该怎么算；两个维度共同决定聚类路径。', story: [{ label: '内存瓶颈', title: '大样本不该生成稠密矩阵' }, { label: '可用先验', title: '已知 K 已经改变了问题' }, { label: '三路分流', title: '按规模与先验选择算法' }, { label: '运行结果', title: '长音频走上线性内存路径' }] },
@@ -45,7 +46,7 @@ export default function OpenSourceContribution({ project }: { project: OpenSourc
     {project.release && <a className="contribution-release" href={project.release.href} target="_blank" rel="noopener noreferrer" data-motion data-glow>
       <span className="release-celebration"><PiConfettiBold aria-hidden="true" /></span>
       <div className="release-copy"><small>CONTRIBUTION SHIPPED</small><strong>{project.release.title}</strong><p>{project.release.credit}</p><ul>{project.release.steps.map((step) => <li key={step}>{step}</li>)}</ul></div>
-      <span className="release-link">查看正式版本 <PiArrowUpRightBold aria-hidden="true" /></span>
+      <span className="release-link">{project.release.linkLabel ?? '查看正式版本'} <PiArrowUpRightBold aria-hidden="true" /></span>
     </a>}
   </section>;
 }

@@ -6,6 +6,11 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'content-immutability') return <div className="contribution-visual visual-content-immutability">
+    <div className="content-mutation-before"><small>BEFORE · READ WITH SIDE EFFECTS</small><strong>message.content</strong><code>&quot;hello&quot;</code><div><span>content_blocks</span><b>READ #1</b></div><code>[&#123;&quot;type&quot;: &quot;text&quot;, …&#125;]</code><em>SOURCE MUTATED</em></div>
+    <div className="content-read-contract"><small>AFTER · DERIVED VIEW</small><div className="content-derive-flow"><span><b>SOURCE</b><code>message.content</code></span><i>→ local derive →</i><span><b>VIEW</b><code>content_blocks</code></span></div><div className="content-index-lift"><code>&#123; type: &quot;custom&quot;, index: 3 &#125;</code><span>copy · lift index</span><code>source keeps index ✓</code></div><strong>READ #1 = READ #2 · SOURCE UNCHANGED</strong></div>
+  </div>;
+
   if (kind === 'caller-immutability') return <div className="contribution-visual visual-caller-immutability">
     <div className="caller-input-stage"><small>CALLER-OWNED CONFIG</small><strong>safety_settings</strong><div><span>HATE</span><b>BLOCK_ONLY_HIGH</b></div><code>id: config_A</code></div>
     <div className="caller-alias-stage"><small>BEFORE · SHALLOW COPY</small><div><code>result = kwargs.copy()</code><b>nested mapping</b><strong>config_A ↔ config_A</strong></div><span>apply defaults</span><em>CALLER MUTATED</em></div>
