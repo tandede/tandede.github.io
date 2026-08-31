@@ -6,6 +6,12 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'path-rpe-pairs') return <div className="contribution-visual visual-path-rpe">
+    <div className="rpe-axis-stage"><small>DETERMINISTIC STRAIGHT PATH</small><strong>delta = 2 m</strong><div>{[0, 1, 2, 3, 4].map((point) => <span key={point}><i></i><b>{point} m</b></span>)}</div><p>pose index follows distance on this test path</p></div>
+    <div className="rpe-pair-stage rpe-pair-before"><small>BEFORE · START OMITTED</small><div className="rpe-pair-row"><span className="rpe-missed">0 → 2<em>MISSING</em></span><span>2 → 4<em>COUNTED</em></span></div><strong>1 PAIR</strong><p>initial trajectory error is absent from RPE statistics</p></div>
+    <div className="rpe-pair-stage rpe-pair-after"><small>AFTER · COMPLETE COVERAGE</small><div className="rpe-pair-row"><span>0 → 2<em>COUNTED</em></span><span>2 → 4<em>COUNTED</em></span></div><strong>2 PAIRS</strong><p>ids = [0] · accumulate from pose 1</p></div>
+  </div>;
+
   if (kind === 'token-axis-sampling') return <div className="contribution-visual visual-token-axis-sampling">
     <div className="token-input-stage"><small>VIT ACTIVATIONS</small><strong>[ L · B · N · D ]</strong><div><span><b>L</b>layer</span><span><b>B</b>batch</span><span className="token-axis"><b>N</b>token</span><span><b>D</b>embedding</span></div><code>sample_frac = 0.5</code></div>
     <div className="token-before-stage"><small>BEFORE · WRONG AXIS</small><code>rand(tokens.shape[:2])</code><div><span>B₀</span><span>B₀</span><span>B₂</span></div><strong>N stays unchanged</strong><p>batch reordered / duplicated</p></div>

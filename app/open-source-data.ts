@@ -23,10 +23,21 @@ export type OpenSourceProject = {
     linkLabel?: string;
     showOnCard?: boolean;
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'evo', name: 'evo', logo: 'https://github.com/MichaelGrupp.png?size=128', accent: '#356ba6', role: 'CONTRIBUTOR', href: 'https://github.com/MichaelGrupp/evo', prHref: 'https://github.com/MichaelGrupp/evo/pull/778',
+    function: '面向里程计与 SLAM 系统的 Python 评测工具，提供轨迹对齐、绝对位姿误差（APE）、相对位姿误差（RPE）、结果统计和可视化，支持 KITTI、TUM、EuRoC 等常见轨迹格式。',
+    problem: '距离型 RPE 在 `all_pairs=False` 时只收集累计路径首次达到各个距离阈值的 pose，再把相邻端点配成非重叠区间，却没有把 pose 0 放入端点列表。对于位置为 `0, 1, 2, 3, 4 m`、`delta=2 m` 的直线路径，旧逻辑只返回 `(2, 4)`，完整漏掉 `(0, 2)`，使轨迹起始阶段的误差不进入统计。',
+    reasoning: '连续 RPE pair 的端点列表描述整条轨迹的区间边界，而第一条边界必须是起点。仅在达到阈值时记录终点，会天然丢失首段；但如果从 pose 0 重新参与距离累积，又会构造起点与自身的无效关系。因此应先固定起点，再从第二个 pose 开始累计实际路程。',
+    solution: '将连续模式的端点初始化为 `ids = [0]`，随后使用 `enumerate(poses[1:], start=1)` 从 pose 1 开始累积距离，保留原始全局索引；阈值判断、区间清零以及 `all_pairs=True` 路径均保持不变。回归用五个等距 pose 直接锁定 `[(0, 2), (2, 4)]`。',
+    impact: '非重叠的米制 RPE 现在从轨迹起点开始形成完整分段，不再少算一个区间或忽略开头累计的位姿误差；行为也与基于 frame 和 angle 的连续过滤器保持一致。针对过滤器的 11 项测试、全量 111 项测试以及类型检查全部通过。',
+    highlight: 'POSE 0 → FIRST RPE SEGMENT',
+    takeaway: '从轨迹起点建立距离区间，不再漏算第一段 RPE',
+    visualization: 'path-rpe-pairs',
+  },
   {
     slug: 'vit-pytorch', name: 'vit-pytorch', logo: 'https://github.com/lucidrains.png?size=128', accent: '#6c4de6', role: 'CONTRIBUTOR', href: 'https://github.com/lucidrains/vit-pytorch', prHref: 'https://github.com/lucidrains/vit-pytorch/pull/370',
     function: '面向视觉 Transformer 研究的 PyTorch 实现集合，覆盖 ViT、DeiT、CaiT、CrossViT、NaViT 等大量架构与训练变体，并提供可直接组合的注意力、正则化和特征学习模块。',

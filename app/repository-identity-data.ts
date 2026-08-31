@@ -21,6 +21,20 @@ export type RepositoryVisual = {
 };
 
 export const repositoryVisuals: Record<string, RepositoryVisual> = {
+  evo: {
+    banner: {
+      image: 'https://raw.githubusercontent.com/MichaelGrupp/evo/master/doc/assets/traj_rerun.gif',
+      alt: 'evo README 展示的三维轨迹、姿态与速度同步回放界面',
+      mode: 'contain',
+    },
+    showcase: {
+      image: 'https://raw.githubusercontent.com/MichaelGrupp/evo/master/doc/assets/res_dist.png',
+      alt: 'evo README 展示的轨迹误差分布统计图',
+      caption: '误差分布图展示 evo 如何把不同轨迹估计的位姿误差整理成可比较的统计结果。距离型 RPE 的每一个轨迹区间都会贡献一条相对运动误差，因此首段是否进入 pair 列表会直接影响样本数量与最终分布。',
+      mode: 'contain',
+    },
+    tags: ['Odometry · SLAM', 'APE · RPE', 'Python · NumPy'],
+  },
   'vit-pytorch': {
     banner: {
       image: 'https://raw.githubusercontent.com/lucidrains/vit-pytorch/main/images/vit.gif',

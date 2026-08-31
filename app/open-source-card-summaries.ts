@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  evo: {
+    problem: '非重叠的距离型 RPE 只记录达到阈值的 pose，却没有把 pose 0 作为首个端点；轨迹第一段因此永远缺席，开头累计的位姿误差也不会进入统计。',
+    reasoning: '连续区间必须以轨迹起点为第一条边界，但距离累积应从第二个 pose 开始，避免构造起点到自身的无效 pair，并继续保留完整轨迹中的原始索引。',
+    solution: '先把 pose 0 放入端点列表，再从 pose 1 累计路程。五个等距 pose 的回归确认 `delta=2 m` 会得到 `(0,2)` 与 `(2,4)` 两个完整区间。',
+  },
   'vit-pytorch': {
     problem: '`DecorrelationLoss` 在降低采样比例时索引了 batch 而不是 token：序列长度不变，batch 却可能被重排或重复，损失因此没有作用于预期的 token 子集。',
     reasoning: '采样比例只应改变序列维。任意 layer、batch 等前导维都必须保持原位，并为每组前导坐标独立生成 token 排序，不能依赖固定的二维输入假设。',

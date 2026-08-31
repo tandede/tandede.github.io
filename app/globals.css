@@ -779,6 +779,25 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .case-matrix-codegen .case-visual { grid-column: 5 / -1; grid-row: 1; }
 .case-matrix-codegen .case-story { grid-column: 1 / -1; grid-row: 2; }
 
+.visual-path-rpe { grid-template-columns: minmax(270px, .9fr) repeat(2, minmax(300px, 1fr)); gap: 18px; }
+.rpe-axis-stage, .rpe-pair-stage { display: grid; min-height: 330px; padding: 25px; align-content: center; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
+.rpe-axis-stage > strong { margin: 22px 0 34px; color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 22px; }
+.rpe-axis-stage > div { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); }
+.rpe-axis-stage > div::before { position: absolute; top: 6px; right: 9%; left: 9%; height: 2px; content: ''; background: color-mix(in srgb, var(--detail-accent) 42%, var(--line)); }
+.rpe-axis-stage > div span { position: relative; z-index: 1; display: grid; gap: 11px; justify-items: center; color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 11px; }
+.rpe-axis-stage > div i { width: 14px; height: 14px; border: 3px solid var(--white); border-radius: 50%; background: var(--detail-accent); box-shadow: 0 0 0 1px var(--detail-accent); }
+.rpe-axis-stage > div b { font-weight: 650; }
+.rpe-axis-stage > p, .rpe-pair-stage > p { margin: 25px 0 0; color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 11px; line-height: 1.55; }
+.rpe-pair-stage { gap: 23px; }
+.rpe-pair-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.rpe-pair-row span { display: grid; gap: 10px; padding: 18px 10px; color: var(--ink); border: 1px solid color-mix(in srgb, var(--detail-accent) 38%, var(--line)); border-radius: 11px; background: var(--white); font-family: var(--font-geist-mono), monospace; font-size: 17px; font-weight: 700; text-align: center; }
+.rpe-pair-row em { color: var(--detail-accent); font-size: 11px; font-style: normal; letter-spacing: .08em; }
+.rpe-pair-before .rpe-missed { color: #b42318; border-color: #fda29b; background: repeating-linear-gradient(-45deg, #fff7f6 0, #fff7f6 8px, #fff 8px, #fff 16px); text-decoration: line-through; }
+.rpe-pair-before .rpe-missed em { color: #b42318; text-decoration: none; }
+.rpe-pair-stage > strong { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 24px; }
+.rpe-pair-before > strong { color: #b42318; }
+.rpe-pair-after { border-color: color-mix(in srgb, var(--detail-accent) 48%, var(--line)); background: color-mix(in srgb, var(--detail-accent) 5%, white); }
+
 .visual-token-axis-sampling { grid-template-columns: minmax(220px, .72fr) minmax(250px, .82fr) minmax(310px, 1.08fr); gap: 18px; }
 .token-input-stage, .token-before-stage, .token-after-stage { display: grid; min-height: 330px; padding: 24px; align-content: center; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
 .token-input-stage > strong { margin: 24px 0 18px; color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 24px; text-align: center; }
@@ -1701,7 +1720,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .repository-showcase figcaption { align-items: center; }
   .contribution-showcase > header { grid-template-columns: 150px 1fr; }
   .contribution-showcase > header p { grid-column: 2; }
-  .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
+  .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
   .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow, .visual-shared-state > .visual-arrow { transform: rotate(90deg); }
   .visual-numeric { grid-template-columns: 1fr; }
   .reshape-routes > div { grid-template-columns: 1fr; gap: 8px; }
