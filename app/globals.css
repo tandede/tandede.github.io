@@ -779,6 +779,24 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .case-matrix-codegen .case-visual { grid-column: 5 / -1; grid-row: 1; }
 .case-matrix-codegen .case-story { grid-column: 1 / -1; grid-row: 2; }
 
+.visual-aligned-map { grid-template-columns: minmax(280px, .9fr) repeat(2, minmax(300px, 1fr)); gap: 18px; }
+.aligned-map-input, .aligned-map-before, .aligned-map-after { display: grid; min-height: 330px; padding: 25px; align-content: center; gap: 22px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
+.aligned-map-input > strong, .aligned-map-before > strong, .aligned-map-after > strong { font-family: var(--font-geist-mono), monospace; font-size: 20px; line-height: 1.45; overflow-wrap: anywhere; }
+.aligned-map-input > strong { color: var(--detail-accent); }
+.aligned-map-input > div, .aligned-map-before > div, .aligned-map-after > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.aligned-map-input > div span, .aligned-map-before > div span, .aligned-map-after > div span { padding: 9px 11px; border: 1px solid var(--line); border-radius: 999px; background: var(--white); color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 11px; }
+.aligned-map-input > p { margin: 0; color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 11px; line-height: 1.55; }
+.aligned-map-before { border-color: #f2b8b5; background: #fff8f7; }
+.aligned-map-before > div { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.aligned-map-before > div span { color: #b42318; border-color: #f2b8b5; border-radius: 9px; text-align: center; }
+.aligned-map-before > em, .aligned-map-after > em { color: #b42318; font-family: var(--font-geist-mono), monospace; font-size: 13px; font-style: normal; font-weight: 750; letter-spacing: .08em; }
+.aligned-map-before > code, .aligned-map-after > code { padding: 12px; border: 1px solid #f2b8b5; border-radius: 9px; background: var(--white); font-size: 11px; overflow-wrap: anywhere; }
+.aligned-map-after { border-color: color-mix(in srgb, var(--detail-accent) 48%, var(--line)); background: color-mix(in srgb, var(--detail-accent) 5%, white); }
+.aligned-map-after > strong { color: var(--detail-accent); }
+.aligned-map-after > div span { color: var(--detail-accent); border-color: color-mix(in srgb, var(--detail-accent) 35%, var(--line)); }
+.aligned-map-after > em { color: #067647; }
+.aligned-map-after > code { border-color: color-mix(in srgb, var(--detail-accent) 30%, var(--line)); }
+
 .visual-path-rpe { grid-template-columns: minmax(270px, .9fr) repeat(2, minmax(300px, 1fr)); gap: 18px; }
 .rpe-axis-stage, .rpe-pair-stage { display: grid; min-height: 330px; padding: 25px; align-content: center; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
 .rpe-axis-stage > strong { margin: 22px 0 34px; color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 22px; }
@@ -1720,7 +1738,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .repository-showcase figcaption { align-items: center; }
   .contribution-showcase > header { grid-template-columns: 150px 1fr; }
   .contribution-showcase > header p { grid-column: 2; }
-  .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
+  .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
   .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow, .visual-shared-state > .visual-arrow { transform: rotate(90deg); }
   .visual-numeric { grid-template-columns: 1fr; }
   .reshape-routes > div { grid-template-columns: 1fr; gap: 8px; }

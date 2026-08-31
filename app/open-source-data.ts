@@ -23,10 +23,21 @@ export type OpenSourceProject = {
     linkLabel?: string;
     showOnCard?: boolean;
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'pinocchio', name: 'Pinocchio', logo: 'https://github.com/stack-of-tasks.png?size=128', accent: '#b84622', role: 'CONTRIBUTOR', href: 'https://github.com/stack-of-tasks/pinocchio', prHref: 'https://github.com/stack-of-tasks/pinocchio/pull/2940',
+    function: '面向机器人系统的高性能刚体动力学库，提供运动学、动力学、解析导数、约束与碰撞等算法，并通过 C++、Python、ROS 和多种自动微分后端服务于控制、优化与仿真。',
+    problem: '`compare_maps()` 以 `Eigen::MapBase<D, Level>` 接收操作数。对于 `Eigen::Map<RowVector, Eigen::Aligned16>` 这类对齐动态行向量，GCC 10 发现具体 Map 类型存在歧义的 `MapBase` 基类路径，无法完成模板实参推导，使 `MatrixStackTpl::operator==` 在编译阶段直接失败。',
+    reasoning: '这个 helper 实际只依赖矩阵表达式共有的 `rows()`、`cols()` 与逐元素比较，并不读取 Map 的对齐方式、访问级别或存储映射能力。函数签名绑定 `MapBase` 不仅暴露了不需要的继承细节，还额外引入两个 `Level` 模板参数；正确契约应是稳定且无歧义的 `MatrixBase` 表达式接口。',
+    solution: '将两个形参改为 `const Eigen::MatrixBase<D>&`，模板参数从 `D1, Level1, D2, Level2` 收敛为 `D1, D2`；函数体仍先比较行列数，再执行原有的精确元素比较。已有 `MatrixStackTpl::operator==` 测试继续覆盖该路径，无需添加只验证内部 helper 的重复用例。',
+    impact: '对齐 Map 在 GCC 10 下重新获得可推导的唯一参数转换路径，`MatrixStackTpl` 相等比较可以正常编译，同时未改变尺寸不匹配和精确比较语义。Eigen 3.4 与 5.0.1 两套构建分别完成 312/314 个步骤，并各自通过 136 项测试。',
+    highlight: 'MAP STORAGE ≠ MATRIX EXPRESSION CONTRACT',
+    takeaway: '用 MatrixBase 表达比较契约，避开对齐 Map 的继承歧义',
+    visualization: 'aligned-map-base',
+  },
   {
     slug: 'evo', name: 'evo', logo: 'https://github.com/MichaelGrupp.png?size=128', accent: '#356ba6', role: 'CONTRIBUTOR', href: 'https://github.com/MichaelGrupp/evo', prHref: 'https://github.com/MichaelGrupp/evo/pull/778',
     function: '面向里程计与 SLAM 系统的 Python 评测工具，提供轨迹对齐、绝对位姿误差（APE）、相对位姿误差（RPE）、结果统计和可视化，支持 KITTI、TUM、EuRoC 等常见轨迹格式。',

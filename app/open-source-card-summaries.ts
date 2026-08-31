@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  pinocchio: {
+    problem: 'GCC 10 无法把对齐的 `Eigen::Map<RowVector, Aligned16>` 无歧义地推导为 `MapBase` 形参，导致 `MatrixStackTpl` 的相等比较在模板匹配阶段编译失败。',
+    reasoning: '比较逻辑只需要矩阵表达式的尺寸和元素访问能力，与 Map 的对齐、存储映射和访问级别无关；把接口绑定到 `MapBase` 反而泄漏了不必要的继承细节。',
+    solution: '将比较 helper 收敛到 `MatrixBase` 表达式接口，移除两个访问级别模板参数，并保留原有尺寸检查与精确元素比较。Eigen 3.4/5.0.1 的完整测试均通过。',
+  },
   evo: {
     problem: '非重叠的距离型 RPE 只记录达到阈值的 pose，却没有把 pose 0 作为首个端点；轨迹第一段因此永远缺席，开头累计的位姿误差也不会进入统计。',
     reasoning: '连续区间必须以轨迹起点为第一条边界，但距离累积应从第二个 pose 开始，避免构造起点到自身的无效 pair，并继续保留完整轨迹中的原始索引。',

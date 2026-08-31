@@ -6,6 +6,12 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'aligned-map-base') return <div className="contribution-visual visual-aligned-map">
+    <div className="aligned-map-input"><small>CONCRETE EIGEN TYPE</small><strong>Map&lt;RowVector,<br />Aligned16&gt;</strong><div><span>dynamic row</span><span>16-byte aligned</span></div><p>used by MatrixStackTpl::operator==</p></div>
+    <div className="aligned-map-before"><small>BEFORE · GCC 10</small><strong>MapBase&lt;D, Level&gt;</strong><div><span>inheritance path A</span><span>inheritance path B</span></div><em>AMBIGUOUS BASE</em><code>no matching function</code></div>
+    <div className="aligned-map-after"><small>AFTER · EXPRESSION CONTRACT</small><strong>MatrixBase&lt;D&gt;</strong><div><span>rows()</span><span>cols()</span><span>coeff</span></div><em>ONE DEDUCTION PATH</em><code>size check · exact compare</code></div>
+  </div>;
+
   if (kind === 'path-rpe-pairs') return <div className="contribution-visual visual-path-rpe">
     <div className="rpe-axis-stage"><small>DETERMINISTIC STRAIGHT PATH</small><strong>delta = 2 m</strong><div>{[0, 1, 2, 3, 4].map((point) => <span key={point}><i></i><b>{point} m</b></span>)}</div><p>pose index follows distance on this test path</p></div>
     <div className="rpe-pair-stage rpe-pair-before"><small>BEFORE · START OMITTED</small><div className="rpe-pair-row"><span className="rpe-missed">0 → 2<em>MISSING</em></span><span>2 → 4<em>COUNTED</em></span></div><strong>1 PAIR</strong><p>initial trajectory error is absent from RPE statistics</p></div>

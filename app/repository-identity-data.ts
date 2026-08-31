@@ -21,6 +21,20 @@ export type RepositoryVisual = {
 };
 
 export const repositoryVisuals: Record<string, RepositoryVisual> = {
+  pinocchio: {
+    banner: {
+      image: 'https://raw.githubusercontent.com/stack-of-tasks/pinocchio/devel/doc/images/pinocchio-logo-large.png',
+      alt: 'Pinocchio 官方标识与高性能刚体动力学定位',
+      mode: 'contain',
+    },
+    showcase: {
+      image: 'https://raw.githubusercontent.com/stack-of-tasks/pinocchio/devel/doc/images/pinocchio-performances.png',
+      alt: 'Pinocchio README 展示的多种机器人动力学计算性能对比',
+      caption: '性能图展示 Pinocchio 在多种机器人模型上的平均动力学计算时间。项目通过统一的 Eigen 表达式和高度模板化的 C++ 算法兼顾不同模型与标量类型，因此编译器兼容性也是这套高性能抽象能够可靠落地的基础。',
+      mode: 'contain',
+    },
+    tags: ['Rigid Body Dynamics', 'C++ · Python · ROS', 'Eigen · Analytical Derivatives'],
+  },
   evo: {
     banner: {
       image: 'https://raw.githubusercontent.com/MichaelGrupp/evo/master/doc/assets/traj_rerun.gif',
