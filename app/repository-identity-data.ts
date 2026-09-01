@@ -46,11 +46,6 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     tags: ['Rigid Body Dynamics', 'C++ · Python · ROS', 'Eigen · Analytical Derivatives'],
   },
   evo: {
-    banner: {
-      image: 'https://raw.githubusercontent.com/MichaelGrupp/evo/master/doc/assets/traj_rerun.gif',
-      alt: 'evo README 展示的三维轨迹、姿态与速度同步回放界面',
-      mode: 'contain',
-    },
     showcase: {
       image: 'https://raw.githubusercontent.com/MichaelGrupp/evo/master/doc/assets/res_dist.png',
       alt: 'evo README 展示的轨迹误差分布统计图',
@@ -61,9 +56,11 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     tags: ['Odometry · SLAM', 'APE · RPE', 'Python · NumPy'],
   },
   'vit-pytorch': {
-    banner: {
+    showcase: {
       image: 'https://raw.githubusercontent.com/lucidrains/vit-pytorch/main/images/vit.gif',
       alt: 'vit-pytorch README 展示的 Vision Transformer 图像分块与序列建模动画',
+      title: '图像如何被拆成可独立采样的 Token 序列',
+      caption: '动画展示 Vision Transformer 把图像切分为 patch，并将它们组织成序列表示。DecorrelationLoss 接收的正是带有 layer、batch、token 与 embedding 维度的中间激活；本次修复确保采样只缩短 token 轴，不会重排或复制前面的 batch。',
       mode: 'contain',
     },
     tags: ['Vision Transformer', 'PyTorch', 'Attention · Decorrelation'],
@@ -89,9 +86,11 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     tags: ['C++ · Python', 'CPU · GPU', 'Billion-scale Vector Search'],
   },
   gtsam: {
-    banner: {
+    showcase: {
       image: 'https://raw.githubusercontent.com/borglab/gtsam/develop/doc/images/gtsam-manifold-optimization-light.png',
       alt: 'GTSAM 官方流形优化工作流：构建因子图、在线性空间求解并映射回流形',
+      title: '因子图变量从连接、求解到边缘化的完整生命周期',
+      caption: '图中从因子图建模开始，经过线性化、求解与回映射不断迭代。Fixed-lag smoother 只有在变量已经连接到图并拥有 Bayes-tree clique 时才能沿标准路径边缘化；本次修复把仍在等待 factor 的 pending value 单独管理，避免它被错误送入要求 clique 的生命周期。',
       mode: 'contain',
     },
     tags: ['Factor Graphs', 'Smoothing · Mapping', 'C++ · Python · MATLAB'],
