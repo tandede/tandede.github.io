@@ -64,6 +64,6 @@ export const featuredProjects: FeaturedProject[] = [
     contribution: '我参与 106 个离线沙箱任务的环境与评测链路建设，汇总并分析 5,194 条完整执行轨迹；从配置层追踪任务失败、Token 消耗和长程行为差异，使实验可以被复现并支持 Harness 级诊断。',
     result: '项目把 Harness 从被忽略的工程实现提升为独立评测变量：不仅回答“哪个组合成功率更高”，还能够说明差异发生在哪类任务、哪一步工具调用，以及付出了多少执行成本。',
     highlight: 'SAME MODEL · DIFFERENT SYSTEM',
-    metrics: [['离线任务', '106'], ['执行轨迹', '5,194'], ['Harness × Model', '6 × 8']],
+    metrics: [['离线任务', '106'], ['执行轨迹', '5,194'], ['Harness×Model', '6 × 8']],
   },
 ];
