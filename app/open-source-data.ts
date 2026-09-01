@@ -342,7 +342,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     highlight: 'LOCAL ORIGIN + FLOAT64',
     takeaway: '局部坐标加 float64，稳定计算大坐标质心',
     release: {
-      label: 'v0.30.1 正式发布',
+      label: 'v0.30.1',
       title: 'PR #2491 已随 Supervision v0.30.1 正式发布',
       href: 'https://github.com/roboflow/supervision/releases/tag/0.30.1',
       credit: '这项多边形质心数值稳定性修复已经进入用户可安装的正式版本，并由项目方在版本说明中单独列出；Zhewen Tan（@tandede）同时出现在该版本的 Contributors 名单中。',
