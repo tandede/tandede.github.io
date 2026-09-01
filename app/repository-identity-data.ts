@@ -22,6 +22,9 @@ export type RepositoryVisual = {
 };
 
 export const repositoryVisuals: Record<string, RepositoryVisual> = {
+  onnx: {
+    tags: ['Model Interchange · Operators', 'Reference Evaluator', 'Python · NumPy'],
+  },
   sillytavern: {
     banner: {
       image: 'https://github.com/user-attachments/assets/01a6ae9a-16aa-45f2-8bff-32b5dc587e44',

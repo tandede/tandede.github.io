@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  onnx: {
+    problem: 'LRN 参考实现用 batch 数遍历通道轴：`N < C` 时部分通道没有归一化，`N > C` 时会越界；固定四维切片还排除了规范允许的其他空间维度。',
+    reasoning: '归一化窗口只沿 `C` 轴移动，batch 和所有空间轴都应保持原位。循环范围、窗口边界和求和轴必须共享同一通道语义，不能从输入的第零维推导。',
+    solution: '改用 `shape[1]` 遍历与裁剪通道窗口，并通过省略号支持 3D/4D/5D 输入；回归覆盖奇偶窗口、边界、零通道和四种浮点类型。',
+  },
   'sentence-transformers': {
     problem: 'Usearch 重排直接把 signed binary 的 `int8` 存储转成 `uint8`，翻转了每个字节的最高位；非 8 倍数维度还会保留 `packbits` 的尾部填充，导致分数错乱或形状不匹配。',
     reasoning: '索引返回的是减过 128 的存储字节，解包前必须在更宽的整数域恢复偏移；解包后则必须以原始查询维度裁剪，保证查询和候选仍处于同一位向量空间。',

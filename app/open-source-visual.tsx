@@ -6,6 +6,28 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'lrn-channel-axis') return <div className="contribution-visual visual-lrn-channel-axis">
+    <div className="lrn-input-stage">
+      <small>LRN INPUT CONTRACT</small>
+      <strong>[ N · C · D₁ … Dₙ ]</strong>
+      <div><span><b>N</b>batch</span><span className="lrn-channel"><b>C</b>channel</span><span><b>D</b>spatial</span></div>
+      <code>window = channels around c</code>
+    </div>
+    <div className="lrn-before-stage">
+      <small>BEFORE · BATCH DRIVES CHANNEL</small>
+      <code>for c in range(x.shape[0])</code>
+      <div><span><b>N &lt; C</b><i>channels left at zero</i></span><span><b>N &gt; C</b><i>channel index out of range</i></span></div>
+      <strong>BATCH ≠ CHANNEL</strong>
+    </div>
+    <div className="lrn-after-stage">
+      <small>AFTER · CHANNEL-AXIS WINDOW</small>
+      <code>channel_count = x.shape[1]</code>
+      <code>sum(x[:, begin:end, ...]², axis=1)</code>
+      <div><span>3D</span><span>4D</span><span>5D</span><span>4 DTYPES</span></div>
+      <strong>EVERY CHANNEL NORMALIZED</strong>
+    </div>
+  </div>;
+
   if (kind === 'binary-rescoring') return <div className="contribution-visual visual-binary-rescoring">
     <div className="binary-byte-stage">
       <small>SIGNED BINARY · BYTE DOMAIN</small>

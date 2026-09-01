@@ -23,10 +23,21 @@ export type OpenSourceProject = {
     linkLabel?: string;
     showOnCard?: boolean;
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'onnx', name: 'ONNX', logo: 'https://raw.githubusercontent.com/onnx/onnx/main/docs/docsgen/source/onnx-favicon.png', accent: '#005ced', role: 'CONTRIBUTOR', href: 'https://github.com/onnx/onnx', prHref: 'https://github.com/onnx/onnx/pull/8331',
+    function: '面向机器学习模型互操作的开放标准与参考实现，定义统一的计算图、算子规范和序列化格式，并提供模型检查、形状推断、参考执行器与后端一致性测试，连接训练框架、编译器和推理运行时。',
+    problem: 'LRN 规范把输入定义为 `(N, C, D1, ..., Dn)`，归一化窗口应沿通道轴 `C` 滑动；旧参考实现却用 `range(x.shape[0])` 遍历 batch 数，再把循环索引写到 `square_sum[:, c, :, :]` 的通道位置。当 `N < C` 时部分通道永远保持零归一化和，当 `N > C` 时则会越过通道边界；硬编码四维切片还拒绝规范允许的 3D、5D 等输入。',
+    reasoning: 'LRN 对每个 batch 和空间位置独立计算相邻通道的平方和，因此循环边界与窗口上下限都只能来自 `x.shape[1]`。空间维数量并不参与通道选择，应该通过省略号原样传递；输出缓冲区也应继承输入的形状与 dtype，避免实现额外制造维度和类型假设。',
+    solution: '引入 `channel_count = x.shape[1]`，按通道数迭代并以同一计数裁剪窗口，使用 `square_sum[:, c, ...] = sum(x[:, begin:end, ...] ** 2, axis=1)` 统一处理任意空间维；最低秩约束从固定 4D 改为至少包含 batch 与 channel 的 2D。同步更新生成的后端用例，并新增奇偶窗口、边界通道、3D/4D/5D、零通道以及 float16、float32、float64、bfloat16 覆盖。',
+    impact: 'LRN 参考执行器现在在 batch 与 channel 数不相等时仍会完整归一化每个通道，不再留下错误零值或触发越界；同一实现也忠实支持规范中的任意空间维输入和全部支持 dtype。参考执行器测试 310 项通过、4 项跳过，LRN 后端测试 2 项通过、2 项跳过，完整 lint 同步通过。',
+    highlight: 'ITERATE C · PRESERVE N · GENERALIZE D₁…Dₙ',
+    takeaway: '沿通道轴计算 LRN，并让参考实现覆盖任意空间维',
+    visualization: 'lrn-channel-axis',
+  },
   {
     slug: 'sentence-transformers', name: 'Sentence Transformers', logo: 'https://github.com/huggingface.png?size=128', accent: '#e59b18', role: 'CONTRIBUTOR', href: 'https://github.com/huggingface/sentence-transformers', prHref: 'https://github.com/huggingface/sentence-transformers/pull/3948',
     function: 'Hugging Face 维护的嵌入、语义检索与重排序框架，统一支持 Sentence Transformer、Cross Encoder、Sparse Encoder 与 Multi-Vector Encoder，并提供量化向量搜索和多种后端集成。',
