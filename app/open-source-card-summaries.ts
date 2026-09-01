@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  'sentence-transformers': {
+    problem: 'Usearch 重排直接把 signed binary 的 `int8` 存储转成 `uint8`，翻转了每个字节的最高位；非 8 倍数维度还会保留 `packbits` 的尾部填充，导致分数错乱或形状不匹配。',
+    reasoning: '索引返回的是减过 128 的存储字节，解包前必须在更宽的整数域恢复偏移；解包后则必须以原始查询维度裁剪，保证查询和候选仍处于同一位向量空间。',
+    solution: '按 `int8 → int16 → +128 → uint8` 恢复 packed bytes，再裁掉尾部 padding，并用真实 Usearch 索引锁定排序与非字节对齐维度。高倍重排的 Recall@5 从 0.24 恢复到 1.00。',
+  },
   sillytavern: {
     problem: 'NovelAI Math1 Linear 允许温度为 `0`，但预设与已保存设置都通过 `value || 1` 加载，合法零值会被当作 falsy 并静默改写成默认值 `1`。',
     reasoning: '设置加载需要判断字段是否缺失，而不是判断值是否为真。`0` 属于参数域，只有 `null` 或 `undefined` 才应触发默认温度。',

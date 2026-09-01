@@ -6,6 +6,29 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'binary-rescoring') return <div className="contribution-visual visual-binary-rescoring">
+    <div className="binary-byte-stage">
+      <small>SIGNED BINARY · BYTE DOMAIN</small>
+      <div className="binary-byte-pair"><span><b>PACKED</b><code>01101101</code><i>uint8 · 109</i></span><span><b>STORED</b><code>11101101</code><i>int8 · −19</i></span></div>
+      <div className="binary-byte-paths"><span><em>BEFORE</em><code>astype(uint8)</code><b>237 · MSB FLIPPED</b></span><span><em>AFTER</em><code>int16 + 128</code><b>109 · BITS RESTORED</b></span></div>
+    </div>
+    <div className="binary-padding-stage">
+      <small>NON-BYTE-ALIGNED DIMENSION</small>
+      <strong>query_dim = 10</strong>
+      <div className="binary-dimension-bits">{Array.from({ length: 16 }, (_, index) => <i className={index >= 10 ? 'is-padding' : ''} key={index}>{index >= 10 ? 'P' : index + 1}</i>)}</div>
+      <div className="binary-shape-mismatch"><span><b>QUERY</b><code>[10]</code></span><em>≠</em><span><b>UNPACKED</b><code>[16]</code></span></div>
+      <code className="binary-trim-code">unpackbits(...)[..., :query_dim]</code>
+    </div>
+    <div className="binary-recall-stage">
+      <small>RECALL@5 · 200 DOCUMENTS</small>
+      <div className="binary-recall-legend"><span>BEFORE</span><span>AFTER</span></div>
+      <div className="binary-recall-row"><strong>×2</strong><span><i style={{ width: '48%' }}></i><b>0.48</b></span><span><i style={{ width: '66%' }}></i><b>0.66</b></span></div>
+      <div className="binary-recall-row"><strong>×8</strong><span><i style={{ width: '28%' }}></i><b>0.28</b></span><span><i style={{ width: '98%' }}></i><b>0.98</b></span></div>
+      <div className="binary-recall-row"><strong>×40</strong><span><i style={{ width: '24%' }}></i><b>0.24</b></span><span><i style={{ width: '100%' }}></i><b>1.00</b></span></div>
+      <strong className="binary-recall-result">MORE CANDIDATES → CORRECT RANKING</strong>
+    </div>
+  </div>;
+
   if (kind === 'nullish-zero') return <div className="contribution-visual visual-nullish-zero">
     <div className="nullish-domain-stage"><small>MATH1 LINEAR CONTRACT</small><strong>temperature</strong><div><span>0</span><i></i><span>1.5</span></div><em>ZERO IS VALID</em><p>saved value · preset value · runtime value</p></div>
     <div className="nullish-before-stage"><small>BEFORE · TRUTHINESS FALLBACK</small><code>math1_temp = 0</code><strong>0 || 1</strong><div><span>loaded</span><b>1</b></div><em>VALUE SILENTLY CHANGED</em></div>

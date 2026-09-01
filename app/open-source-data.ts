@@ -23,10 +23,21 @@ export type OpenSourceProject = {
     linkLabel?: string;
     showOnCard?: boolean;
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'sentence-transformers', name: 'Sentence Transformers', logo: 'https://github.com/huggingface.png?size=128', accent: '#e59b18', role: 'CONTRIBUTOR', href: 'https://github.com/huggingface/sentence-transformers', prHref: 'https://github.com/huggingface/sentence-transformers/pull/3948',
+    function: 'Hugging Face 维护的嵌入、语义检索与重排序框架，统一支持 Sentence Transformer、Cross Encoder、Sparse Encoder 与 Multi-Vector Encoder，并提供量化向量搜索和多种后端集成。',
+    problem: '`binary` 量化会把 `np.packbits` 生成的无符号字节减去 128，以 `int8` 存入 Usearch；重排阶段却直接把取回的有符号字节转换为 `uint8`，相当于翻转每个字节的最高位，点积分数和最终排序都会被改写。同时，`packbits` 会把维度补齐到整字节，未裁掉的填充位会让非 8 倍数维度在重排时发生形状不匹配。',
+    reasoning: 'Usearch 返回的是索引中真实存储的 `int8`，并不会自动恢复量化前的字节域；解包前必须先在更宽的整数类型中加回 128，避免 NumPy 对 `int8 + 128` 的溢出限制。位解包后还必须以原始查询维度为唯一边界裁剪尾部 padding，否则候选向量与查询不再属于同一向量空间。',
+    solution: '在 Usearch 重排路径中先执行 `int8 → int16 → +128 → uint8`，恢复原始 packed bytes，再用 `[..., :query_dim]` 裁掉解包后的尾部填充位。新增真实索引回归，分别验证 signed binary 的排序正确性和非字节对齐维度；合并版本同时把 padding 修复扩展到 FAISS，并为量化 EmbeddingSimilarityEvaluator 补齐浮点转换与精度覆盖。',
+    impact: '修复前，候选池越大反而越容易得到错误排序：维护者对 200 条语料实测，`rescore_multiplier` 从 2、8 增至 40 时，Recall@5 由 0.48、0.28 降到 0.24；修复后分别恢复为 0.66、0.98 和 1.00，并与暴力点积排序完全一致。非 8 倍数维度也不再因 padding 导致广播错误。',
+    highlight: 'RESTORE BYTE · TRIM BITS · RECOVER RANKING',
+    takeaway: '还原 signed binary 字节域，并裁掉填充位以恢复正确排序',
+    visualization: 'binary-rescoring',
+  },
   {
     slug: 'sillytavern', name: 'SillyTavern', logo: 'https://raw.githubusercontent.com/SillyTavern/SillyTavern/release/public/img/logo.png', accent: '#d61f26', role: 'CONTRIBUTOR', href: 'https://github.com/SillyTavern/SillyTavern', prHref: 'https://github.com/SillyTavern/SillyTavern/pull/5965',
     function: '面向高级用户的本地 LLM 前端，统一管理多模型 API、角色卡、提示词、世界书、生成参数与扩展能力，可连接 NovelAI、OpenAI、Claude、本地推理服务等多种后端。',
