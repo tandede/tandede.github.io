@@ -13,6 +13,7 @@ export type RepositoryVisual = {
   showcase?: {
     image: string;
     alt: string;
+    title: string;
     caption: string;
     mode?: 'cover' | 'contain';
   };
@@ -27,12 +28,6 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
       alt: 'SillyTavern 官方横幅与面向高级用户的 LLM 前端定位',
       mode: 'contain',
     },
-    showcase: {
-      image: 'https://github.com/user-attachments/assets/9b5f32f0-c3b3-4102-b3f5-0e9213c0f50f',
-      alt: 'SillyTavern README 展示的模型连接、生成设置与角色管理界面',
-      caption: '界面将模型连接、角色、提示词和生成参数集中在同一工作区。NovelAI 的 Math1 温度正是在这套配置链路中由预设或持久化设置恢复，因此加载阶段必须忠实保留用户选择的每一个合法数值。',
-      mode: 'cover',
-    },
     tags: ['LLM Frontend', 'NovelAI · Generation Settings', 'JavaScript · Local-first'],
   },
   pinocchio: {
@@ -44,7 +39,8 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     showcase: {
       image: 'https://raw.githubusercontent.com/stack-of-tasks/pinocchio/devel/doc/images/pinocchio-performances.png',
       alt: 'Pinocchio README 展示的多种机器人动力学计算性能对比',
-      caption: '性能图展示 Pinocchio 在多种机器人模型上的平均动力学计算时间。项目通过统一的 Eigen 表达式和高度模板化的 C++ 算法兼顾不同模型与标量类型，因此编译器兼容性也是这套高性能抽象能够可靠落地的基础。',
+      title: '不同机器人模型的动力学计算耗时',
+      caption: '横轴对应从四足到人形机器人的不同模型，纵轴比较多种动力学算法的平均执行时间。Pinocchio 依赖高度模板化的 Eigen 表达式在同一实现中兼顾模型规模、标量类型和速度；本次兼容性修复保证这套性能抽象在 GCC 10 下仍能正确实例化与比较对齐映射。',
       mode: 'contain',
     },
     tags: ['Rigid Body Dynamics', 'C++ · Python · ROS', 'Eigen · Analytical Derivatives'],
@@ -58,7 +54,8 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     showcase: {
       image: 'https://raw.githubusercontent.com/MichaelGrupp/evo/master/doc/assets/res_dist.png',
       alt: 'evo README 展示的轨迹误差分布统计图',
-      caption: '误差分布图展示 evo 如何把不同轨迹估计的位姿误差整理成可比较的统计结果。距离型 RPE 的每一个轨迹区间都会贡献一条相对运动误差，因此首段是否进入 pair 列表会直接影响样本数量与最终分布。',
+      title: '轨迹误差如何汇总为统计分布',
+      caption: '图中把多条轨迹估计的位姿误差整理为可比较的分布。距离型 RPE 会先按运动距离生成轨迹对，再为每一对计算相对运动误差；若遗漏第一段，样本数量、距离覆盖范围和最终统计分布都会一起偏移。',
       mode: 'contain',
     },
     tags: ['Odometry · SLAM', 'APE · RPE', 'Python · NumPy'],
@@ -80,11 +77,6 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     tags: ['Agent Engineering', 'Python · LangChain Core', 'Models · Tools · Retrieval'],
   },
   webots: {
-    showcase: {
-      image: 'https://raw.githubusercontent.com/cyberbotics/webots/master/docs/guide/images/main_window.png',
-      alt: 'Webots 官方三维机器人仿真界面',
-      caption: 'Webots 三维仿真工作区把场景树、机器人传感器、控制器代码与运行日志集中在同一界面中。开发者可以一边观察机器人在虚拟环境中的行为，一边调整控制逻辑、检查设备状态并定位仿真问题。',
-    },
     tags: ['Robot Simulation', 'ROS / ROS 2', 'Desktop · Cloud'],
   },
   'robotics-toolbox-python': {
@@ -105,12 +97,6 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     tags: ['Factor Graphs', 'Smoothing · Mapping', 'C++ · Python · MATLAB'],
   },
   'jolt-physics': {
-    showcase: {
-      image: 'https://img.youtube.com/vi/pwyCW0yNKMA/hqdefault.jpg',
-      alt: 'Jolt Physics 官方刚体堆叠仿真演示',
-      caption: '刚体堆叠演示呈现了大量关节化物体在重力、碰撞和约束共同作用下的实时运动，也直观体现 Jolt Physics 面向游戏与 VR 场景的多核刚体仿真能力。',
-      mode: 'cover',
-    },
     tags: ['C++17', 'Rigid Body · Collision', 'Games · VR · Deterministic'],
   },
   pytorch3d: {
@@ -119,19 +105,14 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
       alt: 'PyTorch3D 官方项目标识',
       mode: 'contain',
     },
-    showcase: {
-      image: 'https://raw.githubusercontent.com/facebookresearch/pytorch3d/main/.github/camera_position_teapot.gif',
-      alt: 'PyTorch3D 官方可微分相机位置优化演示',
-      caption: '相机位置优化演示展示了 PyTorch3D 如何把三维几何、相机投影与可微分渲染连接进同一条 PyTorch 计算链，使渲染结果能够反向驱动相机参数收敛。',
-      mode: 'contain',
-    },
     tags: ['3D Computer Vision', 'Differentiable Rendering', 'PyTorch · GPU'],
   },
   rtabmap: {
     showcase: {
       image: 'https://github.com/user-attachments/assets/8306f095-5bf0-416d-88f3-e5a82fa23af8',
       alt: 'RTAB-Map DatabaseViewer 在无效回环检测配置下遗留进度对话框的原始问题截图',
-      caption: '原始问题截图中，intra-session 与 inter-session 均未启用，检测任务无法开始；但空白进度窗口已经显示在 DatabaseViewer 上方，既没有进度可推进，也无法沿正常完成路径关闭。修复把这类无效请求挡在窗口创建之前。',
+      title: '无任务可执行，进度窗口却已被创建',
+      caption: '截图中 intra-session 与 inter-session 均未启用，回环检测没有任何合法搜索范围；但空白进度窗口已经覆盖 DatabaseViewer，既不会推进，也无法经过正常完成路径关闭。修复把参数校验前移，在创建对话框之前直接终止无效请求。',
       mode: 'contain',
     },
     tags: ['Visual · LiDAR SLAM', 'Loop Closure · Graph Optimization', 'C++ · Qt · ROS / ROS 2'],
@@ -145,7 +126,8 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     showcase: {
       image: 'https://raw.githubusercontent.com/symforce-org/symforce/main/docs/static/images/symforce_diagram.png',
       alt: 'SymForce 官方符号计算、代码生成与优化架构图',
-      caption: '官方架构图展示了 SymForce 的完整数据链：符号工具箱建立几何与用户函数，Codegen 将同一模型生成面向运行时的代码，再把残差和导数交给 C++ 或 Python 优化器。本次修复位于中间的 Rust 代码生成边界，确保符号矩阵的行列结构能够准确进入 nalgebra 静态类型。',
+      title: '矩阵类型跨越代码生成边界的位置',
+      caption: '图中间的 Codegen 把符号工具箱建立的几何与用户函数转换为运行时代码，再把残差和导数交给优化器。本次修复位于 Rust 后端的返回类型生成处：同时保留矩阵行列结构，才能让结果准确进入 nalgebra 的静态矩阵类型。',
       mode: 'contain',
     },
     tags: ['Symbolic Computation', 'Code Generation · Optimization', 'Python · C++ · Rust'],
@@ -160,7 +142,9 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     showcase: {
       image: 'https://cdn.openai.com/API/docs/images/orchestration.png',
       alt: 'OpenAI Agents SDK 官方编排与追踪界面',
-      caption: '这张编排图集中展示 Agent、工具调用、Handoff 与追踪关系，使多智能体工作流中的控制流、任务交接和可观测链路能够被快速理解与定位。',
+      title: '名称是追踪树中识别节点的第一索引',
+      caption: '界面把 Agent、模型请求、工具调用与 Handoff 展开成同一条追踪树。节点名称若被非字符串对象意外覆盖，列表标题、层级检索和详情定位都会失去稳定标识；修复通过局部名称变量隔离 SDK 节点与应用对象，避免写回污染。',
+      mode: 'contain',
     },
     tags: ['Agents · Tools · Handoffs', 'Tracing', 'MCP'],
   },
@@ -207,19 +191,9 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     tags: ['End-to-End ASR', 'Offline · Streaming', 'ModelScope'],
   },
   burn: {
-    showcase: {
-      image: 'https://raw.githubusercontent.com/tracel-ai/burn/main/assets/burn-train-tui.png',
-      alt: 'Burn 官方训练终端界面',
-      caption: 'Burn 的训练终端将损失、学习率、训练进度和设备状态组织在同一个实时界面中，让 Rust 深度学习任务在运行过程中也能保持清晰、可观察和便于诊断。',
-    },
     tags: ['Rust', 'Multi-backend', 'Train · Infer · Deploy'],
   },
   lerobot: {
-    showcase: {
-      image: 'https://raw.githubusercontent.com/huggingface/lerobot/main/media/readme/robots_control_video.webp',
-      alt: 'LeRobot 官方机器人控制演示',
-      caption: '真实机器人控制演示呈现了从动作数据采集、策略训练到硬件执行的完整链路，直观说明 LeRobot 如何把机器人数据、学习算法和具体设备连接起来。',
-    },
     tags: ['Robotics', 'Datasets · Policies', 'Hardware Ecosystem'],
   },
 };

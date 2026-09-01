@@ -34,6 +34,10 @@ export function RepositoryShowcase({ project }: { project: OpenSourceProject }) 
 
   return <figure className={`repository-showcase repository-media-${showcase.mode ?? 'cover'}`} data-motion data-glow>
     <div><img src={showcase.image} alt={showcase.alt} /></div>
-    <figcaption>{showcase.caption}</figcaption>
+    <figcaption>
+      <span>图中信息</span>
+      <strong>{showcase.title}</strong>
+      <p>{showcase.caption}</p>
+    </figcaption>
   </figure>;
 }

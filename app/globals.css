@@ -666,7 +666,10 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .repository-showcase > div img { width: 100%; height: 100%; object-fit: cover; transition: transform 720ms cubic-bezier(.22, 1, .36, 1); }
 .repository-showcase.repository-media-contain > div img { padding: 38px; object-fit: contain; }
 .repository-showcase:hover > div img { transform: scale(1.025); }
-.repository-showcase figcaption { display: block; padding: 36px 34px; align-self: stretch; color: #465266; font-size: 14px; line-height: 1.95; }
+.repository-showcase figcaption { display: flex; flex-direction: column; justify-content: flex-start; gap: 18px; padding: 38px 34px; align-self: stretch; color: #465266; }
+.repository-showcase figcaption span { color: var(--detail-accent); font-family: var(--font-mono); font-size: 12px; font-weight: 800; letter-spacing: .14em; }
+.repository-showcase figcaption strong { color: var(--ink); font-size: clamp(21px, 1.6vw, 28px); line-height: 1.25; letter-spacing: -.025em; }
+.repository-showcase figcaption p { margin: 0; font-size: 15px; line-height: 1.9; }
 
 .contribution-showcase { padding: 94px 0 100px; border-top: 1px solid var(--line-strong); }
 .contribution-showcase > header { display: grid; grid-template-columns: 190px minmax(0, 1fr) minmax(280px, 0.7fr); gap: 34px; align-items: end; margin-bottom: 48px; }
