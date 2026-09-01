@@ -711,9 +711,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .release-celebration svg { width: 38px; height: 38px; }
 .contribution-release.is-motion-visible .release-celebration { animation: release-celebrate 3.8s ease-in-out infinite; }
 .release-copy { display: grid; gap: 8px; }
-.release-copy small { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 10px; font-weight: 800; letter-spacing: .11em; }
 .release-copy strong { max-width: 900px; font-size: clamp(21px, 2.1vw, 30px); letter-spacing: -.035em; line-height: 1.18; }
-.release-copy p { max-width: 1040px; margin: 0; color: #536076; font-size: 12px; line-height: 1.75; }
 .release-copy ul { display: flex; flex-wrap: wrap; gap: 8px; margin: 3px 0 0; padding: 0; list-style: none; }
 .release-copy li { padding: 6px 9px; color: var(--detail-accent); border: 1px solid color-mix(in srgb, var(--detail-accent) 28%, var(--line)); border-radius: 999px; background: rgba(255,255,255,.7); font-family: var(--font-geist-mono), monospace; font-size: 10px; font-weight: 750; }
 .release-link { display: inline-flex; gap: 9px; min-height: 44px; padding: 0 15px; align-items: center; color: var(--white); border-radius: 12px; background: var(--detail-accent); font-size: 10px; font-weight: 750; white-space: nowrap; }

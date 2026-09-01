@@ -49,7 +49,7 @@ export default function OpenSourceContribution({ project }: { project: OpenSourc
     </div>
     {project.release && <a className="contribution-release" href={project.release.href} target="_blank" rel="noopener noreferrer" data-motion data-glow>
       <span className="release-celebration"><PiConfettiBold aria-hidden="true" /></span>
-      <div className="release-copy"><small>CONTRIBUTION SHIPPED</small><strong>{project.release.title}</strong><p>{project.release.credit}</p><ul>{project.release.steps.map((step) => <li key={step}>{step}</li>)}</ul></div>
+      <div className="release-copy"><strong>{project.release.title}</strong><ul>{project.release.steps.map((step) => <li key={step}>{step}</li>)}</ul></div>
       <span className="release-link">{project.release.linkLabel ?? '查看正式版本'} <PiArrowUpRightBold aria-hidden="true" /></span>
     </a>}
   </section>;
