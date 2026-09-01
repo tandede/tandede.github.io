@@ -111,6 +111,14 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '负单位、近退化与正单位四元数都稳定得到有限轴角，不再把合法恒等姿态扩散成 NaN；非退化负标量输入仍保留预期旋转。转换结果因此可以安全进入场景树、渲染和物理仿真链路。',
     highlight: 'CONTRIBUTOR → COMMITTER',
     takeaway: '修复退化四元数崩溃，并获邀成为 Committer',
+    release: {
+      label: 'NIGHTLY · 27 AUG',
+      title: 'PR #7009 已进入 Webots 2026-08-27 Nightly Build',
+      href: 'https://github.com/cyberbotics/webots/releases/tag/nightly_27_8_2026',
+      credit: '官方 Nightly 标签已经完整包含四元数转换修复的合并提交。这是 Webots 的官方预发布构建，项目同时明确提示它可能不稳定，因此不将其表述为稳定版。',
+      steps: ['负单位四元数转换修复', 'Nightly 标签包含合并提交', '官方预发布构建'],
+      linkLabel: '查看 Nightly 构建',
+    },
     visualization: 'quaternion',
   },
   {
@@ -122,6 +130,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: 'Puma 560 的单点与轨迹输入现在都能得到有限、维度一致的末端加速度；7 轴 Panda 也稳定返回六维笛卡尔向量，而不会把关节数泄漏到输出形状。速度、加速度和轨迹接口重新共享同一套操作空间语义。',
     highlight: 'xdd = J̇a q̇ + Ja q̈',
     takeaway: '恢复六维末端加速度的完整动力学关系',
+    release: {
+      label: 'v1.4.1',
+      title: 'PR #629 已随 Robotics Toolbox v1.4.1 正式发布',
+      href: 'https://github.com/petercorke/robotics-toolbox-python/releases/tag/v1.4.1',
+      credit: 'v1.4.1 的 Bug Fixes 以“compute accel_x with analytical Jacobian derivative”单独列出这项修复；正式版本标签完整包含 PR #629 的合并提交。',
+      steps: ['解析雅可比导数修复', 'v1.4.1 Release Notes 收录', '正式版本标签包含合并提交'],
+    },
     visualization: 'operational-acceleration',
   },
   {
@@ -210,6 +225,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '相同的评测参数现在从 CLI 与 YAML 进入后会得到一致的运行时映射，不再因延迟注解静默绕过解析；原生 YAML 字典不会被重复转换。针对配置子命令的 70 项测试和主体测试集的 613 项用例共同锁定这条入口契约。',
     highlight: 'ONE CONFIG PATH',
     takeaway: '让 CLI 与 YAML 配置进入同一条解析路径',
+    release: {
+      label: 'v0.4.13',
+      title: 'PR #4020 已随 LM Evaluation Harness v0.4.13 正式发布',
+      href: 'https://github.com/EleutherAI/lm-evaluation-harness/releases/tag/v0.4.13',
+      credit: 'v0.4.13 Release Notes 将 YAML 字典字符串解析修复列入配置正确性更新，并在变更清单与 New Contributors 中署名 @tandede。',
+      steps: ['CLI / YAML 配置统一解析', 'Release Notes 收录 PR #4020', 'New Contributors 官方署名'],
+    },
     visualization: 'config',
   },
   {
@@ -243,6 +265,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '非法配置现在会在训练启动前直接失败，不再把除零和非法调度延迟到训练中；`topk_ratio=0.01` 与 50 列参数等小比例场景在 ZeRO-1/2 中仍保持非空选择，索引、梯度缓冲区与实际分区选择严格对齐。',
     highlight: 'VALIDATE → SELECT → ALLOCATE',
     takeaway: '训练前拦截非法配置，小比例分区也不再空选',
+    release: {
+      label: 'v0.19.6',
+      title: 'PR #8274 已随 DeepSpeed v0.19.6 正式发布',
+      href: 'https://github.com/deepspeedai/DeepSpeed/releases/tag/v0.19.6',
+      credit: 'v0.19.6 Release Notes 直接列出 ZenFlow 比例与更新间隔边界修复，并在 New Contributors 中记录 @tandede 的首次贡献。',
+      steps: ['ZenFlow 配置边界修复', 'Release Notes 收录 PR #8274', 'New Contributors 官方署名'],
+    },
     visualization: 'zenflow',
   },
   {
@@ -276,6 +305,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '非方形输入和 `scale_fill=True` 场景中的检测框、关键点与分割坐标重新准确映射到原图，不再出现单轴漂移或边界误裁；默认等比例流程保持原有输出。完整 Python 测试 134 项通过，并覆盖双轴恢复与默认 ratio-pad 两条路径。',
     highlight: 'SCALE X ≠ SCALE Y',
     takeaway: '分别还原 x / y 轴，让预测结果准确回到原图',
+    release: {
+      label: 'v8.4.126',
+      title: 'PR #25855 已随 Ultralytics v8.4.126 正式发布',
+      href: 'https://github.com/ultralytics/ultralytics/releases/tag/v8.4.126',
+      credit: 'v8.4.126 是合并后的首个正式版本，版本标签完整包含非等比例 ratio-pad 坐标恢复修复；该项未被单独写入版本摘要，因此这里只陈述可由标签提交关系验证的收录事实。',
+      steps: ['双轴 ratio-pad 恢复', 'v8.4.126 标签包含合并提交', '正式版本已发布'],
+    },
     visualization: 'axis',
   },
   {
@@ -287,6 +323,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: 'CutMix minmax 现在覆盖完整的空间起点集合，右边界与下边界不再系统性欠采样，同时保持裁剪尺寸和 lambda 语义不变；大样本验证中四个位置的最大频率偏差仅 0.162 个百分点，相关 470 项测试通过。',
     highlight: 'FULL BOUNDARY COVERAGE',
     takeaway: '补回 CutMix 从未采到的右侧与底部边界',
+    release: {
+      label: 'v1.0.29',
+      title: 'PR #2739 已随 timm v1.0.29 正式发布',
+      href: 'https://github.com/huggingface/pytorch-image-models/releases/tag/v1.0.29',
+      credit: 'v1.0.29 Release Notes 直接列出 CutMix minmax 边界采样修复，并在 New Contributors 中记录 @tandede 的首次贡献。',
+      steps: ['CutMix 完整边界采样', 'Release Notes 收录 PR #2739', 'New Contributors 官方署名'],
+    },
     visualization: 'boundary',
   },
   {
@@ -316,6 +359,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '10,639×192 的合成说话人嵌入在 CPU 上约 0.098 秒完成，返回恰好两个簇并达到 100% 分离纯度，不再分配稠密相似矩阵；小样本和自动估计说话人数的原有算法保持不变，长音频获得有界内存路径。',
     highlight: 'NO DENSE N² MATRIX',
     takeaway: '已知 K 时绕开 O(N²) 稠密相似矩阵',
+    release: {
+      label: 'v1.4.5',
+      title: 'PR #3516 已随 FunASR v1.4.5 正式发布',
+      href: 'https://github.com/modelscope/FunASR/releases/tag/v1.4.5',
+      credit: 'v1.4.5 是合并后的首个正式版本，版本标签完整包含长音频已知说话人数的聚类分流修复；版本摘要没有单独列出该 PR，因此不额外声称 Release Notes 署名。',
+      steps: ['长音频聚类分流修复', 'v1.4.5 标签包含合并提交', '正式版本已发布'],
+    },
     visualization: 'routing',
   },
   {
@@ -327,6 +377,14 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '快速路径与通用 im2col 路径现在对 Inf / NaN 产生一致的 IEEE 754 结果，非有限权重不会污染无关通道；有限权重仍走原有热路径，无 padding 时连额外扫描也不会发生。Burn Flex 相关 741 项测试及 19 项后端卷积测试通过。',
     highlight: 'IEEE 754 + FAST PATH',
     takeaway: '保留卷积快速路径，同时恢复 IEEE 754 语义',
+    release: {
+      label: 'v0.22.0-pre.3',
+      title: 'PR #5394 已进入 Burn v0.22.0-pre.3 预发布版',
+      href: 'https://github.com/tracel-ai/burn/releases/tag/v0.22.0-pre.3',
+      credit: 'Burn 的官方预发布说明直接列出“preserve non-finite padding semantics in conv”并署名 @tandede。该版本仍是 pre-release，因此不将其表述为稳定版本。',
+      steps: ['卷积非有限 padding 语义修复', '预发布说明收录 PR #5394', '官方署名 @tandede'],
+      linkLabel: '查看预发布版本',
+    },
     visualization: 'numeric',
   },
   {
