@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  sillytavern: {
+    problem: 'NovelAI Math1 Linear 允许温度为 `0`，但预设与已保存设置都通过 `value || 1` 加载，合法零值会被当作 falsy 并静默改写成默认值 `1`。',
+    reasoning: '设置加载需要判断字段是否缺失，而不是判断值是否为真。`0` 属于参数域，只有 `null` 或 `undefined` 才应触发默认温度。',
+    solution: '两条加载路径统一改用 `value ?? 1`，并用回归测试分别加载零温度的保存设置与预设，确认二者都精确保留 `0`。',
+  },
   pinocchio: {
     problem: 'GCC 10 无法把对齐的 `Eigen::Map<RowVector, Aligned16>` 无歧义地推导为 `MapBase` 形参，导致 `MatrixStackTpl` 的相等比较在模板匹配阶段编译失败。',
     reasoning: '比较逻辑只需要矩阵表达式的尺寸和元素访问能力，与 Map 的对齐、存储映射和访问级别无关；把接口绑定到 `MapBase` 反而泄漏了不必要的继承细节。',

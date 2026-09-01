@@ -779,6 +779,27 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .case-matrix-codegen .case-visual { grid-column: 5 / -1; grid-row: 1; }
 .case-matrix-codegen .case-story { grid-column: 1 / -1; grid-row: 2; }
 
+.visual-nullish-zero { grid-template-columns: minmax(270px, .85fr) repeat(2, minmax(300px, 1fr)); gap: 18px; }
+.nullish-domain-stage, .nullish-before-stage, .nullish-after-stage { display: grid; min-height: 330px; padding: 25px; align-content: center; gap: 22px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
+.nullish-domain-stage > strong, .nullish-before-stage > strong, .nullish-after-stage > strong { font-family: var(--font-geist-mono), monospace; font-size: 23px; }
+.nullish-domain-stage > strong { color: var(--detail-accent); }
+.nullish-domain-stage > div { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 12px; }
+.nullish-domain-stage > div i { height: 7px; border-radius: 999px; background: linear-gradient(90deg, var(--detail-accent), color-mix(in srgb, var(--detail-accent) 25%, var(--line))); }
+.nullish-domain-stage > em, .nullish-before-stage > em, .nullish-after-stage > em { color: #067647; font-family: var(--font-geist-mono), monospace; font-size: 12px; font-style: normal; font-weight: 750; letter-spacing: .08em; }
+.nullish-domain-stage > p { margin: 0; color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 11px; line-height: 1.55; }
+.nullish-before-stage { border-color: #f2b8b5; background: #fff8f7; }
+.nullish-before-stage > code { padding: 11px 12px; border: 1px solid #f2b8b5; border-radius: 9px; background: var(--white); font-size: 12px; }
+.nullish-before-stage > strong { color: #b42318; }
+.nullish-before-stage > div { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border: 1px solid #f2b8b5; border-radius: 11px; background: var(--white); color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 12px; }
+.nullish-before-stage > div b { color: #b42318; font-size: 30px; }
+.nullish-before-stage > em { color: #b42318; }
+.nullish-after-stage { border-color: color-mix(in srgb, var(--detail-accent) 48%, var(--line)); background: color-mix(in srgb, var(--detail-accent) 5%, white); }
+.nullish-after-stage > strong { color: var(--detail-accent); }
+.nullish-after-stage > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.nullish-after-stage > div span { display: grid; gap: 12px; padding: 15px; border: 1px solid color-mix(in srgb, var(--detail-accent) 32%, var(--line)); border-radius: 11px; background: var(--white); }
+.nullish-after-stage > div code { font-size: 11px; overflow-wrap: anywhere; }
+.nullish-after-stage > div b { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 28px; }
+
 .visual-aligned-map { grid-template-columns: minmax(280px, .9fr) repeat(2, minmax(300px, 1fr)); gap: 18px; }
 .aligned-map-input, .aligned-map-before, .aligned-map-after { display: grid; min-height: 330px; padding: 25px; align-content: center; gap: 22px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
 .aligned-map-input > strong, .aligned-map-before > strong, .aligned-map-after > strong { font-family: var(--font-geist-mono), monospace; font-size: 20px; line-height: 1.45; overflow-wrap: anywhere; }
@@ -1738,7 +1759,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .repository-showcase figcaption { align-items: center; }
   .contribution-showcase > header { grid-template-columns: 150px 1fr; }
   .contribution-showcase > header p { grid-column: 2; }
-  .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
+  .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
   .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow, .visual-shared-state > .visual-arrow { transform: rotate(90deg); }
   .visual-numeric { grid-template-columns: 1fr; }
   .reshape-routes > div { grid-template-columns: 1fr; gap: 8px; }

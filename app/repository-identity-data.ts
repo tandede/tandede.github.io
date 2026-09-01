@@ -21,6 +21,20 @@ export type RepositoryVisual = {
 };
 
 export const repositoryVisuals: Record<string, RepositoryVisual> = {
+  sillytavern: {
+    banner: {
+      image: 'https://github.com/user-attachments/assets/01a6ae9a-16aa-45f2-8bff-32b5dc587e44',
+      alt: 'SillyTavern 官方横幅与面向高级用户的 LLM 前端定位',
+      mode: 'contain',
+    },
+    showcase: {
+      image: 'https://github.com/user-attachments/assets/9b5f32f0-c3b3-4102-b3f5-0e9213c0f50f',
+      alt: 'SillyTavern README 展示的模型连接、生成设置与角色管理界面',
+      caption: '界面将模型连接、角色、提示词和生成参数集中在同一工作区。NovelAI 的 Math1 温度正是在这套配置链路中由预设或持久化设置恢复，因此加载阶段必须忠实保留用户选择的每一个合法数值。',
+      mode: 'cover',
+    },
+    tags: ['LLM Frontend', 'NovelAI · Generation Settings', 'JavaScript · Local-first'],
+  },
   pinocchio: {
     banner: {
       image: 'https://raw.githubusercontent.com/stack-of-tasks/pinocchio/devel/doc/images/pinocchio-logo-large.png',

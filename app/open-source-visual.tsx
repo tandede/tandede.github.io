@@ -6,6 +6,12 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'nullish-zero') return <div className="contribution-visual visual-nullish-zero">
+    <div className="nullish-domain-stage"><small>MATH1 LINEAR CONTRACT</small><strong>temperature</strong><div><span>0</span><i></i><span>1.5</span></div><em>ZERO IS VALID</em><p>saved value · preset value · runtime value</p></div>
+    <div className="nullish-before-stage"><small>BEFORE · TRUTHINESS FALLBACK</small><code>math1_temp = 0</code><strong>0 || 1</strong><div><span>loaded</span><b>1</b></div><em>VALUE SILENTLY CHANGED</em></div>
+    <div className="nullish-after-stage"><small>AFTER · PRESENCE FALLBACK</small><strong>value ?? 1</strong><div><span><code>0 ?? 1</code><b>0</b></span><span><code>undefined ?? 1</code><b>1</b></span></div><em>PRESET + SAVED SETTINGS</em></div>
+  </div>;
+
   if (kind === 'aligned-map-base') return <div className="contribution-visual visual-aligned-map">
     <div className="aligned-map-input"><small>CONCRETE EIGEN TYPE</small><strong>Map&lt;RowVector,<br />Aligned16&gt;</strong><div><span>dynamic row</span><span>16-byte aligned</span></div><p>used by MatrixStackTpl::operator==</p></div>
     <div className="aligned-map-before"><small>BEFORE · GCC 10</small><strong>MapBase&lt;D, Level&gt;</strong><div><span>inheritance path A</span><span>inheritance path B</span></div><em>AMBIGUOUS BASE</em><code>no matching function</code></div>

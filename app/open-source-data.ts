@@ -23,10 +23,21 @@ export type OpenSourceProject = {
     linkLabel?: string;
     showOnCard?: boolean;
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'sillytavern', name: 'SillyTavern', logo: 'https://raw.githubusercontent.com/SillyTavern/SillyTavern/release/public/img/logo.png', accent: '#d61f26', role: 'CONTRIBUTOR', href: 'https://github.com/SillyTavern/SillyTavern', prHref: 'https://github.com/SillyTavern/SillyTavern/pull/5965',
+    function: '面向高级用户的本地 LLM 前端，统一管理多模型 API、角色卡、提示词、世界书、生成参数与扩展能力，可连接 NovelAI、OpenAI、Claude、本地推理服务等多种后端。',
+    problem: 'NovelAI Math1 Linear 的 `math1_temp` 合法范围包含 `0`，但预设加载器和已保存设置加载器都使用 `value || 1` 提供默认值。JavaScript 会把数值零判为 falsy，因此用户明确保存的 `0` 会在加载时被静默改成 `1`，实际生成温度与界面配置不一致。',
+    reasoning: '这里需要区分的是“字段不存在”和“字段存在但值为零”，而不是一般的真假值。逻辑或运算符把 `0`、`null` 与 `undefined` 都折叠到同一默认分支，破坏了参数取值域；空值合并运算符只在 `null/undefined` 时回退，正好表达设置加载的存在性契约。',
+    solution: '在 `loadNovelPreset()` 与 `loadNovelSettings()` 两条入口中，把 `math1_temp || 1` 同步替换为 `math1_temp ?? 1`。新增独立单元测试，先加载 `math1_temp: 0` 的已保存设置，再加载同值预设，分别断言全局 NovelAI 配置仍保持精确的数值零。',
+    impact: 'Math1 Linear 用户现在可以可靠保存、恢复并切换零温度配置；字段真正缺失时仍会得到默认值 `1`，原有兼容行为不变。两种加载来源均由回归覆盖，避免未来只修复其中一条路径而重新产生配置漂移。',
+    highlight: '0 IS A VALUE · NULL IS ABSENCE',
+    takeaway: '保留合法零值，只为空缺设置应用默认温度',
+    visualization: 'nullish-zero',
+  },
   {
     slug: 'pinocchio', name: 'Pinocchio', logo: 'https://github.com/stack-of-tasks.png?size=128', accent: '#b84622', role: 'CONTRIBUTOR', href: 'https://github.com/stack-of-tasks/pinocchio', prHref: 'https://github.com/stack-of-tasks/pinocchio/pull/2940',
     function: '面向机器人系统的高性能刚体动力学库，提供运动学、动力学、解析导数、约束与碰撞等算法，并通过 C++、Python、ROS 和多种自动微分后端服务于控制、优化与仿真。',
