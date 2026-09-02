@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  crewai: {
+    problem: 'Memory view 校验直接 `pop` 运行时依赖并写回路径和判别器；同一配置第一次使用后已经被改写，第二次构造的 scope 可能失去原始 Memory 绑定。',
+    reasoning: '规范化结果属于新模型，不属于调用者的输入。三条路径都只修改顶层键或替换列表，因而在突变前浅拷贝即可隔离状态，同时保留 Memory 对象身份。',
+    solution: '在依赖抽取、路径规范化与旧配置判别器推断前分别复制字典；回归重复使用同一配置，确认外部映射不变、内部值正确规范化，两个 scope 始终绑定同一 Memory。',
+  },
   markitdown: {
     problem: '百分号编码的 Windows 盘符在 DOS drive 检查之后才被解码，`/C%3A/...` 因而保留前导分隔符；`abspath()` 再补当前盘符后会生成 `C:\\C:\\...`，文件转换直接失败。',
     reasoning: '不能粗暴删除所有路径的首字符。只有 Windows 上、解码后同时满足“前导分隔符 + 盘符冒号”的路径才需要规范化，POSIX 根路径与 UNC 路径必须保持不变。',

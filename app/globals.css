@@ -780,6 +780,29 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .case-matrix-codegen .case-visual { grid-column: 5 / -1; grid-row: 1; }
 .case-matrix-codegen .case-story { grid-column: 1 / -1; grid-row: 2; }
 
+.visual-memory-config { grid-template-columns: minmax(0, .9fr) minmax(0, .95fr) minmax(0, 1.15fr); gap: 18px; }
+.memory-config-input, .memory-config-before, .memory-config-after { display: grid; min-width: 0; min-height: 340px; padding: 25px; align-content: center; gap: 16px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
+.memory-config-input > div { display: grid; grid-template-columns: 78px minmax(0, 1fr); gap: 10px; padding: 12px; align-items: center; border: 1px solid var(--line); border-radius: 10px; background: var(--white); }
+.memory-config-input > div span { color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 10px; }
+.memory-config-input > div strong, .memory-config-input > div code { min-width: 0; color: var(--ink); font-family: var(--font-geist-mono), monospace; font-size: 12px; overflow-wrap: anywhere; }
+.memory-config-input > p, .memory-config-before > p { margin: 0; color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 11px; line-height: 1.5; }
+.memory-config-before { border-color: #f2b8b5; background: #fff8f7; }
+.memory-config-before > div { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 6px 10px; padding: 12px; border: 1px solid #f2b8b5; border-radius: 10px; background: var(--white); }
+.memory-config-before > div b { grid-row: 1 / 3; align-self: center; color: #b42318; font-family: var(--font-geist-mono), monospace; font-size: 10px; }
+.memory-config-before > div code { min-width: 0; font-size: 11px; overflow-wrap: anywhere; }
+.memory-config-before > div span { color: var(--muted); font-size: 11px; }
+.memory-config-before > div:nth-of-type(2) span { color: #b42318; font-weight: 750; }
+.memory-config-before > strong { color: #b42318; font-family: var(--font-geist-mono), monospace; font-size: 18px; }
+.memory-config-after { border-color: color-mix(in srgb, var(--detail-accent) 46%, var(--line)); background: color-mix(in srgb, var(--detail-accent) 5%, white); }
+.memory-config-after > code { padding: 12px; color: var(--detail-accent); border: 1px solid color-mix(in srgb, var(--detail-accent) 34%, var(--line)); border-radius: 9px; background: var(--white); font-size: 13px; }
+.memory-copy-routes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
+.memory-copy-routes span { min-width: 0; padding: 11px 7px; color: var(--muted); border: 1px solid color-mix(in srgb, var(--detail-accent) 30%, var(--line)); border-radius: 10px; background: var(--white); font-family: var(--font-geist-mono), monospace; font-size: 10px; line-height: 1.55; text-align: center; }
+.memory-copy-routes b { color: var(--ink); font-weight: 750; }
+.memory-reuse-result { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.memory-reuse-result span { display: grid; gap: 5px; padding: 11px; color: #067647; border: 1px solid #9ed8bf; border-radius: 10px; background: #f2fbf7; font-family: var(--font-geist-mono), monospace; font-size: 11px; }
+.memory-reuse-result b { color: var(--muted); font-size: 10px; }
+.memory-config-after > strong { color: #067647; font-family: var(--font-geist-mono), monospace; font-size: 17px; line-height: 1.4; }
+
 .visual-encoded-drive-uri { grid-template-columns: minmax(0, .95fr) minmax(0, 1fr) minmax(0, 1.08fr); gap: 18px; }
 .uri-input-stage, .uri-before-stage, .uri-after-stage { display: grid; min-width: 0; min-height: 330px; padding: 25px; align-content: center; gap: 20px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
 .uri-input-stage > strong, .uri-before-stage > strong, .uri-after-stage > strong { min-width: 0; font-family: var(--font-geist-mono), monospace; font-size: 18px; line-height: 1.45; overflow-wrap: anywhere; }
@@ -1840,7 +1863,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .repository-showcase figcaption { align-items: center; }
   .contribution-showcase > header { grid-template-columns: 150px 1fr; }
   .contribution-showcase > header p { grid-column: 2; }
-  .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
+  .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
   .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow, .visual-shared-state > .visual-arrow { transform: rotate(90deg); }
   .visual-numeric { grid-template-columns: 1fr; }
   .reshape-routes > div { grid-template-columns: 1fr; gap: 8px; }

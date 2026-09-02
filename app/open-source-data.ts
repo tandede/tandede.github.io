@@ -23,10 +23,21 @@ export type OpenSourceProject = {
     linkLabel?: string;
     showOnCard?: boolean;
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'crewai', name: 'CrewAI', logo: 'https://github.com/crewAIInc.png?size=128', accent: '#ff5a50', role: 'CONTRIBUTOR', href: 'https://github.com/crewAIInc/crewAI', prHref: 'https://github.com/crewAIInc/crewAI/pull/7068',
+    function: '面向生产级多智能体系统的 Python 编排框架，通过 Crews 组织具有角色和自主性的 Agent 协作，并以 Flows 构建可控的事件驱动工作流；统一 Memory 为 Agent、任务与流程提供可分层访问和复用的长期上下文。',
+    problem: '`MemoryScope.model_validate()` 与 `MemorySlice.model_validate()` 直接修改调用者传入的配置字典：`pop("memory")` 会移除运行时依赖，路径规范化会把 `scopes` 写回原映射，旧配置的判别器推断还会插入 `memory_kind`。同一份配置第一次构造后已经被消耗，第二次构造出的 scope 可能不再绑定原始 Memory，直到访问时才暴露缺失依赖。',
+    reasoning: '校验器可以从输入中抽取依赖、规范化路径并补全判别器，但这些变化只属于正在生成的模型，不能成为调用者可见的副作用。这里无需深拷贝 Memory 或整个对象图：三条路径只会增删顶层键或用新列表替换 `scopes`，因此在每个即将突变的边界创建浅拷贝，就能同时隔离输入并保留 Memory 对象身份。',
+    solution: '在 `_ensure_memory_kind()`、`MemoryScope._accept_memory()` 与 `MemorySlice._accept_memory()` 中分别于首次写操作前执行 `dict(value)` 或 `dict(data)`；后续 `pop`、路径整理和判别器注入全部落在私有副本。三组回归重复使用同一配置，分别断言原字典不变、两个 scope 都绑定同一 Memory、slice 内部路径被规范化但外部列表保持原样。',
+    impact: 'Memory view 配置现在可以安全地跨工厂、依赖注入和重复校验复用，不会因调用顺序产生“第一次有 Memory、第二次失联”的隐蔽状态差异；序列化格式、规范化后的模型值和公开 API 均保持不变。完整 Memory 测试集 150 项通过，Ruff、格式化、mypy 与三项合并检查同步通过。',
+    highlight: 'COPY CONFIG · NORMALIZE PRIVATE · REUSE SAFELY',
+    takeaway: '校验只修改私有副本，让 Memory scope 配置保持可复用',
+    visualization: 'memory-config-immutability',
+  },
   {
     slug: 'markitdown', name: 'MarkItDown', logo: 'https://github.com/microsoft.png?size=128', accent: '#0078d4', role: 'CONTRIBUTOR', href: 'https://github.com/microsoft/markitdown', prHref: 'https://github.com/microsoft/markitdown/pull/2315',
     function: 'Microsoft 开源的轻量级 Python 文件转换工具，把 PDF、Word、PowerPoint、Excel、图片、音频、HTML、压缩包和网页等内容统一转换为适合 LLM 与文本分析流水线消费的 Markdown。',

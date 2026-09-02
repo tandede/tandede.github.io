@@ -22,6 +22,21 @@ export type RepositoryVisual = {
 };
 
 export const repositoryVisuals: Record<string, RepositoryVisual> = {
+  crewai: {
+    banner: {
+      image: 'https://raw.githubusercontent.com/crewAIInc/crewAI/main/docs/images/crew_only_logo.png',
+      alt: 'CrewAI 官方项目标识',
+      mode: 'contain',
+    },
+    showcase: {
+      image: 'https://raw.githubusercontent.com/crewAIInc/crewAI/main/docs/images/asset.png',
+      alt: 'CrewAI 的 Crews 与 Flows 架构：Agent 通过 Memory 获得上下文，事件流通过 State 保持状态',
+      title: 'Memory 位于 Agent 协作与长期上下文的交界处',
+      caption: '左侧展示 Crew 以多个 Agent、工具和任务协作完成目标，Memory 为这些角色提供可持续访问的上下文；右侧则由 Flow 以显式状态和代码路径控制执行。MemoryScope 与 MemorySlice 是这层上下文的可复用视图，因此配置一旦在校验中被消耗，后续 Agent 或任务就可能拿到没有底层 Memory 的同名视图。',
+      mode: 'contain',
+    },
+    tags: ['Multi-Agent Orchestration', 'Crews · Flows · Memory', 'Python · Pydantic'],
+  },
   markitdown: {
     tags: ['Document → Markdown', 'Python · File URI', 'LLM Data Pipelines'],
   },

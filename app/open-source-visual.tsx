@@ -6,6 +6,30 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'memory-config-immutability') return <div className="contribution-visual visual-memory-config">
+    <div className="memory-config-input">
+      <small>CALLER-OWNED CONFIG</small>
+      <div><span>memory</span><strong>Memory A</strong></div>
+      <div><span>root_path</span><code>/agent/1</code></div>
+      <div><span>scopes</span><code>[&quot;/team/&quot;, &quot;/&quot;]</code></div>
+      <p>one dictionary · reusable input</p>
+    </div>
+    <div className="memory-config-before">
+      <small>BEFORE · SHARED MAPPING</small>
+      <div><b>VALIDATE 01</b><code>data.pop(&quot;memory&quot;)</code><span>scope → Memory A</span></div>
+      <div><b>VALIDATE 02</b><code>memory = None</code><span>scope → unbound</span></div>
+      <strong>INPUT CONSUMED</strong>
+      <p>scopes rewritten · memory_kind inserted</p>
+    </div>
+    <div className="memory-config-after">
+      <small>AFTER · PRIVATE VALIDATION COPY</small>
+      <code>data = dict(data)</code>
+      <div className="memory-copy-routes"><span>MemoryScope<br /><b>pop memory</b></span><span>MemorySlice<br /><b>normalize paths</b></span><span>legacy config<br /><b>infer kind</b></span></div>
+      <div className="memory-reuse-result"><span><b>VALIDATE 01</b>Memory A</span><span><b>VALIDATE 02</b>Memory A</span></div>
+      <strong>ORIGINAL CONFIG UNCHANGED</strong>
+    </div>
+  </div>;
+
   if (kind === 'encoded-drive-uri') return <div className="contribution-visual visual-encoded-drive-uri">
     <div className="uri-input-stage">
       <small>INPUT · FILE URI</small>
