@@ -6,6 +6,29 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'encoded-drive-uri') return <div className="contribution-visual visual-encoded-drive-uri">
+    <div className="uri-input-stage">
+      <small>INPUT · FILE URI</small>
+      <strong>file:///C%3A/Temp/example.md</strong>
+      <div><span>%3A</span><i>percent-encoded colon</i></div>
+      <code>parsed.path = /C%3A/Temp/example.md</code>
+    </div>
+    <div className="uri-before-stage">
+      <small>BEFORE · DETECT TOO EARLY</small>
+      <ol><li><b>01</b><span>DOS drive check</span><em>miss</em></li><li><b>02</b><span>url2pathname()</span><em>/C:/...</em></li><li><b>03</b><span>abspath()</span><em>prepend C:</em></li></ol>
+      <code>{'C:\\C:\\Temp\\example.md'}</code>
+      <strong>INVALID ARGUMENT</strong>
+    </div>
+    <div className="uri-after-stage">
+      <small>AFTER · DECODE, THEN NORMALIZE</small>
+      <code>path = url2pathname(parsed.path)</code>
+      <div className="uri-drive-guard"><span>Windows</span><span>{'/ or \\'}</span><span>path[2] = :</span></div>
+      <code>path = path[1:] → abspath(path)</code>
+      <strong>{'C:\\Temp\\example.md'}</strong>
+      <p>POSIX unchanged · UNC unchanged</p>
+    </div>
+  </div>;
+
   if (kind === 'lrn-channel-axis') return <div className="contribution-visual visual-lrn-channel-axis">
     <div className="lrn-input-stage">
       <small>LRN INPUT CONTRACT</small>

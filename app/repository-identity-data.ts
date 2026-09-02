@@ -22,6 +22,9 @@ export type RepositoryVisual = {
 };
 
 export const repositoryVisuals: Record<string, RepositoryVisual> = {
+  markitdown: {
+    tags: ['Document → Markdown', 'Python · File URI', 'LLM Data Pipelines'],
+  },
   onnx: {
     tags: ['Model Interchange · Operators', 'Reference Evaluator', 'Python · NumPy'],
   },

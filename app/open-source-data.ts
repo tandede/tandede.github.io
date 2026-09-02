@@ -23,10 +23,21 @@ export type OpenSourceProject = {
     linkLabel?: string;
     showOnCard?: boolean;
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'markitdown', name: 'MarkItDown', logo: 'https://github.com/microsoft.png?size=128', accent: '#0078d4', role: 'CONTRIBUTOR', href: 'https://github.com/microsoft/markitdown', prHref: 'https://github.com/microsoft/markitdown/pull/2315',
+    function: 'Microsoft 开源的轻量级 Python 文件转换工具，把 PDF、Word、PowerPoint、Excel、图片、音频、HTML、压缩包和网页等内容统一转换为适合 LLM 与文本分析流水线消费的 Markdown。',
+    problem: 'Windows 下的 `file:///C%3A/Temp/example.md` 会在盘符冒号仍处于百分号编码状态时进入路径转换。旧实现先尝试识别 DOS 盘符，再由 `url2pathname()` 解码；识别阶段看不到 `C:`，解码后路径仍带前导分隔符，随后 `abspath()` 又补上当前盘符，最终得到 `C:\\C:\\Temp\\example.md` 并以 `OSError: Invalid argument` 终止转换。',
+    reasoning: '问题不在于所有绝对路径都应去掉首字符，而在于解码后才出现的 Windows 盘符语法。修复必须发生在 `url2pathname()` 之后、`abspath()` 之前，并同时满足三个条件：运行于 Windows、路径以 `/` 或 `\\` 开头、紧随其后的第二个字符位置是盘符冒号。这样才能只处理 `/C:/...`，而不改变 POSIX 根路径、UNC 网络路径或普通相对路径。',
+    solution: '先保存 `url2pathname(parsed.path)` 的结果；仅当 `os.name == "nt"`、首字符为路径分隔符且 `path[2:3] == ":"` 时移除一个前导分隔符，再交给 `os.path.abspath()`。回归测试通过 `ntpath`、Windows 版 `url2pathname` 与隔离的 `os` 替身，在任意 CI 平台复现 Windows 路径语义，并断言编码 URI 精确解析为 `C:\\Temp\\example.md`。',
+    impact: '百分号编码与未编码的 Windows 盘符 URI 现在会收敛到同一个本地路径，`convert_uri()` 不再因重复盘符而在打开文件前失败；POSIX 与 UNC 路径保持原有行为。合并版本通过 337 项测试、4 项跳过，并完成类型检查、全仓预提交检查与三项合并检查。',
+    highlight: 'DECODE → DETECT DRIVE → NORMALIZE',
+    takeaway: '在绝对化之前识别解码后的盘符，只修正 Windows file URI',
+    visualization: 'encoded-drive-uri',
+  },
   {
     slug: 'onnx', name: 'ONNX', logo: 'https://raw.githubusercontent.com/onnx/onnx/main/docs/docsgen/source/onnx-favicon.png', accent: '#005ced', role: 'CONTRIBUTOR', href: 'https://github.com/onnx/onnx', prHref: 'https://github.com/onnx/onnx/pull/8331',
     function: '面向机器学习模型互操作的开放标准与参考实现，定义统一的计算图、算子规范和序列化格式，并提供模型检查、形状推断、参考执行器与后端一致性测试，连接训练框架、编译器和推理运行时。',

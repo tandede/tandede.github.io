@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  markitdown: {
+    problem: '百分号编码的 Windows 盘符在 DOS drive 检查之后才被解码，`/C%3A/...` 因而保留前导分隔符；`abspath()` 再补当前盘符后会生成 `C:\\C:\\...`，文件转换直接失败。',
+    reasoning: '不能粗暴删除所有路径的首字符。只有 Windows 上、解码后同时满足“前导分隔符 + 盘符冒号”的路径才需要规范化，POSIX 根路径与 UNC 路径必须保持不变。',
+    solution: '把解码与绝对化拆开，在二者之间识别 `/C:/...` 并仅移除一个前导分隔符；跨平台回归模拟 Windows 路径函数，确认编码 URI 精确还原为 `C:\\Temp\\example.md`。',
+  },
   onnx: {
     problem: 'LRN 参考实现用 batch 数遍历通道轴：`N < C` 时部分通道没有归一化，`N > C` 时会越界；固定四维切片还排除了规范允许的其他空间维度。',
     reasoning: '归一化窗口只沿 `C` 轴移动，batch 和所有空间轴都应保持原位。循环范围、窗口边界和求和轴必须共享同一通道语义，不能从输入的第零维推导。',
