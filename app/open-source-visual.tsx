@@ -6,6 +6,30 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'sparse-svd-backend') return <div className="contribution-visual visual-sparse-svd">
+    <div className="sparse-svd-input">
+      <small>SPARSE INPUT · RANK DEFICIENT</small>
+      <strong>A ∈ COO<sup>m×n</sup></strong>
+      <div><span>shape</span><code>m ≠ n</code></div>
+      <div><span>rank</span><code>r &lt; min(m,n)</code></div>
+      <p>Robust PCA → singular-value thresholding</p>
+    </div>
+    <div className="sparse-svd-before">
+      <small>BEFORE · BROKEN PATH</small>
+      <code>tl.svd(A, full_matrices=False)</code>
+      <strong>NO SPARSE SVD CONTRACT</strong>
+      <div><span>λ ≈ 0</span><b>σ = √λ</b><b>1 / σ → NaN</b></div>
+      <p>interface failure · unstable rank-deficient basis</p>
+    </div>
+    <div className="sparse-svd-after">
+      <small>AFTER · SPARSE REDUCED SVD</small>
+      <div className="sparse-svd-route"><span>FULL</span><b>dense SciPy SVD</b><span>REDUCED</span><b>sparse Gram matrix</b></div>
+      <div className="sparse-svd-steps"><span>clip λ ≥ 0</span><span>masked 1 / σ</span><span>QR complete U or V</span></div>
+      <strong>A ≈ U Σ Vᵀ</strong>
+      <p>finite · reconstructable · orthonormal</p>
+    </div>
+  </div>;
+
   if (kind === 'memory-config-immutability') return <div className="contribution-visual visual-memory-config">
     <div className="memory-config-input">
       <small>CALLER-OWNED CONFIG</small>

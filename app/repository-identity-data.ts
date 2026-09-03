@@ -22,6 +22,21 @@ export type RepositoryVisual = {
 };
 
 export const repositoryVisuals: Record<string, RepositoryVisual> = {
+  tensorly: {
+    banner: {
+      image: 'https://raw.githubusercontent.com/tensorly/tensorly/main/doc/_static/logos/logo_tensorly.png',
+      alt: 'TensorLy 官方项目标识',
+      mode: 'contain',
+    },
+    showcase: {
+      image: 'https://raw.githubusercontent.com/tensorly/tensorly/main/doc/_static/tensorly-pyramid.png',
+      alt: 'TensorLy 从多框架后端、核心张量运算到张量分解和深度张量网络的能力层次',
+      title: '同一张量算法建立在可切换后端契约之上',
+      caption: '底层把 NumPy、SciPy、PyTorch、JAX、TensorFlow、CuPy 与 Paddle 统一为可切换后端，上层的张量运算、分解和回归因而能够复用同一算法接口。本次修复发生在这条抽象边界：稀疏 NumPy 后端既要兑现统一的 SVD 契约，也要让 reduced 分解停留在稀疏 Gram 矩阵路径，避免 Robust PCA 为一次阈值更新付出整矩阵稠密化的内存代价。',
+      mode: 'contain',
+    },
+    tags: ['Tensor Decomposition', 'Sparse Robust PCA', 'NumPy · SciPy · Multi-backend'],
+  },
   crewai: {
     banner: {
       image: 'https://raw.githubusercontent.com/crewAIInc/crewAI/main/docs/images/crew_only_logo.png',

@@ -23,10 +23,21 @@ export type OpenSourceProject = {
     linkLabel?: string;
     showOnCard?: boolean;
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'tensorly', name: 'TensorLy', logo: 'https://raw.githubusercontent.com/tensorly/tensorly/main/doc/_static/favicon/android-chrome-192x192.png', accent: '#355486', role: 'CONTRIBUTOR', href: 'https://github.com/tensorly/tensorly', prHref: 'https://github.com/tensorly/tensorly/pull/624',
+    function: '面向张量学习的 Python 库，统一提供张量代数、CP/Tucker/TT 等分解、回归与深度张量化模型，并通过可切换后端让同一套算法运行在 NumPy、PyTorch、JAX、TensorFlow、CuPy 与 Paddle 上。',
+    problem: '稀疏 NumPy 后端没有实现当前的 `svd(matrix, full_matrices=...)` 契约，Sparse Robust PCA 在奇异值阈值步骤调用 `tl.truncated_svd()` 时直接以参数不匹配终止。补齐接口后还有第二层数值问题：秩亏稀疏矩阵的 Gram 矩阵会产生零或微小负特征值，直接开方并除以奇异值会生成 NaN；收敛范数聚合还可能把稀疏零维结果隐式稠密化。',
+    reasoning: 'Reduced SVD 只需要较小一侧的奇异向量，可以继续在 `A Aᵀ` 或 `Aᵀ A` 的稀疏 Gram 矩阵上求解；Full SVD 必须返回方形基，本身就是稠密结果，才适合显式交给 SciPy。对于零奇异方向，伪逆系数应当置零，而缺失的正交方向需要通过 QR 补全，不能用除零结果冒充奇异向量。',
+    solution: '为稀疏后端实现完整 `svd()` 分流：非稀疏或 full-matrices 路径交由 `scipy.linalg.svd()`，稀疏 reduced 路径复用 `partial_svd()`。Gram 特征值先裁到非负区间，再仅对大于机器精度的奇异值计算倒数；宽矩阵补全 `V`、高矩阵补全 `U`，并按 `R` 对角线统一 QR 符号。同步规范化零维 norm 返回值，并用 `stack` 汇总 Robust PCA 收敛范数以保留稀疏语义。',
+    impact: 'Sparse Robust PCA 现在可以完成迭代并持续返回稀疏 low-rank 与 error 张量；宽、窄两类秩亏矩阵的 reduced SVD 均保持有限值、可重构性以及 `UᵀU`、`VVᵀ` 正交约束。新增回归覆盖全部修改行，NumPy 全套测试 537 项通过、3 项跳过、1 项预期失败。',
+    highlight: 'SPARSE GRAM · SAFE INVERSE · ORTHONORMAL BASIS',
+    takeaway: 'Reduced SVD 保持稀疏，零奇异方向用安全倒数与 QR 补全',
+    visualization: 'sparse-svd-backend',
+  },
   {
     slug: 'crewai', name: 'CrewAI', logo: 'https://github.com/crewAIInc.png?size=128', accent: '#ff5a50', role: 'CONTRIBUTOR', href: 'https://github.com/crewAIInc/crewAI', prHref: 'https://github.com/crewAIInc/crewAI/pull/7068',
     function: '面向生产级多智能体系统的 Python 编排框架，通过 Crews 组织具有角色和自主性的 Agent 协作，并以 Flows 构建可控的事件驱动工作流；统一 Memory 为 Agent、任务与流程提供可分层访问和复用的长期上下文。',

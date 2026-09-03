@@ -780,6 +780,29 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .case-matrix-codegen .case-visual { grid-column: 5 / -1; grid-row: 1; }
 .case-matrix-codegen .case-story { grid-column: 1 / -1; grid-row: 2; }
 
+.visual-sparse-svd { grid-template-columns: minmax(0, .88fr) minmax(0, 1fr) minmax(0, 1.18fr); gap: 18px; }
+.sparse-svd-input, .sparse-svd-before, .sparse-svd-after { display: grid; min-width: 0; min-height: 345px; padding: 25px; align-content: center; gap: 17px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
+.sparse-svd-input > strong { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 28px; line-height: 1.2; }
+.sparse-svd-input > strong sup { font-size: .5em; }
+.sparse-svd-input > div { display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 10px; padding: 11px 12px; align-items: center; border: 1px solid var(--line); border-radius: 10px; background: var(--white); }
+.sparse-svd-input > div span { color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 10px; }
+.sparse-svd-input > div code { color: var(--ink); font-size: 13px; }
+.sparse-svd-input > p, .sparse-svd-before > p, .sparse-svd-after > p { margin: 0; color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 11px; line-height: 1.5; }
+.sparse-svd-before { border-color: #efb4b1; background: #fff8f7; }
+.sparse-svd-before > code { min-width: 0; padding: 12px; color: #b42318; border: 1px solid #efb4b1; border-radius: 10px; background: var(--white); font-size: 11px; overflow-wrap: anywhere; }
+.sparse-svd-before > strong { color: #b42318; font-family: var(--font-geist-mono), monospace; font-size: 18px; line-height: 1.35; }
+.sparse-svd-before > div { display: grid; grid-template-columns: auto 1fr; gap: 7px 12px; padding: 12px; border: 1px solid #efb4b1; border-radius: 10px; background: var(--white); }
+.sparse-svd-before > div span { grid-row: 1 / 3; align-self: center; color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 16px; font-weight: 850; }
+.sparse-svd-before > div b { color: var(--ink); font-family: var(--font-geist-mono), monospace; font-size: 11px; }
+.sparse-svd-before > div b:last-child { color: #b42318; }
+.sparse-svd-after { border-color: color-mix(in srgb, var(--detail-accent) 46%, var(--line)); background: color-mix(in srgb, var(--detail-accent) 5%, white); }
+.sparse-svd-route { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 7px 10px; align-items: center; }
+.sparse-svd-route span { padding: 9px; color: var(--detail-accent); border: 1px solid color-mix(in srgb, var(--detail-accent) 40%, var(--line)); border-radius: 999px; background: var(--white); font-family: var(--font-geist-mono), monospace; font-size: 10px; font-weight: 850; text-align: center; }
+.sparse-svd-route b { color: var(--ink); font-size: 13px; }
+.sparse-svd-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
+.sparse-svd-steps span { min-width: 0; padding: 11px 7px; color: var(--detail-accent); border: 1px solid color-mix(in srgb, var(--detail-accent) 32%, var(--line)); border-radius: 10px; background: var(--white); font-family: var(--font-geist-mono), monospace; font-size: 10px; font-weight: 750; line-height: 1.45; text-align: center; }
+.sparse-svd-after > strong { color: #067647; font-family: var(--font-geist-mono), monospace; font-size: 24px; }
+
 .visual-memory-config { grid-template-columns: minmax(0, .9fr) minmax(0, .95fr) minmax(0, 1.15fr); gap: 18px; }
 .memory-config-input, .memory-config-before, .memory-config-after { display: grid; min-width: 0; min-height: 340px; padding: 25px; align-content: center; gap: 16px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
 .memory-config-input > div { display: grid; grid-template-columns: 78px minmax(0, 1fr); gap: 10px; padding: 12px; align-items: center; border: 1px solid var(--line); border-radius: 10px; background: var(--white); }
@@ -1863,7 +1886,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .repository-showcase figcaption { align-items: center; }
   .contribution-showcase > header { grid-template-columns: 150px 1fr; }
   .contribution-showcase > header p { grid-column: 2; }
-  .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
+  .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
   .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow, .visual-shared-state > .visual-arrow { transform: rotate(90deg); }
   .visual-numeric { grid-template-columns: 1fr; }
   .reshape-routes > div { grid-template-columns: 1fr; gap: 8px; }

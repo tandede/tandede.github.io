@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  tensorly: {
+    problem: '稀疏后端缺少带 `full_matrices` 的 SVD 接口，Sparse Robust PCA 会在阈值分解处直接终止；秩亏 Gram 矩阵的零奇异值还会通过除零产生 NaN。',
+    reasoning: 'Reduced SVD 可以保留稀疏 Gram 路径，Full SVD 才需要稠密方形基；零奇异方向不能参与倒数，退化空间则需要重新补齐正交基。',
+    solution: '补齐 SVD 分流，对特征值裁负、执行带掩码的安全倒数，并按矩阵方向用 QR 补全 U 或 V；同时让 norm 聚合保持稀疏后端语义。',
+  },
   crewai: {
     problem: 'Memory view 校验直接 `pop` 运行时依赖并写回路径和判别器；同一配置第一次使用后已经被改写，第二次构造的 scope 可能失去原始 Memory 绑定。',
     reasoning: '规范化结果属于新模型，不属于调用者的输入。三条路径都只修改顶层键或替换列表，因而在突变前浅拷贝即可隔离状态，同时保留 Memory 对象身份。',
