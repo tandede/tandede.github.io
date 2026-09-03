@@ -667,7 +667,6 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .repository-showcase.repository-media-contain > div img { padding: 38px; object-fit: contain; }
 .repository-showcase:hover > div img { transform: scale(1.025); }
 .repository-showcase figcaption { display: flex; flex-direction: column; justify-content: flex-start; gap: 18px; padding: 38px 34px; align-self: stretch; color: #465266; }
-.repository-showcase figcaption span { color: var(--detail-accent); font-family: var(--font-mono); font-size: 12px; font-weight: 800; letter-spacing: .14em; }
 .repository-showcase figcaption strong { color: var(--ink); font-size: clamp(21px, 1.6vw, 28px); line-height: 1.25; letter-spacing: -.025em; }
 .repository-showcase figcaption p { margin: 0; font-size: 15px; line-height: 1.9; }
 
