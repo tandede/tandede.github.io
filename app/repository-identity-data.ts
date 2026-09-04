@@ -22,6 +22,9 @@ export type RepositoryVisual = {
 };
 
 export const repositoryVisuals: Record<string, RepositoryVisual> = {
+  flower: {
+    tags: ['Federated AI', 'Strategy · ServerApp · ClientApp', 'Python · Multi-framework'],
+  },
   tensorly: {
     banner: {
       image: 'https://raw.githubusercontent.com/tensorly/tensorly/main/doc/_static/logos/logo_tensorly.png',

@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  flower: {
+    problem: '`FedTrimmedAvg` 接受 `beta=0.5`：偶数个客户端更新会被上下两端完整裁空，旧判断又漏掉相等边界，空切片均值最终把 `NaN` 传播进全局模型参数。',
+    reasoning: '`beta` 同时作用于两个尾部，中央样本非空要求 `0 ≤ beta < 0.5`。公开策略和底层 trimmed-mean helper 都能成为入口，不能只在其中一层补校验。',
+    solution: '在 ServerApp、legacy strategy 及两套底层 helper 同步执行范围验证，非法值在分区前抛出 `ValueError`；参数化回归锁定负值与 `0.5` 边界。',
+  },
   tensorly: {
     problem: '稀疏后端缺少带 `full_matrices` 的 SVD 接口，Sparse Robust PCA 会在阈值分解处直接终止；秩亏 Gram 矩阵的零奇异值还会通过除零产生 NaN。',
     reasoning: 'Reduced SVD 可以保留稀疏 Gram 路径，Full SVD 才需要稠密方形基；零奇异方向不能参与倒数，退化空间则需要重新补齐正交基。',

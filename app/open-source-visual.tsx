@@ -6,6 +6,30 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'trimmed-mean-boundary') return <div className="contribution-visual visual-trimmed-mean-boundary">
+    <div className="trimmed-input-stage">
+      <small>CLIENT UPDATES · EVEN COUNT</small>
+      <div className="trimmed-values"><span>−4</span><span>−3</span><span>−2</span><span>−1</span><span>1</span><span>2</span><span>3</span><span>4</span></div>
+      <div className="trimmed-beta"><span>beta</span><strong>0.5</strong><code>cut 50% from each tail</code></div>
+      <p>8 updates · symmetric tails</p>
+    </div>
+    <div className="trimmed-before-stage">
+      <small>BEFORE · EQUAL BOUNDARIES MISSED</small>
+      <div><span>lowercut</span><strong>4</strong></div>
+      <div><span>uppercut</span><strong>4</strong></div>
+      <code>partitioned[4:4] → []</code>
+      <strong>mean([]) → NaN</strong>
+      <p>lowercut &gt; uppercut is false</p>
+    </div>
+    <div className="trimmed-after-stage">
+      <small>AFTER · SHARED DOMAIN GUARD</small>
+      <strong>0 ≤ beta &lt; 0.5</strong>
+      <div className="trimmed-guard-grid"><span>ServerApp<small>FedTrimmedAvg</small></span><span>Legacy<small>FedTrimmedAvg</small></span><span>Helper<small>trim_mean</small></span><span>Helper<small>_trim_mean</small></span></div>
+      <code>ValueError before np.partition</code>
+      <p>−0.1 rejected · 0.5 rejected</p>
+    </div>
+  </div>;
+
   if (kind === 'sparse-svd-backend') return <div className="contribution-visual visual-sparse-svd">
     <div className="sparse-svd-input">
       <small>SPARSE INPUT · RANK DEFICIENT</small>

@@ -779,6 +779,29 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .case-matrix-codegen .case-visual { grid-column: 5 / -1; grid-row: 1; }
 .case-matrix-codegen .case-story { grid-column: 1 / -1; grid-row: 2; }
 
+.visual-trimmed-mean-boundary { grid-template-columns: minmax(0, .88fr) minmax(0, .95fr) minmax(0, 1.17fr); gap: 18px; }
+.trimmed-input-stage, .trimmed-before-stage, .trimmed-after-stage { display: grid; min-width: 0; min-height: 330px; padding: 25px; align-content: center; gap: 17px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
+.trimmed-values { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; }
+.trimmed-values span { display: grid; min-height: 42px; place-items: center; color: var(--ink); border: 1px solid var(--line); border-radius: 9px; background: var(--white); font-family: var(--font-geist-mono), monospace; font-size: 12px; font-weight: 750; }
+.trimmed-values span:nth-child(-n+4), .trimmed-values span:nth-last-child(-n+4) { border-color: color-mix(in srgb, var(--detail-accent) 30%, var(--line)); }
+.trimmed-beta { display: grid; grid-template-columns: auto auto minmax(0, 1fr); gap: 10px; padding: 12px; align-items: center; border: 1px solid color-mix(in srgb, var(--detail-accent) 36%, var(--line)); border-radius: 10px; background: var(--white); }
+.trimmed-beta span { color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 11px; }
+.trimmed-beta strong { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 22px; }
+.trimmed-beta code { min-width: 0; color: var(--ink); font-size: 10px; text-align: right; }
+.trimmed-input-stage > p, .trimmed-before-stage > p, .trimmed-after-stage > p { margin: 0; color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 11px; line-height: 1.5; }
+.trimmed-before-stage { border-color: #efb4b1; background: #fff8f7; }
+.trimmed-before-stage > div { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 11px 12px; align-items: center; border: 1px solid #efb4b1; border-radius: 9px; background: var(--white); }
+.trimmed-before-stage > div span { color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 11px; }
+.trimmed-before-stage > div strong { color: #b42318; font-family: var(--font-geist-mono), monospace; font-size: 17px; }
+.trimmed-before-stage > code { padding: 11px 12px; color: #b42318; border: 1px solid #efb4b1; border-radius: 9px; background: var(--white); font-size: 12px; }
+.trimmed-before-stage > strong { color: #b42318; font-family: var(--font-geist-mono), monospace; font-size: 20px; }
+.trimmed-after-stage { border-color: color-mix(in srgb, var(--detail-accent) 46%, var(--line)); background: color-mix(in srgb, var(--detail-accent) 5%, white); }
+.trimmed-after-stage > strong { color: #067647; font-family: var(--font-geist-mono), monospace; font-size: 26px; }
+.trimmed-guard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.trimmed-guard-grid > span { display: grid; gap: 4px; min-width: 0; padding: 11px; color: var(--ink); border: 1px solid color-mix(in srgb, var(--detail-accent) 30%, var(--line)); border-radius: 9px; background: var(--white); font-family: var(--font-geist-mono), monospace; font-size: 11px; font-weight: 750; }
+.trimmed-guard-grid > span small { color: var(--muted); font-size: 10px; font-weight: 500; }
+.trimmed-after-stage > code { min-width: 0; padding: 11px 12px; color: var(--detail-accent); border: 1px solid color-mix(in srgb, var(--detail-accent) 30%, var(--line)); border-radius: 9px; background: var(--white); font-size: 11px; overflow-wrap: anywhere; }
+
 .visual-sparse-svd { grid-template-columns: minmax(0, .88fr) minmax(0, 1fr) minmax(0, 1.18fr); gap: 18px; }
 .sparse-svd-input, .sparse-svd-before, .sparse-svd-after { display: grid; min-width: 0; min-height: 345px; padding: 25px; align-content: center; gap: 17px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
 .sparse-svd-input > strong { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 28px; line-height: 1.2; }
@@ -1885,7 +1908,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .repository-showcase figcaption { align-items: center; }
   .contribution-showcase > header { grid-template-columns: 150px 1fr; }
   .contribution-showcase > header p { grid-column: 2; }
-  .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
+  .visual-trimmed-mean-boundary, .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
   .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow, .visual-shared-state > .visual-arrow { transform: rotate(90deg); }
   .visual-numeric { grid-template-columns: 1fr; }
   .reshape-routes > div { grid-template-columns: 1fr; gap: 8px; }

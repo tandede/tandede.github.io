@@ -23,10 +23,21 @@ export type OpenSourceProject = {
     linkLabel?: string;
     showOnCard?: boolean;
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'flower', name: 'Flower', logo: 'https://flower.ai/static/images/icon/icon.png', accent: '#2d3840', role: 'CONTRIBUTOR', href: 'https://github.com/flwrlabs/flower', prHref: 'https://github.com/flwrlabs/flower/pull/7946',
+    function: '用于构建联邦 AI 系统的开源框架，通过可扩展 Strategy、ServerApp 与 ClientApp 组织跨设备训练和评估，并兼容 PyTorch、TensorFlow、JAX、Hugging Face、scikit-learn 等多种机器学习技术栈。',
+    problem: 'ServerApp 与旧版 `FedTrimmedAvg` 都接受范围外的裁剪比例。`beta=0.5` 且客户端更新数为偶数时，`lowercut` 与 `uppercut` 恰好相等；旧逻辑只检查前者是否大于后者，于是空切片继续进入 `np.mean()`，产生 `NaN` 聚合参数。负值同样没有在策略初始化阶段被拒绝，而是延迟到数组分区时才失败。',
+    reasoning: '`beta` 会从分布的上下两端各裁掉同一比例，因此必须满足 `0 ≤ beta < 0.5`，才能保证中央样本集合非空。约束不能只放在公开策略构造器：底层 trimmed-mean helper 也可以被直接调用，ServerApp 与 legacy strategy 又维护两套入口；四个边界必须共享同一参数域，才能避免绕过校验。',
+    solution: '在 ServerApp 和 legacy `FedTrimmedAvg` 构造器中前置验证 `beta`，并在 `trim_mean()` 与 `_trim_mean()` 内同步校验各自的 cut fraction；非法值立即抛出说明 `[0, 0.5)` 的 `ValueError`，不再依赖 `lowercut > uppercut` 的间接判断。文档同步标明取值区间，参数化回归覆盖 `-0.1` 与 `0.5` 两个边界及两代实现。',
+    impact: '非法裁剪配置现在会在策略创建或底层聚合入口明确失败，不会继续执行空切片均值并把 `NaN` 传播到全局模型；合法 `beta` 的分区和聚合路径保持不变。改动覆盖 6 个文件，三组定向测试共 18 项通过，完整 Framework 检查同步通过。',
+    highlight: '0 ≤ β < 0.5 · FAIL BEFORE AGGREGATION',
+    takeaway: '在聚合开始前拒绝会把双尾样本全部裁空的 beta',
+    visualization: 'trimmed-mean-boundary',
+  },
   {
     slug: 'tensorly', name: 'TensorLy', logo: 'https://raw.githubusercontent.com/tensorly/tensorly/main/doc/_static/favicon/android-chrome-192x192.png', accent: '#355486', role: 'CONTRIBUTOR', href: 'https://github.com/tensorly/tensorly', prHref: 'https://github.com/tensorly/tensorly/pull/624',
     function: '面向张量学习的 Python 库，统一提供张量代数、CP/Tucker/TT 等分解、回归与深度张量化模型，并通过可切换后端让同一套算法运行在 NumPy、PyTorch、JAX、TensorFlow、CuPy 与 Paddle 上。',
