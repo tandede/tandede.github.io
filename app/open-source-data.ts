@@ -23,10 +23,21 @@ export type OpenSourceProject = {
     linkLabel?: string;
     showOnCard?: boolean;
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'keras', name: 'Keras', logo: 'https://keras.io/img/logo-small.png', accent: '#d00000', role: 'CONTRIBUTOR', href: 'https://github.com/keras-team/keras', prHref: 'https://github.com/keras-team/keras/pull/23475',
+    function: '面向深度学习开发的多后端框架，以统一的高层 API 构建、训练、评估和部署模型，并让同一套工作流运行在 JAX、TensorFlow 与 PyTorch 后端之上。',
+    problem: '旧版 HDF5 保存路径在生成模型元数据时，直接把 `model._compile_config.config` 赋给临时 `training_config`，再为单独序列化优化器而执行 `pop("optimizer")`。两个变量实际指向同一个字典，因此一次 `.h5` 保存就会从仍在运行的模型中删除优化器配置；之后再保存为原生 `.keras` 并加载时，模型可能不再恢复原来的 Adam，而是静默使用默认 RMSprop。',
+    reasoning: '序列化可以针对目标格式裁剪字段，但这种格式投影只应发生在序列化器自己的数据上。这里无需深拷贝整个嵌套配置：代码只移除顶层 `optimizer` 键，其他损失函数、指标和编译选项仍按原路径只读序列化；在首次修改前建立浅拷贝，就能切断字典别名，同时保持 HDF5 元数据结构完全不变。',
+    solution: '把 `training_config = model._compile_config.config` 改为 `model._compile_config.config.copy()`，随后只从私有副本移除由 HDF5 另行处理的优化器项。新增回归先保存完整的公开 `get_compile_config()`，执行 HDF5 保存后再逐项比较，确保活跃模型的编译配置没有变化；测试分别在 Torch、TensorFlow 与 JAX 后端通过，并由覆盖率检查确认新增可执行行全部覆盖。',
+    impact: 'HDF5 文件继续使用原有的 legacy 元数据格式，保存操作却不再改变模型内存状态；同一模型后续训练、查询编译配置或转存为 `.keras` 时，都能保留原先选择的优化器和编译语义。修复集中在 2 个文件、净增 10 行，不改变公开 API，也不把兼容旧格式的内部处理泄漏给调用者。',
+    highlight: 'SAVE HDF5 · KEEP LIVE CONFIG · RESTORE ADAM',
+    takeaway: '格式转换只修改序列化副本，不再消耗活跃模型的编译配置',
+    visualization: 'compile-config-immutability',
+  },
   {
     slug: 'flower', name: 'Flower', logo: 'https://flower.ai/static/images/icon/icon.png', accent: '#2d3840', role: 'CONTRIBUTOR', href: 'https://github.com/flwrlabs/flower', prHref: 'https://github.com/flwrlabs/flower/pull/7946',
     function: '用于构建联邦 AI 系统的开源框架，通过可扩展 Strategy、ServerApp 与 ClientApp 组织跨设备训练和评估，并兼容 PyTorch、TensorFlow、JAX、Hugging Face、scikit-learn 等多种机器学习技术栈。',

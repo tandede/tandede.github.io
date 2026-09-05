@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  keras: {
+    problem: 'HDF5 元数据生成直接引用活跃模型的 compile config，再 `pop("optimizer")`；一次 `.h5` 保存后优化器配置便从模型中消失，后续 `.keras` 恢复可能从 Adam 静默退回 RMSprop。',
+    reasoning: '序列化器可以裁剪目标格式不需要的字段，却不能改写被保存的对象。这里只移除顶层键，在突变前浅拷贝字典即可切断别名，同时保持 legacy HDF5 元数据不变。',
+    solution: '从 compile config 的副本生成 HDF5 `training_config`，只在副本上移除优化器；回归跨 Torch、TensorFlow、JAX 验证保存前后的公开编译配置完全一致。',
+  },
   flower: {
     problem: '`FedTrimmedAvg` 接受 `beta=0.5`：偶数个客户端更新会被上下两端完整裁空，旧判断又漏掉相等边界，空切片均值最终把 `NaN` 传播进全局模型参数。',
     reasoning: '`beta` 同时作用于两个尾部，中央样本非空要求 `0 ≤ beta < 0.5`。公开策略和底层 trimmed-mean helper 都能成为入口，不能只在其中一层补校验。',

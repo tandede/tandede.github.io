@@ -22,6 +22,9 @@ export type RepositoryVisual = {
 };
 
 export const repositoryVisuals: Record<string, RepositoryVisual> = {
+  keras: {
+    tags: ['Deep Learning API', 'JAX · TensorFlow · PyTorch', 'Python · Model Saving'],
+  },
   flower: {
     tags: ['Federated AI', 'Strategy · ServerApp · ClientApp', 'Python · Multi-framework'],
   },

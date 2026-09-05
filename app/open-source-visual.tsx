@@ -6,6 +6,30 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'compile-config-immutability') return <div className="contribution-visual visual-compile-config">
+    <div className="compile-config-live">
+      <small>LIVE MODEL · BEFORE SAVE</small>
+      <strong>compile_config</strong>
+      <div><span>optimizer</span><b>Adam</b></div>
+      <div><span>loss</span><b>mean_squared_error</b></div>
+      <code>model.get_compile_config()</code>
+    </div>
+    <div className="compile-config-before">
+      <small>BEFORE · SHARED DICTIONARY</small>
+      <code>training_config = model._compile_config.config</code>
+      <div><span>HDF5 metadata</span><i>↔</i><span>live model</span></div>
+      <code>training_config.pop(&quot;optimizer&quot;)</code>
+      <strong>.keras reload → RMSprop</strong>
+    </div>
+    <div className="compile-config-after">
+      <small>AFTER · PRIVATE SERIALIZATION COPY</small>
+      <code>training_config = config.copy()</code>
+      <div className="compile-config-paths"><span><b>HDF5 COPY</b><i>optimizer removed</i></span><span><b>LIVE MODEL</b><i>optimizer = Adam</i></span></div>
+      <strong>SAVE ≠ MUTATE</strong>
+      <p>Torch · TensorFlow · JAX</p>
+    </div>
+  </div>;
+
   if (kind === 'trimmed-mean-boundary') return <div className="contribution-visual visual-trimmed-mean-boundary">
     <div className="trimmed-input-stage">
       <small>CLIENT UPDATES · EVEN COUNT</small>
