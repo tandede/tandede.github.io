@@ -23,10 +23,21 @@ export type OpenSourceProject = {
     linkLabel?: string;
     showOnCard?: boolean;
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'gymnasium', name: 'Gymnasium', logo: 'https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/_static/img/favicon.png', accent: '#008f95', role: 'CONTRIBUTOR', href: 'https://github.com/Farama-Foundation/Gymnasium', prHref: 'https://github.com/Farama-Foundation/Gymnasium/pull/1672',
+    function: 'Farama Foundation 维护的标准单智能体强化学习环境 API，提供环境注册、创建、向量化和 Wrapper 组合机制，并包含经典控制、Box2D、MuJoCo 等参考环境与工具。',
+    problem: '环境注册允许把 `gymnasium.Wrapper` 子类直接作为 entry point，但 Wrapper 的类级 `metadata` 是一个实例属性：只有构造实例后才会委托到底层环境。旧版 `make()` 在构造前读取类属性，得到的是 `property` 描述符，却把它当作具体 metadata 字典交给 `_check_metadata()`；结果合法的 Wrapper 入口会在 `make()` 与 `make_vec()` 真正实例化之前被 `InvalidMetadata` 拒绝。',
+    reasoning: '同名类属性不一定已经是可验证的数据。普通 Env 子类可以提供具体的字典 metadata，Wrapper 则通过 property 在实例层动态委托；预构造阶段必须区分这两类对象。修复不能全面跳过 metadata 校验，否则真正把列表等非法值写在类上的环境会失去早期错误提示，只应绕开尚未绑定实例的 property 描述符。',
+    solution: '先缓存 `env_creator.metadata`，若它是 `property` 就留到 Wrapper 实例创建后的正常委托路径；否则继续执行原有字典结构和 render modes 校验。同时把错误信息中的 `type(metadata)` 改为 `type(testing_metadata)`，避免把导入模块的类型误报成用户值。回归注册一个 Wrapper entry point，并由 `make_vec(..., num_envs=2)` 验证两个实例都保留 Wrapper；另一用例确认具体的列表 metadata 仍被拒绝且报告 `list`。',
+    impact: 'Wrapper 子类现在可以作为注册入口被单环境和同步向量环境正常构造，既不要求伪造类级字典，也不削弱普通环境的 metadata 契约。定向 `make_vec` 测试 41 项、注册测试 107 项通过；完整测试记录 4,390 项通过、146 项跳过，两个约 1e−16 的 MuJoCo 精度失败可在未修改主分支复现。',
+    highlight: 'CLASS PROPERTY ≠ METADATA DICT',
+    takeaway: '只跳过尚未绑定实例的 property，保留具体类元数据校验',
+    visualization: 'wrapper-entry-metadata',
+  },
   {
     slug: 'keras', name: 'Keras', logo: 'https://keras.io/img/logo-small.png', accent: '#d00000', role: 'CONTRIBUTOR', href: 'https://github.com/keras-team/keras', prHref: 'https://github.com/keras-team/keras/pull/23475',
     function: '面向深度学习开发的多后端框架，以统一的高层 API 构建、训练、评估和部署模型，并让同一套工作流运行在 JAX、TensorFlow 与 PyTorch 后端之上。',

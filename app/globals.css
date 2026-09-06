@@ -849,6 +849,28 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .case-matrix-codegen .case-visual { grid-column: 5 / -1; grid-row: 1; }
 .case-matrix-codegen .case-story { grid-column: 1 / -1; grid-row: 2; }
 
+.visual-wrapper-entry { grid-template-columns: minmax(0, .9fr) minmax(0, .95fr) minmax(0, 1.15fr); gap: 18px; }
+.wrapper-entry-input, .wrapper-entry-before, .wrapper-entry-after { display: grid; min-width: 0; min-height: 340px; padding: 25px; align-content: center; gap: 17px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
+.wrapper-entry-input > strong { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 25px; line-height: 1.2; }
+.wrapper-entry-input > code, .wrapper-entry-before > code, .wrapper-entry-after > code { min-width: 0; padding: 11px 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--white); font-size: 11px; overflow-wrap: anywhere; }
+.wrapper-entry-input > div { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; padding: 11px 12px; align-items: center; border: 1px solid var(--line); border-radius: 9px; background: var(--white); }
+.wrapper-entry-input > div span, .wrapper-entry-before > div span { color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 11px; }
+.wrapper-entry-input > div b { min-width: 0; color: var(--ink); font-family: var(--font-geist-mono), monospace; font-size: 12px; text-align: right; overflow-wrap: anywhere; }
+.wrapper-entry-input > p, .wrapper-entry-before > p { margin: 0; color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 11px; line-height: 1.55; }
+.wrapper-entry-before { border-color: #efb4b1; background: #fff8f7; }
+.wrapper-entry-before > code { color: #b42318; border-color: #efb4b1; }
+.wrapper-entry-before > div { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 12px; padding: 12px; align-items: center; border: 1px solid #efb4b1; border-radius: 9px; background: var(--white); }
+.wrapper-entry-before > div b { min-width: 0; color: #b42318; font-family: var(--font-geist-mono), monospace; font-size: 12px; text-align: right; overflow-wrap: anywhere; }
+.wrapper-entry-before > strong { color: #b42318; font-family: var(--font-geist-mono), monospace; font-size: 19px; line-height: 1.3; }
+.wrapper-entry-after { border-color: color-mix(in srgb, var(--detail-accent) 46%, var(--line)); background: color-mix(in srgb, var(--detail-accent) 5%, white); }
+.wrapper-entry-after > code { color: var(--detail-accent); border-color: color-mix(in srgb, var(--detail-accent) 32%, var(--line)); }
+.wrapper-entry-routes, .wrapper-entry-results { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.wrapper-entry-routes span, .wrapper-entry-results span { display: grid; min-width: 0; gap: 6px; padding: 11px; border: 1px solid color-mix(in srgb, var(--detail-accent) 30%, var(--line)); border-radius: 10px; background: var(--white); }
+.wrapper-entry-routes b { color: var(--ink); font-family: var(--font-geist-mono), monospace; font-size: 11px; }
+.wrapper-entry-routes i { color: var(--muted); font-size: 11px; font-style: normal; line-height: 1.45; }
+.wrapper-entry-results span { color: #067647; border-color: #9ed8bf; background: #f2fbf7; font-family: var(--font-geist-mono), monospace; font-size: 11px; font-weight: 750; }
+.wrapper-entry-after > strong { color: #067647; font-family: var(--font-geist-mono), monospace; font-size: 21px; line-height: 1.3; }
+
 .visual-compile-config { grid-template-columns: minmax(0, .86fr) minmax(0, 1fr) minmax(0, 1.14fr); gap: 18px; }
 .compile-config-live, .compile-config-before, .compile-config-after { display: grid; min-width: 0; min-height: 330px; padding: 25px; align-content: center; gap: 16px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
 .compile-config-live > strong { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 25px; }
@@ -2019,7 +2041,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .repository-showcase figcaption { align-items: center; }
   .contribution-showcase > header { grid-template-columns: 150px 1fr; }
   .contribution-showcase > header p { grid-column: 2; }
-  .visual-compile-config, .visual-trimmed-mean-boundary, .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
+  .visual-wrapper-entry, .visual-compile-config, .visual-trimmed-mean-boundary, .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
   .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow, .visual-shared-state > .visual-arrow { transform: rotate(90deg); }
   .visual-numeric { grid-template-columns: 1fr; }
   .reshape-routes > div { grid-template-columns: 1fr; gap: 8px; }
@@ -2155,6 +2177,8 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .contribution-showcase > header { grid-template-columns: 1fr; margin-bottom: 32px; }
   .contribution-showcase > header p { grid-column: auto; }
   .contribution-visual { min-height: 0; padding: 18px; border-radius: 18px; }
+  .wrapper-entry-input, .wrapper-entry-before, .wrapper-entry-after { min-height: 0; padding: 20px 17px; }
+  .wrapper-entry-routes, .wrapper-entry-results { grid-template-columns: 1fr; }
   .content-mutation-before, .content-read-contract { min-height: 0; padding: 20px 17px; }
   .content-derive-flow, .content-index-lift { grid-template-columns: 1fr; }
   .content-derive-flow i, .content-index-lift span, .content-index-lift code:last-child { text-align: center; }

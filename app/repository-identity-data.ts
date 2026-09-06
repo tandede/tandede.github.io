@@ -22,6 +22,9 @@ export type RepositoryVisual = {
 };
 
 export const repositoryVisuals: Record<string, RepositoryVisual> = {
+  gymnasium: {
+    tags: ['Reinforcement Learning', 'Environment Registry · Wrappers', 'Python · Vector Environments'],
+  },
   keras: {
     tags: ['Deep Learning API', 'JAX · TensorFlow · PyTorch', 'Python · Model Saving'],
   },

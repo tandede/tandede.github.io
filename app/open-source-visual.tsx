@@ -6,6 +6,30 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'wrapper-entry-metadata') return <div className="contribution-visual visual-wrapper-entry">
+    <div className="wrapper-entry-input">
+      <small>REGISTERED ENTRY POINT</small>
+      <strong>RegisteredWrapper</strong>
+      <code>class RegisteredWrapper(gym.Wrapper)</code>
+      <div><span>class access</span><b>metadata → property</b></div>
+      <p>instance access delegates to wrapped Env</p>
+    </div>
+    <div className="wrapper-entry-before">
+      <small>BEFORE · PRE-CONSTRUCTION CHECK</small>
+      <code>_check_metadata(env_creator.metadata)</code>
+      <div><span>expected</span><b>dict</b><span>received</span><b>property</b></div>
+      <strong>InvalidMetadata</strong>
+      <p>make() · make_vec() stop before __init__</p>
+    </div>
+    <div className="wrapper-entry-after">
+      <small>AFTER · DESCRIPTOR-AWARE BRANCH</small>
+      <code>if not isinstance(metadata, property)</code>
+      <div className="wrapper-entry-routes"><span><b>PROPERTY</b><i>construct Wrapper</i></span><span><b>CONCRETE VALUE</b><i>validate dict</i></span></div>
+      <div className="wrapper-entry-results"><span>2 wrappers created ✓</span><span>list metadata rejected ✓</span></div>
+      <strong>VALID ENTRY · STRICT CONTRACT</strong>
+    </div>
+  </div>;
+
   if (kind === 'compile-config-immutability') return <div className="contribution-visual visual-compile-config">
     <div className="compile-config-live">
       <small>LIVE MODEL · BEFORE SAVE</small>

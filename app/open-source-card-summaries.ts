@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  gymnasium: {
+    problem: 'Wrapper 子类可作为环境 entry point，但其类级 `metadata` 是实例 property。旧版注册流程在构造前把描述符当成字典校验，使 `make()` 与 `make_vec()` 直接拒绝合法 Wrapper。',
+    reasoning: '预构造阶段必须区分具体类元数据与尚未绑定实例的描述符。全面跳过校验会放过真正的非法值，因此只应绕开 property，普通 Env 的字典契约继续保持。',
+    solution: '缓存类级 metadata，只在它不是 property 时执行原校验；同时让错误信息报告实际非法值类型。向量环境回归确认两个 Wrapper 均成功构造，列表 metadata 仍明确失败。',
+  },
   keras: {
     problem: 'HDF5 元数据生成直接引用活跃模型的 compile config，再 `pop("optimizer")`；一次 `.h5` 保存后优化器配置便从模型中消失，后续 `.keras` 恢复可能从 Adam 静默退回 RMSprop。',
     reasoning: '序列化器可以裁剪目标格式不需要的字段，却不能改写被保存的对象。这里只移除顶层键，在突变前浅拷贝字典即可切断别名，同时保持 legacy HDF5 元数据不变。',
