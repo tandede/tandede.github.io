@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { PiArrowRightBold, PiCheckCircle, PiCirclesThreePlus, PiCube, PiFileText, PiGauge, PiGlobeHemisphereEast, PiShieldCheck, PiSlidersHorizontal, PiStack, PiTerminalWindow, PiWarning } from 'react-icons/pi';
+import { PiArrowRightBold, PiArrowsClockwise, PiBrain, PiCheckCircle, PiCirclesThreePlus, PiCube, PiFileText, PiFlask, PiGauge, PiGlobeHemisphereEast, PiShieldCheck, PiSlidersHorizontal, PiStack, PiTarget, PiTerminalWindow, PiTreeStructure, PiWarning } from 'react-icons/pi';
 import type { FeaturedProject } from './project-data';
 
 const tinyModes = [
@@ -39,6 +39,39 @@ const harnessCategories = [
   { key: 'vertical', label: '垂直工作流', count: 12, pressure: '法律、HR、医疗与平台治理', event: '完成主要目标，却遗漏行业流程中的必要审计步骤' },
 ] as const;
 
+const selfDevelopingStages = [
+  {
+    key: 'target',
+    index: '01',
+    code: 'ASPIRE',
+    label: '目标形成',
+    question: 'Agent 选对了要改进的能力吗？',
+    method: '从宽泛的角色目标中自行选择训练方向、评测代理与更新方案。',
+    test: '用 Agent 看不到的隐藏评测检查目标是否真的发生迁移。',
+    icon: PiTarget,
+  },
+  {
+    key: 'experience',
+    index: '02',
+    code: 'S³GYM',
+    label: '经验整合',
+    question: '一次经历能改善下一次决策吗？',
+    method: '在交互环境中完成 Self-Testing 与 Self-Judging，再分别通过原始历史、摘要记忆或参数训练复用经验。',
+    test: '在更严格、种子隔离的条件下验证经验是否可执行、可迁移。',
+    icon: PiBrain,
+  },
+  {
+    key: 'system',
+    index: '03',
+    code: 'HARNESSDEV',
+    label: '系统演化',
+    question: '改进能留在下一轮系统里吗？',
+    method: '让模型创建并迭代可运行的 Agent Harness，保留每个正式版本与执行轨迹。',
+    test: '冻结执行条件，在 held-out 任务上决定保留、回滚还是继续演化。',
+    icon: PiTreeStructure,
+  },
+] as const;
+
 export function ProjectHeroAside({ slug }: { slug: FeaturedProject['slug'] }) {
   if (slug === 'tiny-r1-32b') return <aside className="project-hero-visual tiny-hero-visual" aria-label="TinyR1 模式切换示意" data-motion data-glow>
     <div className="tiny-orbit"><span>32B</span><i /><i /><i /></div>
@@ -49,6 +82,14 @@ export function ProjectHeroAside({ slug }: { slug: FeaturedProject['slug'] }) {
     <div className="safety-hero-core"><PiShieldCheck aria-hidden="true" /><span>8B</span><i /><i /><i /></div>
     <div className="safety-hero-modes"><span>POSITIVE</span><span>REJECTIVE</span><span>POLICY</span></div>
     <strong>安全不只是拒绝<br />而是可控的帮助</strong>
+  </aside>;
+  if (slug === 'self-developing-agents') return <aside className="project-hero-visual self-hero-visual" aria-label="闭环递归自我改进示意" data-motion data-glow>
+    <div className="self-hero-loop">
+      <span>RSI</span>
+      <i>01</i><i>02</i><i>03</i>
+    </div>
+    <div className="self-hero-stages"><span>TARGET</span><span>EXPERIENCE</span><span>SYSTEM</span></div>
+    <strong>更新只是动作<br />保留才是改进</strong>
   </aside>;
   return <aside className="project-hero-visual harness-hero-visual" aria-label="Harness Bench 轨迹示意" data-motion data-glow>
     <div className="trace-status"><span>TRACE 4,782</span><b>RUNNING</b></div>
@@ -200,8 +241,64 @@ function HarnessShowcase({ project }: { project: FeaturedProject }) {
   </section>;
 }
 
+function SelfDevelopingShowcase({ project }: { project: FeaturedProject }) {
+  const [activeStage, setActiveStage] = useState(1);
+  const stage = selfDevelopingStages[activeStage];
+  const StageIcon = stage.icon;
+
+  return <section className="project-showcase self-developing-showcase" id="project-showcase">
+    <header className="self-opening" data-motion>
+      <span>CLOSED-LOOP RSI</span>
+      <h2>真正的自我改进，不是完成一次更新，而是知道哪次更新值得保留。</h2>
+      <p>{project.problem}</p>
+    </header>
+
+    <section className="self-loop-lab" data-motion>
+      <div className="self-stage-panel" key={stage.key}>
+        <header><span>{stage.index} / {stage.code}</span><StageIcon aria-hidden="true" /></header>
+        <h3>{stage.question}</h3>
+        <div className="self-stage-flow">
+          <article><small>BUILD</small><p>{stage.method}</p></article>
+          <PiArrowRightBold aria-hidden="true" />
+          <article><small>VERIFY</small><p>{stage.test}</p></article>
+        </div>
+        <div className="self-stage-gate"><PiCheckCircle aria-hidden="true" /><span>RETENTION GATE</span><strong>只有隐藏评测确认的增益，才进入下一轮。</strong></div>
+      </div>
+      <nav className="self-stage-nav" role="tablist" aria-label="选择自我改进环节">
+        <small className="switch-hint">HOVER TO SWITCH · 悬停切换</small>
+        {selfDevelopingStages.map((item, index) => <button key={item.key} role="tab" aria-selected={activeStage === index} onMouseEnter={() => setActiveStage(index)} onFocus={() => setActiveStage(index)} onClick={() => setActiveStage(index)}><span>{item.index}</span><strong>{item.label}</strong><small>{item.code}</small></button>)}
+      </nav>
+    </section>
+
+    <section className="self-loop-map" data-motion>
+      <div><PiTarget aria-hidden="true" /><small>CHOOSE</small><strong>选择目标</strong><span>把宽泛目标变成可验证能力</span></div>
+      <PiArrowRightBold aria-hidden="true" />
+      <div><PiFlask aria-hidden="true" /><small>LEARN</small><strong>产生经验</strong><span>探索、判断并整合交互轨迹</span></div>
+      <PiArrowRightBold aria-hidden="true" />
+      <div><PiGauge aria-hidden="true" /><small>VERIFY</small><strong>隐藏验证</strong><span>隔离可见反馈与真实收益</span></div>
+      <PiArrowRightBold aria-hidden="true" />
+      <div className="self-keep-stage"><PiArrowsClockwise aria-hidden="true" /><small>KEEP</small><strong>保留或回滚</strong><span>只让可迁移的变化进入下一轮</span></div>
+    </section>
+
+    <section className="self-evidence" data-motion>
+      <header><span>EXPERIENCE INTEGRATION / S³GYM</span><h3>经验有用，但没有一种用法能够通吃所有环境。</h3><p>{project.result}</p></header>
+      <div className="self-evidence-grid">
+        <article><small>VERIFIER-BACKED</small><strong>7</strong><p>个交互游戏，把 Agent 自评与环境真实结果分开记录。</p></article>
+        <article><small>MEMORY ROUTES</small><strong>3 / 3</strong><p>原始 History 与 Summary Memory 在七个游戏中各领先三项，另有一项分裂。</p></article>
+        <article><small>SELF-JUDGMENT → GAIN</small><strong>ρ≈0</strong><p>自评与下一轮增益的相关系数为 −0.010 和 −0.018，几乎没有预测力。</p></article>
+      </div>
+    </section>
+
+    <section className="self-scope" data-motion>
+      <div><PiBrain aria-hidden="true" /><small>MY SCOPE · S³GYM CONTRIBUTOR</small><h3>我的参与聚焦在“经验怎样真正变成能力”。</h3></div>
+      <p>{project.contribution}</p>
+    </section>
+  </section>;
+}
+
 export default function ProjectShowcase({ project }: { project: FeaturedProject }) {
   if (project.slug === 'tiny-r1-32b') return <TinyR1Showcase project={project} />;
   if (project.slug === 'tiny-r1-safety-8b') return <SafetyShowcase project={project} />;
+  if (project.slug === 'self-developing-agents') return <SelfDevelopingShowcase project={project} />;
   return <HarnessShowcase project={project} />;
 }

@@ -46,7 +46,11 @@ export default async function ProjectDetail({ params }: PageProps) {
     externalHref={project.href}
     externalLabel="查看项目主页"
     externalIcon={<PiGlobeHemisphereWest aria-hidden="true" />}
-    secondaryExternal={project.slug === 'tiny-r1-safety-8b' ? { href: project.paperHref, label: '查看论文', icon: <PiFileText aria-hidden="true" /> } : undefined}
+    secondaryExternal={project.slug === 'tiny-r1-safety-8b'
+      ? { href: project.paperHref, label: '查看论文', icon: <PiFileText aria-hidden="true" /> }
+      : project.slug === 'self-developing-agents'
+        ? { href: project.paperHref, label: '查看 S³Gym', icon: <PiFileText aria-hidden="true" /> }
+        : undefined}
     backHref="/#projects"
     backLabel="返回代表项目"
     contentHref="#project-showcase"
