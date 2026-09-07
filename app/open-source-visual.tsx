@@ -6,6 +6,33 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'porter-duff-alpha') return <div className="contribution-visual visual-porter-duff">
+    <div className="porter-input-stage">
+      <small>PREMULTIPLIED INPUTS</small>
+      <div className="porter-layer porter-source"><span><b>SOURCE</b><i>αs = 1.0</i></span><strong>OPAQUE COLOR</strong></div>
+      <div className="porter-layer porter-backdrop"><span><b>BACKDROP</b><i>αb = 0.0</i></span><strong>TRANSPARENT</strong></div>
+      <code>Cs′ = αsCs · Cb′ = αbCb</code>
+    </div>
+    <div className="porter-before-stage">
+      <small>BEFORE · INCOMPLETE COMPOSITE</small>
+      <div className="porter-mode-grid"><span>DARKEN</span><span>LIGHTEN</span><span>MULTIPLY</span><span>OVERLAY</span></div>
+      <code>overlap only / wrong α pairing</code>
+      <div className="porter-missing-regions"><i></i><b>BLEND</b><i></i></div>
+      <strong>OPAQUE SOURCE → DISAPPEARS</strong>
+    </div>
+    <div className="porter-after-stage">
+      <small>AFTER · SOURCE-OVER</small>
+      <code>αo = αs + αb − αsαb</code>
+      <div className="porter-equation">
+        <span><b>SRC ONLY</b><i>(1−αb)Cs′</i></span><em>+</em>
+        <span><b>BLEND</b><i>αsαb·B</i></span><em>+</em>
+        <span><b>DST ONLY</b><i>(1−αs)Cb′</i></span>
+      </div>
+      <div className="porter-alpha-cases"><span>1 / 0</span><span>0 / 1</span><span>.35 / .65</span><span>1 / 1</span></div>
+      <strong>RGB + MASK MATCH REFERENCE</strong>
+    </div>
+  </div>;
+
   if (kind === 'wrapper-entry-metadata') return <div className="contribution-visual visual-wrapper-entry">
     <div className="wrapper-entry-input">
       <small>REGISTERED ENTRY POINT</small>

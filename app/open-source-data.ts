@@ -23,10 +23,21 @@ export type OpenSourceProject = {
     linkLabel?: string;
     showOnCard?: boolean;
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'comfyui', name: 'ComfyUI', logo: 'https://github.com/Comfy-Org.png?size=128', accent: '#2463eb', role: 'CONTRIBUTOR', href: 'https://github.com/Comfy-Org/ComfyUI', prHref: 'https://github.com/Comfy-Org/ComfyUI/pull/15721',
+    function: '基于节点图工作流的生成式 AI 推理平台，把模型加载、采样、图像处理与扩展节点组织成可复用流程，同时提供图形界面、API 与后端执行能力。',
+    problem: '`PorterDuffImageComposite` 内部使用预乘 Alpha 颜色，但 `DARKEN` 与 `LIGHTEN` 的重叠项没有乘入另一图层透明度；`MULTIPLY` 只保留 Alpha 交集，`OVERLAY` 还遗漏非重叠区域并交换高分支中的颜色与 Alpha 配对。结果是完全不透明的前景放在透明背景上可能直接消失，部分透明叠加也会出现意外变亮或颜色错误。',
+    reasoning: 'Source-over 混合不能只计算两层相交的像素项。输出必须同时包含“仅前景”“双方重叠并执行 Blend”“仅背景”三个区域；输入已经预乘 Alpha 后，重叠项也必须在同一个表示域中组合，而输出透明度应使用两层并集 `αs + αb − αsαb`。四种模式虽然 Blend 函数不同，但应共享这套合成骨架。',
+    solution: '为 `DARKEN` 和 `LIGHTEN` 的比较项补入对侧 Alpha 权重；让 `MULTIPLY` 与 `OVERLAY` 使用 source-over 的并集透明度，并补回两侧非重叠贡献，同时修正 Overlay 高分支的操作数配对。新增参数化回归，用独立参考公式覆盖四种模式与透明、半透明、完全不透明的四组 Alpha 组合，并同时校验 RGB 和输出 Mask。',
+    impact: '透明背景上的不透明前景不再消失，部分透明图层的颜色与遮罩重新符合 Porter–Duff source-over 语义；既有节点接口和 Mask 约定保持不变。改动集中在 2 个文件，新增 16 组模式×透明度组合回归；单元测试 1,315 项、执行测试 274 项通过，Ruff 检查同步通过。',
+    highlight: 'SOURCE-OVER = SRC ONLY + BLEND + DST ONLY',
+    takeaway: '补齐 source-over 三个区域，恢复四种透明混合模式',
+    visualization: 'porter-duff-alpha',
+  },
   {
     slug: 'gymnasium', name: 'Gymnasium', logo: 'https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/_static/img/favicon.png', accent: '#008f95', role: 'CONTRIBUTOR', href: 'https://github.com/Farama-Foundation/Gymnasium', prHref: 'https://github.com/Farama-Foundation/Gymnasium/pull/1672',
     function: 'Farama Foundation 维护的标准单智能体强化学习环境 API，提供环境注册、创建、向量化和 Wrapper 组合机制，并包含经典控制、Box2D、MuJoCo 等参考环境与工具。',

@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  comfyui: {
+    problem: '`PorterDuffImageComposite` 使用预乘 Alpha，但四种 Blend 公式没有完整实现 source-over：透明背景会让不透明前景消失，部分透明图层还会产生错误颜色或遮罩。',
+    reasoning: '结果必须同时包含仅前景、重叠混合和仅背景三个区域；预乘颜色的重叠项要在同一 Alpha 域中计算，输出透明度则取两层并集。',
+    solution: '修正 DARKEN、LIGHTEN 的 Alpha 权重，为 MULTIPLY、OVERLAY 补回非重叠贡献并修复操作数；16 组参数化回归同时验证 RGB 与 Mask。',
+  },
   gymnasium: {
     problem: 'Wrapper 子类可作为环境 entry point，但其类级 `metadata` 是实例 property。旧版注册流程在构造前把描述符当成字典校验，使 `make()` 与 `make_vec()` 直接拒绝合法 Wrapper。',
     reasoning: '预构造阶段必须区分具体类元数据与尚未绑定实例的描述符。全面跳过校验会放过真正的非法值，因此只应绕开 property，普通 Env 的字典契约继续保持。',
