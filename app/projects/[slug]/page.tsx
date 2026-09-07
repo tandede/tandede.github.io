@@ -62,5 +62,7 @@ export default async function ProjectDetail({ params }: PageProps) {
     showcase={<ProjectShowcase project={project} />}
     previous={previous ? { href: `/projects/${previous.slug}/`, label: previous.title } : undefined}
     next={next ? { href: `/projects/${next.slug}/`, label: next.title } : undefined}
+    previousBoundaryHref={`/#project-${featuredProjects[0].slug}`}
+    nextBoundaryHref={`/#project-${featuredProjects[featuredProjects.length - 1].slug}`}
   />;
 }

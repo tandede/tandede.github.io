@@ -38,6 +38,8 @@ type DetailPageProps = {
   steps?: DetailStep[];
   previous?: { href: string; label: string };
   next?: { href: string; label: string };
+  previousBoundaryHref?: string;
+  nextBoundaryHref?: string;
   externalIcon?: ReactNode;
   showcase?: ReactNode;
   titleAddon?: ReactNode;
@@ -76,6 +78,8 @@ export default function DetailPage({
   steps,
   previous,
   next,
+  previousBoundaryHref,
+  nextBoundaryHref,
   externalIcon,
   showcase,
   titleAddon,
@@ -152,10 +156,10 @@ export default function DetailPage({
     {pagination ?? <nav className="detail-pagination" aria-label="详情页切换">
       {previous
         ? <a href={previous.href} data-glow><PiArrowLeftBold aria-hidden="true" /><span><small>上一个</small>{previous.label}</span></a>
-        : <a href={backHref} data-glow><PiArrowLeftBold aria-hidden="true" /><span><small>返回首页</small>{homeSectionLabel}</span></a>}
+        : <a href={previousBoundaryHref ?? backHref} data-glow><PiArrowLeftBold aria-hidden="true" /><span><small>返回首页</small>{homeSectionLabel}</span></a>}
       {next
         ? <a href={next.href} data-glow><span><small>下一个</small>{next.label}</span><PiArrowRightBold aria-hidden="true" /></a>
-        : <a href={backHref} data-glow><span><small>返回首页</small>{homeSectionLabel}</span><PiArrowRightBold aria-hidden="true" /></a>}
+        : <a href={nextBoundaryHref ?? backHref} data-glow><span><small>返回首页</small>{homeSectionLabel}</span><PiArrowRightBold aria-hidden="true" /></a>}
     </nav>}
   </main>;
 }

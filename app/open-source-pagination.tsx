@@ -59,6 +59,8 @@ export default function OpenSourcePagination({ items, currentSlug }: { items: Op
   const currentIndex = orderedItems.findIndex((item) => item.slug === currentSlug);
   const previous = currentIndex > 0 ? orderedItems[currentIndex - 1] : undefined;
   const next = currentIndex >= 0 && currentIndex < orderedItems.length - 1 ? orderedItems[currentIndex + 1] : undefined;
+  const first = orderedItems[0];
+  const last = orderedItems[orderedItems.length - 1];
 
   if (!stars) return <nav className="detail-pagination detail-pagination-loading" aria-label="正在同步开源贡献排序" aria-busy="true">
     <Link href="/#opensource" data-glow><PiArrowLeftBold aria-hidden="true" /><span><small>返回首页</small>开源贡献</span></Link>
@@ -68,9 +70,9 @@ export default function OpenSourcePagination({ items, currentSlug }: { items: Op
   return <nav className="detail-pagination" aria-label="按 GitHub Star 排序切换开源贡献">
     {previous
       ? <Link href={`/open-source/${previous.slug}/`} data-glow><PiArrowLeftBold aria-hidden="true" /><span><small>上一个</small>{previous.name}</span></Link>
-      : <Link href="/#opensource" data-glow><PiArrowLeftBold aria-hidden="true" /><span><small>返回首页</small>开源贡献</span></Link>}
+      : <Link href={`/#repository-${first.slug}`} data-glow><PiArrowLeftBold aria-hidden="true" /><span><small>返回首页</small>仓库贡献首项</span></Link>}
     {next
       ? <Link href={`/open-source/${next.slug}/`} data-glow><span><small>下一个</small>{next.name}</span><PiArrowRightBold aria-hidden="true" /></Link>
-      : <Link href="/#opensource" data-glow><span><small>返回首页</small>开源贡献</span><PiArrowRightBold aria-hidden="true" /></Link>}
+      : <Link href={`/#repository-${last.slug}`} data-glow><span><small>返回首页</small>仓库贡献末项</span><PiArrowRightBold aria-hidden="true" /></Link>}
   </nav>;
 }

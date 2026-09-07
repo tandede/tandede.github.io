@@ -103,7 +103,7 @@ function OpenSourceCard({ item, count }: { item: OpenSourceProject; count?: numb
     }
   };
 
-  return <article className="opensource-card" data-glow style={{ '--repo-accent': item.accent } as CSSProperties} onMouseLeave={resetFloatingPreview}>
+  return <article className="opensource-card" id={`repository-${item.slug}`} data-glow style={{ '--repo-accent': item.accent } as CSSProperties} onMouseLeave={resetFloatingPreview}>
     <div className="opensource-face opensource-front">
       <div className="opensource-card-top">
         <div className="opensource-identity">
@@ -181,6 +181,14 @@ export default function OpenSourceGrid({ items }: { items: OpenSourceProject[] }
     const difference = (stars[right.item.href] ?? -1) - (stars[left.item.href] ?? -1);
     return difference || left.originalIndex - right.originalIndex;
   }), [items, stars]);
+
+  useEffect(() => {
+    if (!stars || !window.location.hash.startsWith('#repository-')) return;
+    const target = document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
+    if (!target) return;
+    const frame = window.requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }));
+    return () => window.cancelAnimationFrame(frame);
+  }, [orderedItems, stars]);
 
   return <div className="opensource-grid" data-reveal data-motion>{orderedItems.map(({ item }) => <OpenSourceCard item={item} count={stars?.[item.href]} key={item.name} />)}</div>;
 }

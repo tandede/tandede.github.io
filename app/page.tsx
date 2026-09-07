@@ -181,7 +181,7 @@ export default function Home() {
 
       <section className="projects-section" id="projects"><div className="section-shell"><details className="section-fold" open>
         <SectionHeading index="04" label="代表项目" english="PROJECTS" />
-        <div className="section-fold-content"><div className="project-grid" data-reveal data-motion>{featuredProjects.map((project) => <a className="project-card" data-glow href={`/projects/${project.slug}/`} target="_blank" rel="noopener noreferrer" key={project.title} style={{ '--project-accent': project.accent } as CSSProperties}>
+        <div className="section-fold-content"><div className="project-grid" data-reveal data-motion>{featuredProjects.map((project) => <a className="project-card" id={`project-${project.slug}`} data-glow href={`/projects/${project.slug}/`} target="_blank" rel="noopener noreferrer" key={project.title} style={{ '--project-accent': project.accent } as CSSProperties}>
           <div className="project-card-main"><div className="project-card-index"><span>{project.index}</span><small>{project.subtitle}</small></div><h3>{project.cardTitle ?? project.title}</h3><p>{project.intro}</p></div>
           <div className="project-card-method"><small>CORE APPROACH</small><p>{project.approach}</p><strong>{project.highlight}</strong></div>
           <div className="project-card-results"><small>KEY RESULTS</small><div>{project.metrics.map(([label, value]) => <span key={label}><i>{label}</i><b>{value}</b></span>)}</div><span className="project-card-link">查看项目详情 <PiArrowRightBold aria-hidden="true" /></span></div>
@@ -216,7 +216,7 @@ export default function Home() {
             <div className="opensource-subsection-content"><OpenSourceMemberships /></div>
           </details>
           <details className="opensource-subsection" open>
-            <summary className="opensource-category-heading opensource-pr-heading"><div className="opensource-category-title"><span>02</span><div><small>PULL REQUEST CONTRIBUTIONS</small><h3>代码贡献</h3></div></div><span className="opensource-category-toggle"><span className="opensource-toggle-open">收起</span><span className="opensource-toggle-closed">展开</span><PiCaretDownBold aria-hidden="true" /></span></summary>
+            <summary className="opensource-category-heading opensource-pr-heading"><div className="opensource-category-title"><span>02</span><div><small>REPOSITORY CONTRIBUTIONS</small><h3>仓库贡献</h3></div></div><span className="opensource-category-toggle"><span className="opensource-toggle-open">收起</span><span className="opensource-toggle-closed">展开</span><PiCaretDownBold aria-hidden="true" /></span></summary>
             <div className="opensource-subsection-content"><OpenSourceGrid items={openSourceProjects} /></div>
           </details>
         </div>
