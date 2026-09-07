@@ -22,24 +22,20 @@ const storyTabs = [
 
 type StoryTabKey = (typeof storyTabs)[number]['key'];
 
-function OpenSourceStory({ slug, summary }: { slug: string; summary: OpenSourceCardSummary }) {
-  const [activeTab, setActiveTab] = useState<StoryTabKey>('problem');
-  const [lockedTab, setLockedTab] = useState<StoryTabKey | null>(null);
-
+function OpenSourceStory({ slug, summary, activeTab, lockedTab, setActiveTab, setLockedTab }: {
+  slug: string;
+  summary: OpenSourceCardSummary;
+  activeTab: StoryTabKey;
+  lockedTab: StoryTabKey | null;
+  setActiveTab: (key: StoryTabKey) => void;
+  setLockedTab: (key: StoryTabKey | null | ((current: StoryTabKey | null) => StoryTabKey | null)) => void;
+}) {
   const selectTab = (key: StoryTabKey) => {
     setActiveTab(key);
     setLockedTab((current) => current === key ? null : key);
   };
 
-  return <div className="opensource-story-switcher" onMouseLeave={(event) => {
-    if (lockedTab) return;
-    setActiveTab('problem');
-
-    const focusedElement = document.activeElement;
-    if (focusedElement instanceof HTMLElement && event.currentTarget.contains(focusedElement)) {
-      focusedElement.blur();
-    }
-  }}>
+  return <div className="opensource-story-switcher">
     <div className="opensource-story-tabs" role="tablist" aria-label="贡献摘要切换">
       {storyTabs.map((tab, index) => <button
         id={`${slug}-${tab.key}-tab`}
@@ -85,6 +81,8 @@ function OpenSourceStory({ slug, summary }: { slug: string; summary: OpenSourceC
 }
 
 function OpenSourceCard({ item, count }: { item: OpenSourceProject; count?: number }) {
+  const [activeTab, setActiveTab] = useState<StoryTabKey>('problem');
+  const [lockedTab, setLockedTab] = useState<StoryTabKey | null>(null);
   const starsLabel = typeof count === 'number' ? `${formatStars(count)} Stars` : 'Stars';
   const releaseCardFocus = (event: MouseEvent<HTMLAnchorElement>) => {
     event.currentTarget.blur();
@@ -95,7 +93,17 @@ function OpenSourceCard({ item, count }: { item: OpenSourceProject; count?: numb
     solution: item.solution,
   };
 
-  return <article className="opensource-card" data-glow style={{ '--repo-accent': item.accent } as CSSProperties}>
+  const resetFloatingPreview = (event: MouseEvent<HTMLElement>) => {
+    if (lockedTab) return;
+    setActiveTab('problem');
+
+    const focusedElement = document.activeElement;
+    if (focusedElement instanceof HTMLElement && event.currentTarget.contains(focusedElement)) {
+      focusedElement.blur();
+    }
+  };
+
+  return <article className="opensource-card" data-glow style={{ '--repo-accent': item.accent } as CSSProperties} onMouseLeave={resetFloatingPreview}>
     <div className="opensource-face opensource-front">
       <div className="opensource-card-top">
         <div className="opensource-identity">
@@ -113,7 +121,7 @@ function OpenSourceCard({ item, count }: { item: OpenSourceProject; count?: numb
     </div>
     <div className="opensource-face opensource-back">
       <div className="opensource-back-head"><strong>{item.name}</strong><span>{item.role}</span></div>
-      <OpenSourceStory slug={item.slug} summary={summary} />
+      <OpenSourceStory slug={item.slug} summary={summary} activeTab={activeTab} lockedTab={lockedTab} setActiveTab={setActiveTab} setLockedTab={setLockedTab} />
       <a className="opensource-card-link" href={`/open-source/${item.slug}/`} target="_blank" rel="noopener noreferrer" onClick={releaseCardFocus}><span>查看完整贡献</span><PiArrowRightBold aria-hidden="true" /></a>
     </div>
   </article>;
