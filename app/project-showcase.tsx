@@ -311,7 +311,7 @@ function NL2RepoShowcase({ project }: { project: FeaturedProject }) {
     </section>
 
     <section className="nl2repo-scope" data-motion>
-      <div><PiTreeStructure aria-hidden="true" /><small>MY SCOPE · CONTRIBUTOR</small><h3>参与把“完整仓库生成”变成可以严格复现的研究问题</h3></div>
+      <div><PiTreeStructure aria-hidden="true" /><small>MY SCOPE</small><h3>参与把“完整仓库生成”变成可以严格复现的研究问题</h3></div>
       <p>{project.contribution}</p>
     </section>
   </section>;
@@ -366,7 +366,7 @@ function SelfDevelopingShowcase({ project }: { project: FeaturedProject }) {
     </section>
 
     <section className="self-scope" data-motion>
-      <div><PiBrain aria-hidden="true" /><small>MY SCOPE · S³GYM CONTRIBUTOR</small><h3>我的参与聚焦在“经验怎样真正变成能力”。</h3></div>
+      <div><PiBrain aria-hidden="true" /><small>MY SCOPE</small><h3>我的参与聚焦在“经验怎样真正变成能力”。</h3></div>
       <p>{project.contribution}</p>
     </section>
   </section>;
