@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { PiFileText, PiGlobeHemisphereWest } from 'react-icons/pi';
+import { PiFileText, PiGithubLogo, PiGlobeHemisphereWest } from 'react-icons/pi';
 import DetailPage from '../../detail-page';
 import { featuredProjects } from '../../project-data';
 import ProjectShowcase, { ProjectHeroAside } from '../../project-showcase';
@@ -44,13 +44,15 @@ export default async function ProjectDetail({ params }: PageProps) {
     accent={project.accent}
     highlight={project.highlight}
     externalHref={project.href}
-    externalLabel="查看项目主页"
-    externalIcon={<PiGlobeHemisphereWest aria-hidden="true" />}
+    externalLabel={project.slug === 'nl2repo-bench' ? '查看 GitHub 项目' : '查看项目主页'}
+    externalIcon={project.slug === 'nl2repo-bench' ? <PiGithubLogo aria-hidden="true" /> : <PiGlobeHemisphereWest aria-hidden="true" />}
     secondaryExternal={project.slug === 'tiny-r1-safety-8b'
       ? { href: project.paperHref, label: '查看论文', icon: <PiFileText aria-hidden="true" /> }
       : project.slug === 'self-developing-agents'
         ? { href: project.paperHref, label: '查看 S³Gym', icon: <PiFileText aria-hidden="true" /> }
-        : undefined}
+        : project.slug === 'nl2repo-bench'
+          ? { href: project.paperHref, label: '查看论文', icon: <PiFileText aria-hidden="true" /> }
+          : undefined}
     backHref="/#projects"
     backLabel="返回代表项目"
     contentHref="#project-showcase"

@@ -72,6 +72,28 @@ const selfDevelopingStages = [
   },
 ] as const;
 
+const nl2repoStages = [
+  { index: '01', label: 'SPECIFICATION', title: '单一需求文档', copy: '只提供项目目标、目录约束与 API 行为，不提供源代码、函数签名脚手架或测试。', icon: PiFileText },
+  { index: '02', label: 'WORKSPACE', title: '空工作区起步', copy: 'Agent 自主决定架构、包结构、依赖和实现顺序，从零建立可以安装的 Python 项目。', icon: PiTerminalWindow },
+  { index: '03', label: 'DELIVERABLE', title: '完整仓库交付', copy: '评价对象不是一段代码，而是跨模块一致、依赖闭合且能够实际运行的软件仓库。', icon: PiStack },
+  { index: '04', label: 'VERIFICATION', title: '上游测试判定', copy: '生成仓库进入隔离环境，由真实项目原有 pytest 套件执行，避免主观模型评分。', icon: PiCheckCircle },
+] as const;
+
+const nl2repoModelRows = [
+  ['Claude 4.5 · Claude Code', 40.2],
+  ['Claude 4.5 · OpenHands', 39.9],
+  ['Claude 4.5 · Cursor', 39.2],
+  ['Gemini 3 Pro · Cursor', 34.2],
+  ['GPT-5 · OpenHands', 21.7],
+] as const;
+
+const nl2repoFailures = [
+  ['EARLY STOP', '过早终止', '尚未完成全部模块与验证，Agent 已把局部可运行误判为项目完成。'],
+  ['GLOBAL COHERENCE', '全局一致性丢失', '后续实现忘记早期架构决定，模块边界、数据结构与公共接口逐渐分叉。'],
+  ['CROSS-FILE LINKS', '跨文件依赖脆弱', '单个文件看似合理，但导入、调用约定和状态传递无法在整个仓库闭合。'],
+  ['LONG-HORIZON PLAN', '长程计划失效', '数百轮操作中缺少持续检查与重规划，错误积累到最终测试阶段才集中暴露。'],
+] as const;
+
 export function ProjectHeroAside({ slug }: { slug: FeaturedProject['slug'] }) {
   if (slug === 'tiny-r1-32b') return <aside className="project-hero-visual tiny-hero-visual" aria-label="TinyR1 模式切换示意" data-motion data-glow>
     <div className="tiny-orbit"><span>32B</span><i /><i /><i /></div>
@@ -82,6 +104,17 @@ export function ProjectHeroAside({ slug }: { slug: FeaturedProject['slug'] }) {
     <div className="safety-hero-core"><PiShieldCheck aria-hidden="true" /><span>8B</span><i /><i /><i /></div>
     <div className="safety-hero-modes"><span>POSITIVE</span><span>REJECTIVE</span><span>POLICY</span></div>
     <strong>安全不只是拒绝<br />而是可控的帮助</strong>
+  </aside>;
+  if (slug === 'nl2repo-bench') return <aside className="project-hero-visual nl2repo-hero-visual" aria-label="NL2Repo-Bench 从需求到完整仓库的评测流程" data-motion data-glow>
+    <div className="nl2repo-hero-head"><span>NL → REPOSITORY</span><b>104 TASKS</b></div>
+    <div className="nl2repo-hero-route">
+      <span><PiFileText aria-hidden="true" /><small>SPEC</small></span><i />
+      <span><PiTerminalWindow aria-hidden="true" /><small>EMPTY</small></span><i />
+      <span><PiStack aria-hidden="true" /><small>REPO</small></span><i />
+      <span><PiCheckCircle aria-hidden="true" /><small>PYTEST</small></span>
+    </div>
+    <strong>一份需求，<br />重建一个完整仓库。</strong>
+    <div className="nl2repo-hero-stats"><span><b>18.8K</b>AVG TOKENS</span><span><b>40.2%</b>BEST PASS</span></div>
   </aside>;
   if (slug === 'self-developing-agents') return <aside className="project-hero-visual self-hero-visual" aria-label="闭环递归自我改进示意" data-motion data-glow>
     <div className="self-hero-loop">
@@ -241,6 +274,49 @@ function HarnessShowcase({ project }: { project: FeaturedProject }) {
   </section>;
 }
 
+function NL2RepoShowcase({ project }: { project: FeaturedProject }) {
+  return <section className="project-showcase nl2repo-showcase" id="project-showcase">
+    <header className="nl2repo-opening" data-motion>
+      <span>FROM INTENT TO REPOSITORY</span>
+      <h2>不是修一个函数。<br />是从空目录交付整个软件系统。</h2>
+      <p>{project.problem}</p>
+    </header>
+
+    <section className="nl2repo-protocol" data-motion>
+      <header><span>01 / EVALUATION PROTOCOL</span><h3>把长程软件工程拆成一条可执行验收链</h3><p>开发阶段只看需求，评测阶段才加载真实上游测试。结构先验和测试泄漏被移除，最终结果只由可运行的软件行为决定。</p></header>
+      <div className="nl2repo-flow">
+        {nl2repoStages.map((stage, index) => { const StageIcon = stage.icon; return <div className="nl2repo-flow-item" key={stage.label}>
+          <article><div><span>{stage.index}</span><StageIcon aria-hidden="true" /></div><small>{stage.label}</small><strong>{stage.title}</strong><p>{stage.copy}</p></article>
+          {index < nl2repoStages.length - 1 && <PiArrowRightBold aria-hidden="true" />}
+        </div>; })}
+      </div>
+    </section>
+
+    <section className="nl2repo-scoreboard" data-motion>
+      <div className="nl2repo-models">
+        <header><div><small>02 / EXECUTION RESULTS</small><h3>最强系统仍未跨过一半</h3></div><strong>40.2%</strong></header>
+        <div className="nl2repo-model-bars">{nl2repoModelRows.map(([label, score]) => <div className="nl2repo-model-row" key={label}><span>{label}</span><div><i style={{ width: `${(score / 45) * 100}%` }} /></div><b>{score}%</b></div>)}</div>
+      </div>
+      <aside className="nl2repo-difficulty">
+        <small>DIFFICULTY DEGRADATION</small>
+        <strong>仓库越复杂，完整性下降越快</strong>
+        <div><span><small>EASY · ≤1.5K LOC</small><b>51.8%</b></span><span><small>MEDIUM · 1.5–4K</small><b>44.5%</b></span><span><small>HARD · ≥4K LOC</small><b>25.1%</b></span></div>
+        <p>同一最佳系统从 Easy 到 Hard 下降 26.7 个百分点，暴露的不是局部语法问题，而是规划、依赖和跨文件一致性在长链路中的共同失效。</p>
+      </aside>
+    </section>
+
+    <section className="nl2repo-failures" data-motion>
+      <header><span>03 / FAILURE TAXONOMY</span><h3>测试失败只是结果，轨迹才说明系统为何失败。</h3></header>
+      <div>{nl2repoFailures.map(([code, title, copy]) => <article key={code}><small>{code}</small><strong>{title}</strong><p>{copy}</p></article>)}</div>
+    </section>
+
+    <section className="nl2repo-scope" data-motion>
+      <div><PiTreeStructure aria-hidden="true" /><small>MY SCOPE · CONTRIBUTOR</small><h3>参与把“完整仓库生成”变成可以严格复现的研究问题</h3></div>
+      <p>{project.contribution}</p>
+    </section>
+  </section>;
+}
+
 function SelfDevelopingShowcase({ project }: { project: FeaturedProject }) {
   const [activeStage, setActiveStage] = useState(1);
   const stage = selfDevelopingStages[activeStage];
@@ -300,5 +376,6 @@ export default function ProjectShowcase({ project }: { project: FeaturedProject 
   if (project.slug === 'tiny-r1-32b') return <TinyR1Showcase project={project} />;
   if (project.slug === 'tiny-r1-safety-8b') return <SafetyShowcase project={project} />;
   if (project.slug === 'self-developing-agents') return <SelfDevelopingShowcase project={project} />;
+  if (project.slug === 'nl2repo-bench') return <NL2RepoShowcase project={project} />;
   return <HarnessShowcase project={project} />;
 }
