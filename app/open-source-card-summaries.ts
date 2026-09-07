@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  accelerate: {
+    problem: '`accelerate env` 会调用外部 `which/where` 查询自身；以完整路径启动但目录不在 `PATH` 时，查询返回非零，环境诊断反而以 `CalledProcessError` 崩溃。',
+    reasoning: 'PATH 中找不到命令是报告需要呈现的正常状态，不应升级成整个诊断失败；跨平台路径查询也无需分别创建外部子进程。',
+    solution: '统一改用 `shutil.which()`，空结果直接显示 `Not found`；回归模拟缺失可执行文件，确认命令继续返回完整环境信息。',
+  },
   comfyui: {
     problem: '`PorterDuffImageComposite` 使用预乘 Alpha，但四种 Blend 公式没有完整实现 source-over：透明背景会让不透明前景消失，部分透明图层还会产生错误颜色或遮罩。',
     reasoning: '结果必须同时包含仅前景、重叠混合和仅背景三个区域；预乘颜色的重叠项要在同一 Alpha 域中计算，输出透明度则取两层并集。',

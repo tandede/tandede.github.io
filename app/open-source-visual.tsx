@@ -6,6 +6,29 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'cli-path-lookup') return <div className="contribution-visual visual-cli-path">
+    <div className="cli-path-input">
+      <small>EXPLICIT INVOCATION</small>
+      <code>/opt/venv/bin/accelerate env</code>
+      <div><span>PROCESS</span><strong>RUNNING</strong></div>
+      <div><span>PATH LOOKUP</span><strong>ABSENT</strong></div>
+      <p>PATH=/usr/bin:/bin</p>
+    </div>
+    <div className="cli-path-before">
+      <small>BEFORE · EXTERNAL PROCESS</small>
+      <div className="cli-path-commands"><span><b>POSIX</b><code>which accelerate</code></span><span><b>WINDOWS</b><code>where accelerate</code></span></div>
+      <div className="cli-path-failure"><span>EXIT 1</span><i>→</i><code>check_output()</code></div>
+      <strong>CalledProcessError</strong>
+      <p>environment report aborted</p>
+    </div>
+    <div className="cli-path-after">
+      <small>AFTER · OPTIONAL LOOKUP</small>
+      <code>which(&quot;accelerate&quot;)</code>
+      <div className="cli-path-routes"><span><b>FOUND</b><i>/path/to/accelerate</i></span><span><b>MISSING</b><i>None → Not found</i></span></div>
+      <div className="cli-path-report"><span>EXECUTABLE</span><strong>Not found</strong><span>ENV REPORT</span><strong>CONTINUES ✓</strong></div>
+    </div>
+  </div>;
+
   if (kind === 'porter-duff-alpha') return <div className="contribution-visual visual-porter-duff">
     <div className="porter-input-stage">
       <small>PREMULTIPLIED INPUTS</small>

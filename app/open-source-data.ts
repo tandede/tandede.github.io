@@ -23,10 +23,21 @@ export type OpenSourceProject = {
     linkLabel?: string;
     showOnCard?: boolean;
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'accelerate', name: 'Accelerate', logo: 'https://raw.githubusercontent.com/huggingface/accelerate/main/docs/source/imgs/accelerate_logo.png', accent: '#f0a202', role: 'CONTRIBUTOR', href: 'https://github.com/huggingface/accelerate', prHref: 'https://github.com/huggingface/accelerate/pull/4168',
+    function: 'Hugging Face 的分布式训练与推理工具，让同一套 PyTorch 代码在 CPU、单卡、多卡及多机环境中运行，并统一管理混合精度、FSDP、DeepSpeed 和设备配置。',
+    problem: '`accelerate env` 原本先把可执行文件位置初始化为 `Not found`，随后却无条件通过子进程调用 POSIX 的 `which` 或 Windows 的 `where`。当用户以绝对路径启动 Accelerate、但当前环境没有把该目录加入 `PATH` 时，查询程序会返回非零状态，`subprocess.check_output()` 随即抛出 `CalledProcessError`；诊断命令因此在收集环境信息途中崩溃，预设的缺失提示反而永远无法输出。',
+    reasoning: '可执行文件不在 `PATH` 中是环境报告需要呈现的一种正常状态，而不是整个诊断流程的异常。路径查询应返回“找到的路径或空值”，再由报告层决定显示内容；同时 POSIX 与 Windows 不需要分别启动外部命令，Python 标准库已经提供遵循当前平台和 `PATH` 规则的统一查询接口。',
+    solution: '移除平台分支、`subprocess` 依赖及外部命令执行，改为 `from shutil import which`，并用 `which("accelerate") or "Not found"` 一次完成查询与回退。新增回归通过 patch 让 `which` 返回 `None`，从真实参数解析器调用 `env_command()`，断言 `` `accelerate` bash location `` 精确为 `Not found`，同时保证命令继续返回其余环境信息。',
+    impact: '通过完整路径、虚拟环境脚本或其他未激活环境运行 `accelerate env` 时，缺失的 `PATH` 入口不再中断诊断；正常可发现的可执行文件仍返回实际路径，Windows 与 POSIX 也共享同一行为。改动集中在 2 个文件，共新增 13 行、删除 10 行；CLI 定向测试、内存工具测试以及 style、quality 检查全部通过。',
+    highlight: 'PATH MISS ≠ DIAGNOSTIC FAILURE',
+    takeaway: '把 PATH 缺失转换为报告值，而不是让环境诊断提前崩溃',
+    visualization: 'cli-path-lookup',
+  },
   {
     slug: 'comfyui', name: 'ComfyUI', logo: 'https://github.com/Comfy-Org.png?size=128', accent: '#2463eb', role: 'CONTRIBUTOR', href: 'https://github.com/Comfy-Org/ComfyUI', prHref: 'https://github.com/Comfy-Org/ComfyUI/pull/15721',
     function: '基于节点图工作流的生成式 AI 推理平台，把模型加载、采样、图像处理与扩展节点组织成可复用流程，同时提供图形界面、API 与后端执行能力。',
