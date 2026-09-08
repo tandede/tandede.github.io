@@ -110,7 +110,7 @@ const paperVenues = Array.from(new Set(papers.map((paper) => paper.venue.toUpper
 
 const experiences = [
   {
-    company: '小红书 · Dots（Pretrain）', role: '算法实习生', date: '2026.07 — 至今', logo: '/logos/xiaohongshu.png',
+    company: '小红书 · Dots（Pretrain）', role: 'REDstar', date: '2026.07 — 至今', logo: '/logos/xiaohongshu.png',
     focus: 'Web Pretrain Data Scaling',
     summary: '面向大语言模型 Pretrain，建设网页语料从多源接入、标准化清洗、去重、质量建模、分层采样到训练反馈回流的一体化 Data Scaling Pipeline。',
     goal: '目标：推动可训练 Token 规模达到 40T',
