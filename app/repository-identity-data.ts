@@ -22,6 +22,9 @@ export type RepositoryVisual = {
 };
 
 export const repositoryVisuals: Record<string, RepositoryVisual> = {
+  datasets: {
+    tags: ['Machine Learning Datasets', 'Apache Arrow · Streaming', 'Python · fsspec'],
+  },
   gymnasium: {
     tags: ['Reinforcement Learning', 'Environment Registry · Wrappers', 'Python · Vector Environments'],
   },

@@ -6,6 +6,31 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'multi-hop-storage-options') return <div className="contribution-visual visual-multi-hop-options">
+    <div className="multi-hop-input-stage">
+      <small>CHAINED URL · TWO HOPS</small>
+      <code>zip://data.jsonl</code>
+      <span>＂::＂</span>
+      <code>https://domain.org/archive.zip</code>
+      <div><b>ZIP</b><i>mode = r</i></div>
+      <div><b>HTTPS</b><i>block_size = omit</i></div>
+    </div>
+    <div className="multi-hop-before-stage">
+      <small>BEFORE · LOOP-LOCAL RETURN</small>
+      <code>return urlpath, storage_options</code>
+      <div><span>ZIP</span><strong>DROPPED</strong></div>
+      <div><span>HTTPS</span><strong>KEPT</strong></div>
+      <p>完整路径 · 不完整配置</p>
+    </div>
+    <div className="multi-hop-after-stage">
+      <small>AFTER · ACCUMULATED RETURN</small>
+      <code>return urlpath, prepared_storage_options</code>
+      <div className="multi-hop-option-map"><span><b>zip</b><i>mode: r</i></span><span><b>https</b><i>block_size: omit</i><i>trust_env: true</i></span></div>
+      <strong>2 HOPS · 2 CONFIGS ✓</strong>
+      <p>路径链与配置链重新对齐</p>
+    </div>
+  </div>;
+
   if (kind === 'cli-path-lookup') return <div className="contribution-visual visual-cli-path">
     <div className="cli-path-input">
       <small>EXPLICIT INVOCATION</small>

@@ -23,10 +23,21 @@ export type OpenSourceProject = {
     linkLabel?: string;
     showOnCard?: boolean;
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'datasets', name: 'Datasets', logo: '/logos/huggingface.png', accent: '#d69300', role: 'CONTRIBUTOR', href: 'https://github.com/huggingface/datasets', prHref: 'https://github.com/huggingface/datasets/pull/8496',
+    function: 'Hugging Face 的数据集加载、处理与共享基础库，统一访问本地文件、Hub 数据和远程对象存储，并通过 Apache Arrow、流式读取与 fsspec 协议链支撑文本、图像、音频等机器学习数据工作流。',
+    problem: '`_prepare_path_and_storage_options()` 会拆解 `zip://data.jsonl::https://…` 这样的多跳 fsspec URL，并逐跳累积协议配置；旧实现最终却返回循环内的 `storage_options`，它只代表最后处理的一跳。于是 zip 的读取模式、前序对象存储凭据或其他协议参数会被静默丢失，路径仍然完整，配置却已经与路径链脱节。',
+    reasoning: '多跳 URL 的返回值包含两条平行信息：拼接后的每一段路径，以及按协议归属的全部 storage options。循环局部变量适合描述当前 hop，不能代表整个 URL；既然实现已经把每次结果写入 `prepared_storage_options`，出口就必须返回这份累计映射。单跳场景两者看起来相同，也正是问题长期不易暴露的原因。',
+    solution: '将函数出口从 `return …, storage_options` 改为 `return …, prepared_storage_options`，让每一跳生成的配置都保留在最终映射中。新增回归使用 `zip://data.jsonl::https://domain.org/archive.zip`，同时设置 zip 的 `mode=r` 与 https 的 `block_size=omit`，并断言结果既含两组调用方参数，也保留 https 准备阶段补入的 `trust_env=True`。',
+    impact: '链式压缩包、远程文件和对象存储现在会把所有协议层的参数一起交给 fsspec，不再出现“URL 经过两跳、配置只剩一跳”的隐蔽差异；单跳行为与公开接口保持不变。改动集中在 2 个文件，核心修复 1 行、回归测试新增 14 行；文件工具测试 138 项通过、3 项跳过，9 项定向用例同步通过。',
+    highlight: 'ALL HOPS · ALL OPTIONS',
+    takeaway: '返回累计配置映射，让路径链上的每个协议都保留自己的参数',
+    visualization: 'multi-hop-storage-options',
+  },
   {
     slug: 'accelerate', name: 'Accelerate', logo: 'https://raw.githubusercontent.com/huggingface/accelerate/main/docs/source/imgs/accelerate_logo.png', accent: '#f0a202', role: 'CONTRIBUTOR', href: 'https://github.com/huggingface/accelerate', prHref: 'https://github.com/huggingface/accelerate/pull/4168',
     function: 'Hugging Face 的分布式训练与推理工具，让同一套 PyTorch 代码在 CPU、单卡、多卡及多机环境中运行，并统一管理混合精度、FSDP、DeepSpeed 和设备配置。',

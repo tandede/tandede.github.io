@@ -923,6 +923,30 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .case-matrix-codegen .case-visual { grid-column: 5 / -1; grid-row: 1; }
 .case-matrix-codegen .case-story { grid-column: 1 / -1; grid-row: 2; }
 
+.visual-multi-hop-options { grid-template-columns: minmax(0, .95fr) minmax(0, .85fr) minmax(0, 1.2fr); gap: 18px; }
+.multi-hop-input-stage, .multi-hop-before-stage, .multi-hop-after-stage { display: grid; min-width: 0; min-height: 340px; padding: 25px; align-content: center; gap: 15px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
+.multi-hop-input-stage > small, .multi-hop-before-stage > small, .multi-hop-after-stage > small { font-size: 12px; }
+.multi-hop-input-stage > code, .multi-hop-before-stage > code, .multi-hop-after-stage > code { min-width: 0; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--white); font-size: 12px; overflow-wrap: anywhere; }
+.multi-hop-input-stage > span { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 16px; font-weight: 800; text-align: center; }
+.multi-hop-input-stage > div { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; padding: 11px 12px; align-items: center; border: 1px solid var(--line); border-radius: 9px; background: var(--white); }
+.multi-hop-input-stage > div b, .multi-hop-input-stage > div i { font-family: var(--font-geist-mono), monospace; font-size: 12px; }
+.multi-hop-input-stage > div b { color: var(--detail-accent); }
+.multi-hop-input-stage > div i { color: var(--muted); font-style: normal; text-align: right; }
+.multi-hop-before-stage { border-color: #efb4b1; background: #fff8f7; }
+.multi-hop-before-stage > code { color: #b42318; border-color: #efb4b1; }
+.multi-hop-before-stage > div { display: flex; justify-content: space-between; gap: 12px; padding: 12px 13px; border: 1px solid #efb4b1; border-radius: 9px; background: var(--white); font-family: var(--font-geist-mono), monospace; font-size: 12px; }
+.multi-hop-before-stage > div:first-of-type strong { color: #b42318; }
+.multi-hop-before-stage > div:last-of-type strong { color: #067647; }
+.multi-hop-before-stage > p, .multi-hop-after-stage > p { margin: 0; color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 12px; }
+.multi-hop-after-stage { border-color: color-mix(in srgb, var(--detail-accent) 46%, var(--line)); background: color-mix(in srgb, var(--detail-accent) 5%, white); }
+.multi-hop-after-stage > code { color: var(--detail-accent); border-color: color-mix(in srgb, var(--detail-accent) 34%, var(--line)); }
+.multi-hop-option-map { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.multi-hop-option-map span { display: grid; min-width: 0; gap: 7px; padding: 13px; border: 1px solid color-mix(in srgb, var(--detail-accent) 32%, var(--line)); border-radius: 10px; background: var(--white); }
+.multi-hop-option-map b, .multi-hop-option-map i { font-family: var(--font-geist-mono), monospace; font-size: 12px; }
+.multi-hop-option-map b { color: var(--detail-accent); }
+.multi-hop-option-map i { color: var(--muted); font-style: normal; overflow-wrap: anywhere; }
+.multi-hop-after-stage > strong { color: #067647; font-family: var(--font-geist-mono), monospace; font-size: 19px; }
+
 .visual-cli-path { grid-template-columns: minmax(0, .86fr) minmax(0, .96fr) minmax(0, 1.18fr); gap: 18px; }
 .cli-path-input, .cli-path-before, .cli-path-after { display: grid; min-width: 0; min-height: 340px; padding: 25px; align-content: center; gap: 17px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
 .cli-path-input > small, .cli-path-before > small, .cli-path-after > small { font-size: 12px; }
@@ -2191,7 +2215,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .repository-showcase figcaption { align-items: center; }
   .contribution-showcase > header { grid-template-columns: 150px 1fr; }
   .contribution-showcase > header p { grid-column: 2; }
-  .visual-cli-path, .visual-porter-duff, .visual-wrapper-entry, .visual-compile-config, .visual-trimmed-mean-boundary, .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
+  .visual-multi-hop-options, .visual-cli-path, .visual-porter-duff, .visual-wrapper-entry, .visual-compile-config, .visual-trimmed-mean-boundary, .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
   .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow, .visual-shared-state > .visual-arrow { transform: rotate(90deg); }
   .visual-numeric { grid-template-columns: 1fr; }
   .reshape-routes > div { grid-template-columns: 1fr; gap: 8px; }

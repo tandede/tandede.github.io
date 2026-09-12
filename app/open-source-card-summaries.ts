@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  datasets: {
+    problem: '多跳 fsspec URL 会逐段准备协议参数，旧函数却只返回最后一跳的局部配置；`zip::https` 路径仍然完整，zip 读取模式、凭据等前序参数却被静默丢弃。',
+    reasoning: '路径链与配置链是同一解析结果的两部分。当前 hop 的局部变量无法代表完整 URL，出口必须返回循环中已经累计好的按协议映射。',
+    solution: '改为返回 `prepared_storage_options`，并以 zip 与 https 双跳回归同时锁定两组调用方参数及自动补入的网络配置。',
+  },
   accelerate: {
     problem: '`accelerate env` 会调用外部 `which/where` 查询自身；以完整路径启动但目录不在 `PATH` 时，查询返回非零，环境诊断反而以 `CalledProcessError` 崩溃。',
     reasoning: 'PATH 中找不到命令是报告需要呈现的正常状态，不应升级成整个诊断失败；跨平台路径查询也无需分别创建外部子进程。',
