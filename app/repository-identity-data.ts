@@ -241,6 +241,11 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
     tags: ['Rust', 'Multi-backend', 'Train · Infer · Deploy'],
   },
   lerobot: {
+    banner: {
+      image: 'https://raw.githubusercontent.com/huggingface/lerobot/main/media/readme/lerobot-logo-thumbnail.png',
+      alt: 'LeRobot 官方橙色横幅与机器人标识',
+      mode: 'contain',
+    },
     tags: ['Robotics', 'Datasets · Policies', 'Hardware Ecosystem'],
   },
 };
