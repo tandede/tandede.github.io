@@ -23,10 +23,21 @@ export type OpenSourceProject = {
     linkLabel?: string;
     showOnCard?: boolean;
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'pettingzoo', name: 'PettingZoo', logo: 'https://raw.githubusercontent.com/Farama-Foundation/PettingZoo/master/docs/_static/img/PettingZoo.svg', accent: '#198b9f', role: 'CONTRIBUTOR', href: 'https://github.com/Farama-Foundation/PettingZoo', prHref: 'https://github.com/Farama-Foundation/PettingZoo/pull/1424',
+    function: 'Farama Foundation 的多智能体强化学习环境库，提供 AEC 与 Parallel API，并收录棋类、Atari 等多种可供训练与评测的环境。Tic-Tac-Toe 是其中一个按智能体轮流行动的 Classic 环境。',
+    problem: 'Tic-Tac-Toe 的 `raw_env` 继承 `EzPickle`，复制或 pickle 往返时只按构造参数重建新环境，不保存进行中的棋盘、当前行动者、奖励、终止标记与合法动作掩码。复制对象看似成功，却已经退回初始状态，不能从原局面继续行动。',
+    reasoning: '复制环境需要保存 AEC 运行状态，而不是重新调用构造器；但 pygame 的 `screen` 和 `clock` 属于当前进程的渲染资源，不能直接随状态序列化。应保留棋局与智能体字段，单独排除渲染对象，并在复制对象再次渲染时按需重建。',
+    solution: '移除 `EzPickle`，用 `__getstate__()` 复制环境字典、去掉 `clock` 并将 `screen` 置空；`__setstate__()` 恢复运行字段，并为 human 模式重建时钟。把显示资源初始化抽为 `_initialize_rendering()`，由 `reset()` 与 `render()` 共用，使复制后无需重置棋局也能重新渲染。',
+    impact: '`deepcopy` 与 pickle 往返现在都保留中局棋盘、当前行动者、奖励、终止状态、观测和动作掩码；复制对象的 RGB 渲染与原环境一致，继续落子也不会修改原对象。终局测试额外锁定胜负奖励与双方终止标记，避免只修复进行中的局面。',
+    highlight: 'COPY GAME STATE · RECREATE RENDERER',
+    takeaway: '保存完整对弈状态，排除进程内渲染资源并在需要时重建',
+    visualization: 'tictactoe-state-copy',
+  },
   {
     slug: 'datasets', name: 'Datasets', logo: '/logos/huggingface.png', accent: '#d69300', role: 'CONTRIBUTOR', href: 'https://github.com/huggingface/datasets', prHref: 'https://github.com/huggingface/datasets/pull/8496',
     function: 'Hugging Face 的数据集加载、处理与共享基础库，统一访问本地文件、Hub 数据和远程对象存储，并通过 Apache Arrow、流式读取与 fsspec 协议链支撑文本、图像、音频等机器学习数据工作流。',

@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  pettingzoo: {
+    problem: 'Tic-Tac-Toe 原先依赖 `EzPickle` 按构造参数重建环境；复制进行中的对局会丢掉棋盘、轮到谁行动、奖励和合法动作，无法接着原局面落子。',
+    reasoning: '对弈状态必须随复制保留，但 pygame 的屏幕和时钟是进程内资源，不应直接进入序列化结果；复制对象再次渲染时才需要重新创建它们。',
+    solution: '用 `__getstate__` / `__setstate__` 保存运行字段、排除渲染资源，并在 `render()` 懒初始化。deepcopy 与 pickle 回归覆盖中局、终局、观测及复制后独立落子。',
+  },
   datasets: {
     problem: '多跳 fsspec URL 会逐段准备协议参数，旧函数却只返回最后一跳的局部配置；`zip::https` 路径仍然完整，zip 读取模式、凭据等前序参数却被静默丢弃。',
     reasoning: '路径链与配置链是同一解析结果的两部分。当前 hop 的局部变量无法代表完整 URL，出口必须返回循环中已经累计好的按协议映射。',

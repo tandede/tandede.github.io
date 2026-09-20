@@ -6,6 +6,27 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'tictactoe-state-copy') return <div className="contribution-visual visual-tictactoe-copy">
+    <div className="tictactoe-stage tictactoe-source">
+      <small>LIVE ENV · AFTER TWO MOVES</small>
+      <div className="tictactoe-board" aria-label="进行中的棋盘：左上角 X、中央 O"><span>X</span><span></span><span></span><span></span><span>O</span><span></span><span></span><span></span><span></span></div>
+      <div className="tictactoe-state"><span>agent_selection</span><strong>player_1</strong><span>legal moves</span><strong>7 cells</strong></div>
+      <p>棋盘、回合、奖励与终止状态都属于运行中的对局</p>
+    </div>
+    <div className="tictactoe-stage tictactoe-before">
+      <small>BEFORE · EZPICKLE</small>
+      <code>deepcopy(env) → raw_env(render_mode, size)</code>
+      <div className="tictactoe-lost"><span>BOARD</span><strong>RESET</strong><span>TURN</span><strong>RESET</strong><span>REWARDS</span><strong>RESET</strong></div>
+      <p>只重放构造参数，无法接着当前局面行动</p>
+    </div>
+    <div className="tictactoe-stage tictactoe-after">
+      <small>AFTER · STATEFUL COPY</small>
+      <code>__getstate__ → __setstate__</code>
+      <div className="tictactoe-kept"><span>GAME STATE</span><strong>PRESERVED ✓</strong><span>SCREEN · CLOCK</span><strong>RECREATED</strong><span>RENDER</span><strong>LAZY INIT</strong></div>
+      <p>deepcopy 与 pickle：同一局面，两个独立环境</p>
+    </div>
+  </div>;
+
   if (kind === 'multi-hop-storage-options') return <div className="contribution-visual visual-multi-hop-options">
     <div className="multi-hop-input-stage">
       <small>CHAINED URL · TWO HOPS</small>

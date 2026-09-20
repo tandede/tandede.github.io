@@ -923,6 +923,24 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .case-matrix-codegen .case-visual { grid-column: 5 / -1; grid-row: 1; }
 .case-matrix-codegen .case-story { grid-column: 1 / -1; grid-row: 2; }
 
+.visual-tictactoe-copy { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.tictactoe-stage { display: grid; min-width: 0; min-height: 360px; padding: 24px; align-content: center; gap: 17px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
+.tictactoe-stage > small { font-size: 12px; }
+.tictactoe-stage > p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.tictactoe-stage > code { min-width: 0; padding: 13px; border: 1px solid var(--line); border-radius: 10px; background: var(--white); font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
+.tictactoe-board { display: grid; grid-template-columns: repeat(3, 46px); grid-template-rows: repeat(3, 46px); gap: 5px; justify-content: center; }
+.tictactoe-board > span { display: grid; place-items: center; color: var(--detail-accent); border: 1px solid color-mix(in srgb, var(--detail-accent) 35%, var(--line)); border-radius: 7px; background: var(--white); font-size: 24px; font-weight: 850; }
+.tictactoe-board > span:nth-child(5) { color: #a15c2b; }
+.tictactoe-state, .tictactoe-lost, .tictactoe-kept { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px 12px; padding: 15px; align-items: center; border: 1px solid var(--line); border-radius: 10px; background: var(--white); }
+.tictactoe-state span, .tictactoe-lost span, .tictactoe-kept span { color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 12px; }
+.tictactoe-state strong, .tictactoe-lost strong, .tictactoe-kept strong { font-family: var(--font-geist-mono), monospace; font-size: 12px; text-align: right; white-space: nowrap; }
+.tictactoe-before { border-color: #efb4b1; background: #fff8f7; }
+.tictactoe-before > code, .tictactoe-lost { border-color: #efb4b1; }
+.tictactoe-lost strong { color: #b42318; }
+.tictactoe-after { border-color: color-mix(in srgb, var(--detail-accent) 46%, var(--line)); background: color-mix(in srgb, var(--detail-accent) 5%, white); }
+.tictactoe-after > code, .tictactoe-kept { border-color: color-mix(in srgb, var(--detail-accent) 34%, var(--line)); }
+.tictactoe-kept strong { color: #067647; }
+
 .visual-multi-hop-options { grid-template-columns: minmax(0, .95fr) minmax(0, .85fr) minmax(0, 1.2fr); gap: 18px; }
 .multi-hop-input-stage, .multi-hop-before-stage, .multi-hop-after-stage { display: grid; min-width: 0; min-height: 340px; padding: 25px; align-content: center; gap: 15px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
 .multi-hop-input-stage > small, .multi-hop-before-stage > small, .multi-hop-after-stage > small { font-size: 12px; }
@@ -2215,7 +2233,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .repository-showcase figcaption { align-items: center; }
   .contribution-showcase > header { grid-template-columns: 150px 1fr; }
   .contribution-showcase > header p { grid-column: 2; }
-  .visual-multi-hop-options, .visual-cli-path, .visual-porter-duff, .visual-wrapper-entry, .visual-compile-config, .visual-trimmed-mean-boundary, .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
+  .visual-tictactoe-copy, .visual-multi-hop-options, .visual-cli-path, .visual-porter-duff, .visual-wrapper-entry, .visual-compile-config, .visual-trimmed-mean-boundary, .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
   .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow, .visual-shared-state > .visual-arrow { transform: rotate(90deg); }
   .visual-numeric { grid-template-columns: 1fr; }
   .reshape-routes > div { grid-template-columns: 1fr; gap: 8px; }

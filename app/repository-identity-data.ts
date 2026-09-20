@@ -22,6 +22,14 @@ export type RepositoryVisual = {
 };
 
 export const repositoryVisuals: Record<string, RepositoryVisual> = {
+  pettingzoo: {
+    banner: {
+      image: 'https://raw.githubusercontent.com/Farama-Foundation/PettingZoo/master/pettingzoo-text.png',
+      alt: 'PettingZoo 官方项目标识',
+      mode: 'contain',
+    },
+    tags: ['Multi-Agent Reinforcement Learning', 'AEC · Parallel API', 'Python · Classic Games'],
+  },
   datasets: {
     tags: ['Machine Learning Datasets', 'Apache Arrow · Streaming', 'Python · fsspec'],
   },
