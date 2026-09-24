@@ -99,7 +99,7 @@ export default function OpenSourceMemberships() {
     <section className="membership-panel membership-panel-pku" data-reveal data-motion>
       <header className="membership-identity">
         <div className="membership-organization"><img src="https://github.com/PKU-LLM-DS-LAB.png?size=160" alt="" /><div><small>ORGANIZATION MEMBERSHIP</small><h3>PKU-LLM&amp;DS-LAB</h3><p>Research Lab Member</p></div></div>
-        <div className="membership-summary"><strong>{pkuRepositoryCount}</strong><div><span>PUBLIC REPOSITORIES</span><p>北京大学 LLM&amp;DS Lab 由杨桐教授领导，研究方向覆盖大语言模型、数据结构与网络。团队从低比特量化、MoE 负载预测延伸到 Agent 运行时、安全评测与具身智能系统，连接算法研究、系统实现和可复现实验。</p></div></div>
+        <div className="membership-summary"><strong>{pkuRepositoryCount}</strong><div><span>PUBLIC REPOSITORIES</span><p>北京大学 LLM&amp;DS Lab 由杨仝教授领导，研究方向覆盖大语言模型、数据结构与网络。团队从低比特量化、MoE 负载预测延伸到 Agent 运行时、安全评测与具身智能系统，连接算法研究、系统实现和可复现实验。</p></div></div>
         <a href="https://github.com/PKU-LLM-DS-LAB" target="_blank" rel="noopener noreferrer">查看 GitHub 组织 <PiArrowUpRightBold aria-hidden="true" /></a>
       </header>
       <div className="membership-repository-groups">
