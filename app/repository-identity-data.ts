@@ -22,6 +22,17 @@ export type RepositoryVisual = {
 };
 
 export const repositoryVisuals: Record<string, RepositoryVisual> = {
+  octomap: {
+    tags: ['Probabilistic 3D Mapping', 'Octrees · OctoVis · dynamicEDT3D', 'C++ · CMake · ROS'],
+  },
+  feast: {
+    banner: {
+      image: 'https://raw.githubusercontent.com/feast-dev/feast/master/docs/assets/feast_logo.png',
+      alt: 'Feast 官方项目标识',
+      mode: 'contain',
+    },
+    tags: ['Feature Store', 'Training · Online Inference', 'Python · SQL · Registry'],
+  },
   pettingzoo: {
     banner: {
       image: 'https://raw.githubusercontent.com/Farama-Foundation/PettingZoo/master/pettingzoo-text.png',

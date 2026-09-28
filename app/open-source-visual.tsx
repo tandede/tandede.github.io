@@ -6,6 +6,55 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'cmake-build-type-scope') return <div className="contribution-visual visual-cmake-scope">
+    <div className="cmake-scope-before">
+      <small>BEFORE · SPLIT CONFIGURATION</small>
+      <div><span>ROOT</span><code>CMAKE_BUILD_TYPE = ""</code></div>
+      <div><span>OCTOMAP SUBDIR</span><code>Release</code></div>
+      <div className="cmake-scope-artifact"><b>BUILD</b><strong>targets-release.cmake</strong><b>INSTALL</b><strong>config = empty</strong></div>
+      <p>find_package succeeds · imported location missing</p>
+    </div>
+    <div className="cmake-scope-owner">
+      <small>CONFIGURATION OWNER</small>
+      <div className="cmake-scope-gate"><span>TOP LEVEL?</span><span>SINGLE CONFIG?</span><span>UNSPECIFIED?</span></div>
+      <strong>YES × YES × YES</strong>
+      <code>set(CMAKE_BUILD_TYPE Release)</code>
+      <p>在 add_subdirectory() 之前统一完整发行包</p>
+    </div>
+    <div className="cmake-scope-after">
+      <small>AFTER · FOUR SUPPORTED MODES</small>
+      <div><span>distribution default</span><b>release</b></div>
+      <div><span>explicit Debug</span><b>debug</b></div>
+      <div><span>standalone subproject</span><b>release</b></div>
+      <div><span>host add_subdirectory</span><b>noconfig</b></div>
+      <strong>CONFIGURE · LINK · RUN ✓</strong>
+    </div>
+  </div>;
+
+  if (kind === 'registry-backend-selection') return <div className="contribution-visual visual-registry-backend">
+    <div className="registry-config-stage">
+      <small>REPO CONFIG</small>
+      <strong>registry</strong>
+      <code>sqlite:///registry.db</code>
+      <div><span>project</span><b>driver_features</b></div>
+      <div><span>command</span><b>feast registry-dump</b></div>
+    </div>
+    <div className="registry-before-stage">
+      <small>BEFORE · HARDCODED FILE REGISTRY</small>
+      <code>Registry(config, repo_path)</code>
+      <div><span>SQL URL</span><i>→</i><span>URI PARSER</span></div>
+      <strong>UNSUPPORTED SCHEME</strong>
+      <p>metadata read never starts</p>
+    </div>
+    <div className="registry-after-stage">
+      <small>AFTER · FEATURESTORE DISPATCH</small>
+      <code>FeatureStore(...).registry</code>
+      <div className="registry-backend-grid"><span>FILE</span><span>SQL</span><span>SNOWFLAKE</span><span>REMOTE</span></div>
+      <div className="registry-json-result"><span>SQLite entity</span><b>driver</b><i>→</i><strong>JSON ✓</strong></div>
+      <p>one configuration · one backend path</p>
+    </div>
+  </div>;
+
   if (kind === 'tictactoe-state-copy') return <div className="contribution-visual visual-tictactoe-copy">
     <div className="tictactoe-stage tictactoe-source">
       <small>LIVE ENV · AFTER TWO MOVES</small>

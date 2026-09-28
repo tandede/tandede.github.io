@@ -23,10 +23,32 @@ export type OpenSourceProject = {
     linkLabel?: string;
     showOnCard?: boolean;
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'octomap', name: 'OctoMap', logo: 'https://github.com/OctoMap.png?size=128', accent: '#167d9a', role: 'CONTRIBUTOR', href: 'https://github.com/OctoMap/octomap', prHref: 'https://github.com/OctoMap/octomap/pull/449',
+    function: '基于八叉树的概率三维占据地图框架，以紧凑层级结构表示自由、占据与未知空间，并同时提供核心 OctoMap 库、三维可视化工具 OctoVis 与动态距离变换库 dynamicEDT3D。',
+    problem: '完整源码树在未指定 `CMAKE_BUILD_TYPE` 时，根项目保持空值，而 `octomap` 子目录进入后才把自己的局部值改成 Release。构建阶段于是生成 Release 导出文件，根目录安装阶段却按空配置执行并漏掉 `octomap-targets-release.cmake`；下游 `find_package(octomap)` 虽能找到包，`octomap::octomap` 导入目标却没有可用的库位置。',
+    reasoning: '单配置生成器的默认构建类型是整个发行包的配置决策，必须在任何子目录创建目标之前确定；但同一源码作为 `add_subdirectory()` 嵌入宿主工程时，配置所有权属于宿主，子项目不能擅自改写。显式 Debug 与 Xcode 等多配置生成器也应保持调用方语义。',
+    solution: '在顶层 `CMakeLists.txt` 中仅当当前源码就是顶层项目、生成器为单配置且调用方未指定类型时，预先设为 Release；octomap、octovis 与 dynamicEDT3D 的独立构建默认值增加同样的顶层作用域判断。这样完整发行包与独立子项目仍保留 Release 默认值，嵌入式构建则不再修改宿主配置。',
+    impact: '顶层默认、显式 Debug、独立 octomap 以及宿主 `add_subdirectory()` 四种模式分别生成 release、debug、release 与 noconfig 导出，外部消费工程均完成配置、编译、链接和运行；Release/Debug 的 GCC、Clang 与 ROS Jazzy/Humble 工作流通过，既有接口和多配置生成器行为保持不变。',
+    highlight: 'ONE BUILD TYPE · ONE EXPORT CONFIG',
+    takeaway: '把默认构建类型放回拥有它的项目作用域，让构建与安装导出始终对齐',
+    visualization: 'cmake-build-type-scope',
+  },
+  {
+    slug: 'feast', name: 'Feast', logo: 'https://github.com/feast-dev.png?size=128', accent: '#7b46d8', role: 'CONTRIBUTOR', href: 'https://github.com/feast-dev/feast', prHref: 'https://github.com/feast-dev/feast/pull/6770',
+    function: '面向机器学习的开源特征存储，为训练、批量评分与在线推理统一管理特征定义和数据访问，并通过文件、SQL、Snowflake 与远程服务等多种 registry 后端保存特征元数据。',
+    problem: '`feast registry-dump` 没有沿用项目已经配置的 registry backend，而是直接构造文件型 `Registry`。当配置使用 `sqlite:///…` 或 `postgresql+psycopg://…` 时，SQL 连接串会被误送进对象存储 URI 解析器，在读取任何元数据之前就以 unsupported scheme 失败。',
+    reasoning: 'registry 类型的选择属于 `FeatureStore` 的配置解析职责；CLI 若自行实例化某个具体实现，就会与 Feast 其余读写路径产生两套后端分派规则。修复需要复用统一入口，同时继续把仓库路径交给文件型 registry，以保留相对路径解析。',
+    solution: '让 `registry_dump()` 由当前 `RepoConfig` 与 `repo_path` 创建 `FeatureStore`，再通过 `feature_store.registry.to_dict()` 读取元数据；移除对文件型 `Registry` 的直接依赖。新增真实 SQLite registry 回归，先通过 `SqlRegistry` 写入 `driver` 实体，再确认 dump 能返回包含该实体的 JSON。',
+    impact: 'SQL、Snowflake、远程与文件型 registry 现在都经过同一后端选择链路，调试命令不再把数据库 URL 当成对象存储路径；聚焦的 repo operation 与 registry dump 测试 41 项通过，CLI 测试 15 项通过，并完成类型检查、格式检查和手工 SQLite 复现。',
+    highlight: 'CONFIGURED BACKEND → FEATURESTORE → JSON',
+    takeaway: '复用 FeatureStore 的后端分派，让 registry-dump 读取真正配置的 registry',
+    visualization: 'registry-backend-selection',
+  },
   {
     slug: 'pettingzoo', name: 'PettingZoo', logo: 'https://raw.githubusercontent.com/Farama-Foundation/PettingZoo/master/docs/_static/img/PettingZoo.svg', accent: '#198b9f', role: 'CONTRIBUTOR', href: 'https://github.com/Farama-Foundation/PettingZoo', prHref: 'https://github.com/Farama-Foundation/PettingZoo/pull/1424',
     function: 'Farama Foundation 的多智能体强化学习环境库，提供 AEC 与 Parallel API，并收录棋类、Atari 等多种可供训练与评测的环境。Tic-Tac-Toe 是其中一个按智能体轮流行动的 Classic 环境。',

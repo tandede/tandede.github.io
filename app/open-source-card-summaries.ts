@@ -5,6 +5,16 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  octomap: {
+    problem: '完整源码树的根配置为空，子目录却局部改成 Release；构建生成 release 导出文件，安装阶段按空配置执行，导致下游导入目标没有库位置。',
+    reasoning: '默认构建类型应由顶层单配置项目统一决定；独立子项目可以保留默认值，但通过 `add_subdirectory()` 嵌入时必须尊重宿主配置。',
+    solution: '把 Release 默认值前移到完整发行包入口，并为三个子项目增加顶层作用域判断；四种构建方式的导出文件及外部链接运行均完成验证。',
+  },
+  feast: {
+    problem: '`registry-dump` 直接创建文件型 Registry，把 SQLite 或 PostgreSQL registry URL 送入对象存储解析器，尚未读取元数据就报 unsupported scheme。',
+    reasoning: 'CLI 与正常特征存储必须共享同一套 registry 后端选择；具体实现应由 `FeatureStore` 根据配置决定，而不是由命令另写一套分派。',
+    solution: '改从 `feature_store.registry` 生成 JSON，并用真实 SQLite registry 写入实体后回读，锁定 SQL 与文件等后端的一致路径。',
+  },
   pettingzoo: {
     problem: 'Tic-Tac-Toe 原先依赖 `EzPickle` 按构造参数重建环境；复制进行中的对局会丢掉棋盘、轮到谁行动、奖励和合法动作，无法接着原局面落子。',
     reasoning: '对弈状态必须随复制保留，但 pygame 的屏幕和时钟是进程内资源，不应直接进入序列化结果；复制对象再次渲染时才需要重新创建它们。',

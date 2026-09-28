@@ -929,6 +929,43 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .case-matrix-codegen .case-visual { grid-column: 5 / -1; grid-row: 1; }
 .case-matrix-codegen .case-story { grid-column: 1 / -1; grid-row: 2; }
 
+.visual-cmake-scope, .visual-registry-backend { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.cmake-scope-before, .cmake-scope-owner, .cmake-scope-after,
+.registry-config-stage, .registry-before-stage, .registry-after-stage { display: grid; min-width: 0; min-height: 340px; padding: 25px; align-content: center; gap: 15px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
+.cmake-scope-before > small, .cmake-scope-owner > small, .cmake-scope-after > small,
+.registry-config-stage > small, .registry-before-stage > small, .registry-after-stage > small { font-size: 12px; }
+.cmake-scope-before > div:not(.cmake-scope-artifact), .cmake-scope-after > div,
+.registry-config-stage > div { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; padding: 12px; align-items: center; border: 1px solid var(--line); border-radius: 10px; background: var(--white); }
+.cmake-scope-before > div span, .cmake-scope-after > div span, .registry-config-stage > div span { color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 11px; }
+.cmake-scope-before > div code, .cmake-scope-after > div b, .registry-config-stage > div b { min-width: 0; font-family: var(--font-geist-mono), monospace; font-size: 12px; text-align: right; overflow-wrap: anywhere; }
+.cmake-scope-before { border-color: #efb4b1; background: #fff8f7; }
+.cmake-scope-artifact { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 9px 12px; padding: 13px; border: 1px solid #efb4b1; border-radius: 10px; background: var(--white); }
+.cmake-scope-artifact b, .cmake-scope-artifact strong { font-family: var(--font-geist-mono), monospace; font-size: 11px; overflow-wrap: anywhere; }
+.cmake-scope-artifact b { color: #b42318; }
+.cmake-scope-before > p, .cmake-scope-owner > p, .registry-before-stage > p, .registry-after-stage > p { margin: 0; color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 12px; line-height: 1.5; }
+.cmake-scope-owner { border-color: color-mix(in srgb, var(--detail-accent) 36%, var(--line)); }
+.cmake-scope-gate { display: grid; gap: 8px; }
+.cmake-scope-gate span { padding: 11px; color: var(--ink); border: 1px solid color-mix(in srgb, var(--detail-accent) 28%, var(--line)); border-radius: 9px; background: var(--white); font-family: var(--font-geist-mono), monospace; font-size: 12px; text-align: center; }
+.cmake-scope-owner > strong { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 20px; }
+.cmake-scope-owner > code, .registry-config-stage > code, .registry-before-stage > code, .registry-after-stage > code { min-width: 0; padding: 12px; border: 1px solid color-mix(in srgb, var(--detail-accent) 30%, var(--line)); border-radius: 9px; background: var(--white); font-size: 12px; overflow-wrap: anywhere; }
+.cmake-scope-after { border-color: #9ed8bf; background: #f2fbf7; }
+.cmake-scope-after > div b { color: #067647; }
+.cmake-scope-after > strong { color: #067647; font-family: var(--font-geist-mono), monospace; font-size: 17px; }
+.registry-config-stage > strong { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 24px; }
+.registry-before-stage { border-color: #efb4b1; background: #fff8f7; }
+.registry-before-stage > code { color: #b42318; border-color: #efb4b1; }
+.registry-before-stage > div { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 8px; align-items: center; }
+.registry-before-stage > div span { padding: 12px 8px; border: 1px solid #efb4b1; border-radius: 9px; background: var(--white); font-family: var(--font-geist-mono), monospace; font-size: 11px; text-align: center; }
+.registry-before-stage > div i { color: #b42318; font-size: 18px; font-style: normal; }
+.registry-before-stage > strong { color: #b42318; font-family: var(--font-geist-mono), monospace; font-size: 19px; }
+.registry-after-stage { border-color: color-mix(in srgb, var(--detail-accent) 46%, var(--line)); background: color-mix(in srgb, var(--detail-accent) 5%, white); }
+.registry-backend-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.registry-backend-grid span { padding: 11px 6px; color: var(--detail-accent); border: 1px solid color-mix(in srgb, var(--detail-accent) 30%, var(--line)); border-radius: 9px; background: var(--white); font-family: var(--font-geist-mono), monospace; font-size: 11px; font-weight: 800; text-align: center; }
+.registry-json-result { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 9px; padding: 12px; align-items: center; border: 1px solid #9ed8bf; border-radius: 10px; background: #f2fbf7; font-family: var(--font-geist-mono), monospace; font-size: 11px; }
+.registry-json-result b { color: var(--ink); }
+.registry-json-result i { color: #067647; font-size: 16px; font-style: normal; }
+.registry-json-result strong { color: #067647; }
+
 .visual-tictactoe-copy { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
 .tictactoe-stage { display: grid; min-width: 0; min-height: 360px; padding: 24px; align-content: center; gap: 17px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
 .tictactoe-stage > small { font-size: 12px; }
@@ -2239,7 +2276,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .repository-showcase figcaption { align-items: center; }
   .contribution-showcase > header { grid-template-columns: 150px 1fr; }
   .contribution-showcase > header p { grid-column: 2; }
-  .visual-tictactoe-copy, .visual-multi-hop-options, .visual-cli-path, .visual-porter-duff, .visual-wrapper-entry, .visual-compile-config, .visual-trimmed-mean-boundary, .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
+  .visual-cmake-scope, .visual-registry-backend, .visual-tictactoe-copy, .visual-multi-hop-options, .visual-cli-path, .visual-porter-duff, .visual-wrapper-entry, .visual-compile-config, .visual-trimmed-mean-boundary, .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
   .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow, .visual-shared-state > .visual-arrow { transform: rotate(90deg); }
   .visual-numeric { grid-template-columns: 1fr; }
   .reshape-routes > div { grid-template-columns: 1fr; gap: 8px; }
