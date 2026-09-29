@@ -80,6 +80,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '通过完整路径、虚拟环境脚本或其他未激活环境运行 `accelerate env` 时，缺失的 `PATH` 入口不再中断诊断；正常可发现的可执行文件仍返回实际路径，Windows 与 POSIX 也共享同一行为。改动集中在 2 个文件，共新增 13 行、删除 10 行；CLI 定向测试、内存工具测试以及 style、quality 检查全部通过。',
     highlight: 'PATH MISS ≠ DIAGNOSTIC FAILURE',
     takeaway: '把 PATH 缺失转换为报告值，而不是让环境诊断提前崩溃',
+    release: {
+      label: 'v1.15.0',
+      title: 'PR #4168 已随 Accelerate v1.15.0 发布',
+      href: 'https://github.com/huggingface/accelerate/releases/tag/v1.15.0',
+      credit: 'Accelerate v1.15.0 Release Notes 直接列出缺失可执行文件处理修复，并在首次贡献者名单中记录 @tandede。',
+      steps: ['PATH 缺失诊断修复', 'Release Notes 收录 PR #4168', 'v1.15.0 已发布'],
+    },
     visualization: 'cli-path-lookup',
   },
   {
@@ -132,6 +139,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '非法裁剪配置现在会在策略创建或底层聚合入口明确失败，不会继续执行空切片均值并把 `NaN` 传播到全局模型；合法 `beta` 的分区和聚合路径保持不变。改动覆盖 6 个文件，三组定向测试共 18 项通过，完整 Framework 检查同步通过。',
     highlight: '0 ≤ β < 0.5 · FAIL BEFORE AGGREGATION',
     takeaway: '在聚合开始前拒绝会把双尾样本全部裁空的 beta',
+    release: {
+      label: 'framework-1.37.0',
+      title: 'PR #7946 已随 Flower Framework 1.37.0 发布',
+      href: 'https://github.com/flwrlabs/flower/releases/tag/framework-1.37.0',
+      credit: 'Framework 1.37.0 Release Notes 直接说明 FedTrimmedAvg 现在拒绝范围外的 beta，避免裁空样本后产生 NaN 参数。',
+      steps: ['FedTrimmedAvg 参数边界修复', 'Release Notes 收录 PR #7946', 'Framework 1.37.0 已发布'],
+    },
     visualization: 'trimmed-mean-boundary',
   },
   {
@@ -213,6 +227,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: 'Math1 Linear 用户现在可以可靠保存、恢复并切换零温度配置；字段真正缺失时仍会得到默认值 `1`，原有兼容行为不变。两种加载来源均由回归覆盖，避免未来只修复其中一条路径而重新产生配置漂移。',
     highlight: '0 IS A VALUE · NULL IS ABSENCE',
     takeaway: '保留合法零值，只为空缺设置应用默认温度',
+    release: {
+      label: '1.19.0',
+      title: 'PR #5965 已随 SillyTavern 1.19.0 发布',
+      href: 'https://github.com/SillyTavern/SillyTavern/releases/tag/1.19.0',
+      credit: 'SillyTavern 1.19.0 Release Notes 直接列出 NovelAI Math1 零温度保留修复，并记录 @tandede 的首次贡献。',
+      steps: ['NovelAI Math1 零温度修复', 'Release Notes 收录 PR #5965', '1.19.0 已发布'],
+    },
     visualization: 'nullish-zero',
   },
   {
@@ -349,6 +370,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '空索引无论查询规模和 `k` 如何都稳定写出完整哨兵结果，不再把未初始化的调用方数据当作搜索输出；Top1、Heap 与 Reservoir 三类处理器在内积和 L2 距离下保持一致。6 组回归、49 项 Python 测试、290 项 C++ 测试及 ASan / UBSan 验证均通过。',
     highlight: 'EMPTY INDEX ≠ UNTOUCHED OUTPUT',
     takeaway: '空索引搜索也必须写出完整的哨兵结果',
+    release: {
+      label: 'v1.15.1',
+      title: 'PR #5528 的修复已进入 Faiss v1.15.1',
+      href: 'https://github.com/facebookresearch/faiss/releases/tag/v1.15.1',
+      credit: 'Faiss v1.15.1 的版本标签完整包含维护者导入该 PR 后生成的合并提交，空索引 BLAS 输出修复已经进入正式版本。',
+      steps: ['空索引 BLAS 输出修复', 'v1.15.1 标签包含合并提交', '正式版本已发布'],
+    },
     visualization: 'empty-index',
   },
   {
@@ -360,6 +388,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '固定时窗平滑器现在支持 value 与 factor 异步到达：时窗内迟到的 factor 可以正常连接，始终未连接的 value 则会在过期后完整回收且不触碰 Bayes-tree 边缘化。连接与未连接两条生命周期均有回归覆盖，相关四组测试与三平台检查保持通过。',
     highlight: 'VALUE FIRST · FACTOR LATER · SAFE EXPIRY',
     takeaway: '让值与因子异步到达，也能在固定时窗内安全收敛',
+    release: {
+      label: '4.3.0',
+      title: 'PR #2749 已进入 GTSAM 4.3.0',
+      href: 'https://github.com/borglab/gtsam/releases/tag/4.3.0',
+      credit: 'GTSAM 4.3.0 的版本标签完整包含 PR #2749 的合并提交；该版本集中发布了 fixed-lag smoother 的状态清理与边缘化修复。',
+      steps: ['Pending value 生命周期修复', '4.3.0 标签包含合并提交', '正式版本已发布'],
+    },
     visualization: 'fixed-lag-pending',
   },
   {
@@ -433,6 +468,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '闭包常量现在保持空 provenance，显式参数则重新与 `jaxpr.invars` 精确对齐；JAX 0.11.1 下相关 415 项测试通过，同时在 JAX 0.7.0 上保持兼容。实现也不再直接耦合容易变化的私有 partial-evaluation API。',
     highlight: 'PUBLIC JAXPR',
     takeaway: '用公共 JAXPR 接口恢复输入映射',
+    release: {
+      label: '0.22.0',
+      title: 'PR #2245 已随 NumPyro 0.22.0 发布',
+      href: 'https://github.com/pyro-ppl/numpyro/releases/tag/0.22.0',
+      credit: 'NumPyro 0.22.0 Release Notes 直接列出 JAX 0.11.1 闭包常量 provenance 修复，并记录 @tandede 的首次贡献。',
+      steps: ['JAXPR provenance 对齐修复', 'Release Notes 收录 PR #2245', '0.22.0 已发布'],
+    },
     visualization: 'jaxpr',
   },
   {
@@ -491,6 +533,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '重复名称从静默覆盖变为修改前失败，已有 Adapter 的配置、结构和训练权重在异常路径中保持逐项不变；Prompt Learning、Mixed Model 与正常加载行为继续可用。相关定向与扩展测试共覆盖 1,400 余个用例，模型状态不再出现半提交。',
     highlight: 'FAIL BEFORE MUTATE',
     takeaway: '在修改模型之前拒绝重复 Adapter',
+    release: {
+      label: 'v0.21.0',
+      title: 'PR #3559 已进入 PEFT v0.21.0',
+      href: 'https://github.com/huggingface/peft/releases/tag/v0.21.0',
+      credit: 'PEFT v0.21.0 的版本标签完整包含 PR #3559 的合并提交，重复 Adapter 名称的原子性保护已经进入正式版本。',
+      steps: ['重复 Adapter 前置拒绝', 'v0.21.0 标签包含合并提交', '正式版本已发布'],
+    },
     visualization: 'adapter',
   },
   {
@@ -604,6 +653,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '同时覆盖默认零复制、真实零维输出与动态 `-1` 推断三条路径，使 ONNX 模型语义能够忠实落到 Relax；没有字面零的形状继续走正常推断路径，避免特殊分支扩大后造成新的运行期失败。',
     highlight: '0 COPY · 0 LITERAL · −1 INFER',
     takeaway: '同时保留零复制、字面零与 −1 推断语义',
+    release: {
+      label: 'v0.27.0',
+      title: 'PR #20161 已随 Apache TVM v0.27.0 发布',
+      href: 'https://github.com/apache/tvm/releases/tag/v0.27.0',
+      credit: 'Apache TVM v0.27.0 Release Notes 直接列出 ONNX Reshape 零语义修复，并记录 @tandede 的首次贡献。',
+      steps: ['ONNX Reshape 零语义修复', 'Release Notes 收录 PR #20161', 'v0.27.0 已发布'],
+    },
     visualization: 'reshape-semantics',
   },
   {
