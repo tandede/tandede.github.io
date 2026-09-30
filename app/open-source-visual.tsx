@@ -6,6 +6,30 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'gp-zero-sum-roulette') return <div className="contribution-visual visual-gp-zero-sum">
+    <div className="gp-zero-input">
+      <small>REAL LogEI · DEFAULT GPSAMPLER</small>
+      <strong>2,048 Sobol candidates</strong>
+      <div className="gp-zero-scores"><span><b>BEST</b><code>−108.30</code></span><span><b>SECOND</b><code>−893.55</code></span><span><b>GAP</b><code>785.25</code></span></div>
+      <code>exp(f − max(f))</code>
+      <p>10 local searches · seed 22</p>
+    </div>
+    <div className="gp-zero-before">
+      <small>BEFORE · UNCONDITIONAL NORMALIZATION</small>
+      <div className="gp-zero-weights"><span>BEST<strong>1 → 0</strong></span><span>OTHERS<strong>0 · 0 · 0</strong></span></div>
+      <code>probs /= probs.sum()</code>
+      <div className="gp-zero-failure"><span>Σp = 0</span><i>÷</i><span>0 / 0</span></div>
+      <strong>RuntimeWarning → NaN</strong>
+    </div>
+    <div className="gp-zero-after">
+      <small>AFTER · ZERO-SUM CONVERGENCE PATH</small>
+      <code>probs / sum if sum &gt; 0 else probs</code>
+      <div className="gp-zero-branches"><span><b>Σp &gt; 0</b><i>normalize</i></span><span><b>Σp = 0</b><i>keep zeros</i></span></div>
+      <div className="gp-zero-result"><span>extra starts</span><strong>0</strong><span>best start</span><strong>KEPT ✓</strong></div>
+      <p>91 trials complete · no fabricated distribution</p>
+    </div>
+  </div>;
+
   if (kind === 'cmake-build-type-scope') return <div className="contribution-visual visual-cmake-scope">
     <div className="cmake-scope-before">
       <small>BEFORE · SPLIT CONFIGURATION</small>

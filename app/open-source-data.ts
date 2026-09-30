@@ -23,10 +23,21 @@ export type OpenSourceProject = {
     linkLabel?: string;
     showOnCard?: boolean;
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope' | 'gp-zero-sum-roulette';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'optuna', name: 'Optuna', logo: 'https://github.com/optuna.png?size=128', accent: '#f05a28', role: 'CONTRIBUTOR', href: 'https://github.com/optuna/optuna', prHref: 'https://github.com/optuna/optuna/pull/6817',
+    function: '面向机器学习与工程系统的自动超参数优化框架，通过可组合的 Sampler、Pruner、分布式 Study 与可视化工具组织搜索过程；GPSampler 使用高斯过程和采集函数，在连续与离散混合空间中选择下一组参数。',
+    problem: '`optimize_acqf_mixed()` 会把 2,048 个初始候选的 LogEI 值转成轮盘选择概率。接近收敛时，最佳与其余候选的差距可超过浮点指数范围，非最佳权重全部下溢为 `0.0`；最佳点随后也被置零以避免重复选择，概率总和因此精确等于零。旧实现仍执行归一化，产生 `RuntimeWarning` 与整组 `NaN`，并可能让一次正常的 GP 优化试验失败。',
+    reasoning: '零和不是“候选同样好”，而是除最佳点外已经没有可表示的改进权重，因此不能改成均匀分布去人为启动额外局部搜索。现有收敛逻辑本就根据非零概率数量缩减 warm start：只要保留全零向量，后续便会把附加搜索数降为零，并继续使用已经选出的最佳候选。',
+    solution: '先计算一次 `probs_sum`，仅在它大于零时执行归一化，否则原样保留全零概率；正常的正权重路径完全不变。回归直接构造真实 GP 与 LogEI，使用默认的 2,048 个 Sobol 候选和 10 次局部搜索，并把 `RuntimeWarning` 提升为异常，锁定浮点下溢而非人工伪造的零向量。',
+    impact: '默认 `GPSampler` 的 91 个连续试验现在可以完整结束；退化轮盘只保留最佳起点，不再把 `NaN` 概率传给随机选择，普通未收敛场景仍按原分布抽取附加起点。改动集中在 2 个文件，核心逻辑仅改 1 行并新增 33 行回归；GP 测试 297 项、Sampler 测试 14 项通过且 1 项跳过，13 项合并检查全部通过。',
+    highlight: 'ΣP = 0 · KEEP ZERO · SKIP EXTRA SEARCH',
+    takeaway: '零和概率代表搜索已经退化，应缩减附加起点而不是执行 0/0',
+    visualization: 'gp-zero-sum-roulette',
+  },
   {
     slug: 'octomap', name: 'OctoMap', logo: 'https://github.com/OctoMap.png?size=128', accent: '#167d9a', role: 'CONTRIBUTOR', href: 'https://github.com/OctoMap/octomap', prHref: 'https://github.com/OctoMap/octomap/pull/449',
     function: '基于八叉树的概率三维占据地图框架，以紧凑层级结构表示自由、占据与未知空间，并同时提供核心 OctoMap 库、三维可视化工具 OctoVis 与动态距离变换库 dynamicEDT3D。',

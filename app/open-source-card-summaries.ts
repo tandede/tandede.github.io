@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  optuna: {
+    problem: 'GP 采集函数接近收敛时，非最佳 LogEI 权重会全部下溢为零；排除最佳点后概率和为零，旧归一化执行 `0/0`，产生警告和 `NaN`。',
+    reasoning: '全零权重表示没有可表示的附加改进候选，不等于所有候选等概率。现有收敛路径本就能把额外局部搜索数降为零，无需伪造分布。',
+    solution: '只在概率和大于零时归一化，否则保留零向量并仅使用最佳起点；真实 LogEI、默认 2,048 个候选的回归确认 91 个试验完整结束。',
+  },
   octomap: {
     problem: '完整源码树的根配置为空，子目录却局部改成 Release；构建生成 release 导出文件，安装阶段按空配置执行，导致下游导入目标没有库位置。',
     reasoning: '默认构建类型应由顶层单配置项目统一决定；独立子项目可以保留默认值，但通过 `add_subdirectory()` 嵌入时必须尊重宿主配置。',
