@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  'sample-factory': {
+    problem: 'ViZDoom 的终止步骤可能不返回图像；录制器仍把 `None` 或空数组交给 OpenCV，颜色转换立即失败，奖励记账被截断，异步 Worker 还会反复重试同一步。',
+    reasoning: '缺少可编码帧不等于缺少有效环境步骤。守卫应放在 `_record()` 的图像边界，让动作、奖励、回合收尾和返回给调用方的 observation 保持原有语义。',
+    solution: '同时跳过 `None` 与零元素图像且不递增帧号；参数化回归确认下一张有效图仍从 `00000.png` 开始，两次动作与完整奖励均被保留。',
+  },
   optuna: {
     problem: 'GP 采集函数接近收敛时，非最佳 LogEI 权重会全部下溢为零；排除最佳点后概率和为零，旧归一化执行 `0/0`，产生警告和 `NaN`。',
     reasoning: '全零权重表示没有可表示的附加改进候选，不等于所有候选等概率。现有收敛路径本就能把额外局部搜索数降为零，无需伪造分布。',

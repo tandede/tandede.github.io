@@ -6,6 +6,27 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'missing-terminal-frame') return <div className="contribution-visual visual-missing-frame">
+    <div className="missing-frame-input">
+      <small>ENV STEP · TERMINAL BOUNDARY</small>
+      <div className="missing-frame-packet"><span>observation</span><strong>None / empty</strong><span>action</span><strong>0</strong><span>reward</span><strong>+1.0</strong></div>
+      <code>env.step(action)</code>
+      <p>图像缺失 · 环境步骤仍然有效</p>
+    </div>
+    <div className="missing-frame-before">
+      <small>BEFORE · RECORD EVERYTHING</small>
+      <code>cv2.cvtColor(observation)</code>
+      <div className="missing-frame-failure"><span>EMPTY SRC</span><i>→</i><strong>ASSERTION FAILED</strong></div>
+      <div className="missing-frame-stalled"><span>ACTION</span><b>APPENDED</b><span>REWARD</span><b>NOT UPDATED</b><span>WORKER</span><b>RETRY LOOP</b></div>
+    </div>
+    <div className="missing-frame-after">
+      <small>AFTER · ENCODING BOUNDARY</small>
+      <code>if img is None or np.size(img) == 0: return</code>
+      <div className="missing-frame-flow"><span>SKIP FRAME</span><i>→</i><span>KEEP STEP</span></div>
+      <div className="missing-frame-result"><span>next image</span><strong>00000.png</strong><span>actions</span><strong>[0, 1]</strong><span>episode</span><strong>r2.00 ✓</strong></div>
+    </div>
+  </div>;
+
   if (kind === 'gp-zero-sum-roulette') return <div className="contribution-visual visual-gp-zero-sum">
     <div className="gp-zero-input">
       <small>REAL LogEI · DEFAULT GPSAMPLER</small>

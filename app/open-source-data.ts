@@ -23,10 +23,21 @@ export type OpenSourceProject = {
     linkLabel?: string;
     showOnCard?: boolean;
   };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope' | 'gp-zero-sum-roulette';
+  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope' | 'gp-zero-sum-roulette' | 'missing-terminal-frame';
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'sample-factory', name: 'Sample Factory', logo: '/logos/sample-factory.svg', accent: '#7657d6', role: 'CONTRIBUTOR', href: 'https://github.com/alex-petrenko/sample-factory', prHref: 'https://github.com/alex-petrenko/sample-factory/pull/336',
+    function: '面向强化学习研究与工程的高吞吐训练框架，提供同步和异步策略梯度实现，并支持 ViZDoom、Isaac Gym、DMLab、MuJoCo 与 Atari 等环境的并行采样、训练、评估和轨迹录制。',
+    problem: '`RecordingWrapper.step()` 会把环境返回的每个 observation 直接交给 OpenCV；ViZDoom 在终止步骤可能返回 `None` 或零元素图像，`cv2.cvtColor()` 因空输入抛出断言错误。动作此时已经写入列表，但奖励与 shaping reward 尚未更新，异步 Worker 还会持续重试失败的 STEP，训练最终卡住。',
+    reasoning: '是否存在可编码帧应由 `_record()` 接收到的值决定，不能只依赖 `terminated`：不同环境和兼容层可能在 terminated 或 truncated 路径省略终止 observation。缺帧只代表这一步没有图像可写，不代表动作、奖励或原始环境返回值无效；守卫必须位于编码边界，才能让其余记账继续完成。',
+    solution: '在 `_record()` 入口同时检测 `img is None` 与 `np.size(img) == 0`，缺帧时直接返回；不合成替代图像、不修改传给调用方的 observation，也不递增帧号。新增参数化假环境分别返回 `None` 和空数组，再跟随一张有效图像，覆盖两种真实缺失形态。',
+    impact: '两类终止缺帧都不再进入颜色转换，随后的有效图像仍连续保存为 `00000.png`；完成后的 episode 目录保留两次动作和完整的 `r2.00` 奖励，证明跳过图像不会跳过环境记账。改动集中在 2 个文件，新增 6 行守卫与 41 行回归，并通过环境 Wrapper、工具和 ViZDoom 定向测试。',
+    highlight: 'MISSING FRAME ≠ MISSING STEP',
+    takeaway: '只跳过无法编码的终止帧，让动作、奖励和回合收尾继续完成',
+    visualization: 'missing-terminal-frame',
+  },
   {
     slug: 'optuna', name: 'Optuna', logo: 'https://github.com/optuna.png?size=128', accent: '#f05a28', role: 'CONTRIBUTOR', href: 'https://github.com/optuna/optuna', prHref: 'https://github.com/optuna/optuna/pull/6817',
     function: '面向机器学习与工程系统的自动超参数优化框架，通过可组合的 Sampler、Pruner、分布式 Study 与可视化工具组织搜索过程；GPSampler 使用高斯过程和采集函数，在连续与离散混合空间中选择下一组参数。',
