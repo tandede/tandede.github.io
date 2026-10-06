@@ -22,6 +22,12 @@ const storyTabs = [
 
 type StoryTabKey = (typeof storyTabs)[number]['key'];
 
+function contributionReference(href: string) {
+  const match = href.match(/\/(pull|issues)\/(\d+)/);
+  if (!match) return '贡献记录';
+  return `${match[1] === 'pull' ? 'PR' : 'Issue'} #${match[2]}`;
+}
+
 function OpenSourceStory({ slug, summary, activeTab, lockedTab, setActiveTab, setLockedTab }: {
   slug: string;
   summary: OpenSourceCardSummary;
@@ -84,6 +90,9 @@ function OpenSourceCard({ item, count }: { item: OpenSourceProject; count?: numb
   const [activeTab, setActiveTab] = useState<StoryTabKey>('problem');
   const [lockedTab, setLockedTab] = useState<StoryTabKey | null>(null);
   const starsLabel = typeof count === 'number' ? `${formatStars(count)} Stars` : 'Stars';
+  const contributionTotal = 1 + (item.contributions?.length ?? 0);
+  const latestReference = contributionReference(item.prHref);
+  const contributionLinkLabel = contributionTotal > 1 ? `查看全部 ${contributionTotal} 项贡献` : '查看完整贡献';
   const releaseCardFocus = (event: MouseEvent<HTMLAnchorElement>) => {
     event.currentTarget.blur();
   };
@@ -110,19 +119,19 @@ function OpenSourceCard({ item, count }: { item: OpenSourceProject; count?: numb
           {item.logo && <img src={item.logo} alt="" />}
           <div>
             <h3>{item.name}</h3>
-            <div className="opensource-meta"><span className="repo-stars" title={typeof count === 'number' ? `${count.toLocaleString('en-US')} GitHub Stars` : '正在获取 GitHub Star'}><PiStarFill aria-hidden="true" />{starsLabel}</span>{item.release && item.release.showOnCard !== false && <span className="opensource-release">{item.release.label}</span>}{item.role !== 'CONTRIBUTOR' && <span className="opensource-role">{item.role}</span>}</div>
+            <div className="opensource-meta"><span className="repo-stars" title={typeof count === 'number' ? `${count.toLocaleString('en-US')} GitHub Stars` : '正在获取 GitHub Star'}><PiStarFill aria-hidden="true" />{starsLabel}</span><span className="opensource-contribution-count">{contributionTotal} 项贡献</span>{item.release && item.release.showOnCard !== false && <span className="opensource-release">{item.release.label}</span>}{item.role !== 'CONTRIBUTOR' && <span className="opensource-role">{item.role}</span>}</div>
           </div>
         </div>
       </div>
       <div className="opensource-project">
         <p>{item.function}</p>
       </div>
-      <a className="opensource-card-link" href={`/open-source/${item.slug}/`} target="_blank" rel="noopener noreferrer" aria-label={`在新标签页查看 ${item.name} 开源贡献详情`} onClick={releaseCardFocus}><span>查看我的贡献</span><PiArrowRightBold aria-hidden="true" /></a>
+      <a className="opensource-card-link" href={`/open-source/${item.slug}/`} target="_blank" rel="noopener noreferrer" aria-label={`在新标签页查看 ${item.name} 开源贡献详情`} onClick={releaseCardFocus}><span className="opensource-card-link-copy"><small>最新：{latestReference}{item.mergedAt ? ` · ${item.mergedAt}` : ''}</small><strong>{contributionLinkLabel}</strong></span><PiArrowRightBold aria-hidden="true" /></a>
     </div>
     <div className="opensource-face opensource-back">
-      <div className="opensource-back-head"><strong>{item.name}</strong><span>{item.role}</span></div>
+      <div className="opensource-back-head"><strong>{item.name}</strong><span>{item.role} · {contributionTotal} 项</span></div>
       <OpenSourceStory slug={item.slug} summary={summary} activeTab={activeTab} lockedTab={lockedTab} setActiveTab={setActiveTab} setLockedTab={setLockedTab} />
-      <a className="opensource-card-link" href={`/open-source/${item.slug}/`} target="_blank" rel="noopener noreferrer" onClick={releaseCardFocus}><span>查看完整贡献</span><PiArrowRightBold aria-hidden="true" /></a>
+      <a className="opensource-card-link" href={`/open-source/${item.slug}/`} target="_blank" rel="noopener noreferrer" onClick={releaseCardFocus}><span className="opensource-card-link-copy"><small>最新：{latestReference}{item.mergedAt ? ` · ${item.mergedAt}` : ''}</small><strong>{contributionLinkLabel}</strong></span><PiArrowRightBold aria-hidden="true" /></a>
     </div>
   </article>;
 }

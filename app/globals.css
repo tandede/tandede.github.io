@@ -428,10 +428,14 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .repo-stars { display: inline-flex; align-items: center; gap: 6px; width: fit-content; color: #875800; font-family: var(--font-geist-mono), monospace; font-size: 10px; font-weight: 750; white-space: nowrap; }
 .repo-stars svg { width: 12px; height: 12px; color: var(--orange); }
 .opensource-role { padding: 3px 6px; color: var(--repo-accent); border: 1px solid color-mix(in srgb, var(--repo-accent) 42%, var(--line)); border-radius: 999px; background: color-mix(in srgb, var(--repo-accent) 7%, white); font-family: var(--font-geist-mono), monospace; font-size: 10px; font-weight: 800; letter-spacing: .06em; }
+.opensource-contribution-count { padding: 3px 6px; color: var(--repo-accent); border: 1px solid color-mix(in srgb, var(--repo-accent) 38%, var(--line)); border-radius: 999px; background: color-mix(in srgb, var(--repo-accent) 7%, white); font-family: var(--font-geist-mono), monospace; font-size: 10px; font-weight: 800; white-space: nowrap; }
 .opensource-release { padding: 3px 6px; color: #067647; border: 1px solid #86d6b7; border-radius: 999px; background: #ecfdf3; font-family: var(--font-geist-mono), monospace; font-size: 10px; font-weight: 800; white-space: nowrap; }
 .opensource-project { align-self: center; padding: 30px 0 20px; }
 .opensource-project p { margin: 0; color: #4b5565; font-size: 12px; line-height: 1.82; }
-.opensource-card-link { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 15px; color: var(--blue); font-family: var(--font-geist-mono), monospace; font-size: 10px; font-weight: 750; border-top: 1px solid var(--line); }
+.opensource-card-link { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 12px; color: var(--blue); font-family: var(--font-geist-mono), monospace; font-size: 10px; font-weight: 750; border-top: 1px solid var(--line); }
+.opensource-card-link-copy { display: grid; gap: 4px; min-width: 0; }
+.opensource-card-link-copy small { color: #667085; font-family: var(--font-geist-mono), monospace; font-size: 10px; font-weight: 650; line-height: 1.25; white-space: nowrap; }
+.opensource-card-link-copy strong { color: var(--blue); font-size: 11px; line-height: 1.25; }
 .opensource-card-link:focus-visible { outline: 2px solid var(--repo-accent); outline-offset: 7px; }
 .opensource-card-link svg { width: 15px; height: 15px; transition: transform 220ms ease; }
 .opensource-card:hover .opensource-card-link svg, .opensource-card:focus-within .opensource-card-link svg { transform: translateX(5px); }
@@ -1933,8 +1937,10 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .membership-repository-groups a strong,
 .repo-stars,
 .opensource-role,
+.opensource-contribution-count,
 .opensource-release,
 .opensource-card-link,
+.opensource-card-link-copy small,
 .opensource-back-head span,
 .opensource-story-tabs button > span,
 .opensource-story-tabs button > strong,

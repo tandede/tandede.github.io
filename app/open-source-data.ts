@@ -34,6 +34,7 @@ export type OpenSourceProject = {
   href: string;
   prHref: string;
   prLabel?: string;
+  mergedAt?: string;
   function: string;
   problem: string;
   reasoning: string;
@@ -520,7 +521,7 @@ export const openSourceProjects: OpenSourceProject[] = [
     visualization: 'jaxpr',
   },
   {
-    slug: 'opencv', name: 'OpenCV', logo: '/logos/opencv.svg', accent: '#6652d9', role: 'CONTRIBUTOR', href: 'https://github.com/opencv/opencv', prHref: 'https://github.com/opencv/opencv/pull/30152',
+    slug: 'opencv', name: 'OpenCV', logo: '/logos/opencv.svg', accent: '#6652d9', role: 'CONTRIBUTOR', href: 'https://github.com/opencv/opencv', prHref: 'https://github.com/opencv/opencv/pull/30152', mergedAt: '2026-10-06',
     function: '跨平台计算机视觉基础库，提供图像处理、几何变换、特征提取、视频分析与深度学习推理等大量工程级算子和统一接口。',
     problem: 'ARMv7 NEON 会启用 `CV_SIMD`，却不具备双精度 SIMD，因而关闭 `CV_SIMD_64F`。旧的嵌套预处理守卫只裁掉 FP64 分支和关联的 `else`，却把 float SIMD fallback 留在 `WT == double` 路径中；`CV_64F` 输入与输出随后被强制转换成 `float*` 访问，结果出现 NaN、Inf 与约 `1e307` 的垃圾值。',
     reasoning: '“平台支持 SIMD”不能推出“当前累加类型拥有 SIMD 实现”。双精度入口必须以 `CV_SIMD_64F` 为完整编译边界；没有 FP64 向量指令的平台应落入已经存在的 `WT=double` 标量路径，而不是让预处理后的残余控制流选择一个类型不匹配的 float 内核。',
