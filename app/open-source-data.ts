@@ -1,3 +1,30 @@
+export type OpenSourceRelease = {
+  label: string;
+  title: string;
+  href: string;
+  credit: string;
+  steps: string[];
+  linkLabel?: string;
+  showOnCard?: boolean;
+};
+
+export type OpenSourceVisualization = 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope' | 'gp-zero-sum-roulette' | 'missing-terminal-frame' | 'armv7-fp64-gemm';
+
+export type OpenSourceContributionEntry = {
+  id: string;
+  title: string;
+  prHref: string;
+  mergedAt: string;
+  problem: string;
+  reasoning: string;
+  solution: string;
+  impact: string;
+  highlight: string;
+  takeaway: string;
+  visualization: OpenSourceVisualization;
+  release?: OpenSourceRelease;
+};
+
 export type OpenSourceProject = {
   slug: string;
   name: string;
@@ -14,16 +41,9 @@ export type OpenSourceProject = {
   impact: string;
   highlight: string;
   takeaway: string;
-  release?: {
-    label: string;
-    title: string;
-    href: string;
-    credit: string;
-    steps: string[];
-    linkLabel?: string;
-    showOnCard?: boolean;
-  };
-  visualization: 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope' | 'gp-zero-sum-roulette' | 'missing-terminal-frame';
+  release?: OpenSourceRelease;
+  visualization: OpenSourceVisualization;
+  contributions?: OpenSourceContributionEntry[];
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
@@ -500,15 +520,28 @@ export const openSourceProjects: OpenSourceProject[] = [
     visualization: 'jaxpr',
   },
   {
-    slug: 'opencv', name: 'OpenCV', logo: '/logos/opencv.svg', accent: '#6652d9', role: 'CONTRIBUTOR', href: 'https://github.com/opencv/opencv', prHref: 'https://github.com/opencv/opencv/pull/29751',
+    slug: 'opencv', name: 'OpenCV', logo: '/logos/opencv.svg', accent: '#6652d9', role: 'CONTRIBUTOR', href: 'https://github.com/opencv/opencv', prHref: 'https://github.com/opencv/opencv/pull/30152',
     function: '跨平台计算机视觉基础库，提供图像处理、几何变换、特征提取、视频分析与深度学习推理等大量工程级算子和统一接口。',
-    problem: '`borderInterpolate()` 通过 while 循环逐次把越界坐标折回图像范围。对 `INT_MIN` 取负会发生有符号整数溢出；对 `INT_MAX` 且边长为 2 的输入，则需要约十亿次折返。一个合法边界查询因此既可能触发未定义行为，也可能把常数时间像素访问拖成超长循环。',
-    reasoning: '`BORDER_REFLECT` 与 `BORDER_REFLECT_101` 都是固定周期的离散映射，不需要模拟每次撞边。只要先在 64 位整数域中计算坐标相对周期的位置，再按两种模式各自的端点重复规则折回，就能覆盖完整 `int` 输入域并保持普通坐标的既有结果。',
-    solution: '删除逐次反射循环，使用 `int64` 周期模运算一次得到规范位置，并显式处理负余数、长度为 1 以及两种 reflect 周期差异；回归将新旧映射在 20,010 组普通组合上逐项对照，再覆盖 `INT_MIN`、`INT_MAX` 与极小/极大边长。',
-    impact: '反射插值在完整 32 位坐标范围内不再溢出，也不会因坐标距离增长而增加循环次数，最坏复杂度从 O(N) 降为 O(1)；普通输入与历史映射保持一致，极端边界同时经过 AddressSanitizer 和 UndefinedBehaviorSanitizer 验证。',
-    highlight: 'O(N) → O(1)',
-    takeaway: '极端反射坐标从十亿次循环降为常数时间',
-    visualization: 'reflection',
+    problem: 'ARMv7 NEON 会启用 `CV_SIMD`，却不具备双精度 SIMD，因而关闭 `CV_SIMD_64F`。旧的嵌套预处理守卫只裁掉 FP64 分支和关联的 `else`，却把 float SIMD fallback 留在 `WT == double` 路径中；`CV_64F` 输入与输出随后被强制转换成 `float*` 访问，结果出现 NaN、Inf 与约 `1e307` 的垃圾值。',
+    reasoning: '“平台支持 SIMD”不能推出“当前累加类型拥有 SIMD 实现”。双精度入口必须以 `CV_SIMD_64F` 为完整编译边界；没有 FP64 向量指令的平台应落入已经存在的 `WT=double` 标量路径，而不是让预处理后的残余控制流选择一个类型不匹配的 float 内核。',
+    solution: '把 `GEMMSingleMul()` 的转置与普通分支、以及 `GEMMBlockMul()` 的双精度累加入口直接改由 `CV_SIMD_64F` 守卫，并删除守卫内部不可能安全执行的 float fallback。支持 FP64 SIMD 的 x86-64 与 AArch64 继续使用原优化路径，ARMv7 则明确回退到标量计算。',
+    impact: '三条 `CV_64F` GEMM 分发路径不再把 64 位缓冲区按 32 位指针读取或写回，受影响的 ARMv7 组合从静默数据破坏回到正确的双精度标量语义；`CV_32F` 路径保持不变。改动仅涉及 `matmul.simd.hpp`，新增 3 行、删除 17 行，Core_GEMM 精度测试通过，并与 5.x 分支已有控制流对齐。',
+    highlight: 'CV_SIMD ≠ CV_SIMD_64F',
+    takeaway: '按数据类型守住 SIMD 分发边界，宁可标量正确也不让双精度缓冲区落入 float 内核',
+    visualization: 'armv7-fp64-gemm',
+    contributions: [{
+      id: 'border-reflect-o1',
+      title: '极端反射坐标的常数时间映射',
+      prHref: 'https://github.com/opencv/opencv/pull/29751',
+      mergedAt: '2026-08-21',
+      problem: '`borderInterpolate()` 通过 while 循环逐次把越界坐标折回图像范围。对 `INT_MIN` 取负会发生有符号整数溢出；对 `INT_MAX` 且边长为 2 的输入，则需要约十亿次折返。一个合法边界查询因此既可能触发未定义行为，也可能把常数时间像素访问拖成超长循环。',
+      reasoning: '`BORDER_REFLECT` 与 `BORDER_REFLECT_101` 都是固定周期的离散映射，不需要模拟每次撞边。只要先在 64 位整数域中计算坐标相对周期的位置，再按两种模式各自的端点重复规则折回，就能覆盖完整 `int` 输入域并保持普通坐标的既有结果。',
+      solution: '删除逐次反射循环，使用 `int64` 周期模运算一次得到规范位置，并显式处理负余数、长度为 1 以及两种 reflect 周期差异；回归将新旧映射在 20,010 组普通组合上逐项对照，再覆盖 `INT_MIN`、`INT_MAX` 与极小/极大边长。',
+      impact: '反射插值在完整 32 位坐标范围内不再溢出，也不会因坐标距离增长而增加循环次数，最坏复杂度从 O(N) 降为 O(1)；普通输入与历史映射保持一致，极端边界同时经过 AddressSanitizer 和 UndefinedBehaviorSanitizer 验证。',
+      highlight: 'O(N) → O(1)',
+      takeaway: '极端反射坐标从十亿次循环降为常数时间',
+      visualization: 'reflection',
+    }],
   },
   {
     slug: 'deepspeed', name: 'DeepSpeed', logo: 'https://github.com/deepspeedai.png?size=128', accent: '#2859a8', role: 'CONTRIBUTOR', href: 'https://github.com/deepspeedai/DeepSpeed', prHref: 'https://github.com/deepspeedai/DeepSpeed/pull/8274',

@@ -171,9 +171,9 @@ export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
     solution: '改用 `jax.make_jaxpr` 获取 ClosedJaxpr，拆分常量与动态输入，再重建 provenance 映射。实现摆脱私有 tracing 细节，并为后续 JAX 升级保留稳定接口。',
   },
   opencv: {
-    problem: '极端反射坐标依靠逐次修正，不仅会触发整数溢出，还可能执行十亿级循环。输入离图像越远，运行时间越不可控，边界函数甚至可能成为整条视觉流水线的阻塞点。',
-    reasoning: '反射边界本质是固定周期映射，无需模拟每一次折返；在宽整数域求周期位置即可直接定位结果。关键是先在完整数值域内归一化，再处理正负方向和端点语义。',
-    solution: '将循环改写为 int64 周期模运算，并覆盖负坐标与短边界，把最坏复杂度从 O(N) 降到 O(1)。极端输入不再溢出，普通边界行为和既有接口结果保持一致。',
+    problem: 'ARMv7 支持 NEON SIMD，却不支持 FP64 SIMD；预处理后双精度 GEMM 会残留 float fallback，把 `CV_64F` 缓冲区按 `float*` 读写并生成 NaN、Inf 与 `1e307` 级垃圾值。',
+    reasoning: '通用 SIMD 能力不等于当前数据类型拥有向量实现。双精度入口必须整体受 `CV_SIMD_64F` 控制；不支持的平台应走既有标量路径，而不是执行类型错误的 float 内核。',
+    solution: '用 `CV_SIMD_64F` 守住三条双精度累加分发并移除残余 fallback；x86-64/AArch64 保留优化路径，ARMv7 明确回退标量，Core_GEMM 精度测试通过。',
   },
   deepspeed: {
     problem: 'ZenFlow 接受 `topk_ratio=0/1` 和非正 `update_interval`，训练初始化后会触发除零；小分区还可能因整数截断得到 `topk(k=0)`，让索引与梯度缓冲区失去语义。',

@@ -6,6 +6,29 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'armv7-fp64-gemm') return <div className="contribution-visual visual-armv7-gemm">
+    <div className="armv7-capability-stage">
+      <small>ARMv7 · NEON CAPABILITIES</small>
+      <strong>CV_64F GEMM</strong>
+      <div><span>CV_SIMD</span><b>1</b></div>
+      <div><span>CV_SIMD_64F</span><b>0</b></div>
+      <p>向量指令可用 · 双精度向量指令不可用</p>
+    </div>
+    <div className="armv7-before-stage">
+      <small>BEFORE · PREPROCESSOR RESIDUE</small>
+      <code>if (sizeof(WT) == sizeof(double))</code>
+      <div className="armv7-type-confusion"><span>double*</span><i>→</i><strong>float SIMD kernel</strong><i>→</i><span>float*</span></div>
+      <div className="armv7-corruption"><span>NaN</span><span>±Inf</span><span>~1e307</span></div>
+      <p>64-bit buffers consumed and written at 32-bit stride</p>
+    </div>
+    <div className="armv7-after-stage">
+      <small>AFTER · TYPE-AWARE DISPATCH</small>
+      <code>#if CV_SIMD_64F</code>
+      <div className="armv7-routes"><span><b>FP64 SIMD = 1</b><i>x86-64 · AArch64</i><strong>vector path</strong></span><span><b>FP64 SIMD = 0</b><i>ARMv7 NEON</i><strong>scalar double</strong></span></div>
+      <div className="armv7-result"><span>CV_32F</span><strong>UNCHANGED</strong><span>CV_64F</span><strong>TYPE SAFE ✓</strong></div>
+    </div>
+  </div>;
+
   if (kind === 'missing-terminal-frame') return <div className="contribution-visual visual-missing-frame">
     <div className="missing-frame-input">
       <small>ENV STEP · TERMINAL BOUNDARY</small>

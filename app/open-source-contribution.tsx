@@ -1,4 +1,4 @@
-import type { OpenSourceProject } from './open-source-data';
+import type { OpenSourceProject, OpenSourceRelease, OpenSourceVisualization } from './open-source-data';
 import OpenSourceVisual from './open-source-visual';
 import { PiArrowUpRightBold, PiConfettiBold } from 'react-icons/pi';
 
@@ -6,6 +6,7 @@ type StoryHeading = { label: string; title: string };
 type Presentation = { eyebrow: string; title: string; lead: string; story: [StoryHeading, StoryHeading, StoryHeading, StoryHeading] };
 
 const presentation: Record<OpenSourceProject['visualization'], Presentation> = {
+  'armv7-fp64-gemm': { eyebrow: 'COMPUTER VISION · SIMD TYPE DISPATCH', title: '支持 SIMD，不代表支持双精度 SIMD', lead: 'ARMv7 NEON 的能力组合暴露了一条危险捷径：预处理器移除了 FP64 分支，却留下 float fallback，让双精度矩阵在没有报错的情况下被按 32 位缓冲区解释。', story: [{ label: '静默破坏', title: 'CV_64F 被 Float 内核读写成 NaN 与巨值' }, { label: '能力边界', title: 'CV_SIMD 与 CV_SIMD_64F 是两个不同契约' }, { label: '分发修复', title: '三条双精度入口统一受 FP64 守卫' }, { label: '平台结果', title: '有 FP64 继续向量化，无 FP64 正确回退标量' }] },
   'missing-terminal-frame': { eyebrow: 'REINFORCEMENT LEARNING · EPISODE RECORDING', title: '终止帧可以缺失，环境步骤不能跟着丢失', lead: '录制器面对的是两条不同的数据流：图像可以在终止边界为空，动作与奖励仍然必须完成记账并让异步 Worker 正常结束这一步。', story: [{ label: '录制崩溃', title: '空 Observation 进入 OpenCV 并中断 STEP' }, { label: '边界判断', title: '有没有帧要看编码输入，而不是终止标记' }, { label: '最小跳过', title: '只跳过空图像，不改 Observation 与帧序列' }, { label: '回合完整性', title: '两次动作、完整奖励与下一张帧同时保留' }] },
   'gp-zero-sum-roulette': { eyebrow: 'BAYESIAN OPTIMIZATION · NUMERICAL CONVERGENCE', title: '没有剩余概率时，就停止追加搜索起点', lead: 'LogEI 的数学权重仍为正，浮点表示却可能把极小值压成精确零；数值退化应转化为收敛信号，而不是继续执行一次无意义的归一化。', story: [{ label: '下溢故障', title: '非最佳指数权重全部变成零' }, { label: '概率语义', title: '零和表示没有可抽取的改进候选' }, { label: '条件归一化', title: '只在总权重大于零时生成分布' }, { label: '默认路径回归', title: '真实 LogEI 的 91 个试验完整结束' }] },
   'cmake-build-type-scope': { eyebrow: 'CMAKE PACKAGING · CONFIGURATION OWNERSHIP', title: '构建与安装必须谈论同一个配置', lead: '默认 Release 不是某个子目录的私有选择；完整发行包需要在创建目标前统一配置，而嵌入式子项目必须把决定权留给宿主。', story: [{ label: '导出断层', title: '构建生成 Release，安装却按空配置查找' }, { label: '作用域判断', title: '顶层、独立与嵌入式项目拥有不同配置权' }, { label: '默认值前移', title: '完整发行包在进入子目录前确定 Release' }, { label: '消费验证', title: '四种模式均能找到、链接并运行目标' }] },
@@ -54,19 +55,62 @@ const presentation: Record<OpenSourceProject['visualization'], Presentation> = {
   'matrix-codegen': { eyebrow: 'SYMBOLIC CODEGEN · RUST TYPE SYSTEM', title: '六个元素，不代表它就是六维向量', lead: '生成代码不仅要保留数值，还必须把符号矩阵的行列结构带进目标语言的静态类型。', story: [{ label: '形状丢失', title: '2×3 被压平成 SVector<6>' }, { label: '类型语义', title: '元素数量不能替代行列维度' }, { label: '路径统一', title: '签名与构造器共享 shape-aware formatter' }, { label: '回归边界', title: '矩阵恢复形状，向量保持原行为' }] },
 };
 
-export default function OpenSourceContribution({ project }: { project: OpenSourceProject }) {
-  const copy = presentation[project.visualization];
-  const paragraphs = [project.problem, project.reasoning, project.solution, project.impact];
-  return <section className={`contribution-case case-${project.visualization}`} id="contribution">
-    <header className="case-header"><span>{copy.eyebrow}</span><h2>{copy.title}</h2><p>{copy.lead}</p></header>
-    <div className="case-visual" data-motion data-glow><OpenSourceVisual kind={project.visualization} /></div>
+type ContributionContent = {
+  id: string;
+  title: string;
+  prHref: string;
+  mergedAt?: string;
+  problem: string;
+  reasoning: string;
+  solution: string;
+  impact: string;
+  visualization: OpenSourceVisualization;
+  release?: OpenSourceRelease;
+};
+
+function contributionLinkLabel(href: string) {
+  const match = href.match(/\/(pull|issues)\/(\d+)/);
+  if (!match) return '查看贡献原文';
+  return `${match[1] === 'pull' ? 'PR' : 'Issue'} #${match[2]}`;
+}
+
+function ContributionCase({ contribution, index, showSource }: { contribution: ContributionContent; index: number; showSource: boolean }) {
+  const copy = presentation[contribution.visualization];
+  const paragraphs = [contribution.problem, contribution.reasoning, contribution.solution, contribution.impact];
+  return <section className={`contribution-case case-${contribution.visualization}`} id={index === 0 ? 'contribution' : `contribution-${contribution.id}`}>
+    <header className="case-header"><span>{copy.eyebrow}</span><h2>{copy.title}</h2><p>{copy.lead}</p>{showSource && <a className="case-source-link" href={contribution.prHref} target="_blank" rel="noopener noreferrer">{contributionLinkLabel(contribution.prHref)}<span>↗</span></a>}</header>
+    <div className="case-visual" data-motion data-glow><OpenSourceVisual kind={contribution.visualization} /></div>
     <div className="case-story" data-motion>
-      {copy.story.map((item, index) => <article key={item.title} data-glow><small>{item.label}</small><h3>{item.title}</h3><p>{paragraphs[index]}</p></article>)}
+      {copy.story.map((item, storyIndex) => <article key={item.title} data-glow><small>{item.label}</small><h3>{item.title}</h3><p>{paragraphs[storyIndex]}</p></article>)}
     </div>
-    {project.release && <a className="contribution-release" href={project.release.href} target="_blank" rel="noopener noreferrer" data-motion data-glow>
+    {contribution.release && <a className="contribution-release" href={contribution.release.href} target="_blank" rel="noopener noreferrer" data-motion data-glow>
       <span className="release-celebration"><PiConfettiBold aria-hidden="true" /></span>
-      <div className="release-copy"><strong>{project.release.title}</strong><ul>{project.release.steps.map((step) => <li key={step}>{step}</li>)}</ul></div>
-      <span className="release-link">{project.release.linkLabel ?? '查看正式版本'} <PiArrowUpRightBold aria-hidden="true" /></span>
+      <div className="release-copy"><strong>{contribution.release.title}</strong><ul>{contribution.release.steps.map((step) => <li key={step}>{step}</li>)}</ul></div>
+      <span className="release-link">{contribution.release.linkLabel ?? '查看正式版本'} <PiArrowUpRightBold aria-hidden="true" /></span>
     </a>}
   </section>;
+}
+
+export default function OpenSourceContribution({ project }: { project: OpenSourceProject }) {
+  const primary: ContributionContent = {
+    id: 'latest',
+    title: presentation[project.visualization].title,
+    prHref: project.prHref,
+    problem: project.problem,
+    reasoning: project.reasoning,
+    solution: project.solution,
+    impact: project.impact,
+    visualization: project.visualization,
+    release: project.release,
+  };
+  const contributions: ContributionContent[] = [primary, ...(project.contributions ?? [])];
+  const hasArchive = contributions.length > 1;
+
+  return <>
+    {hasArchive && <nav className="contribution-ledger" aria-label={`${project.name} 贡献档案`}>
+      <header><small>CONTRIBUTION ARCHIVE</small><strong>{contributions.length} 项技术贡献</strong><p>同一仓库持续追加，最新修复置顶，既有贡献完整保留。</p></header>
+      <div>{contributions.map((contribution, index) => <a href={index === 0 ? '#contribution' : `#contribution-${contribution.id}`} key={contribution.id}><span>{String(index + 1).padStart(2, '0')}</span><div><small>{index === 0 ? '最新贡献' : contribution.mergedAt}</small><strong>{contribution.title}</strong></div></a>)}</div>
+    </nav>}
+    {contributions.map((contribution, index) => <ContributionCase contribution={contribution} index={index} showSource={hasArchive} key={contribution.id} />)}
+  </>;
 }
