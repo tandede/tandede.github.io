@@ -76,9 +76,9 @@ export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
     solution: '把解码与绝对化拆开，在二者之间识别 `/C:/...` 并仅移除一个前导分隔符；跨平台回归模拟 Windows 路径函数，确认编码 URI 精确还原为 `C:\\Temp\\example.md`。',
   },
   onnx: {
-    problem: 'LRN 参考实现用 batch 数遍历通道轴：`N < C` 时部分通道没有归一化，`N > C` 时会越界；固定四维切片还排除了规范允许的其他空间维度。',
-    reasoning: '归一化窗口只沿 `C` 轴移动，batch 和所有空间轴都应保持原位。循环范围、窗口边界和求和轴必须共享同一通道语义，不能从输入的第零维推导。',
-    solution: '改用 `shape[1]` 遍历与裁剪通道窗口，并通过省略号支持 3D/4D/5D 输入；回归覆盖奇偶窗口、边界、零通道和四种浮点类型。',
+    problem: 'FLOAT8E8M0 转换用正规 float32 的固定舍入位处理次正规数，并把 float64 先降成 float32；边界值因此越级，超出 float32 范围的有限值甚至会先变成 Inf 再编码为 NaN。',
+    reasoning: 'E8M0 只保留指数，舍入应直接基于源值的指数与有效数。转换不能依赖某一种源格式的 bit mask，也不能在真正量化前丢掉 float64 精度。',
+    solution: '保留原始 float32/float64，用 `frexp()` 统一分解并实现三种舍入模式；回归覆盖次正规数、原生与大端 float64、饱和边界及特殊值，让量化只舍入一次。',
   },
   'sentence-transformers': {
     problem: 'Usearch 重排直接把 signed binary 的 `int8` 存储转成 `uint8`，翻转了每个字节的最高位；非 8 倍数维度还会保留 `packbits` 的尾部填充，导致分数错乱或形状不匹配。',

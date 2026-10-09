@@ -6,6 +6,28 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'float8e8m0-rounding') return <div className="contribution-visual visual-float8e8m0">
+    <div className="float8-input-stage">
+      <small>INPUT · SOURCE PRECISION</small>
+      <strong>FLOAT32 / FLOAT64</strong>
+      <div><span>float32 subnormal</span><code>0x00400000</code><b>2⁻¹²⁷</b></div>
+      <div><span>float64 boundary</span><code>0x380F…FFFF</code><b>&lt; 2⁻¹²⁶</b></div>
+      <div><span>float64 wide range</span><code>1e39</code><b>finite</b></div>
+    </div>
+    <div className="float8-before-stage">
+      <small>BEFORE · FORMAT-SPECIFIC SHORTCUTS</small>
+      <div className="float8-broken-route"><span>float64</span><i>→</i><strong>float32</strong><i>→</i><span>E8M0</span></div>
+      <p>double rounding · overflow before quantization</p>
+      <div className="float8-wrong-results"><span><b>2⁻¹²⁷</b><em>code 1 ✕</em></span><span><b>1e39</b><em>0xFF NaN ✕</em></span></div>
+    </div>
+    <div className="float8-after-stage">
+      <small>AFTER · ONE NUMERICAL DECOMPOSITION</small>
+      <code>|x| = m × 2ᵉ · np.frexp()</code>
+      <div className="float8-round-modes"><span><b>DOWN</b><i>keep e</i></span><span><b>UP</b><i>m &gt; 0.5</i></span><span><b>NEAREST</b><i>m ≥ 0.75</i></span></div>
+      <div className="float8-correct-results"><span>2⁻¹²⁷</span><strong>CODE 0 ✓</strong><span>1e39 · SATURATE</span><strong>0xFE ✓</strong></div>
+    </div>
+  </div>;
+
   if (kind === 'armv7-fp64-gemm') return <div className="contribution-visual visual-armv7-gemm">
     <div className="armv7-capability-stage">
       <small>ARMv7 · NEON CAPABILITIES</small>

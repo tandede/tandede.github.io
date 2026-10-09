@@ -8,7 +8,7 @@ export type OpenSourceRelease = {
   showOnCard?: boolean;
 };
 
-export type OpenSourceVisualization = 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope' | 'gp-zero-sum-roulette' | 'missing-terminal-frame' | 'armv7-fp64-gemm';
+export type OpenSourceVisualization = 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope' | 'gp-zero-sum-roulette' | 'missing-terminal-frame' | 'armv7-fp64-gemm' | 'float8e8m0-rounding';
 
 export type OpenSourceContributionEntry = {
   id: string;
@@ -240,15 +240,28 @@ export const openSourceProjects: OpenSourceProject[] = [
     visualization: 'encoded-drive-uri',
   },
   {
-    slug: 'onnx', name: 'ONNX', logo: 'https://raw.githubusercontent.com/onnx/onnx/main/docs/docsgen/source/onnx-favicon.png', accent: '#005ced', role: 'CONTRIBUTOR', href: 'https://github.com/onnx/onnx', prHref: 'https://github.com/onnx/onnx/pull/8331',
+    slug: 'onnx', name: 'ONNX', logo: 'https://raw.githubusercontent.com/onnx/onnx/main/docs/docsgen/source/onnx-favicon.png', accent: '#005ced', role: 'CONTRIBUTOR', href: 'https://github.com/onnx/onnx', prHref: 'https://github.com/onnx/onnx/pull/8545', mergedAt: '2026-10-09',
     function: '面向机器学习模型互操作的开放标准与参考实现，定义统一的计算图、算子规范和序列化格式，并提供模型检查、形状推断、参考执行器与后端一致性测试，连接训练框架、编译器和推理运行时。',
-    problem: 'LRN 规范把输入定义为 `(N, C, D1, ..., Dn)`，归一化窗口应沿通道轴 `C` 滑动；旧参考实现却用 `range(x.shape[0])` 遍历 batch 数，再把循环索引写到 `square_sum[:, c, :, :]` 的通道位置。当 `N < C` 时部分通道永远保持零归一化和，当 `N > C` 时则会越过通道边界；硬编码四维切片还拒绝规范允许的 3D、5D 等输入。',
-    reasoning: 'LRN 对每个 batch 和空间位置独立计算相邻通道的平方和，因此循环边界与窗口上下限都只能来自 `x.shape[1]`。空间维数量并不参与通道选择，应该通过省略号原样传递；输出缓冲区也应继承输入的形状与 dtype，避免实现额外制造维度和类型假设。',
-    solution: '引入 `channel_count = x.shape[1]`，按通道数迭代并以同一计数裁剪窗口，使用 `square_sum[:, c, ...] = sum(x[:, begin:end, ...] ** 2, axis=1)` 统一处理任意空间维；最低秩约束从固定 4D 改为至少包含 batch 与 channel 的 2D。同步更新生成的后端用例，并新增奇偶窗口、边界通道、3D/4D/5D、零通道以及 float16、float32、float64、bfloat16 覆盖。',
-    impact: 'LRN 参考执行器现在在 batch 与 channel 数不相等时仍会完整归一化每个通道，不再留下错误零值或触发越界；同一实现也忠实支持规范中的任意空间维输入和全部支持 dtype。参考执行器测试 310 项通过、4 项跳过，LRN 后端测试 2 项通过、2 项跳过，完整 lint 同步通过。',
-    highlight: 'ITERATE C · PRESERVE N · GENERALIZE D₁…Dₙ',
-    takeaway: '沿通道轴计算 LRN，并让参考实现覆盖任意空间维',
-    visualization: 'lrn-channel-axis',
+    problem: '`to_float8e8m0()` 用 float32 正规数的 guard、round、sticky 位处理次正规数，但次正规数的隐含前导位位置不同，因而会把 `2⁻¹²⁷` 等边界错误向上舍入；函数还先把 float64 降成 float32，再量化到 E8M0，造成二次舍入。接近 `2⁻¹²⁶` 的值会越过边界，`1e39` 甚至先溢出为 Inf，再错误编码成 `0xFF` NaN。',
+    reasoning: 'FLOAT8E8M0 只保留指数，正确舍入取决于原始输入的指数与有效数，不能套用某一种源格式的固定 bit mask，更不能在量化前主动丢掉 float64 精度。`frexp()` 可以直接在输入 dtype 上把所有有限值规范化成 `m × 2ᵉ`，用同一组有效数阈值表达 down、up 与 nearest，同时自然覆盖 float32 次正规数、原生及非原生字节序 float64。',
+    solution: '保留输入的 float32 或 float64 dtype，仅把其他类型转换为 float32；对绝对值调用 `np.frexp()`，由二进制指数生成 E8M0 code，并按 `m > 0.5` 实现向上舍入、`m >= 0.75` 实现最近舍入，随后统一处理零值、最小指数、饱和上界和 NaN/Inf。新增次正规数、float64 临界值、大端 float64、超范围值及三种舍入模式回归。',
+    impact: '次正规 float32 不再因为错误位位置跳到更高指数；float64 在原精度下只舍入一次，`2⁻¹²⁶` 下方的值正确落到 code `0`，`1e39` 在饱和模式下得到最大有限 code `0xFE` 而不是 NaN。实现从格式相关位运算收敛为统一数值分解，删除 51 行、增加 22 行核心代码；68 项 NumPy helper 测试以及 Ruff 检查与格式检查通过。',
+    highlight: 'DECOMPOSE ONCE · ROUND ONCE · PRESERVE SOURCE PRECISION',
+    takeaway: '在原始精度上分解指数与有效数，让 FLOAT8 舍入只发生一次',
+    visualization: 'float8e8m0-rounding',
+    contributions: [{
+      id: 'lrn-channel-axis',
+      title: '沿通道轴计算任意维 LRN',
+      prHref: 'https://github.com/onnx/onnx/pull/8331',
+      mergedAt: '2026-09-01',
+      problem: 'LRN 规范把输入定义为 `(N, C, D1, ..., Dn)`，归一化窗口应沿通道轴 `C` 滑动；旧参考实现却用 `range(x.shape[0])` 遍历 batch 数，再把循环索引写到 `square_sum[:, c, :, :]` 的通道位置。当 `N < C` 时部分通道永远保持零归一化和，当 `N > C` 时则会越过通道边界；硬编码四维切片还拒绝规范允许的 3D、5D 等输入。',
+      reasoning: 'LRN 对每个 batch 和空间位置独立计算相邻通道的平方和，因此循环边界与窗口上下限都只能来自 `x.shape[1]`。空间维数量并不参与通道选择，应该通过省略号原样传递；输出缓冲区也应继承输入的形状与 dtype，避免实现额外制造维度和类型假设。',
+      solution: '引入 `channel_count = x.shape[1]`，按通道数迭代并以同一计数裁剪窗口，使用 `square_sum[:, c, ...] = sum(x[:, begin:end, ...] ** 2, axis=1)` 统一处理任意空间维；最低秩约束从固定 4D 改为至少包含 batch 与 channel 的 2D。同步更新生成的后端用例，并新增奇偶窗口、边界通道、3D/4D/5D、零通道以及 float16、float32、float64、bfloat16 覆盖。',
+      impact: 'LRN 参考执行器现在在 batch 与 channel 数不相等时仍会完整归一化每个通道，不再留下错误零值或触发越界；同一实现也忠实支持规范中的任意空间维输入和全部支持 dtype。参考执行器测试 310 项通过、4 项跳过，LRN 后端测试 2 项通过、2 项跳过，完整 lint 同步通过。',
+      highlight: 'ITERATE C · PRESERVE N · GENERALIZE D₁…Dₙ',
+      takeaway: '沿通道轴计算 LRN，并让参考实现覆盖任意空间维',
+      visualization: 'lrn-channel-axis',
+    }],
   },
   {
     slug: 'sentence-transformers', name: 'Sentence Transformers', logo: 'https://github.com/huggingface.png?size=128', accent: '#e59b18', role: 'CONTRIBUTOR', href: 'https://github.com/huggingface/sentence-transformers', prHref: 'https://github.com/huggingface/sentence-transformers/pull/3948',
