@@ -8,7 +8,7 @@ export type OpenSourceRelease = {
   showOnCard?: boolean;
 };
 
-export type OpenSourceVisualization = 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope' | 'gp-zero-sum-roulette' | 'missing-terminal-frame' | 'armv7-fp64-gemm' | 'float8e8m0-rounding';
+export type OpenSourceVisualization = 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope' | 'gp-zero-sum-roulette' | 'missing-terminal-frame' | 'armv7-fp64-gemm' | 'float8e8m0-rounding' | 'classifier-eval-labels';
 
 export type OpenSourceContributionEntry = {
   id: string;
@@ -48,6 +48,17 @@ export type OpenSourceProject = {
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'lightgbm', name: 'LightGBM', logo: 'https://github.com/lightgbm-org.png?size=128', accent: '#159957', role: 'CONTRIBUTOR', href: 'https://github.com/lightgbm-org/LightGBM', prHref: 'https://github.com/lightgbm-org/LightGBM/pull/7402', mergedAt: '2026-10-10',
+    function: '面向高效梯度提升决策树训练的机器学习框架，提供原生训练接口与兼容 scikit-learn 的分类、回归和排序估计器，并支持 CPU、GPU、分布式训练、验证监控与 early stopping。',
+    problem: 'LightGBM 4.7.0 用 `eval_X` / `eval_y` 取代旧 `eval_set`，但 `LGBMClassifier.fit()` 只编码训练标签，未经编码的验证标签被直接传给底层模型。字符串类别会在构建验证集时抛出转换错误；`1/2` 或 `0/2/7/10` 等整数类别则不报错，却会用错误标签计算验证指标，进而污染 `evals_result_`、early stopping 与 `best_iteration_`。',
+    reasoning: '分类器的 Booster 始终在 `0..n_classes-1` 的内部类别空间训练，任何参与指标计算的验证标签都必须经过同一个已拟合 LabelEncoder。修复不能只覆盖单个数组：新接口同时允许单验证集与 tuple 多验证集，而且应保持现有的参数结构校验和错误路径不变。',
+    solution: '在进入 `LGBMModel.fit()` 前，用分类器已经拟合的 `self._le` 转换 `eval_y`；单数组直接编码，tuple 则逐个验证集编码，其他结构仍交给既有校验。参数化回归覆盖字符串、非零起始整数和非连续整数三类标签，并分别验证单输入与 tuple 输入都向底层传递完全一致的编码结果。',
+    impact: '新 `eval_X` / `eval_y` 接口现在与旧 `eval_set` 使用同一类别映射：字符串验证集可以正常训练，非标准整数类别不再静默产生错误指标，early stopping 与最佳迭代重新依据真实验证结果工作。改动集中在 2 个文件，核心修复新增 6 行；Python 包定向测试 482 项通过、254 项跳过、12 项预期失败。',
+    highlight: 'TRAIN LABEL SPACE = EVAL LABEL SPACE',
+    takeaway: '用同一个 LabelEncoder 统一训练与验证标签，消除显式报错和静默指标偏差',
+    visualization: 'classifier-eval-labels',
+  },
   {
     slug: 'sample-factory', name: 'Sample Factory', logo: '/logos/sample-factory.svg', accent: '#7657d6', role: 'CONTRIBUTOR', href: 'https://github.com/alex-petrenko/sample-factory', prHref: 'https://github.com/alex-petrenko/sample-factory/pull/336',
     function: '面向强化学习研究与工程的高吞吐训练框架，提供同步和异步策略梯度实现，并支持 ViZDoom、Isaac Gym、DMLab、MuJoCo 与 Atari 等环境的并行采样、训练、评估和轨迹录制。',

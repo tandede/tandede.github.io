@@ -6,6 +6,28 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'classifier-eval-labels') return <div className="contribution-visual visual-classifier-labels">
+    <div className="classifier-label-input">
+      <small>PUBLIC LABELS · SAME TASK</small>
+      <strong>LGBMClassifier.fit()</strong>
+      <div><span>TRAIN y</span><code>[&quot;down&quot;, &quot;up&quot;]</code></div>
+      <div><span>EVAL y</span><code>[&quot;down&quot;, &quot;up&quot;]</code></div>
+      <p>也适用于 [1, 2] 与 [0, 2, 7, 10]</p>
+    </div>
+    <div className="classifier-label-before">
+      <small>BEFORE · SPLIT LABEL SPACES</small>
+      <div className="classifier-label-split"><span>TRAIN</span><i>→</i><strong>[0, 1]</strong><span>EVAL</span><i>→</i><b>RAW LABELS</b></div>
+      <div className="classifier-label-failures"><span><b>STRING</b><em>ValueError</em></span><span><b>INTEGER</b><em>wrong metric</em></span></div>
+      <code>early stopping → wrong best_iteration_</code>
+    </div>
+    <div className="classifier-label-after">
+      <small>AFTER · ONE FITTED ENCODER</small>
+      <code>self._le.transform(eval_y)</code>
+      <div className="classifier-label-routes"><span><b>SINGLE</b><i>array → encoded array</i></span><span><b>MULTIPLE</b><i>tuple → tuple(map)</i></span></div>
+      <div className="classifier-label-result"><span>TRAIN</span><strong>[0, 1]</strong><span>EVAL</span><strong>[0, 1] ✓</strong></div>
+    </div>
+  </div>;
+
   if (kind === 'float8e8m0-rounding') return <div className="contribution-visual visual-float8e8m0">
     <div className="float8-input-stage">
       <small>INPUT · SOURCE PRECISION</small>
@@ -99,7 +121,7 @@ export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['vi
   if (kind === 'cmake-build-type-scope') return <div className="contribution-visual visual-cmake-scope">
     <div className="cmake-scope-before">
       <small>BEFORE · SPLIT CONFIGURATION</small>
-      <div><span>ROOT</span><code>CMAKE_BUILD_TYPE = ""</code></div>
+      <div><span>ROOT</span><code>CMAKE_BUILD_TYPE = &quot;&quot;</code></div>
       <div><span>OCTOMAP SUBDIR</span><code>Release</code></div>
       <div className="cmake-scope-artifact"><b>BUILD</b><strong>targets-release.cmake</strong><b>INSTALL</b><strong>config = empty</strong></div>
       <p>find_package succeeds · imported location missing</p>

@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  lightgbm: {
+    problem: '`eval_X` / `eval_y` 路径没有复用分类器的标签编码：字符串类别直接失败，非零或非连续整数类别则会静默算错验证指标，并影响 early stopping。',
+    reasoning: 'Booster 在内部连续类别空间训练，验证标签必须经过同一个已拟合 LabelEncoder；单验证集与 tuple 多验证集还要保持完全一致的转换语义。',
+    solution: '在交给底层模型前统一编码 `eval_y`，并用三种类别形态 × 两种输入结构的参数化回归锁定结果，使新接口重新与 `eval_set` 对齐。',
+  },
   'sample-factory': {
     problem: 'ViZDoom 的终止步骤可能不返回图像；录制器仍把 `None` 或空数组交给 OpenCV，颜色转换立即失败，奖励记账被截断，异步 Worker 还会反复重试同一步。',
     reasoning: '缺少可编码帧不等于缺少有效环境步骤。守卫应放在 `_record()` 的图像边界，让动作、奖励、回合收尾和返回给调用方的 observation 保持原有语义。',

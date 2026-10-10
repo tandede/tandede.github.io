@@ -948,7 +948,34 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .case-matrix-codegen .case-visual { grid-column: 5 / -1; grid-row: 1; }
 .case-matrix-codegen .case-story { grid-column: 1 / -1; grid-row: 2; }
 
-.visual-float8e8m0, .visual-armv7-gemm, .visual-missing-frame, .visual-gp-zero-sum, .visual-cmake-scope, .visual-registry-backend { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.visual-classifier-labels, .visual-float8e8m0, .visual-armv7-gemm, .visual-missing-frame, .visual-gp-zero-sum, .visual-cmake-scope, .visual-registry-backend { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.classifier-label-input, .classifier-label-before, .classifier-label-after { display: grid; min-width: 0; min-height: 350px; padding: 25px; align-content: center; gap: 16px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
+.classifier-label-input > small, .classifier-label-before > small, .classifier-label-after > small { font-size: 12px; }
+.classifier-label-input > strong { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 20px; }
+.classifier-label-input > div { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; padding: 13px; align-items: center; border: 1px solid var(--line); border-radius: 10px; background: var(--white); }
+.classifier-label-input span, .classifier-label-input code { font-family: var(--font-geist-mono), monospace; font-size: 11px; }
+.classifier-label-input span { color: var(--muted); }
+.classifier-label-input code { color: var(--detail-accent); text-align: right; overflow-wrap: anywhere; }
+.classifier-label-input > p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.classifier-label-before { border-color: #efb4b1; background: #fff8f7; }
+.classifier-label-split { display: grid; grid-template-columns: auto auto minmax(0, 1fr); gap: 8px; align-items: center; }
+.classifier-label-split span, .classifier-label-split strong, .classifier-label-split b { padding: 10px 7px; border: 1px solid #efb4b1; border-radius: 9px; background: var(--white); font-family: var(--font-geist-mono), monospace; font-size: 10px; text-align: center; }
+.classifier-label-split i { color: #b42318; font-style: normal; }
+.classifier-label-split b { color: #b42318; }
+.classifier-label-failures, .classifier-label-routes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.classifier-label-failures span, .classifier-label-routes span { display: grid; gap: 7px; padding: 13px; border: 1px solid #efb4b1; border-radius: 10px; background: var(--white); }
+.classifier-label-failures b, .classifier-label-failures em, .classifier-label-routes b, .classifier-label-routes i { font-family: var(--font-geist-mono), monospace; font-size: 10px; }
+.classifier-label-failures em { color: #b42318; font-style: normal; }
+.classifier-label-before > code { padding: 12px; color: #b42318; border: 1px solid #efb4b1; border-radius: 9px; background: var(--white); font-size: 11px; text-align: center; overflow-wrap: anywhere; }
+.classifier-label-after { border-color: color-mix(in srgb, var(--detail-accent) 46%, var(--line)); background: color-mix(in srgb, var(--detail-accent) 5%, white); }
+.classifier-label-after > code { padding: 12px; color: var(--detail-accent); border: 1px solid color-mix(in srgb, var(--detail-accent) 30%, var(--line)); border-radius: 9px; background: var(--white); font-size: 12px; text-align: center; overflow-wrap: anywhere; }
+.classifier-label-routes span { border-color: color-mix(in srgb, var(--detail-accent) 30%, var(--line)); }
+.classifier-label-routes b { color: var(--detail-accent); }
+.classifier-label-routes i { color: var(--muted); font-style: normal; }
+.classifier-label-result { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 9px 12px; padding: 13px; align-items: center; border: 1px solid #9ed8bf; border-radius: 10px; background: #f2fbf7; }
+.classifier-label-result span, .classifier-label-result strong { font-family: var(--font-geist-mono), monospace; font-size: 11px; }
+.classifier-label-result span { color: var(--muted); }
+.classifier-label-result strong { color: #067647; text-align: right; }
 .float8-input-stage, .float8-before-stage, .float8-after-stage { display: grid; min-width: 0; min-height: 350px; padding: 25px; align-content: center; gap: 16px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
 .float8-input-stage > small, .float8-before-stage > small, .float8-after-stage > small { font-size: 12px; }
 .float8-input-stage > strong { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 22px; }
@@ -2403,7 +2430,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .contribution-showcase > header { grid-template-columns: 150px 1fr; }
   .contribution-showcase > header p { grid-column: 2; }
   .contribution-ledger { grid-template-columns: 1fr; gap: 24px; }
-  .visual-float8e8m0, .visual-armv7-gemm, .visual-missing-frame, .visual-gp-zero-sum, .visual-cmake-scope, .visual-registry-backend, .visual-tictactoe-copy, .visual-multi-hop-options, .visual-cli-path, .visual-porter-duff, .visual-wrapper-entry, .visual-compile-config, .visual-trimmed-mean-boundary, .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
+  .visual-classifier-labels, .visual-float8e8m0, .visual-armv7-gemm, .visual-missing-frame, .visual-gp-zero-sum, .visual-cmake-scope, .visual-registry-backend, .visual-tictactoe-copy, .visual-multi-hop-options, .visual-cli-path, .visual-porter-duff, .visual-wrapper-entry, .visual-compile-config, .visual-trimmed-mean-boundary, .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
   .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow, .visual-shared-state > .visual-arrow { transform: rotate(90deg); }
   .visual-numeric { grid-template-columns: 1fr; }
   .reshape-routes > div { grid-template-columns: 1fr; gap: 8px; }
