@@ -121,9 +121,9 @@ export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
     solution: '先复制安全设置，再在独立映射中合并默认阈值，并用身份与内容断言锁定输入不变。输出拥有独立的嵌套映射，默认阈值照常生效，复用同一配置的后续请求不再继承前一次调用的副作用。',
   },
   webots: {
-    problem: '负单位四元数表示恒等旋转，却会走到零向量归一化，生成 NaN 旋转轴并把崩溃风险带入场景树。这个输入在数学上完全合法，旧实现却把等价表示变成了渲染与仿真的不稳定源。',
-    reasoning: 'q 与 −q 描述同一旋转；近零向量应规范化为有限的恒等轴角，同时保留非退化负标量输入的真实旋转。判断边界应基于向量部分的范数，而不是简单检查标量正负。',
-    solution: '统一复用向量范数，近零时直接返回规范恒等旋转，其余输入继续正常归一化，并补齐退化边界记录。这样既消除除零，也不改变普通负标量四元数的轴角结果。',
+    problem: '测试构建会进入 `other_api`，clean 却漏掉它；执行 `make clean` 或顶层 cleanse 后，旧控制器和 build 目录仍被下一次测试复用。',
+    reasoning: '`other_api` 已经实现 clean，父级缺失的只是一条依赖边。构建与清理应遍历同一子系统集合，而不是复制另一套删除逻辑。',
+    solution: '把 `other_api` 加入 tests clean prerequisites，并用递归 clean 的 dry run 验证下发；仓库卡片归档另外两项 Webots 技术贡献。',
   },
   'robotics-toolbox-python': {
     problem: '`accel_x()` 会引用未定义变量，并把关节数误当作输出列数，让 7 轴机器人无法返回六维末端加速度。正常调用会直接触发 `NameError`，冗余机械臂的结果形状也与接口承诺不符。',
@@ -216,9 +216,9 @@ export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
     solution: '新增特征归一化与确定性 K-means 分支，让大规模输入绕开稠密矩阵和谱分解。固定初始化保证重复运行结果一致，小规模或未知 K 场景仍保留原谱聚类能力。',
   },
   burn: {
-    problem: '卷积快速路径对 Inf / NaN 权重的行为与通用实现不同，破坏同一算子的 IEEE 754 语义。用户仅仅切换执行路径，就可能得到不同的非有限值传播结果。',
-    reasoning: '异常值需要正确传播，但不能让所有正常输入回退到慢路径；边界应只影响非有限权重。修复必须把语义判断放在足够窄的位置，避免牺牲常规模型吞吐和向量化收益。',
-    solution: '检测异常权重并切换到语义一致路径，有限权重继续走原向量化热路径，兼顾正确性与性能。快速与通用实现因此重新共享同一数值约定，正常输入没有性能回退。',
+    problem: '以错误 rank 从 `TensorContainer` 读取张量时，只会得到不透明的 unwrap panic，缺少容器 ID、请求类型和 rank 线索。',
+    reasoning: 'rank 错配仍应立即失败，但三个 downcast 入口需要共享可诊断的类型契约，而不能把它伪装成 ID 不存在。',
+    solution: '统一用 `type_name<T>` 生成包含 ID、请求类型与 rank 提示的 panic，并以二维注册、一维读取的梯度回归锁定错误信息。',
   },
   nltk: {
     problem: '`Concept` 的三个可变默认容器跨实例共享，修改一个对象会悄悄污染之后创建的概念。标签、闭包与扩展集合都会跨对象泄漏，错误状态还会随构造顺序变化。',

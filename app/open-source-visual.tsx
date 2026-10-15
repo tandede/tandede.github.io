@@ -6,6 +6,53 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'make-clean-dispatch') return <div className="contribution-visual visual-make-clean">
+    <div className="make-clean-graph">
+      <small>BUILD · COMPLETE DEPENDENCY GRAPH</small>
+      <strong>release · debug · profile</strong>
+      <div><span>PARENT TARGET</span><i>→</i><b>SUBPROJECTS</b></div>
+      <code>api · cache · child target · parser · …</code>
+      <p>每个子目录已经拥有自己的 clean target</p>
+    </div>
+    <div className="make-clean-before">
+      <small>BEFORE · MISSING CLEAN EDGE</small>
+      <strong>make clean / make cleanse</strong>
+      <div><span>api</span><span>cache</span><span className="is-missing">child target</span><span>parser</span></div>
+      <code>old build/ + controller binary</code>
+      <p>下一次构建可能复用旧编译器产物</p>
+    </div>
+    <div className="make-clean-after">
+      <small>AFTER · SYMMETRIC DISPATCH</small>
+      <strong>clean: … child target …</strong>
+      <div><span>PARENT CLEAN</span><i>→</i><b>CHILD CLEAN</b></div>
+      <div className="make-clean-result"><span>build dirs</span><b>REMOVED</b><span>old binaries</span><b>REMOVED ✓</b></div>
+    </div>
+  </div>;
+
+  if (kind === 'tensor-rank-downcast') return <div className="contribution-visual visual-tensor-rank">
+    <div className="tensor-rank-container">
+      <small>TENSOR CONTAINER · TYPE ERASED</small>
+      <strong>HashMap&lt;ID, Box&lt;dyn Any&gt;&gt;</strong>
+      <div><span>REGISTERED</span><code>Tensor&lt;2&gt;</code></div>
+      <div><span>REQUESTED</span><code>Tensor&lt;1&gt;</code></div>
+      <p>同一个 ID · 不同的静态 rank</p>
+    </div>
+    <div className="tensor-rank-before">
+      <small>BEFORE · OPAQUE DOWNCAST</small>
+      <code>downcast_ref::&lt;T&gt;().unwrap()</code>
+      <div><span>Any</span><i>→</i><strong>None</strong><i>→</i><b>PANIC</b></div>
+      <p>called Option::unwrap() on a None value</p>
+      <em>哪一个 ID？请求了什么类型？</em>
+    </div>
+    <div className="tensor-rank-after">
+      <small>AFTER · SHARED TYPE DIAGNOSTIC</small>
+      <code>panic_type_mismatch::&lt;T&gt;(id)</code>
+      <div className="tensor-rank-message"><b>Tensor type mismatch</b><span>ID · requested type</span><span>check tensor rank</span></div>
+      <div className="tensor-rank-routes"><span>get</span><span>get_mut_ref</span><span>remove</span></div>
+      <strong>ACTIONABLE PANIC ✓</strong>
+    </div>
+  </div>;
+
   if (kind === 'classifier-eval-labels') return <div className="contribution-visual visual-classifier-labels">
     <div className="classifier-label-input">
       <small>PUBLIC LABELS · SAME TASK</small>
