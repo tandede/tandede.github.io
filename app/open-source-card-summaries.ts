@@ -176,9 +176,9 @@ export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
     solution: '改用 `jax.make_jaxpr` 获取 ClosedJaxpr，拆分常量与动态输入，再重建 provenance 映射。实现摆脱私有 tracing 细节，并为后续 JAX 升级保留稳定接口。',
   },
   opencv: {
-    problem: 'ARMv7 支持 NEON SIMD，却不支持 FP64 SIMD；预处理后双精度 GEMM 会残留 float fallback，把 `CV_64F` 缓冲区按 `float*` 读写并生成 NaN、Inf 与 `1e307` 级垃圾值。',
-    reasoning: '通用 SIMD 能力不等于当前数据类型拥有向量实现。双精度入口必须整体受 `CV_SIMD_64F` 控制；不支持的平台应走既有标量路径，而不是执行类型错误的 float 内核。',
-    solution: '用 `CV_SIMD_64F` 守住三条双精度累加分发并移除残余 fallback；x86-64/AArch64 保留优化路径，ARMv7 明确回退标量，Core_GEMM 精度测试通过。',
+    problem: 'OpenCV 5.x 新增的 16 位浮点与扩展整数会落入旧 `checkRange()` 的错误读取路径，轻则把位模式当成别的数值，重则以错误元素宽度跨步访问并崩溃。',
+    reasoning: '范围语义可以共享，内存布局不能猜测。每个 depth 必须先映射到正确 C++ 类型，连续与带步长矩阵再统一回算多通道 bad-point 坐标。',
+    solution: '新增类型化扫描器并显式分发六种 5.x 深度，未知格式直接拒绝；参数化回归同时锁定有限值、越界值、非有限值与错误坐标。',
   },
   deepspeed: {
     problem: 'ZenFlow 接受 `topk_ratio=0/1` 和非正 `update_interval`，训练初始化后会触发除零；小分区还可能因整数截断得到 `topk(k=0)`，让索引与梯度缓冲区失去语义。',

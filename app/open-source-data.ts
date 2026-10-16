@@ -8,7 +8,7 @@ export type OpenSourceRelease = {
   showOnCard?: boolean;
 };
 
-export type OpenSourceVisualization = 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope' | 'gp-zero-sum-roulette' | 'missing-terminal-frame' | 'armv7-fp64-gemm' | 'float8e8m0-rounding' | 'classifier-eval-labels' | 'make-clean-dispatch' | 'tensor-rank-downcast';
+export type OpenSourceVisualization = 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope' | 'gp-zero-sum-roulette' | 'missing-terminal-frame' | 'armv7-fp64-gemm' | 'check-range-depths' | 'float8e8m0-rounding' | 'classifier-eval-labels' | 'make-clean-dispatch' | 'tensor-rank-downcast';
 
 export type OpenSourceContributionEntry = {
   id: string;
@@ -570,16 +570,28 @@ export const openSourceProjects: OpenSourceProject[] = [
     visualization: 'jaxpr',
   },
   {
-    slug: 'opencv', name: 'OpenCV', logo: '/logos/opencv.svg', accent: '#6652d9', role: 'CONTRIBUTOR', href: 'https://github.com/opencv/opencv', prHref: 'https://github.com/opencv/opencv/pull/30152', mergedAt: '2026-10-06',
+    slug: 'opencv', name: 'OpenCV', logo: '/logos/opencv.svg', accent: '#6652d9', role: 'CONTRIBUTOR', href: 'https://github.com/opencv/opencv', prHref: 'https://github.com/opencv/opencv/pull/30249', mergedAt: '2026-10-16',
     function: '跨平台计算机视觉基础库，提供图像处理、几何变换、特征提取、视频分析与深度学习推理等大量工程级算子和统一接口。',
-    problem: 'ARMv7 NEON 会启用 `CV_SIMD`，却不具备双精度 SIMD，因而关闭 `CV_SIMD_64F`。旧的嵌套预处理守卫只裁掉 FP64 分支和关联的 `else`，却把 float SIMD fallback 留在 `WT == double` 路径中；`CV_64F` 输入与输出随后被强制转换成 `float*` 访问，结果出现 NaN、Inf 与约 `1e307` 的垃圾值。',
-    reasoning: '“平台支持 SIMD”不能推出“当前累加类型拥有 SIMD 实现”。双精度入口必须以 `CV_SIMD_64F` 为完整编译边界；没有 FP64 向量指令的平台应落入已经存在的 `WT=double` 标量路径，而不是让预处理后的残余控制流选择一个类型不匹配的 float 内核。',
-    solution: '把 `GEMMSingleMul()` 的转置与普通分支、以及 `GEMMBlockMul()` 的双精度累加入口直接改由 `CV_SIMD_64F` 守卫，并删除守卫内部不可能安全执行的 float fallback。支持 FP64 SIMD 的 x86-64 与 AArch64 继续使用原优化路径，ARMv7 则明确回退到标量计算。',
-    impact: '三条 `CV_64F` GEMM 分发路径不再把 64 位缓冲区按 32 位指针读取或写回，受影响的 ARMv7 组合从静默数据破坏回到正确的双精度标量语义；`CV_32F` 路径保持不变。改动仅涉及 `matmul.simd.hpp`，新增 3 行、删除 17 行，Core_GEMM 精度测试通过，并与 5.x 分支已有控制流对齐。',
-    highlight: 'CV_SIMD ≠ CV_SIMD_64F',
-    takeaway: '按数据类型守住 SIMD 分发边界，宁可标量正确也不让双精度缓冲区落入 float 内核',
-    visualization: 'armv7-fp64-gemm',
+    problem: '`checkRange()` 只为旧有深度准备了整数、`CV_32F` 与 `CV_64F` 路径；OpenCV 5.x 新增的 `CV_16F`、`CV_16BF`、`CV_Bool`、`CV_32U`、`CV_64U` 与 `CV_64S` 会落入不匹配的读取分支。16 位浮点可能被按 64 位元素跨步访问并崩溃，扩展整数还可能被解释成错误宽度或 IEEE-754 位模式。',
+    reasoning: '范围检查既要判断 `[min,max)` 与非有限值，也要在多通道、连续或带步长矩阵中报告正确像素坐标；这些行为可以共享，但底层读取宽度必须由真实 depth 决定。不能继续用一个兜底分支猜测内存布局，每个已知深度都应显式路由，未知深度则应明确拒绝。',
+    solution: '新增类型化扫描器 `checkTypedRange<T>()`，统一逐元素转换、范围判断和 bad-point 坐标回算；为两种 16 位浮点和四种扩展整数分别绑定正确 C++ 类型，保留 `CV_32F/CV_64F` 的优化路径，并把最终兜底改为 unsupported-format 错误。',
+    impact: 'OpenCV 5.x 的全部当前扩展深度不再被错误宽度读取；有限值、越界值与非有限值都能稳定返回正确像素位置。新增参数化回归覆盖 `CV_16F/CV_16BF/CV_32F` 和四种扩展整数，多平台 5.x CI 全部通过。',
+    highlight: 'DEPTH → TYPE → RANGE',
+    takeaway: '先按真实深度读取，再共享范围与坐标语义',
+    visualization: 'check-range-depths',
     contributions: [{
+      id: 'armv7-fp64-gemm',
+      title: '守住 ARMv7 的双精度 SIMD 分发边界',
+      prHref: 'https://github.com/opencv/opencv/pull/30152',
+      mergedAt: '2026-10-06',
+      problem: 'ARMv7 NEON 会启用 `CV_SIMD`，却不具备双精度 SIMD，因而关闭 `CV_SIMD_64F`。旧的嵌套预处理守卫只裁掉 FP64 分支和关联的 `else`，却把 float SIMD fallback 留在 `WT == double` 路径中；`CV_64F` 输入与输出随后被强制转换成 `float*` 访问，结果出现 NaN、Inf 与约 `1e307` 的垃圾值。',
+      reasoning: '“平台支持 SIMD”不能推出“当前累加类型拥有 SIMD 实现”。双精度入口必须以 `CV_SIMD_64F` 为完整编译边界；没有 FP64 向量指令的平台应落入已经存在的 `WT=double` 标量路径，而不是让预处理后的残余控制流选择一个类型不匹配的 float 内核。',
+      solution: '把 `GEMMSingleMul()` 的转置与普通分支、以及 `GEMMBlockMul()` 的双精度累加入口直接改由 `CV_SIMD_64F` 守卫，并删除守卫内部不可能安全执行的 float fallback。支持 FP64 SIMD 的 x86-64 与 AArch64 继续使用原优化路径，ARMv7 则明确回退到标量计算。',
+      impact: '三条 `CV_64F` GEMM 分发路径不再把 64 位缓冲区按 32 位指针读取或写回，受影响的 ARMv7 组合从静默数据破坏回到正确的双精度标量语义；`CV_32F` 路径保持不变。Core_GEMM 精度测试通过，并与 5.x 分支已有控制流对齐。',
+      highlight: 'CV_SIMD ≠ CV_SIMD_64F',
+      takeaway: '按数据类型守住 SIMD 分发边界',
+      visualization: 'armv7-fp64-gemm',
+    }, {
       id: 'border-reflect-o1',
       title: '极端反射坐标的常数时间映射',
       prHref: 'https://github.com/opencv/opencv/pull/29751',

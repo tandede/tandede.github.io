@@ -97,6 +97,27 @@ export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['vi
     </div>
   </div>;
 
+  if (kind === 'check-range-depths') return <div className="contribution-visual visual-check-range">
+    <div className="check-range-before-stage">
+      <small>BEFORE · FALLTHROUGH</small>
+      <strong>depth ≠ reader type</strong>
+      <div className="check-range-fail-route"><span>CV_16F</span><i>→</i><b>double*</b></div>
+      <div className="check-range-fail-route"><span>CV_64U</span><i>→</i><b>IEEE-754</b></div>
+      <p>wrong stride · wrong bits · possible crash</p>
+    </div>
+    <div className="check-range-dispatch-stage">
+      <small>AFTER · EXPLICIT DEPTH DISPATCH</small>
+      <code>checkTypedRange&lt;T&gt;()</code>
+      <div className="check-range-route-grid"><span><b>CV_16F</b><i>hfloat</i></span><span><b>CV_16BF</b><i>bfloat</i></span><span><b>CV_Bool</b><i>uchar</i></span><span><b>CV_32U</b><i>uint32</i></span><span><b>CV_64U</b><i>uint64</i></span><span><b>CV_64S</b><i>int64</i></span></div>
+    </div>
+    <div className="check-range-result-stage">
+      <small>SHARED RANGE CONTRACT</small>
+      <div className="check-range-contract"><span>finite</span><strong>PASS</strong><span>out of [min,max)</span><strong>BAD POINT</strong><span>NaN / Inf</span><strong>BAD POINT</strong><span>unknown depth</span><strong>REJECT</strong></div>
+      <div className="check-range-coordinate"><span>channels + step</span><i>→</i><b>(x, y) ✓</b></div>
+      <p>typed reads · stable pixel coordinates</p>
+    </div>
+  </div>;
+
   if (kind === 'armv7-fp64-gemm') return <div className="contribution-visual visual-armv7-gemm">
     <div className="armv7-capability-stage">
       <small>ARMv7 · NEON CAPABILITIES</small>

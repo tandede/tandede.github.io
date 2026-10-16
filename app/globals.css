@@ -948,7 +948,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .case-matrix-codegen .case-visual { grid-column: 5 / -1; grid-row: 1; }
 .case-matrix-codegen .case-story { grid-column: 1 / -1; grid-row: 2; }
 
-.visual-make-clean, .visual-tensor-rank, .visual-classifier-labels, .visual-float8e8m0, .visual-armv7-gemm, .visual-missing-frame, .visual-gp-zero-sum, .visual-cmake-scope, .visual-registry-backend { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.visual-make-clean, .visual-tensor-rank, .visual-classifier-labels, .visual-float8e8m0, .visual-check-range, .visual-armv7-gemm, .visual-missing-frame, .visual-gp-zero-sum, .visual-cmake-scope, .visual-registry-backend { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
 .make-clean-graph, .make-clean-before, .make-clean-after, .tensor-rank-container, .tensor-rank-before, .tensor-rank-after { display: grid; min-width: 0; min-height: 350px; padding: 25px; align-content: center; gap: 16px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
 .make-clean-graph > small, .make-clean-before > small, .make-clean-after > small, .tensor-rank-container > small, .tensor-rank-before > small, .tensor-rank-after > small { font-size: 12px; }
 .make-clean-graph > strong, .make-clean-before > strong, .make-clean-after > strong, .tensor-rank-container > strong { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 18px; line-height: 1.35; overflow-wrap: anywhere; }
@@ -1038,6 +1038,30 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .float8-correct-results span, .float8-correct-results strong { font-family: var(--font-geist-mono), monospace; font-size: 11px; }
 .float8-correct-results span { color: var(--muted); }
 .float8-correct-results strong { color: #067647; text-align: right; }
+.check-range-before-stage, .check-range-dispatch-stage, .check-range-result-stage { display: grid; min-width: 0; min-height: 350px; padding: 25px; align-content: center; gap: 16px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
+.check-range-before-stage > small, .check-range-dispatch-stage > small, .check-range-result-stage > small { font-size: 12px; }
+.check-range-before-stage { border-color: #efb4b1; background: #fff8f7; }
+.check-range-before-stage > strong { color: #b42318; font-family: var(--font-geist-mono), monospace; font-size: 18px; line-height: 1.35; }
+.check-range-fail-route { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 8px; align-items: center; }
+.check-range-fail-route span, .check-range-fail-route b { padding: 12px 7px; border: 1px solid #efb4b1; border-radius: 9px; background: var(--white); font-family: var(--font-geist-mono), monospace; font-size: 11px; text-align: center; }
+.check-range-fail-route b { color: #b42318; }
+.check-range-fail-route i { color: #b42318; font-style: normal; }
+.check-range-before-stage > p, .check-range-result-stage > p { margin: 0; color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 11px; line-height: 1.5; }
+.check-range-dispatch-stage > code { padding: 13px; color: var(--detail-accent); border: 1px solid color-mix(in srgb, var(--detail-accent) 30%, var(--line)); border-radius: 9px; background: var(--white); font-size: 13px; text-align: center; }
+.check-range-route-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.check-range-route-grid span { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 7px; padding: 11px 8px; border: 1px solid color-mix(in srgb, var(--detail-accent) 28%, var(--line)); border-radius: 9px; background: var(--white); }
+.check-range-route-grid b, .check-range-route-grid i { font-family: var(--font-geist-mono), monospace; font-size: 10px; overflow-wrap: anywhere; }
+.check-range-route-grid b { color: var(--detail-accent); }
+.check-range-route-grid i { color: var(--muted); font-style: normal; text-align: right; }
+.check-range-result-stage { border-color: color-mix(in srgb, var(--detail-accent) 46%, var(--line)); background: color-mix(in srgb, var(--detail-accent) 5%, white); }
+.check-range-contract { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 9px 12px; padding: 13px; align-items: center; border: 1px solid #9ed8bf; border-radius: 10px; background: #f2fbf7; }
+.check-range-contract span, .check-range-contract strong { font-family: var(--font-geist-mono), monospace; font-size: 10px; }
+.check-range-contract span { color: var(--muted); }
+.check-range-contract strong { color: #067647; text-align: right; }
+.check-range-coordinate { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 8px; align-items: center; }
+.check-range-coordinate span, .check-range-coordinate b { padding: 11px 7px; border: 1px solid color-mix(in srgb, var(--detail-accent) 28%, var(--line)); border-radius: 9px; background: var(--white); font-family: var(--font-geist-mono), monospace; font-size: 10px; text-align: center; }
+.check-range-coordinate i { color: var(--detail-accent); font-style: normal; }
+.check-range-coordinate b { color: #067647; }
 .armv7-capability-stage, .armv7-before-stage, .armv7-after-stage { display: grid; min-width: 0; min-height: 350px; padding: 25px; align-content: center; gap: 16px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
 .armv7-capability-stage > small, .armv7-before-stage > small, .armv7-after-stage > small { font-size: 12px; }
 .armv7-capability-stage > strong { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 22px; }
@@ -2464,7 +2488,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .contribution-showcase > header { grid-template-columns: 150px 1fr; }
   .contribution-showcase > header p { grid-column: 2; }
   .contribution-ledger { grid-template-columns: 1fr; gap: 24px; }
-  .visual-make-clean, .visual-tensor-rank, .visual-classifier-labels, .visual-float8e8m0, .visual-armv7-gemm, .visual-missing-frame, .visual-gp-zero-sum, .visual-cmake-scope, .visual-registry-backend, .visual-tictactoe-copy, .visual-multi-hop-options, .visual-cli-path, .visual-porter-duff, .visual-wrapper-entry, .visual-compile-config, .visual-trimmed-mean-boundary, .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
+  .visual-make-clean, .visual-tensor-rank, .visual-classifier-labels, .visual-float8e8m0, .visual-check-range, .visual-armv7-gemm, .visual-missing-frame, .visual-gp-zero-sum, .visual-cmake-scope, .visual-registry-backend, .visual-tictactoe-copy, .visual-multi-hop-options, .visual-cli-path, .visual-porter-duff, .visual-wrapper-entry, .visual-compile-config, .visual-trimmed-mean-boundary, .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
   .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow, .visual-shared-state > .visual-arrow { transform: rotate(90deg); }
   .visual-numeric { grid-template-columns: 1fr; }
   .reshape-routes > div { grid-template-columns: 1fr; gap: 8px; }
