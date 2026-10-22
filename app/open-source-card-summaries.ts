@@ -5,6 +5,11 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  lancedb: {
+    problem: '同步 `Table.search()` 声明支持 tuple 与 Arrow 向量，实际却只识别 list 和 NumPy；合法输入会被误送进文本/Embedding 路径，多个向量列时还缺少选择维度。',
+    reasoning: '容器只负责承载向量，不应改变查询语义。识别、`float32` 规范化与维度推断必须覆盖同一组公开支持的容器。',
+    solution: '统一五类同步向量容器，在查询边界转成 NumPy，并从 primitive 与 list-valued Arrow 中提取维度；六组回归确认两种模式均选中正确向量列。',
+  },
   lightgbm: {
     problem: '`eval_X` / `eval_y` 路径没有复用分类器的标签编码：字符串类别直接失败，非零或非连续整数类别则会静默算错验证指标，并影响 early stopping。',
     reasoning: 'Booster 在内部连续类别空间训练，验证标签必须经过同一个已拟合 LabelEncoder；单验证集与 tuple 多验证集还要保持完全一致的转换语义。',

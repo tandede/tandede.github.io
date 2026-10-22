@@ -6,6 +6,27 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'vector-query-containers') return <div className="contribution-visual visual-vector-containers">
+    <div className="vector-container-inputs">
+      <small>PUBLIC INPUT CONTRACT</small>
+      <strong>ONE VECTOR · FIVE CONTAINERS</strong>
+      <div><span>list</span><span>tuple</span><span>ndarray</span><span>Arrow Array</span><span>ChunkedArray</span></div>
+      <p>相同数值 · 相同查询语义</p>
+    </div>
+    <div className="vector-container-before">
+      <small>BEFORE · SYNC TYPE SPLIT</small>
+      <div className="vector-container-broken"><span>list / ndarray</span><i>→</i><b>VECTOR</b><span>tuple / Arrow</span><i>→</i><strong>EMBEDDING / FTS ✕</strong></div>
+      <code>query dimension = None</code>
+      <p>合法输入被拒绝 · 多向量列可能选错</p>
+    </div>
+    <div className="vector-container-after">
+      <small>AFTER · SHARED QUERY BOUNDARY</small>
+      <code>container → float32 ndarray</code>
+      <div className="vector-container-dim"><span>tuple</span><b>len</b><span>Arrow primitive</span><b>len</b><span>Arrow list</span><b>list_size</b></div>
+      <div className="vector-column-match"><span>QUERY DIM 2</span><i>→</i><strong>VECTOR COLUMN DIM 2 ✓</strong></div>
+    </div>
+  </div>;
+
   if (kind === 'make-clean-dispatch') return <div className="contribution-visual visual-make-clean">
     <div className="make-clean-graph">
       <small>BUILD · COMPLETE DEPENDENCY GRAPH</small>

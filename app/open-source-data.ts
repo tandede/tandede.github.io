@@ -8,7 +8,7 @@ export type OpenSourceRelease = {
   showOnCard?: boolean;
 };
 
-export type OpenSourceVisualization = 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope' | 'gp-zero-sum-roulette' | 'missing-terminal-frame' | 'armv7-fp64-gemm' | 'check-range-depths' | 'float8e8m0-rounding' | 'classifier-eval-labels' | 'make-clean-dispatch' | 'tensor-rank-downcast';
+export type OpenSourceVisualization = 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope' | 'gp-zero-sum-roulette' | 'missing-terminal-frame' | 'armv7-fp64-gemm' | 'check-range-depths' | 'float8e8m0-rounding' | 'classifier-eval-labels' | 'make-clean-dispatch' | 'tensor-rank-downcast' | 'vector-query-containers';
 
 export type OpenSourceContributionEntry = {
   id: string;
@@ -48,6 +48,17 @@ export type OpenSourceProject = {
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'lancedb', name: 'LanceDB', logo: 'https://github.com/lancedb.png?size=128', accent: '#7357d7', role: 'CONTRIBUTOR', href: 'https://github.com/lancedb/lancedb', prHref: 'https://github.com/lancedb/lancedb/pull/3972', mergedAt: '2026-10-23',
+    function: '面向多模态 AI 的开源嵌入式检索数据库，以 Lance 列式格式统一管理向量、全文与结构化数据，并提供 Python、JavaScript 与 Rust 接口，以及本地和远程表的相似度搜索能力。',
+    problem: '同步 `Table.search()` 的类型声明允许 tuple、`pyarrow.Array` 与 `pyarrow.ChunkedArray` 作为向量查询，异步路径也已支持它们；同步查询构建器却只把 list 和 NumPy 数组识别为向量。合法输入因此会被误送进 Embedding / FTS 解析后拒绝，并且 Arrow 与 tuple 也无法提供查询维度，多个不同维度的向量列之间可能选错目标列。',
+    reasoning: '容器形式不应改变查询语义。同步入口需要先用一份共享类型集合判定“这是不是向量”，再在查询构建边界统一规范化为既有的 `float32` NumPy 表示；向量列选择则必须从 tuple、原始 Arrow 向量和 list-valued Arrow 向量中提取相同的末维长度。',
+    solution: '新增同步向量容器类型集合，让 `auto` 与显式 `vector` 两种模式共同识别 list、tuple、NumPy、Arrow Array 和 ChunkedArray；tuple 与 list 直接转为 `float32` 数组，Arrow 容器经 `to_pylist()` 后进入同一表示。维度推断同步支持 primitive、fixed-size list、list 与 large-list Arrow 类型。',
+    impact: '同步本地表和复用该查询构建器的远程调用现在遵守公开类型契约，tuple、Arrow Array 与跨 chunk 向量均可直接检索；在 2 维和 3 维向量列并存时，查询能按真实维度稳定选择 2 维列。六组模式/容器回归通过，Python 定向测试 308 项通过，完整非慢速 Python 测试 981 项通过。',
+    highlight: 'CONTAINER ≠ QUERY SEMANTICS',
+    takeaway: '统一识别并规范化向量容器，让查询维度决定目标列',
+    visualization: 'vector-query-containers',
+  },
   {
     slug: 'lightgbm', name: 'LightGBM', logo: 'https://github.com/lightgbm-org.png?size=128', accent: '#159957', role: 'CONTRIBUTOR', href: 'https://github.com/lightgbm-org/LightGBM', prHref: 'https://github.com/lightgbm-org/LightGBM/pull/7402', mergedAt: '2026-10-10',
     function: '面向高效梯度提升决策树训练的机器学习框架，提供原生训练接口与兼容 scikit-learn 的分类、回归和排序估计器，并支持 CPU、GPU、分布式训练、验证监控与 early stopping。',
