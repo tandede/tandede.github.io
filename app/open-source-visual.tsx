@@ -50,6 +50,29 @@ export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['vi
     </div>
   </div>;
 
+  if (kind === 'empty-axis-variance') return <div className="contribution-visual visual-empty-variance">
+    <div className="empty-variance-input">
+      <small>EMPTY REDUCTION · SAME INPUT</small>
+      <strong>Tensor [0, 3]</strong>
+      <div><span>REDUCE DIM</span><code>0</code></div>
+      <div><span>SAMPLE COUNT</span><code>n = 0</code></div>
+      <p>输出形状仍应保持 [1, 3]</p>
+    </div>
+    <div className="empty-variance-before">
+      <small>BEFORE · UNSIGNED UNDERFLOW</small>
+      <code>usize: 0 - 1</code>
+      <div className="empty-variance-split"><span><b>DEBUG</b><em>PANIC</em></span><span><b>RELEASE</b><em>WRAP → 0</em></span></div>
+      <p>同一张量随构建模式改变结果</p>
+    </div>
+    <div className="empty-variance-after">
+      <small>AFTER · DEFINED EMPTY-AXIS PATH</small>
+      <code>0.saturating_sub(1) → 0</code>
+      <div><span>var(0)</span><strong>NaN · NaN · NaN</strong></div>
+      <div><span>var_bias(0)</span><strong>NaN · NaN · NaN</strong></div>
+      <p>[1, 3] · 16 CI CHECKS ✓</p>
+    </div>
+  </div>;
+
   if (kind === 'tensor-rank-downcast') return <div className="contribution-visual visual-tensor-rank">
     <div className="tensor-rank-container">
       <small>TENSOR CONTAINER · TYPE ERASED</small>

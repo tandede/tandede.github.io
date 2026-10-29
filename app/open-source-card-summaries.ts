@@ -221,9 +221,9 @@ export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
     solution: '新增特征归一化与确定性 K-means 分支，让大规模输入绕开稠密矩阵和谱分解。固定初始化保证重复运行结果一致，小规模或未知 K 场景仍保留原谱聚类能力。',
   },
   burn: {
-    problem: '以错误 rank 从 `TensorContainer` 读取张量时，只会得到不透明的 unwrap panic，缺少容器 ID、请求类型和 rank 线索。',
-    reasoning: 'rank 错配仍应立即失败，但三个 downcast 入口需要共享可诊断的类型契约，而不能把它伪装成 ID 不存在。',
-    solution: '统一用 `type_name<T>` 生成包含 ID、请求类型与 rank 提示的 panic，并以二维注册、一维读取的梯度回归锁定错误信息。',
+    problem: '空轴方差在计算 `shape[dim] - 1` 时触发无符号整数下溢：Debug 直接 panic，Release 则可能回绕并返回有限零。',
+    reasoning: '空轴没有样本，方差应稳定为 NaN；修复应先消除整数域下溢，再让既有浮点除零语义处理未定义结果。',
+    solution: '使用 `saturating_sub(1)` 将空轴分母保持为零，并用 `[0, 3]` 张量同时锁定 `var`、`var_bias` 的形状与全 NaN 结果。',
   },
   nltk: {
     problem: '`Concept` 的三个可变默认容器跨实例共享，修改一个对象会悄悄污染之后创建的概念。标签、闭包与扩展集合都会跨对象泄漏，错误状态还会随构造顺序变化。',

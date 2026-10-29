@@ -948,7 +948,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .case-matrix-codegen .case-visual { grid-column: 5 / -1; grid-row: 1; }
 .case-matrix-codegen .case-story { grid-column: 1 / -1; grid-row: 2; }
 
-.visual-vector-containers, .visual-make-clean, .visual-tensor-rank, .visual-classifier-labels, .visual-float8e8m0, .visual-check-range, .visual-armv7-gemm, .visual-missing-frame, .visual-gp-zero-sum, .visual-cmake-scope, .visual-registry-backend { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.visual-vector-containers, .visual-make-clean, .visual-tensor-rank, .visual-empty-variance, .visual-classifier-labels, .visual-float8e8m0, .visual-check-range, .visual-armv7-gemm, .visual-missing-frame, .visual-gp-zero-sum, .visual-cmake-scope, .visual-registry-backend { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
 .vector-container-inputs, .vector-container-before, .vector-container-after { display: grid; min-width: 0; min-height: 350px; padding: 25px; align-content: center; gap: 16px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
 .vector-container-inputs > small, .vector-container-before > small, .vector-container-after > small { font-size: 12px; }
 .vector-container-inputs > strong { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 18px; line-height: 1.35; }
@@ -974,6 +974,27 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .vector-column-match span, .vector-column-match strong { padding: 12px 7px; border: 1px solid #9ed8bf; border-radius: 9px; background: #f2fbf7; font-family: var(--font-geist-mono), monospace; font-size: 10px; text-align: center; }
 .vector-column-match i { color: #067647; font-style: normal; }
 .vector-column-match strong { color: #067647; }
+.empty-variance-input, .empty-variance-before, .empty-variance-after { display: grid; min-width: 0; min-height: 350px; padding: 25px; align-content: center; gap: 16px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
+.empty-variance-input > small, .empty-variance-before > small, .empty-variance-after > small { font-size: 12px; }
+.empty-variance-input > strong { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 21px; line-height: 1.3; }
+.empty-variance-input > div, .empty-variance-after > div { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; padding: 13px; align-items: center; border: 1px solid var(--line); border-radius: 10px; background: var(--white); }
+.empty-variance-input span, .empty-variance-input code, .empty-variance-after span, .empty-variance-after strong { font-family: var(--font-geist-mono), monospace; font-size: 11px; }
+.empty-variance-input span, .empty-variance-after span { color: var(--muted); }
+.empty-variance-input code, .empty-variance-after strong { color: var(--detail-accent); text-align: right; }
+.empty-variance-input > p, .empty-variance-before > p, .empty-variance-after > p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.empty-variance-before { border-color: #efb4b1; background: #fff8f7; }
+.empty-variance-before > code, .empty-variance-after > code { padding: 13px; border: 1px solid #efb4b1; border-radius: 10px; background: var(--white); font-size: 13px; text-align: center; overflow-wrap: anywhere; }
+.empty-variance-before > code { color: #b42318; }
+.empty-variance-split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.empty-variance-split > span { display: grid; gap: 8px; padding: 14px 9px; border: 1px solid #efb4b1; border-radius: 10px; background: var(--white); text-align: center; }
+.empty-variance-split b, .empty-variance-split em { font-family: var(--font-geist-mono), monospace; font-size: 11px; }
+.empty-variance-split b { color: var(--ink); }
+.empty-variance-split em { color: #b42318; font-style: normal; font-weight: 750; }
+.empty-variance-after { border-color: color-mix(in srgb, var(--detail-accent) 46%, var(--line)); background: color-mix(in srgb, var(--detail-accent) 5%, white); }
+.empty-variance-after > code { color: var(--detail-accent); border-color: color-mix(in srgb, var(--detail-accent) 30%, var(--line)); }
+.empty-variance-after > div { border-color: #9ed8bf; background: #f2fbf7; }
+.empty-variance-after > div strong { color: #067647; }
+.empty-variance-after > p { color: #067647; font-family: var(--font-geist-mono), monospace; font-weight: 750; text-align: right; }
 .make-clean-graph, .make-clean-before, .make-clean-after, .tensor-rank-container, .tensor-rank-before, .tensor-rank-after { display: grid; min-width: 0; min-height: 350px; padding: 25px; align-content: center; gap: 16px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
 .make-clean-graph > small, .make-clean-before > small, .make-clean-after > small, .tensor-rank-container > small, .tensor-rank-before > small, .tensor-rank-after > small { font-size: 12px; }
 .make-clean-graph > strong, .make-clean-before > strong, .make-clean-after > strong, .tensor-rank-container > strong { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 18px; line-height: 1.35; overflow-wrap: anywhere; }
@@ -2513,7 +2534,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .contribution-showcase > header { grid-template-columns: 150px 1fr; }
   .contribution-showcase > header p { grid-column: 2; }
   .contribution-ledger { grid-template-columns: 1fr; gap: 24px; }
-  .visual-vector-containers, .visual-make-clean, .visual-tensor-rank, .visual-classifier-labels, .visual-float8e8m0, .visual-check-range, .visual-armv7-gemm, .visual-missing-frame, .visual-gp-zero-sum, .visual-cmake-scope, .visual-registry-backend, .visual-tictactoe-copy, .visual-multi-hop-options, .visual-cli-path, .visual-porter-duff, .visual-wrapper-entry, .visual-compile-config, .visual-trimmed-mean-boundary, .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
+  .visual-vector-containers, .visual-make-clean, .visual-tensor-rank, .visual-empty-variance, .visual-classifier-labels, .visual-float8e8m0, .visual-check-range, .visual-armv7-gemm, .visual-missing-frame, .visual-gp-zero-sum, .visual-cmake-scope, .visual-registry-backend, .visual-tictactoe-copy, .visual-multi-hop-options, .visual-cli-path, .visual-porter-duff, .visual-wrapper-entry, .visual-compile-config, .visual-trimmed-mean-boundary, .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
   .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow, .visual-shared-state > .visual-arrow { transform: rotate(90deg); }
   .visual-numeric { grid-template-columns: 1fr; }
   .reshape-routes > div { grid-template-columns: 1fr; gap: 8px; }

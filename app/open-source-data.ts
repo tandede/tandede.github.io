@@ -8,7 +8,7 @@ export type OpenSourceRelease = {
   showOnCard?: boolean;
 };
 
-export type OpenSourceVisualization = 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope' | 'gp-zero-sum-roulette' | 'missing-terminal-frame' | 'armv7-fp64-gemm' | 'check-range-depths' | 'float8e8m0-rounding' | 'classifier-eval-labels' | 'make-clean-dispatch' | 'tensor-rank-downcast' | 'vector-query-containers';
+export type OpenSourceVisualization = 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope' | 'gp-zero-sum-roulette' | 'missing-terminal-frame' | 'armv7-fp64-gemm' | 'check-range-depths' | 'float8e8m0-rounding' | 'classifier-eval-labels' | 'make-clean-dispatch' | 'tensor-rank-downcast' | 'empty-axis-variance' | 'vector-query-containers';
 
 export type OpenSourceContributionEntry = {
   id: string;
@@ -743,16 +743,28 @@ export const openSourceProjects: OpenSourceProject[] = [
     visualization: 'routing',
   },
   {
-    slug: 'burn', name: 'Burn', logo: '/logos/burn.png', accent: '#b44313', role: 'CONTRIBUTOR', href: 'https://github.com/tracel-ai/burn', prHref: 'https://github.com/tracel-ai/burn/pull/5971', mergedAt: '2026-10-13',
+    slug: 'burn', name: 'Burn', logo: '/logos/burn.png', accent: '#b44313', role: 'CONTRIBUTOR', href: 'https://github.com/tracel-ai/burn', prHref: 'https://github.com/tracel-ai/burn/pull/6237', mergedAt: '2026-10-27',
     function: '以 Rust 构建的跨平台深度学习框架，兼顾训练、推理、自动微分和多后端部署，强调类型安全、性能以及从桌面到嵌入式设备的可移植性。',
-    problem: 'Burn 的 `TensorContainer` 用 `Any` 保存不同 rank 的张量；调用方以错误 rank 执行 `get`、`get_mut_ref` 或 `remove` 时，downcast 只会触发不透明的 `Option::unwrap()` / `Result::unwrap()` panic。梯度容器中注册 `Tensor<2>` 却请求 `Tensor<1>` 时，用户只能看到泛型 unwrap 失败，无法判断是哪个 ID 或哪种张量类型不匹配。',
-    reasoning: '错误 rank 仍属于违反内部类型契约，保持 panic 比把它伪装成“ID 不存在”的 `None` 更准确；真正缺失的是可诊断上下文。三个 downcast 入口必须共享同一错误格式，报告容器 ID、请求的完整 Rust 类型，并提示检查 tensor rank，避免各自维护不一致的消息。',
-    solution: '新增泛型 `panic_type_mismatch<T>()`，使用 `type_name::<T>()` 生成请求类型，并让不可变读取、可变读取和移除三条路径都通过 `unwrap_or_else` 进入统一 panic。回归在 `GradientsParams` 注册二维张量后故意以一维 rank 读取，锁定 `Tensor type mismatch` 提示。',
-    impact: 'rank 错配仍会在契约被破坏时立即停止，但 panic 现在直接指出目标 ID、请求类型和检查 rank 的修复方向，优化器与自定义梯度工具无需再从裸 downcast 失败反推原因。改动涉及 2 个文件，新增 30 行、删除 6 行；burn-std 194 项、burn-optim 132 项测试及严格 Clippy 检查通过。',
-    highlight: 'WRONG RANK → ACTIONABLE PANIC',
-    takeaway: '保留类型安全失败，同时把张量 ID、请求类型和 rank 线索写进错误信息',
-    visualization: 'tensor-rank-downcast',
+    problem: '`Tensor::var(dim)` 以 `shape[dim] - 1` 计算无偏方差的分母。对形状 `[0, 3]` 沿第 0 维归约时，无符号整数执行 `0 - 1`：Debug 构建直接下溢 panic，优化构建则可能回绕并返回有限的零，同一输入因此随构建模式产生不同结果。',
+    reasoning: '空归约轴没有任何样本，方差在统计上未定义；有偏与无偏版本都应稳定产生 NaN。无需为整个算子新增特殊分支，只要先消除进入浮点计算前的整数下溢，让分母保持为 0，后续除法即可复用既有数值语义并保留 `[1, 3]` 输出形状。',
+    solution: '将样本数减一改为 `saturating_sub(1)`，使空轴分母稳定为 0；新增共享后端回归，在空张量 `[0, 3]` 上同时执行 `var(0)` 与 `var_bias(0)`，锁定输出形状 `[1, 3]` 且所有元素均为 NaN，并同步补充变更日志。',
+    impact: '空轴方差不再在 Debug 下崩溃或在 Release 下静默返回有限零，跨构建模式统一为 NaN；非空输入的原有算法与结果不变。核心修复仅一行，配套回归覆盖两种方差接口，16 项 Linux、Windows、macOS、文档、质量与覆盖率 CI 全部通过。',
+    highlight: 'EMPTY AXIS → DENOMINATOR 0 → NaN',
+    takeaway: '让空轴方差稳定返回 NaN，消除构建模式差异',
+    visualization: 'empty-axis-variance',
     contributions: [{
+      id: 'tensor-rank-diagnostics',
+      title: '为张量 Rank 错配补齐可操作诊断',
+      prHref: 'https://github.com/tracel-ai/burn/pull/5971',
+      mergedAt: '2026-10-13',
+      problem: 'Burn 的 `TensorContainer` 用 `Any` 保存不同 rank 的张量；调用方以错误 rank 执行 `get`、`get_mut_ref` 或 `remove` 时，downcast 只会触发不透明的 `Option::unwrap()` / `Result::unwrap()` panic。梯度容器中注册 `Tensor<2>` 却请求 `Tensor<1>` 时，用户只能看到泛型 unwrap 失败，无法判断是哪个 ID 或哪种张量类型不匹配。',
+      reasoning: '错误 rank 仍属于违反内部类型契约，保持 panic 比把它伪装成“ID 不存在”的 `None` 更准确；真正缺失的是可诊断上下文。三个 downcast 入口必须共享同一错误格式，报告容器 ID、请求的完整 Rust 类型，并提示检查 tensor rank，避免各自维护不一致的消息。',
+      solution: '新增泛型 `panic_type_mismatch<T>()`，使用 `type_name::<T>()` 生成请求类型，并让不可变读取、可变读取和移除三条路径都通过 `unwrap_or_else` 进入统一 panic。回归在 `GradientsParams` 注册二维张量后故意以一维 rank 读取，锁定 `Tensor type mismatch` 提示。',
+      impact: 'rank 错配仍会在契约被破坏时立即停止，但 panic 现在直接指出目标 ID、请求类型和检查 rank 的修复方向，优化器与自定义梯度工具无需再从裸 downcast 失败反推原因。改动涉及 2 个文件，新增 30 行、删除 6 行；burn-std 194 项、burn-optim 132 项测试及严格 Clippy 检查通过。',
+      highlight: 'WRONG RANK → ACTIONABLE PANIC',
+      takeaway: '保留类型安全失败，同时把张量 ID、请求类型和 rank 线索写进错误信息',
+      visualization: 'tensor-rank-downcast',
+    }, {
       id: 'non-finite-padding',
       title: '恢复卷积快速路径的非有限值语义',
       prHref: 'https://github.com/tracel-ai/burn/pull/5394',
