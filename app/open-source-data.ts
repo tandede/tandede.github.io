@@ -8,7 +8,7 @@ export type OpenSourceRelease = {
   showOnCard?: boolean;
 };
 
-export type OpenSourceVisualization = 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope' | 'gp-zero-sum-roulette' | 'missing-terminal-frame' | 'armv7-fp64-gemm' | 'check-range-depths' | 'float8e8m0-rounding' | 'classifier-eval-labels' | 'make-clean-dispatch' | 'tensor-rank-downcast' | 'empty-axis-variance' | 'vector-query-containers';
+export type OpenSourceVisualization = 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'kalman-state-indexing' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope' | 'gp-zero-sum-roulette' | 'missing-terminal-frame' | 'armv7-fp64-gemm' | 'check-range-depths' | 'float8e8m0-rounding' | 'classifier-eval-labels' | 'make-clean-dispatch' | 'tensor-rank-downcast' | 'empty-axis-variance' | 'vector-query-containers';
 
 export type OpenSourceContributionEntry = {
   id: string;
@@ -523,15 +523,28 @@ export const openSourceProjects: OpenSourceProject[] = [
     visualization: 'frustum-culling',
   },
   {
-    slug: 'rtabmap', name: 'RTAB-Map', logo: 'https://raw.githubusercontent.com/introlab/rtabmap/master/guilib/src/images/RTAB-Map.png', accent: '#273bd4', role: 'CONTRIBUTOR', href: 'https://github.com/introlab/rtabmap', prHref: 'https://github.com/introlab/rtabmap/pull/1755',
+    slug: 'rtabmap', name: 'RTAB-Map', logo: 'https://raw.githubusercontent.com/introlab/rtabmap/master/guilib/src/images/RTAB-Map.png', accent: '#273bd4', role: 'CONTRIBUTOR', href: 'https://github.com/introlab/rtabmap', prHref: 'https://github.com/introlab/rtabmap/pull/1835', mergedAt: '2026-11-08',
     function: '面向机器人感知与自主导航的实时外观建图系统，融合视觉、RGB-D、双目与 LiDAR 数据，覆盖回环检测、图优化、定位和三维建图，并提供 C++ 核心、Qt 桌面工具及 ROS / ROS 2 集成。',
-    problem: '`DatabaseViewer::detectMoreLoopClosures()` 在验证检测选项之前就创建并显示 `ProgressDialog`。当 intra-session 与 inter-session 都关闭、同时又没有选择图节点时，函数弹出配置警告后直接返回，但已经可见的进度窗口没有任何任务可以推进或完成，因而成为无法正常收尾的孤立对话框。',
-    reasoning: '进度窗口不是输入表单，而是“有效任务已经开始”的运行期资源；它的生命周期必须由同一条工作路径负责取消、推进和关闭。若请求连前置条件都不满足，就不存在可报告的进度。与其在每个错误出口补清理逻辑，不如让校验闸门支配资源创建，从控制流上保证失败发生时对话框尚不存在。',
-    solution: '将原有七行 `ProgressDialog` 构造与配置代码原样移动到无效选项检查之后：错误配置现在只显示警告并返回，创建的对话框数量为零；合法配置仍沿用相同父对象、`WA_DeleteOnClose`、取消按钮、宽度与显示行为，回环检测本身没有改变。',
-    impact: '无效检测请求现在只显示配置警告，不会创建任何进度资源；合法请求仍使用原有父对象、自动销毁、取消按钮和显示流程。错误路径的窗口数量归零，正常回环检测的执行行为保持不变。',
-    highlight: 'VALIDATE → ALLOCATE → RUN',
-    takeaway: '先验证检测任务，再创建只属于有效工作的进度对话框',
-    visualization: 'ui-lifecycle',
+    problem: '3DoF Kalman 状态按 `(x, y, x′, y′, x″, y″, yaw, …)` 排列，平面速度位于索引 2、3；预测与校正路径却固定使用 6DoF 布局的索引 3、4。结果是 3DoF 模式把 `vx` 读成 `y′`、把 `vy` 读成 `x″`，错误 motion guess 会让 ICP 修正持续增大，最终越过最大平移阈值并造成配准丢失与位姿漂移。',
+    reasoning: '同一个 Kalman 接口承载两套不同状态布局，速度提取必须与 `_force3DoF` 的建模分支保持一致，而且 `predictKalmanFilter()` 与 `updateKalmanFilter()` 必须共享同一映射。回归不能只检查私有数组索引，还应从公开里程计 API 连续推进初始化、预测和校正，验证错误状态不会再次进入下一帧运动猜测。',
+    solution: '在预测和校正两条路径中分别以 `_force3DoF ? 2 : 3`、`_force3DoF ? 3 : 4` 读取 `vx` 与 `vy`。维护者进一步增强回归：启用 3DoF、Kalman 与 motion guess，连续处理三帧平面位移，同时检查过滤后变换和下一帧 guess 都保持测得速度。',
+    impact: '3DoF Kalman 不再把速度与加速度状态错位读取，预测 guess 与校正结果重新落在同一平面运动模型中；问题录制在修复后不再因该索引错误触发连续配准拒绝。两处核心代码与公开 API 回归一同合入，44 项 Linux、Windows、macOS、ROS、Android、iOS 与覆盖率检查成功。',
+    highlight: '3DoF [2,3] ≠ 6DoF [3,4]',
+    takeaway: '按状态布局读取平面速度，让预测、校正与下一帧 motion guess 保持一致',
+    visualization: 'kalman-state-indexing',
+    contributions: [{
+      id: 'orphaned-progress-dialog',
+      title: '阻止无效任务留下孤立进度窗口',
+      prHref: 'https://github.com/introlab/rtabmap/pull/1755',
+      mergedAt: '2026-08-27',
+      problem: '`DatabaseViewer::detectMoreLoopClosures()` 在验证检测选项之前就创建并显示 `ProgressDialog`。当 intra-session 与 inter-session 都关闭、同时又没有选择图节点时，函数弹出配置警告后直接返回，但已经可见的进度窗口没有任何任务可以推进或完成，因而成为无法正常收尾的孤立对话框。',
+      reasoning: '进度窗口不是输入表单，而是“有效任务已经开始”的运行期资源；它的生命周期必须由同一条工作路径负责取消、推进和关闭。若请求连前置条件都不满足，就不存在可报告的进度。与其在每个错误出口补清理逻辑，不如让校验闸门支配资源创建，从控制流上保证失败发生时对话框尚不存在。',
+      solution: '将原有七行 `ProgressDialog` 构造与配置代码原样移动到无效选项检查之后：错误配置现在只显示警告并返回，创建的对话框数量为零；合法配置仍沿用相同父对象、`WA_DeleteOnClose`、取消按钮、宽度与显示行为，回环检测本身没有改变。',
+      impact: '无效检测请求现在只显示配置警告，不会创建任何进度资源；合法请求仍使用原有父对象、自动销毁、取消按钮和显示流程。错误路径的窗口数量归零，正常回环检测的执行行为保持不变。',
+      highlight: 'VALIDATE → ALLOCATE → RUN',
+      takeaway: '先验证检测任务，再创建只属于有效工作的进度对话框',
+      visualization: 'ui-lifecycle',
+    }],
   },
   {
     slug: 'symforce', name: 'SymForce', logo: 'https://github.com/symforce-org.png?size=128', accent: '#3979d4', role: 'CONTRIBUTOR', href: 'https://github.com/symforce-org/symforce', prHref: 'https://github.com/symforce-org/symforce/pull/467',

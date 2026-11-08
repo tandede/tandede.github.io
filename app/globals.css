@@ -1989,6 +1989,37 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .frustum-camera-stage article { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; padding: 12px; border: 1px solid color-mix(in srgb, var(--detail-accent) 34%, var(--line)); border-radius: 10px; background: var(--white); }.frustum-camera-stage article span { color: var(--muted); font-size: 10px; }.frustum-camera-stage article code { color: var(--detail-accent); font-size: 10px; }.frustum-camera-stage article strong { color: #067647; font-family: var(--font-geist-mono), monospace; font-size: 10px; text-align: right; }
 .frustum-oracle { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }.frustum-oracle span { display: grid; gap: 3px; padding: 8px; color: #b42318; border: 1px solid #fecdca; border-radius: 8px; background: #fff8f7; font-size: 10px; }.frustum-oracle b { font-family: var(--font-geist-mono), monospace; font-size: 14px; }.frustum-oracle > strong { grid-column: 1 / -1; color: #067647; font-family: var(--font-geist-mono), monospace; font-size: 10px; text-align: center; animation: frustum-oracle-pass 3.4s ease-in-out infinite; }
 
+.visual-kalman-state { grid-template-columns: minmax(250px, .9fr) minmax(280px, 1fr) minmax(310px, 1.08fr); gap: 18px; }
+.kalman-layout-stage, .kalman-mismatch-stage, .kalman-fixed-stage { display: grid; min-width: 0; min-height: 350px; padding: 24px; align-content: center; gap: 16px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
+.kalman-layout-stage > small, .kalman-mismatch-stage > small, .kalman-fixed-stage > small { font-size: 12px; }
+.kalman-layout-row { display: grid; grid-template-columns: 56px repeat(6, minmax(0, 1fr)); gap: 5px; align-items: center; }
+.kalman-layout-row b, .kalman-layout-row span, .kalman-layout-row strong { display: grid; min-height: 42px; padding: 5px 3px; place-items: center; border: 1px solid var(--line); border-radius: 8px; background: var(--white); font-family: var(--font-geist-mono), monospace; font-size: 11px; text-align: center; }
+.kalman-layout-row b { color: var(--muted); border: 0; background: transparent; font-size: 12px; text-align: left; }
+.kalman-layout-row strong { color: var(--detail-accent); border-color: color-mix(in srgb, var(--detail-accent) 42%, var(--line)); background: color-mix(in srgb, var(--detail-accent) 6%, white); }
+.kalman-layout-row sup { margin-left: 2px; font-size: 9px; }
+.kalman-layout-stage > p, .kalman-mismatch-stage > p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+.kalman-mismatch-stage { border-color: #efb4b1; background: #fff8f7; }
+.kalman-mismatch-stage > code, .kalman-fixed-stage > code { padding: 13px 10px; border: 1px solid #efb4b1; border-radius: 9px; background: var(--white); font-size: 12px; text-align: center; overflow-wrap: anywhere; }
+.kalman-mismatch-stage > code { color: #b42318; }
+.kalman-wrong-read { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.kalman-wrong-read span { display: grid; gap: 7px; padding: 13px; border: 1px solid #efb4b1; border-radius: 9px; background: var(--white); text-align: center; }
+.kalman-wrong-read b, .kalman-wrong-read em { font-family: var(--font-geist-mono), monospace; font-size: 12px; }
+.kalman-wrong-read b { color: var(--ink); }
+.kalman-wrong-read em { color: #b42318; font-style: normal; font-weight: 750; }
+.kalman-failure-chain { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.25fr) auto minmax(0, .8fr); gap: 6px; align-items: center; }
+.kalman-failure-chain span, .kalman-failure-chain strong { padding: 10px 5px; border: 1px solid #efb4b1; border-radius: 8px; background: var(--white); font-family: var(--font-geist-mono), monospace; font-size: 10px; text-align: center; }
+.kalman-failure-chain i { color: #b42318; font-style: normal; }
+.kalman-failure-chain strong { color: #b42318; }
+.kalman-fixed-stage { border-color: color-mix(in srgb, var(--detail-accent) 46%, var(--line)); background: color-mix(in srgb, var(--detail-accent) 5%, white); }
+.kalman-mode-gate { display: grid; grid-template-columns: 1fr repeat(2, auto); gap: 8px; padding: 13px; align-items: center; border: 1px solid color-mix(in srgb, var(--detail-accent) 38%, var(--line)); border-radius: 10px; background: var(--white); }
+.kalman-mode-gate span, .kalman-mode-gate b { font-family: var(--font-geist-mono), monospace; font-size: 11px; }
+.kalman-mode-gate b { padding: 8px; color: var(--detail-accent); border-radius: 7px; background: color-mix(in srgb, var(--detail-accent) 7%, white); white-space: nowrap; }
+.kalman-api-sequence { display: grid; grid-template-columns: repeat(7, auto); gap: 6px; align-items: center; justify-content: space-between; }
+.kalman-api-sequence span { padding: 10px 7px; color: var(--detail-accent); border: 1px solid color-mix(in srgb, var(--detail-accent) 36%, var(--line)); border-radius: 8px; background: var(--white); font-family: var(--font-geist-mono), monospace; font-size: 10px; }
+.kalman-api-sequence i { color: var(--detail-accent); font-style: normal; }
+.kalman-fixed-stage > code { color: var(--detail-accent); border-color: color-mix(in srgb, var(--detail-accent) 36%, var(--line)); }
+.kalman-fixed-stage > strong { color: #067647; font-family: var(--font-geist-mono), monospace; font-size: 11px; text-align: right; }
+
 .visual-ui-lifecycle { grid-template-columns: minmax(220px, .8fr) minmax(280px, 1fr) minmax(290px, 1.05fr); gap: 18px; }
 .loop-config-stage, .dialog-before-stage, .dialog-after-stage { display: grid; min-height: 350px; padding: 22px; align-content: center; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
 .loop-option-list { display: grid; gap: 8px; margin: 24px 0 16px; }.loop-option-list article { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 12px; align-items: center; border: 1px solid var(--line); border-radius: 9px; background: var(--white); }.loop-option-list span { color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 10px; }.loop-option-list b { min-width: 32px; padding: 6px 8px; color: #b42318; border-radius: 6px; background: #fff1f0; font-family: var(--font-geist-mono), monospace; font-size: 10px; text-align: center; }
@@ -2131,18 +2162,18 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 
 /* These technical diagrams need the full editorial width at common laptop
    resolutions. Their previous split layout silently clipped the right stage. */
-:is(.case-obj-whitespace, .case-empty-index, .case-fixed-lag-pending, .case-gjk-simplex, .case-frustum-culling, .case-ui-lifecycle, .case-matrix-codegen) .case-header {
+:is(.case-obj-whitespace, .case-empty-index, .case-fixed-lag-pending, .case-gjk-simplex, .case-frustum-culling, .case-kalman-state-indexing, .case-ui-lifecycle, .case-matrix-codegen) .case-header {
   grid-column: 1 / -1;
   grid-row: 1;
   grid-template-columns: 190px minmax(0, 1fr) minmax(280px, .7fr);
   margin-bottom: 24px;
   padding-right: 0;
 }
-:is(.case-obj-whitespace, .case-empty-index, .case-fixed-lag-pending, .case-gjk-simplex, .case-frustum-culling, .case-ui-lifecycle, .case-matrix-codegen) .case-visual {
+:is(.case-obj-whitespace, .case-empty-index, .case-fixed-lag-pending, .case-gjk-simplex, .case-frustum-culling, .case-kalman-state-indexing, .case-ui-lifecycle, .case-matrix-codegen) .case-visual {
   grid-column: 1 / -1;
   grid-row: 2;
 }
-:is(.case-obj-whitespace, .case-empty-index, .case-fixed-lag-pending, .case-gjk-simplex, .case-frustum-culling, .case-ui-lifecycle, .case-matrix-codegen) .case-story {
+:is(.case-obj-whitespace, .case-empty-index, .case-fixed-lag-pending, .case-gjk-simplex, .case-frustum-culling, .case-kalman-state-indexing, .case-ui-lifecycle, .case-matrix-codegen) .case-story {
   grid-column: 1 / -1;
   grid-row: 3;
 }
@@ -2534,7 +2565,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .contribution-showcase > header { grid-template-columns: 150px 1fr; }
   .contribution-showcase > header p { grid-column: 2; }
   .contribution-ledger { grid-template-columns: 1fr; gap: 24px; }
-  .visual-vector-containers, .visual-make-clean, .visual-tensor-rank, .visual-empty-variance, .visual-classifier-labels, .visual-float8e8m0, .visual-check-range, .visual-armv7-gemm, .visual-missing-frame, .visual-gp-zero-sum, .visual-cmake-scope, .visual-registry-backend, .visual-tictactoe-copy, .visual-multi-hop-options, .visual-cli-path, .visual-porter-duff, .visual-wrapper-entry, .visual-compile-config, .visual-trimmed-mean-boundary, .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
+  .visual-vector-containers, .visual-make-clean, .visual-tensor-rank, .visual-empty-variance, .visual-classifier-labels, .visual-float8e8m0, .visual-check-range, .visual-armv7-gemm, .visual-missing-frame, .visual-gp-zero-sum, .visual-cmake-scope, .visual-registry-backend, .visual-tictactoe-copy, .visual-multi-hop-options, .visual-cli-path, .visual-porter-duff, .visual-wrapper-entry, .visual-compile-config, .visual-trimmed-mean-boundary, .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-kalman-state, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
   .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow, .visual-shared-state > .visual-arrow { transform: rotate(90deg); }
   .visual-numeric { grid-template-columns: 1fr; }
   .reshape-routes > div { grid-template-columns: 1fr; gap: 8px; }
@@ -2545,7 +2576,7 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .contribution-case { display: flex; flex-direction: column; padding-block: 72px; }
   .case-header { display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 12px; padding-right: 0 !important; }
   .case-source-link { grid-column: auto; }
-  :is(.case-obj-whitespace, .case-empty-index, .case-fixed-lag-pending, .case-gjk-simplex, .case-frustum-culling, .case-ui-lifecycle, .case-matrix-codegen) .case-header {
+  :is(.case-obj-whitespace, .case-empty-index, .case-fixed-lag-pending, .case-gjk-simplex, .case-frustum-culling, .case-kalman-state-indexing, .case-ui-lifecycle, .case-matrix-codegen) .case-header {
     grid-template-columns: 1fr;
     margin-bottom: 12px;
   }

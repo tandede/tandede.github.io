@@ -791,6 +791,29 @@ export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['vi
     </div>
   </div>;
 
+  if (kind === 'kalman-state-indexing') return <div className="contribution-visual visual-kalman-state">
+    <div className="kalman-layout-stage">
+      <small>TWO MODES · TWO STATE LAYOUTS</small>
+      <div className="kalman-layout-row is-3dof"><b>3DoF</b><span>x</span><span>y</span><strong>vx<sup>2</sup></strong><strong>vy<sup>3</sup></strong><span>ax</span><span>ay</span></div>
+      <div className="kalman-layout-row is-6dof"><b>6DoF</b><span>x</span><span>y</span><span>z</span><strong>vx<sup>3</sup></strong><strong>vy<sup>4</sup></strong><span>vz</span></div>
+      <p>相同接口，不代表状态向量拥有相同坐标。</p>
+    </div>
+    <div className="kalman-mismatch-stage">
+      <small>BEFORE · 6DoF INDICES EVERYWHERE</small>
+      <code>vx = state[3] · vy = state[4]</code>
+      <div className="kalman-wrong-read"><span><b>vx</b><em>← y′</em></span><span><b>vy</b><em>← x″</em></span></div>
+      <div className="kalman-failure-chain"><span>WRONG GUESS</span><i>→</i><span>ICP CORRECTION ↑</span><i>→</i><strong>REJECT</strong></div>
+      <p>预测和校正同时把错位状态带入下一帧。</p>
+    </div>
+    <div className="kalman-fixed-stage">
+      <small>AFTER · MODE-AWARE INDEX PAIR</small>
+      <div className="kalman-mode-gate"><span>Force3DoF?</span><b>YES · [2,3]</b><b>NO · [3,4]</b></div>
+      <div className="kalman-api-sequence"><span>INIT</span><i>→</i><span>PREDICT</span><i>→</i><span>CORRECT</span><i>→</i><span>NEXT GUESS</span></div>
+      <code>filtered transform ≈ measured step</code>
+      <strong>44 CI CHECKS · MULTI-PLATFORM ✓</strong>
+    </div>
+  </div>;
+
   if (kind === 'ui-lifecycle') return <div className="contribution-visual visual-ui-lifecycle">
     <div className="loop-config-stage">
       <small>REQUEST · DETECT MORE LOOP CLOSURES</small>
