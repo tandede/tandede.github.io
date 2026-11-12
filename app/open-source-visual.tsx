@@ -6,6 +6,52 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'dataset-license-scope') return <div className="contribution-visual visual-license-scope">
+    <div className="license-source-stage">
+      <small>THIRD-PARTY SOURCE · DOTAv1</small>
+      <strong>IMAGES + ANNOTATIONS</strong>
+      <div><span>ACADEMIC USE</span><b>ONLY</b></div>
+      <div><span>COMMERCIAL USE</span><b>PROHIBITED</b></div>
+      <p>原始条款始终链接到 DOTA 官方页面</p>
+    </div>
+    <div className="license-before-stage">
+      <small>BEFORE · CONTEXT SPLIT ACROSS PAGES</small>
+      <div><span>OBB MODEL TABLE</span><strong>YOLO26 · pretrained</strong><em>NO LICENSE CONTEXT</em></div>
+      <div><span>DATASET PAGE</span><strong>one isolated warning</strong><em>NO PROVENANCE TITLE</em></div>
+      <p>数据许可与模型权重许可容易被合并理解</p>
+    </div>
+    <div className="license-after-stage">
+      <small>AFTER · TRACEABLE DECISION CHAIN</small>
+      <div className="license-scope-chain"><span><b>DATA SOURCE</b>DOTA</span><i>→</i><span><b>TERM SCOPE</b>images + labels</span><i>→</i><span><b>MODEL WEIGHTS</b>Ultralytics interpretation</span></div>
+      <strong>2 PAGES · 1 CONSISTENT NOTE</strong>
+      <code>Licensing and dataset provenance</code>
+      <p>项目解释 + 原始条款 + intended-use 提示</p>
+    </div>
+  </div>;
+
+  if (kind === 'tensor-t-import') return <div className="contribution-visual visual-tensor-t">
+    <div className="tensor-t-input-stage">
+      <small>PYTORCH FX GRAPH</small>
+      <strong>call_method · t</strong>
+      <code>x.shape = [2, 3]</code>
+      <div><span>FX NODE</span><b>x.t()</b></div>
+      <p>合法图已捕获，Importer 仍需语义映射</p>
+    </div>
+    <div className="tensor-t-rank-stage">
+      <small>RANK-AWARE CONTRACT</small>
+      <div><span><b>0D / 1D</b><em>return x</em></span><span className="is-active"><b>2D</b><em>swap axes</em></span><span><b>&gt; 2D</b><em>ValueError</em></span></div>
+      <code>rank = len(shape_of(x))</code>
+      <p>与 PyTorch Tensor.t() 边界保持一致</p>
+    </div>
+    <div className="tensor-t-ir-stage">
+      <small>RELAX IR · 2D PATH</small>
+      <code>R.permute_dims(x, axes=[1, 0])</code>
+      <div className="tensor-t-shape"><span><b>INPUT</b>2 × 3</span><i>→</i><span><b>OUTPUT</b>3 × 2</span></div>
+      <strong>FX IMPORT SUCCEEDS</strong>
+      <p>CPU · GPU · ARM · WASM · Mac · Windows ✓</p>
+    </div>
+  </div>;
+
   if (kind === 'vector-query-containers') return <div className="contribution-visual visual-vector-containers">
     <div className="vector-container-inputs">
       <small>PUBLIC INPUT CONTRACT</small>

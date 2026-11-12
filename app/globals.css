@@ -948,8 +948,34 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
 .case-matrix-codegen .case-visual { grid-column: 5 / -1; grid-row: 1; }
 .case-matrix-codegen .case-story { grid-column: 1 / -1; grid-row: 2; }
 
-.visual-vector-containers, .visual-make-clean, .visual-tensor-rank, .visual-empty-variance, .visual-classifier-labels, .visual-float8e8m0, .visual-check-range, .visual-armv7-gemm, .visual-missing-frame, .visual-gp-zero-sum, .visual-cmake-scope, .visual-registry-backend { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-.vector-container-inputs, .vector-container-before, .vector-container-after { display: grid; min-width: 0; min-height: 350px; padding: 25px; align-content: center; gap: 16px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
+.visual-license-scope, .visual-tensor-t, .visual-vector-containers, .visual-make-clean, .visual-tensor-rank, .visual-empty-variance, .visual-classifier-labels, .visual-float8e8m0, .visual-check-range, .visual-armv7-gemm, .visual-missing-frame, .visual-gp-zero-sum, .visual-cmake-scope, .visual-registry-backend { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.license-source-stage, .license-before-stage, .license-after-stage, .tensor-t-input-stage, .tensor-t-rank-stage, .tensor-t-ir-stage, .vector-container-inputs, .vector-container-before, .vector-container-after { display: grid; min-width: 0; min-height: 350px; padding: 25px; align-content: center; gap: 16px; border: 1px solid var(--line); border-radius: 17px; background: #fbfcfe; }
+.license-source-stage > small, .license-before-stage > small, .license-after-stage > small, .tensor-t-input-stage > small, .tensor-t-rank-stage > small, .tensor-t-ir-stage > small { font-size: 12px; }
+.license-source-stage > strong, .tensor-t-input-stage > strong { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 18px; line-height: 1.35; }
+.license-source-stage > div, .tensor-t-input-stage > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; padding: 12px; align-items: center; border: 1px solid var(--line); border-radius: 9px; background: var(--white); font-family: var(--font-geist-mono), monospace; font-size: 11px; }
+.license-source-stage > div b, .tensor-t-input-stage > div b { color: var(--detail-accent); }
+.license-source-stage > p, .license-before-stage > p, .license-after-stage > p, .tensor-t-input-stage > p, .tensor-t-rank-stage > p, .tensor-t-ir-stage > p { margin: 0; color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 11px; line-height: 1.55; }
+.license-before-stage { border-color: #efb4b1; background: #fff8f7; }
+.license-before-stage > div { display: grid; gap: 7px; padding: 13px; border: 1px solid #efb4b1; border-radius: 10px; background: var(--white); }
+.license-before-stage span, .license-before-stage em { color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 10px; font-style: normal; }
+.license-before-stage strong { font-size: 12px; }
+.license-before-stage em { color: #b42318; text-align: right; }
+.license-after-stage, .tensor-t-ir-stage { border-color: color-mix(in srgb, var(--detail-accent) 46%, var(--line)); background: color-mix(in srgb, var(--detail-accent) 5%, white); }
+.license-scope-chain { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr); gap: 7px; align-items: center; }
+.license-scope-chain span { display: grid; gap: 6px; min-height: 82px; padding: 10px 6px; place-content: center; border: 1px solid color-mix(in srgb, var(--detail-accent) 30%, var(--line)); border-radius: 9px; background: var(--white); color: var(--muted); font-size: 10px; text-align: center; }
+.license-scope-chain b { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 10px; }
+.license-scope-chain i { color: var(--detail-accent); font-style: normal; }
+.license-after-stage > strong, .tensor-t-ir-stage > strong { color: #067647; font-family: var(--font-geist-mono), monospace; font-size: 12px; text-align: center; }
+.license-after-stage > code, .tensor-t-input-stage > code, .tensor-t-rank-stage > code, .tensor-t-ir-stage > code { padding: 11px; border: 1px solid color-mix(in srgb, var(--detail-accent) 30%, var(--line)); border-radius: 9px; background: var(--white); color: var(--detail-accent); font-size: 11px; text-align: center; overflow-wrap: anywhere; }
+.tensor-t-rank-stage > div { display: grid; gap: 8px; }
+.tensor-t-rank-stage > div span { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 10px; padding: 13px; align-items: center; border: 1px solid var(--line); border-radius: 9px; background: var(--white); }
+.tensor-t-rank-stage > div b, .tensor-t-rank-stage > div em { font-family: var(--font-geist-mono), monospace; font-size: 11px; font-style: normal; }
+.tensor-t-rank-stage > div em { color: var(--muted); text-align: right; }
+.tensor-t-rank-stage > div .is-active { color: var(--detail-accent); border-color: color-mix(in srgb, var(--detail-accent) 50%, var(--line)); background: color-mix(in srgb, var(--detail-accent) 6%, white); }
+.tensor-t-shape { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 9px; align-items: center; }
+.tensor-t-shape span { display: grid; gap: 7px; min-height: 80px; padding: 12px; place-content: center; border: 1px solid color-mix(in srgb, var(--detail-accent) 30%, var(--line)); border-radius: 10px; background: var(--white); color: var(--ink); font-family: var(--font-geist-mono), monospace; font-size: 18px; text-align: center; }
+.tensor-t-shape b { color: var(--muted); font-size: 10px; }
+.tensor-t-shape i { color: var(--detail-accent); font-style: normal; }
 .vector-container-inputs > small, .vector-container-before > small, .vector-container-after > small { font-size: 12px; }
 .vector-container-inputs > strong { color: var(--detail-accent); font-family: var(--font-geist-mono), monospace; font-size: 18px; line-height: 1.35; }
 .vector-container-inputs > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
@@ -2565,7 +2591,9 @@ html.is-at-top .nav-contact:hover, html.is-at-top .nav-contact:focus-visible { b
   .contribution-showcase > header { grid-template-columns: 150px 1fr; }
   .contribution-showcase > header p { grid-column: 2; }
   .contribution-ledger { grid-template-columns: 1fr; gap: 24px; }
-  .visual-vector-containers, .visual-make-clean, .visual-tensor-rank, .visual-empty-variance, .visual-classifier-labels, .visual-float8e8m0, .visual-check-range, .visual-armv7-gemm, .visual-missing-frame, .visual-gp-zero-sum, .visual-cmake-scope, .visual-registry-backend, .visual-tictactoe-copy, .visual-multi-hop-options, .visual-cli-path, .visual-porter-duff, .visual-wrapper-entry, .visual-compile-config, .visual-trimmed-mean-boundary, .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-kalman-state, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
+  .visual-license-scope, .visual-tensor-t, .visual-vector-containers, .visual-make-clean, .visual-tensor-rank, .visual-empty-variance, .visual-classifier-labels, .visual-float8e8m0, .visual-check-range, .visual-armv7-gemm, .visual-missing-frame, .visual-gp-zero-sum, .visual-cmake-scope, .visual-registry-backend, .visual-tictactoe-copy, .visual-multi-hop-options, .visual-cli-path, .visual-porter-duff, .visual-wrapper-entry, .visual-compile-config, .visual-trimmed-mean-boundary, .visual-sparse-svd, .visual-memory-config, .visual-encoded-drive-uri, .visual-lrn-channel-axis, .visual-binary-rescoring, .visual-nullish-zero, .visual-aligned-map, .visual-path-rpe, .visual-token-axis-sampling, .visual-reflection, .visual-adapter, .visual-coordinate, .visual-config, .visual-jaxpr, .visual-boundary, .visual-shared-state, .visual-reshape-semantics, .visual-quaternion, .visual-tensor-layout, .visual-parallel-inputs, .visual-zenflow, .visual-operational-acceleration, .visual-obj-whitespace, .visual-empty-index, .visual-fixed-lag, .visual-gjk-simplex, .visual-frustum-culling, .visual-kalman-state, .visual-ui-lifecycle, .visual-matrix-codegen, .visual-caller-immutability, .visual-content-immutability { grid-template-columns: 1fr; }
+  .license-scope-chain { grid-template-columns: 1fr; }
+  .license-scope-chain i { transform: rotate(90deg); text-align: center; }
   .visual-reflection > .visual-arrow, .visual-adapter > .visual-arrow, .visual-coordinate > .visual-arrow, .visual-config > .visual-arrow, .visual-jaxpr > .visual-arrow, .visual-boundary > .visual-arrow, .visual-shared-state > .visual-arrow { transform: rotate(90deg); }
   .visual-numeric { grid-template-columns: 1fr; }
   .reshape-routes > div { grid-template-columns: 1fr; gap: 8px; }

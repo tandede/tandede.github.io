@@ -201,9 +201,9 @@ export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
     solution: '把唯一性校验前移到所有模型和配置修改之前，冲突立即失败，并确认既有 Adapter 保持原样。危险的静默覆盖由此变成清晰、可恢复且不会破坏训练成果的早期错误。',
   },
   'ultralytics-yolo': {
-    problem: '非等比例 resize 与 LetterBox 组合后仍使用单一 gain 还原坐标，预测框无法准确回到原图。输入长宽比差异越大，检测框、掩码和关键点的轴向漂移越明显。',
-    reasoning: 'x、y 轴经历了不同缩放与留白；逆变换必须沿完整预处理链分别恢复每个轴。只记录最终统一比例会丢失前置 resize 已经产生的非对称几何信息。',
-    solution: '组合前置 resize 与 LetterBox 参数，按双轴比例和 padding 逐轴还原检测、分割等任务坐标。完整变换链被保留下来后，各类视觉输出都能稳定映射回原始图像。',
+    problem: 'OBB 模型页推荐 DOTAv1 预训练权重，却没有在使用入口说明 academic-only 数据条款覆盖哪些资产；数据集、标注和模型权重许可容易被读成同一件事。',
+    reasoning: '来源、第三方条款与模型许可是三层信息。文档应在下载模型和训练数据的决策点同时给出项目方解释、原始条款链接与复核提示。',
+    solution: '在 OBB 任务页与 DOTA 数据集页统一加入 Licensing and dataset provenance 说明，明确区分源图像/标注与模型权重，并链接 DOTA 官方条款。',
   },
   timm: {
     problem: 'CutMix minmax 的随机上界使用排除语义，最右侧和最下方的合法裁剪起点永远不会被采到。增强过程看似正常，边缘区域却在每个 epoch 中持续欠采样。',
@@ -231,9 +231,9 @@ export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
     solution: '改用 `None` 哨兵按实例创建 list / set，并以双实例回归覆盖全部默认容器的状态隔离。只有缺省路径生成新容器，显式传入对象继续保持原有引用语义。',
   },
   'apache-tvm': {
-    problem: 'Relax ONNX Reshape 混淆零复制与字面零维，默认模式和 `allowzero=1` 都可能得到错误形状。规则叠加后，同一个 `0` 会在不同路径中被解释成两种含义。',
-    reasoning: '`0` 的含义受 allowzero 控制，而 `−1` 仍负责推断；不同语义不能被同一特殊分支覆盖。只有目标形状确实包含字面零时才需要绕过默认复制规则。',
-    solution: '默认先展开零复制；仅在允许且确有字面零时构造 ShapeExpr，其余路径继续保留正常 `−1` 推断。三条分支分别覆盖维度复制、真实零维输出与动态维度推断。',
+    problem: 'PyTorch FX 会把 `Tensor.t()` 记录为独立 method call，Relax importer 没有对应入口；合法二维转置模型因此在导入阶段停止。',
+    reasoning: '`t()` 具有明确的 rank 契约：0D/1D 原样返回、2D 交换轴、高维报错。Importer 应复制语义并复用 Relax 已有转置算子。',
+    solution: '新增 rank-aware `_t()` 转换并注册 method 映射，二维生成 `permute_dims([1, 0])`；2×3 到 3×2 的 IR 回归锁定形状和轴顺序。',
   },
   torchvision: {
     problem: 'JPEG v2 用 `view()` 展平批次维，transpose 产生的合法非连续 Tensor 会在编码前直接报错。接口明明支持任意前导批次维，却暗中要求调用者先手动整理内存布局。',
