@@ -86,9 +86,9 @@ export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
     solution: '把解码与绝对化拆开，在二者之间识别 `/C:/...` 并仅移除一个前导分隔符；跨平台回归模拟 Windows 路径函数，确认编码 URI 精确还原为 `C:\\Temp\\example.md`。',
   },
   onnx: {
-    problem: 'FLOAT8E8M0 转换用正规 float32 的固定舍入位处理次正规数，并把 float64 先降成 float32；边界值因此越级，超出 float32 范围的有限值甚至会先变成 Inf 再编码为 NaN。',
-    reasoning: 'E8M0 只保留指数，舍入应直接基于源值的指数与有效数。转换不能依赖某一种源格式的 bit mask，也不能在真正量化前丢掉 float64 精度。',
-    solution: '保留原始 float32/float64，用 `frexp()` 统一分解并实现三种舍入模式；回归覆盖次正规数、原生与大端 float64、饱和边界及特殊值，让量化只舍入一次。',
+    problem: '`make_graph()` 批量复制 initializer 时会先序列化每个 TensorProto；单个稠密权重超过 2 GiB，建图阶段就报错，external data 根本没有机会接管。',
+    reasoning: '超大张量本身受 external data 支持，故障来自 repeated field 的 `extend()` 复制语义。逐项 `add().CopyFrom()` 能保留消息而不生成超大中间序列化结果。',
+    solution: 'initializer 改为逐项复制，并用 mock 回归锁定不再调用 `extend()`。2 GiB + 2 byte 复现成功建图，普通张量行为保持不变。',
   },
   'sentence-transformers': {
     problem: 'Usearch 重排直接把 signed binary 的 `int8` 存储转成 `uint8`，翻转了每个字节的最高位；非 8 倍数维度还会保留 `packbits` 的尾部填充，导致分数错乱或形状不匹配。',
@@ -131,9 +131,9 @@ export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
     solution: '把 `other_api` 加入 tests clean prerequisites，并用递归 clean 的 dry run 验证下发；仓库卡片归档另外两项 Webots 技术贡献。',
   },
   'robotics-toolbox-python': {
-    problem: '`accel_x()` 会引用未定义变量，并把关节数误当作输出列数，让 7 轴机器人无法返回六维末端加速度。正常调用会直接触发 `NameError`，冗余机械臂的结果形状也与接口承诺不符。',
-    reasoning: '末端加速度必须同时包含雅可比导数项与关节加速度映射，且输出维度始终属于六维操作空间。关节自由度只决定内部求解规模，不应该改变末端速度与加速度的物理维度。',
-    solution: '复用解析雅可比及其导数，恢复 `xdd = J̇a q̇ + Ja q̈`，并统一单点与轨迹输出形状。Puma 560 与 7 轴 Panda 都由同一公式返回稳定的六维结果。',
+    problem: '梯形轨迹在速度恰好等于平均速度时得到 `tb=0`；旧公式继续计算 `V/tb`，把本应为匀速直线的合法边界变成 NaN 或 Infinity。',
+    reasoning: '零混合时间表示加减速段消失，而不是参数非法。整个有效时域应直接满足 `q=q0+Vt`、`qd=V`、`qdd=0`。',
+    solution: '构造阶段把零混合的加速度设为零，求值阶段显式走恒速分支；正向和反向回归锁定起点、中点与终点。',
   },
   simbody: {
     problem: 'OBJ 解析在读取 token 后又查找字面空格，遇到 Tab、换页符等合法空白时会吞掉后续顶点。四边形可能因此被误读成不足四个顶点，纹理与法线索引也会随之错位。',
@@ -231,9 +231,9 @@ export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
     solution: '改用 `None` 哨兵按实例创建 list / set，并以双实例回归覆盖全部默认容器的状态隔离。只有缺省路径生成新容器，显式传入对象继续保持原有引用语义。',
   },
   'apache-tvm': {
-    problem: 'PyTorch FX 会把 `Tensor.t()` 记录为独立 method call，Relax importer 没有对应入口；合法二维转置模型因此在导入阶段停止。',
-    reasoning: '`t()` 具有明确的 rank 契约：0D/1D 原样返回、2D 交换轴、高维报错。Importer 应复制语义并复用 Relax 已有转置算子。',
-    solution: '新增 rank-aware `_t()` 转换并注册 method 映射，二维生成 `permute_dims([1, 0])`；2×3 到 3×2 的 IR 回归锁定形状和轴顺序。',
+    problem: 'ONNX OneHot 允许浮点 depth 并规定转成 int64；Importer 用 `.tolist()` 保留了 `10.0`，Relax 算子却要求整数深度，合法模型因此导入失败。',
+    reasoning: '零维常量需要提取唯一标量，再显式收敛为 Python `int`。容器与 NumPy 标量都不应泄漏到 IR 算子参数。',
+    solution: '改用 `int(array.item())`，并让 INT64 与 FLOAT depth 共享参数化回归；两者都生成 `[2, 10, 2]` 输出。',
   },
   torchvision: {
     problem: 'JPEG v2 用 `view()` 展平批次维，transpose 产生的合法非连续 Tensor 会在编码前直接报错。接口明明支持任意前导批次维，却暗中要求调用者先手动整理内存布局。',

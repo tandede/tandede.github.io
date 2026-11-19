@@ -6,6 +6,24 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'protobuf-large-initializer') return <div className="contribution-visual visual-new-fix">
+    <div><small>BEFORE · REPEATED FIELD EXTEND</small><strong>TensorProto &gt; 2 GiB</strong><code>initializer.extend(values)</code><span>serialize while copying</span><b>EncodeError ✕</b></div>
+    <div><small>BOUNDARY · GRAPH CONSTRUCTION</small><strong>EXTERNAL DATA</strong><p>后续保存路径能够承载超大权重，但 GraphProto 必须先完成构造。</p><code>make_graph → save_model</code></div>
+    <div><small>AFTER · MESSAGE COPY</small><strong>ADD + COPYFROM</strong><code>add().CopyFrom(tensor)</code><span>2 GiB + 2 bytes</span><b>GRAPH BUILT ✓</b></div>
+  </div>;
+
+  if (kind === 'zero-blend-trajectory') return <div className="contribution-visual visual-new-fix">
+    <div><small>BOUNDARY INPUT</small><strong>q₀=0 · qf=1 · T=1</strong><code>V = (qf-q₀)/T = 1</code><span>tb = 0</span><b>VALID PROFILE</b></div>
+    <div><small>BEFORE · GENERAL BLEND FORMULA</small><strong>a = V / tb</strong><code>1 / 0 → Inf</code><span>q · qd · qdd</span><b>NaN / Inf ✕</b></div>
+    <div><small>AFTER · DEGENERATE BRANCH</small><strong>CONSTANT VELOCITY</strong><code>q=q₀+Vt · qd=V · qdd=0</code><span>0 → 0.5 → 1</span><b>FORWARD + REVERSE ✓</b></div>
+  </div>;
+
+  if (kind === 'onehot-depth-scalar') return <div className="contribution-visual visual-new-fix">
+    <div><small>ONNX INPUT · 0D CONSTANT</small><strong>DEPTH</strong><code>TensorProto.FLOAT = 10.0</code><span>规范：使用前转换为 int64</span><b>ONE VALUE</b></div>
+    <div><small>BEFORE · CONTAINER LEAK</small><strong>.tolist()</strong><code>array(10.0) → 10.0</code><span>Relax depth parameter</span><b>FLOAT ✕</b></div>
+    <div><small>AFTER · SCALAR CONTRACT</small><strong>.item() → int()</strong><code>array(10.0) → 10.0 → 10</code><span>INT64 / FLOAT inputs</span><b>[2, 10, 2] ✓</b></div>
+  </div>;
+
   if (kind === 'dataset-license-scope') return <div className="contribution-visual visual-license-scope">
     <div className="license-source-stage">
       <small>THIRD-PARTY SOURCE · DOTAv1</small>
