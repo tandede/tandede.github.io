@@ -22,6 +22,22 @@ export type RepositoryVisual = {
 };
 
 export const repositoryVisuals: Record<string, RepositoryVisual> = {
+  tianshou: {
+    banner: {
+      image: 'https://raw.githubusercontent.com/thu-ml/tianshou/63173a2b5ada64bc2f14bbe4091cb0075aefde85/docs/_static/images/tianshou-logo.png',
+      alt: 'Tianshou 官方项目标识',
+      mode: 'contain',
+    },
+    tags: ['强化学习', '数据收集', 'PyTorch · Gymnasium'],
+  },
+  torchmetrics: {
+    banner: {
+      image: 'https://raw.githubusercontent.com/Lightning-AI/torchmetrics/b944ce499e7f2ff904697a6d0c7eade55c43b1e0/docs/source/_static/images/logo.svg',
+      alt: 'TorchMetrics 官方项目标识',
+      mode: 'contain',
+    },
+    tags: ['逐类评测', '分布式指标', 'PyTorch'],
+  },
   octomap: {
     tags: ['Probabilistic 3D Mapping', 'Octrees · OctoVis · dynamicEDT3D', 'C++ · CMake · ROS'],
   },
@@ -241,7 +257,7 @@ export const repositoryVisuals: Record<string, RepositoryVisual> = {
       alt: 'Supervision GitHub Trending #1 Repository of the Day',
       href: 'https://trendshift.io/repositories/124',
     },
-    tags: ['PyPI · v0.30.1', 'Python 3.10–3.14', 'MIT'],
+    tags: ['Video Inference', 'Detections', 'CSV · JSON'],
   },
   funasr: {
     banner: {

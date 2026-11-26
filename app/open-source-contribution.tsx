@@ -6,7 +6,44 @@ type StoryHeading = { label: string; title: string };
 type Presentation = { eyebrow: string; title: string; lead: string; story: [StoryHeading, StoryHeading, StoryHeading, StoryHeading] };
 
 const presentation: Record<OpenSourceProject['visualization'], Presentation> = {
+  'episode-hook-overlap': {
+    eyebrow: 'REINFORCEMENT LEARNING · EPISODE COLLECTION',
+    title: '两个回合钩子何时会覆盖同一字段？',
+    lead: '收集器依次运行各个钩子，把它们返回的数组写进同一份字典。是否允许下一次写入取决于两组键的交集。',
+    story: [
+      { label: '故障现象', title: '空字典也报键重复' },
+      { label: '判断依据', title: '找出会被覆盖的旧值' },
+      { label: '合并规则', title: '先求交集，再写入数组' },
+      { label: '回归验证', title: '用不同键和同名键分别运行两个钩子' },
+    ],
+  },
+  'classwise-label-mapping': {
+    eyebrow: 'PYTORCH METRICS · CLASSWISE OUTPUT',
+    title: '为每个类别分数保留一个唯一标签',
+    lead: '分类指标返回一行一个分数。包装器要给每行结果命名，既要确认名称唯一，也要等到计算结束才能核对行数。',
+    story: [
+      { label: '故障现象', title: '截断配对和同名覆盖都会丢失信息' },
+      { label: '校验时机', title: '标签先可见，分数后可见' },
+      { label: '输出转换', title: '核对实际长度后再生成字典' },
+      { label: '回归验证', title: '三组标签覆盖缺项、多项与重名' },
+    ],
+  },
   'protobuf-large-initializer': { eyebrow: 'MODEL FORMAT · PROTOBUF MESSAGE COPYING', title: '超大权重不该在建图复制时被迫序列化', lead: 'external data 可以承载超过 2 GiB 的张量，但前提是 GraphProto 先构造成功；逐项消息复制避开了 repeated field 批量扩展产生的中间序列化边界。', story: [{ label: '提前失败', title: 'Extend 在 External Data 之前触发 2 GiB 上限' }, { label: '根因定位', title: '张量受支持，批量复制语义才是瓶颈' }, { label: '复制修复', title: '每个 Initializer 通过 Add 与 CopyFrom 写入' }, { label: '规模结果', title: '2 GiB + 2 Byte 权重可继续进入保存流程' }] },
+  'video-frame-export': {
+    eyebrow: 'VIDEO INFERENCE', title: '让模型逐帧推理，再把结果写入对应记录',
+    lead: '一个两帧视频就能检查整条路径。模型应先看到第一帧，再看到第二帧，导出的帧号也应保持这个顺序。',
+    story: [{ label: '示例故障', title: '第一帧就找不到 image' }, { label: '数据对应', title: '图像、检测框和帧号属于同一次迭代' }, { label: '调用修正', title: '四段示例统一传入当前帧' }, { label: '验证', title: '两帧输入对应两条导出记录' }],
+  },
+  'cubecl-cargo-features': {
+    eyebrow: 'BURN BOOK · CARGO FEATURES', title: '为 CUDA 缓存示例补上产生调优结果的开关',
+    lead: 'Cargo 可以成功编译只有持久化能力的示例。要复用内核选择结果，还需要在编译时启用自动调优。',
+    story: [{ label: '示例故障', title: '缓存已开启，测速结果从哪里来？' }, { label: '特性分工', title: '内核选择、结果持久化和算子融合各有开关' }, { label: '文档修正', title: '在依赖配置与入门命令处写明选择' }, { label: '验证', title: '沿 Cargo 依赖图核对后端特性' }],
+  },
+  'scalar-morphology-tail': {
+    eyebrow: 'CPU MORPHOLOGY', title: '在标量后端把滤波结果写进行宽以内',
+    lead: '行尾有两类数据。有效像素需要更新，填充区需要保留原值。回归测试同时检查这两项。',
+    story: [{ label: '缓冲区边界', title: '标量分派时，半向量宽度为零' }, { label: '分支条件', title: 'SIMD lane 数大于 1 才处理半向量' }, { label: '滤波路径', title: '同时覆盖行、列和二维滤波' }, { label: '回归增强', title: '在正常输出后检查行末哨兵' }],
+  },
   'zero-blend-trajectory': { eyebrow: 'ROBOT TRAJECTORY · DEGENERATE TRAPEZOID', title: '混合时间为零，轨迹就退化为匀速直线', lead: '速度边界恰好消除加减速段时，数学上仍是一条完全有效的轨迹；实现需要把退化情况写成明确分支，而不是把不存在的区间交给除法。', story: [{ label: '边界除零', title: 'V / tb 把合法速度边界变成 NaN' }, { label: '物理语义', title: '零混合意味着全程恒速而非参数非法' }, { label: '分段修复', title: '位置线性、速度恒定、加速度为零' }, { label: '双向验证', title: '正向与反向都精确经过起中终点' }] },
   'onehot-depth-scalar': { eyebrow: 'MODEL COMPILER · ONNX ONEHOT IMPORT', title: '零维常量也要落到算子真正需要的类型', lead: 'ONNX 允许浮点 depth，并要求在使用前转成整数；Importer 需要把零维张量、NumPy 标量和 Python 参数之间的边界处理完整。', story: [{ label: '类型泄漏', title: 'Float Depth 以 10.0 进入整数算子参数' }, { label: '规范判断', title: 'ONNX 明确要求 Depth 转换为 Int64' }, { label: '标量收敛', title: 'Item 提取唯一值，再显式构造 Python Int' }, { label: '前端结果', title: '整数与浮点 Depth 生成相同 OneHot 形状' }] },
   'dataset-license-scope': { eyebrow: 'MODEL DOCUMENTATION · LICENSE PROVENANCE', title: '数据条款和模型权重许可，必须分层说明', lead: '用户真正需要的是一条可追溯的判断链：训练数据从哪里来、第三方条款约束什么、项目方如何解释模型权重，以及哪里可以核对原始条款。', story: [{ label: '信息断层', title: '模型推荐旁缺少数据许可上下文' }, { label: '边界拆分', title: '源图像、标注与模型权重分层呈现' }, { label: '双页对齐', title: '任务页和数据集页共享同一说明' }, { label: '决策结果', title: '项目解释与原始条款同时可追溯' }] },
@@ -79,6 +116,7 @@ type ContributionContent = {
   impact: string;
   visualization: OpenSourceVisualization;
   release?: OpenSourceRelease;
+  priorRelease?: OpenSourceRelease;
 };
 
 function contributionLinkLabel(href: string) {
@@ -101,6 +139,9 @@ function ContributionCase({ contribution, index, showSource }: { contribution: C
       <div className="release-copy"><strong>{contribution.release.title}</strong><ul>{contribution.release.steps.map((step) => <li key={step}>{step}</li>)}</ul></div>
       <span className="release-link">{contribution.release.linkLabel ?? '查看正式版本'} <PiArrowUpRightBold aria-hidden="true" /></span>
     </a>}
+    {contribution.priorRelease && <a className="case-earlier-release" href={contribution.priorRelease.href} target="_blank" rel="noopener noreferrer">
+      较早预发布版 {contribution.priorRelease.label}<PiArrowUpRightBold aria-hidden="true" />
+    </a>}
   </section>;
 }
 
@@ -115,6 +156,7 @@ export default function OpenSourceContribution({ project }: { project: OpenSourc
     impact: project.impact,
     visualization: project.visualization,
     release: project.release,
+    priorRelease: project.priorRelease,
   };
   const contributions: ContributionContent[] = [primary, ...(project.contributions ?? [])];
   const hasArchive = contributions.length > 1;

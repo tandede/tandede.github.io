@@ -8,7 +8,9 @@ export type OpenSourceRelease = {
   showOnCard?: boolean;
 };
 
-export type OpenSourceVisualization = 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'kalman-state-indexing' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope' | 'gp-zero-sum-roulette' | 'missing-terminal-frame' | 'armv7-fp64-gemm' | 'check-range-depths' | 'float8e8m0-rounding' | 'classifier-eval-labels' | 'make-clean-dispatch' | 'tensor-rank-downcast' | 'empty-axis-variance' | 'vector-query-containers' | 'dataset-license-scope' | 'tensor-t-import' | 'protobuf-large-initializer' | 'zero-blend-trajectory' | 'onehot-depth-scalar';
+export type OpenSourceVisualization = 'config' | 'jaxpr' | 'reflection' | 'identity' | 'adapter' | 'axis' | 'boundary' | 'coordinate' | 'routing' | 'numeric' | 'shared-state' | 'reshape-semantics' | 'quaternion' | 'tensor-layout' | 'parallel-inputs' | 'zenflow' | 'operational-acceleration' | 'obj-whitespace' | 'empty-index' | 'fixed-lag-pending' | 'gjk-simplex' | 'frustum-culling' | 'ui-lifecycle' | 'kalman-state-indexing' | 'matrix-codegen' | 'caller-immutability' | 'content-immutability' | 'token-axis-sampling' | 'path-rpe-pairs' | 'aligned-map-base' | 'nullish-zero' | 'binary-rescoring' | 'lrn-channel-axis' | 'encoded-drive-uri' | 'memory-config-immutability' | 'sparse-svd-backend' | 'trimmed-mean-boundary' | 'compile-config-immutability' | 'wrapper-entry-metadata' | 'porter-duff-alpha' | 'cli-path-lookup' | 'multi-hop-storage-options' | 'tictactoe-state-copy' | 'registry-backend-selection' | 'cmake-build-type-scope' | 'gp-zero-sum-roulette' | 'missing-terminal-frame' | 'armv7-fp64-gemm' | 'check-range-depths' | 'float8e8m0-rounding' | 'classifier-eval-labels' | 'make-clean-dispatch' | 'tensor-rank-downcast' | 'empty-axis-variance' | 'vector-query-containers' | 'dataset-license-scope' | 'tensor-t-import' | 'protobuf-large-initializer' | 'zero-blend-trajectory' | 'onehot-depth-scalar'
+  | 'classwise-label-mapping' | 'episode-hook-overlap'
+  | 'video-frame-export' | 'cubecl-cargo-features' | 'scalar-morphology-tail';
 
 export type OpenSourceContributionEntry = {
   id: string;
@@ -23,6 +25,7 @@ export type OpenSourceContributionEntry = {
   takeaway: string;
   visualization: OpenSourceVisualization;
   release?: OpenSourceRelease;
+  priorRelease?: OpenSourceRelease;
 };
 
 export type OpenSourceProject = {
@@ -43,11 +46,38 @@ export type OpenSourceProject = {
   highlight: string;
   takeaway: string;
   release?: OpenSourceRelease;
+  priorRelease?: OpenSourceRelease;
   visualization: OpenSourceVisualization;
   contributions?: OpenSourceContributionEntry[];
 };
 
 export const openSourceProjects: OpenSourceProject[] = [
+  {
+    slug: 'tianshou', name: 'Tianshou', accent: '#226a8b', role: 'CONTRIBUTOR',
+    logo: 'https://raw.githubusercontent.com/thu-ml/tianshou/63173a2b5ada64bc2f14bbe4091cb0075aefde85/docs/_static/images/tianshou-favicon.png',
+    href: 'https://github.com/thu-ml/tianshou', prHref: 'https://github.com/thu-ml/tianshou/pull/1305', mergedAt: '2026-11-25',
+    function: '基于 PyTorch 和 Gymnasium 的强化学习库，提供在线与离线训练和评估工具。数据收集器支持在回合结束时运行多个钩子，为同一条轨迹计算回报等附加数据。',
+    problem: 'EpisodeRolloutHookMerged 用新键减去已有键，随后把差集里的名字当作重复项。结果字典最初为空，第一个返回数据的钩子就会触发 KeyError，后续钩子也失去运行机会。',
+    reasoning: '冲突发生在下一次字典更新将要覆盖旧值时。只有同时出现在两份结果里的键才会被覆盖。空结果和首个钩子的键没有交集，因此第一次写入应当成功。',
+    solution: '在更新结果字典之前计算新键与已有键的交集，只在交集非空时报告冲突键。随后沿用原有更新逻辑，把钩子的数组写入各自对应的字段。',
+    impact: '两个钩子分别返回 first 和 second 时，回归测试逐项确认两个数组都保留了原值。两个钩子都返回 shared 时，测试确认它们依次执行，并在第二次写入前得到指明 shared 的 KeyError。',
+    highlight: 'keys(A) ∩ keys(B)',
+    takeaway: '用键的交集检测冲突，保留各个钩子独有的字段',
+    visualization: 'episode-hook-overlap',
+  },
+  {
+    slug: 'torchmetrics', name: 'TorchMetrics', accent: '#6842c2', role: 'CONTRIBUTOR',
+    logo: 'https://raw.githubusercontent.com/Lightning-AI/torchmetrics/b944ce499e7f2ff904697a6d0c7eade55c43b1e0/docs/source/_static/images/icon.png',
+    href: 'https://github.com/Lightning-AI/torchmetrics', prHref: 'https://github.com/Lightning-AI/torchmetrics/pull/3473', mergedAt: '2026-11-24',
+    function: '面向 PyTorch 的机器学习评测库，可在单设备和分布式训练中累计并计算指标。ClasswiseWrapper 将指标返回的逐类张量转换为带类别名称的结果字典。',
+    problem: 'ClasswiseWrapper 用 zip 将标签与分数配对。三个类别只给两个标签时，第三个分数会消失。多给一个标签时，多余的名称被忽略。即使数量相等，同名标签也会让字典用后一个分数覆盖前一个。',
+    reasoning: '初始化时就可以确定标签是否重名，类别分数的实际个数则要等被包装的指标返回张量后才能确定。forward() 和 compute() 都经过同一个输出转换函数，适合在这里对照张量第一维检查标签数。',
+    solution: '构造时检查自定义标签的唯一性。在输出转换函数中，先比较标签数与张量第一维的长度，相等才构造字典。数量异常时，错误信息给出期望数、实际数和用户提供的标签。',
+    impact: '标签不足、过多或重名都会产生可定位的 ValueError。回归测试用三分类准确率分别传入两个、四个标签，另用一组同名标签验证构造阶段的检查。调用方可以在记录评测结果前修正配置。',
+    highlight: '1 LABEL ↔ 1 CLASS SCORE',
+    takeaway: '分别校验标签唯一性和输出长度，让每个类别分数都有唯一名称',
+    visualization: 'classwise-label-mapping',
+  },
   {
     slug: 'lancedb', name: 'LanceDB', logo: 'https://github.com/lancedb.png?size=128', accent: '#7357d7', role: 'CONTRIBUTOR', href: 'https://github.com/lancedb/lancedb', prHref: 'https://github.com/lancedb/lancedb/pull/3972', mergedAt: '2026-10-23',
     function: '面向多模态 AI 的开源嵌入式检索数据库，以 Lance 列式格式统一管理向量、全文与结构化数据，并提供 Python、JavaScript 与 Rust 接口，以及本地和远程表的相似度搜索能力。',
@@ -109,6 +139,14 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '顶层默认、显式 Debug、独立 octomap 以及宿主 `add_subdirectory()` 四种模式分别生成 release、debug、release 与 noconfig 导出，外部消费工程均完成配置、编译、链接和运行；Release/Debug 的 GCC、Clang 与 ROS Jazzy/Humble 工作流通过，既有接口和多配置生成器行为保持不变。',
     highlight: 'ONE BUILD TYPE · ONE EXPORT CONFIG',
     takeaway: '把默认构建类型放回拥有它的项目作用域，让构建与安装导出始终对齐',
+    release: {
+      label: 'v2.0.0',
+      title: 'OctoMap v2.0.0 包含 PR #449',
+      href: 'https://github.com/OctoMap/octomap/tree/v2.0.0',
+      credit: '2026-11-22 的版本标签包含合并提交 b5f9a95。版本提交 4475456 合入 devel 分支，顶层 CMakeLists 声明 VERSION 2.0.0。',
+      steps: ['顶层 CMake 默认构建类型', 'v2.0.0 包含 b5f9a95'],
+      linkLabel: '查看版本标签',
+    },
     visualization: 'cmake-build-type-scope',
   },
   {
@@ -204,6 +242,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: 'Wrapper 子类现在可以作为注册入口被单环境和同步向量环境正常构造，既不要求伪造类级字典，也不削弱普通环境的 metadata 契约。定向 `make_vec` 测试 41 项、注册测试 107 项通过；完整测试记录 4,390 项通过、146 项跳过，两个约 1e−16 的 MuJoCo 精度失败可在未修改主分支复现。',
     highlight: 'CLASS PROPERTY ≠ METADATA DICT',
     takeaway: '只跳过尚未绑定实例的 property，保留具体类元数据校验',
+    release: {
+      label: 'v1.4.0',
+      title: 'Gymnasium v1.4.0 包含 PR #1672',
+      href: 'https://github.com/Farama-Foundation/Gymnasium/releases/tag/v1.4.0',
+      credit: '2026-10-05 的版本标签包含合并提交 c956926。版本说明列出 make 和 make_vec 对 Wrapper 子类的修复。',
+      steps: ['Wrapper 子类入口注册', 'v1.4.0 包含 c956926'],
+    },
     visualization: 'wrapper-entry-metadata',
   },
   {
@@ -244,6 +289,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: 'Sparse Robust PCA 现在可以完成迭代并持续返回稀疏 low-rank 与 error 张量；宽、窄两类秩亏矩阵的 reduced SVD 均保持有限值、可重构性以及 `UᵀU`、`VVᵀ` 正交约束。新增回归覆盖全部修改行，NumPy 全套测试 537 项通过、3 项跳过、1 项预期失败。',
     highlight: 'SPARSE GRAM · SAFE INVERSE · ORTHONORMAL BASIS',
     takeaway: 'Reduced SVD 保持稀疏，零奇异方向用安全倒数与 QR 补全',
+    release: {
+      label: '0.10.0',
+      title: 'TensorLy 0.10.0 包含 PR #624',
+      href: 'https://github.com/tensorly/tensorly/releases/tag/0.10.0',
+      credit: '2026-10-05 的版本标签包含合并提交 f734a30。版本说明列出稀疏后端的 SVD 修复。',
+      steps: ['稀疏后端 SVD', '0.10.0 包含 f734a30'],
+    },
     visualization: 'sparse-svd-backend',
   },
   {
@@ -274,6 +326,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     highlight: 'DECODE → DETECT DRIVE → NORMALIZE',
     takeaway: '在绝对化之前识别解码后的盘符，只修正 Windows file URI',
     release: {
+      label: 'v0.1.8',
+      title: 'MarkItDown v0.1.8 包含 PR #2315',
+      href: 'https://github.com/microsoft/markitdown/releases/tag/v0.1.8',
+      credit: '2026-09-21 的版本标签包含合并提交 f1df5ac。稳定版说明列出这个 Windows 路径修复。',
+      steps: ['Windows 盘符 URI 解码', 'v0.1.8 包含 f1df5ac'],
+    },
+    priorRelease: {
       label: 'v0.1.8b1',
       title: 'PR #2315 已进入 MarkItDown v0.1.8b1 预发布版',
       href: 'https://github.com/microsoft/markitdown/releases/tag/v0.1.8b1',
@@ -522,6 +581,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '普通与续行 OBJ 面片现在都能在空格、Tab、垂直制表符和换页符混用时完整保留四个顶点及对应 `v/vt/vn` 三元组；不会再因分隔符差异吞掉后续 token。项目 114/114 项测试保持通过。',
     highlight: 'FORMATTED EXTRACTION > LITERAL SPACE',
     takeaway: '不再让空格查找吞掉后续 OBJ 顶点',
+    release: {
+      label: '3.9',
+      title: 'Simbody 3.9 包含 PR #863',
+      href: 'https://github.com/simbody/simbody/releases/tag/Simbody-3.9',
+      credit: '2026-11-05 的版本标签包含合并提交 e70ef9a。3.9 版本说明在 OBJ 解析修复中列出 PR #863。',
+      steps: ['OBJ 面片顶点分隔符', '3.9 包含 e70ef9a'],
+    },
     visualization: 'obj-whitespace',
   },
   {
@@ -604,6 +670,13 @@ export const openSourceProjects: OpenSourceProject[] = [
       impact: '无效检测请求现在只显示配置警告，不会创建任何进度资源；合法请求仍使用原有父对象、自动销毁、取消按钮和显示流程。错误路径的窗口数量归零，正常回环检测的执行行为保持不变。',
       highlight: 'VALIDATE → ALLOCATE → RUN',
       takeaway: '先验证检测任务，再创建只属于有效工作的进度对话框',
+      release: {
+        label: '0.24.2',
+        title: 'RTAB-Map 0.24.2 包含 PR #1755',
+        href: 'https://github.com/introlab/rtabmap/releases/tag/0.24.2',
+        credit: '2026-10-25 的版本标签包含合并提交 d494063。桌面版的版本说明列出进度窗口修复。',
+        steps: ['回环检测进度窗口', '0.24.2 包含 d494063'],
+      },
       visualization: 'ui-lifecycle',
     }],
   },
@@ -663,6 +736,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: 'OpenCV 5.x 的全部当前扩展深度不再被错误宽度读取；有限值、越界值与非有限值都能稳定返回正确像素位置。新增参数化回归覆盖 `CV_16F/CV_16BF/CV_32F` 和四种扩展整数，多平台 5.x CI 全部通过。',
     highlight: 'DEPTH → TYPE → RANGE',
     takeaway: '先按真实深度读取，再共享范围与坐标语义',
+    release: {
+      label: '5.1.0',
+      title: 'OpenCV 5.1.0 包含 PR #30249',
+      href: 'https://github.com/opencv/opencv/releases/tag/5.1.0',
+      credit: '2026-11-06 的版本标签包含合并提交 37040df。5.1.0 标签包含这一修复，适用于该版本的扩展矩阵深度。',
+      steps: ['扩展矩阵类型的范围检查', '5.1.0 包含 37040df'],
+    },
     visualization: 'check-range-depths',
     contributions: [{
       id: 'armv7-fp64-gemm',
@@ -801,22 +881,42 @@ export const openSourceProjects: OpenSourceProject[] = [
     visualization: 'boundary',
   },
   {
-    slug: 'supervision', name: 'Supervision', logo: '/logos/supervision.png', accent: '#6f3ea3', role: 'CONTRIBUTOR', href: 'https://github.com/roboflow/supervision', prHref: 'https://github.com/roboflow/supervision/pull/2491',
+    slug: 'supervision', name: 'Supervision', logo: '/logos/supervision.png', accent: '#6f3ea3', role: 'CONTRIBUTOR', href: 'https://github.com/roboflow/supervision', prHref: 'https://github.com/roboflow/supervision/pull/3075', mergedAt: '2026-11-26',
     function: '面向计算机视觉工程的通用工具库，覆盖检测结果表示、几何计算、标注渲染、视频跟踪与数据集处理，连接模型输出与业务分析。',
-    problem: '`sv.get_polygon_center()` 直接沿用输入数组的数据类型计算鞋带公式。大整数顶点会在 `int32` 乘法阶段先溢出；即使转成浮点，所有坐标都带有很大的绝对偏移时，两个接近的大面积矩相减仍会发生灾难性消减，使质心偏离多边形甚至落到完全错误的位置。',
-    reasoning: '质心对整体平移保持等价，因此没有必要用远离原点的大数完成面积积分。先把计算域提升到 `float64` 解决整数乘积范围，再选取首个顶点作为局部原点缩小中间量，才能同时处理溢出与数值条件，而不是只修复其中一种症状。',
-    solution: '将所有数值 ndarray 坐标统一转换为 `float64`，减去首顶点后在局部坐标中计算有向面积和质心，最后把原点加回全局结果；同步放宽公开类型标注，并加入 `int32` 乘法溢出、万亿级坐标偏移和零面积多边形回归。',
-    impact: '大图像、地理坐标和远离原点的多边形现在都能稳定计算质心；平移前后的几何结果保持等价，int32 溢出与大数消减不再把质心推离真实位置。普通小坐标输入继续得到与原实现一致的结果。',
-    highlight: 'LOCAL ORIGIN + FLOAT64',
-    takeaway: '局部坐标加 float64，稳定计算大坐标质心',
+    problem: '保存检测结果指南里的四段示例都从视频生成器依次取出 frame，却把未定义的 image 传给模型。只要视频至少有一帧，示例就会在第一次推理时抛出 NameError，CSV 和 JSON 写入也就无法开始。',
+    reasoning: '生成器负责给出当前帧，推理结果属于这一次迭代。带帧号的导出示例还需要让检测结果和 enumerate 给出的 frame_index 对应到同一张图像。',
+    solution: '把四处模型调用统一为 model.infer(frame)[0]，让当前帧直接进入推理。基础检测、普通 CSV、带帧号的 CSV 和 JSON 四个示例继续使用各自的结果转换与写入接口。',
+    impact: '用两个可区分的帧对象和内存中的模型、写入器替身逐段执行示例。四段代码均按原顺序推理两次，三段导出代码都追加两条记录，带索引的记录保留帧号 0 和 1。',
+    highlight: 'frame → infer(frame) → detections',
+    takeaway: '让每一条导出记录对应当前视频帧',
     release: {
-      label: 'v0.30.1',
-      title: 'PR #2491 已随 Supervision v0.30.1 正式发布',
-      href: 'https://github.com/roboflow/supervision/releases/tag/0.30.1',
-      credit: '这项多边形质心数值稳定性修复已经进入用户可安装的正式版本，并由项目方在版本说明中单独列出；Zhewen Tan（@tandede）同时出现在该版本的 Contributors 名单中。',
-      steps: ['数值精度与稳定性修复', 'Release Notes 收录 PR #2491', 'Contributors 官方署名'],
+      label: '0.32.3',
+      title: '保存检测结果指南已进入 Supervision 0.32.3',
+      href: 'https://github.com/roboflow/supervision/releases/tag/0.32.3',
+      credit: '0.32.3 标签包含合并提交 bae34ad。版本说明列出当前视频帧修正及贡献者。',
+      steps: ['基础推理、CSV 和 JSON 示例', '标签包含 PR #3075'],
     },
-    visualization: 'coordinate',
+    visualization: 'video-frame-export',
+    contributions: [{
+      id: 'polygon-centroid',
+      title: '用局部坐标稳定计算大坐标多边形质心',
+      prHref: 'https://github.com/roboflow/supervision/pull/2491',
+      mergedAt: '2026-08-20',
+      problem: '`sv.get_polygon_center()` 直接沿用输入数组的数据类型计算鞋带公式。大整数顶点会在 `int32` 乘法阶段先溢出；即使转成浮点，所有坐标都带有很大的绝对偏移时，两个接近的大面积矩相减仍会发生灾难性消减，使质心偏离多边形甚至落到完全错误的位置。',
+      reasoning: '质心对整体平移保持等价，因此没有必要用远离原点的大数完成面积积分。先把计算域提升到 `float64` 解决整数乘积范围，再选取首个顶点作为局部原点缩小中间量，才能同时处理溢出与数值条件，而不是只修复其中一种症状。',
+      solution: '将所有数值 ndarray 坐标统一转换为 `float64`，减去首顶点后在局部坐标中计算有向面积和质心，最后把原点加回全局结果；同步放宽公开类型标注，并加入 `int32` 乘法溢出、万亿级坐标偏移和零面积多边形回归。',
+      impact: '大图像、地理坐标和远离原点的多边形现在都能稳定计算质心；平移前后的几何结果保持等价，int32 溢出与大数消减不再把质心推离真实位置。普通小坐标输入继续得到与原实现一致的结果。',
+      highlight: 'LOCAL ORIGIN + FLOAT64',
+      takeaway: '局部坐标加 float64，稳定计算大坐标质心',
+      release: {
+        label: 'v0.30.1',
+        title: 'PR #2491 已随 Supervision v0.30.1 正式发布',
+        href: 'https://github.com/roboflow/supervision/releases/tag/0.30.1',
+        credit: '这项多边形质心数值稳定性修复已经进入用户可安装的正式版本，并由项目方在版本说明中单独列出；Zhewen Tan（@tandede）同时出现在该版本的 Contributors 名单中。',
+        steps: ['数值精度与稳定性修复', 'Release Notes 收录 PR #2491', 'Contributors 官方署名'],
+      },
+      visualization: 'coordinate',
+    }],
   },
   {
     slug: 'funasr', name: 'FunASR', logo: '/logos/funasr.png', accent: '#5368d9', role: 'CONTRIBUTOR', href: 'https://github.com/modelscope/FunASR', prHref: 'https://github.com/modelscope/FunASR/pull/3516',
@@ -837,24 +937,48 @@ export const openSourceProjects: OpenSourceProject[] = [
     visualization: 'routing',
   },
   {
-    slug: 'burn', name: 'Burn', logo: '/logos/burn.png', accent: '#b44313', role: 'CONTRIBUTOR', href: 'https://github.com/tracel-ai/burn', prHref: 'https://github.com/tracel-ai/burn/pull/6237', mergedAt: '2026-10-27',
+    slug: 'burn', name: 'Burn', logo: '/logos/burn.png', accent: '#b44313', role: 'CONTRIBUTOR', href: 'https://github.com/tracel-ai/burn', prHref: 'https://github.com/tracel-ai/burn/pull/6625', mergedAt: '2026-11-25',
     function: '以 Rust 构建的跨平台深度学习框架，兼顾训练、推理、自动微分和多后端部署，强调类型安全、性能以及从桌面到嵌入式设备的可移植性。',
-    problem: '`Tensor::var(dim)` 以 `shape[dim] - 1` 计算无偏方差的分母。对形状 `[0, 3]` 沿第 0 维归约时，无符号整数执行 `0 - 1`：Debug 构建直接下溢 panic，优化构建则可能回绕并返回有限的零，同一输入因此随构建模式产生不同结果。',
-    reasoning: '空归约轴没有任何样本，方差在统计上未定义；有偏与无偏版本都应稳定产生 NaN。无需为整个算子新增特殊分支，只要先消除进入浮点计算前的整数下溢，让分母保持为 0，后续除法即可复用既有数值语义并保留 `[1, 3]` 输出形状。',
-    solution: '将样本数减一改为 `saturating_sub(1)`，使空轴分母稳定为 0；新增共享后端回归，在空张量 `[0, 3]` 上同时执行 `var(0)` 与 `var_bias(0)`，锁定输出形状 `[1, 3]` 且所有元素均为 NaN，并同步补充变更日志。',
-    impact: '空轴方差不再在 Debug 下崩溃或在 Release 下静默返回有限零，跨构建模式统一为 NaN；非空输入的原有算法与结果不变。核心修复仅一行，配套回归覆盖两种方差接口，16 项 Linux、Windows、macOS、文档、质量与覆盖率 CI 全部通过。',
-    highlight: 'EMPTY AXIS → DENOMINATOR 0 → NaN',
-    takeaway: '让空轴方差稳定返回 NaN，消除构建模式差异',
-    release: {
-      label: 'v0.23.0-pre.1',
-      title: 'PR #6237 已进入 Burn v0.23.0-pre.1',
-      href: 'https://github.com/tracel-ai/burn/releases/tag/v0.23.0-pre.1',
-      credit: 'v0.23.0-pre.1 是合并后的首个官方预发布版本，其标签完整包含空轴方差下溢修复。',
-      steps: ['空轴方差下溢修复', '预发布标签包含合并提交', '官方预发布版本'],
-      linkLabel: '查看预发布版本',
-    },
-    visualization: 'empty-axis-variance',
+    problem: 'Burn Book 的 CUDA 缓存示例关闭了 Cargo 默认特性，只启用 std、cuda 和 persistence。示例可以编译，但自动调优也随之关闭，读者按下一段说明配置缓存时，缺少可供复用的内核测速结果。',
+    reasoning: '这几个 Cargo 开关分别控制不同阶段。autotune 负责测量并选择内核，persistence 让后端跨进程复用结果，fusion 负责算子融合。只设置运行时缓存无法补上编译时缺少的能力。',
+    solution: '运行时配置页在 CUDA 依赖示例中显式加入 fusion 和 autotune。入门页同时说明，选择 WGPU 等 CubeCL 后端并关闭默认特性时，如何把这两个开关传给后端。',
+    impact: '在 Burn 0.22.1 上用 cargo tree 对比前后两份依赖图，可以看到新示例将两项特性传到 burn-cubecl。在开发分支上也核对了 CUDA 和 WGPU 分别启用与省略这两个开关时的依赖解析。',
+    highlight: 'autotune · persistence · fusion',
+    takeaway: '关闭默认特性时，显式开启内核调优与算子融合',
+    visualization: 'cubecl-cargo-features',
     contributions: [{
+      id: 'scalar-morphology-tail',
+      title: '让 CPU 形态学滤波的标量路径正确处理行尾',
+      prHref: 'https://github.com/tracel-ai/burn/pull/6435',
+      mergedAt: '2026-11-20',
+      problem: 'CPU 形态学滤波在行、列与二维滤波路径上复用半向量尾部处理。处理 64 位像素时，标量分派只有一个 SIMD lane，半向量宽度为零，尾部处理仍可能越过行缓冲区。',
+      reasoning: '半向量路径只适合能拆成两个非空部分的向量。分发到标量时，已有的标量循环就能覆盖剩余元素。列滤波的成对输出行和末尾单行都要遵守这个条件。',
+      solution: '在四处半向量分支加入 lanes > 1 的前置条件，让标量分支按有效宽度完成处理。回归显式选择标量后端，分别检查行、列与二维滤波结果。',
+      impact: '维护者在回归样例中给每行输出尾部加入哨兵值，同时核对有效像素和填充区。普通测试即可检出多余写入，三行列滤波样例也覆盖了成对处理与末尾单行。',
+      highlight: 'lanes = 1 → scalar tail',
+      takeaway: '标量路径按行宽处理余下像素，保留每行填充区',
+      visualization: 'scalar-morphology-tail',
+    }, {
+      id: 'empty-axis-variance',
+      title: '让空轴方差在不同构建模式下都返回 NaN',
+      prHref: 'https://github.com/tracel-ai/burn/pull/6237',
+      mergedAt: '2026-10-27',
+      problem: '`Tensor::var(dim)` 以 `shape[dim] - 1` 计算无偏方差的分母。对形状 `[0, 3]` 沿第 0 维归约时，无符号整数执行 `0 - 1`：Debug 构建直接下溢 panic，优化构建则可能回绕并返回有限的零，同一输入因此随构建模式产生不同结果。',
+      reasoning: '空归约轴没有任何样本，方差在统计上未定义；有偏与无偏版本都应稳定产生 NaN。无需为整个算子新增特殊分支，只要先消除进入浮点计算前的整数下溢，让分母保持为 0，后续除法即可复用既有数值语义并保留 `[1, 3]` 输出形状。',
+      solution: '将样本数减一改为 `saturating_sub(1)`，使空轴分母稳定为 0；新增共享后端回归，在空张量 `[0, 3]` 上同时执行 `var(0)` 与 `var_bias(0)`，锁定输出形状 `[1, 3]` 且所有元素均为 NaN，并同步补充变更日志。',
+      impact: '空轴方差不再在 Debug 下崩溃或在 Release 下静默返回有限零，跨构建模式统一为 NaN；非空输入的原有算法与结果不变。核心修复仅一行，配套回归覆盖两种方差接口，16 项 Linux、Windows、macOS、文档、质量与覆盖率 CI 全部通过。',
+      highlight: 'EMPTY AXIS → DENOMINATOR 0 → NaN',
+      takeaway: '让空轴方差稳定返回 NaN，消除构建模式差异',
+      release: {
+        label: 'v0.23.0-pre.1',
+        title: 'PR #6237 已进入 Burn v0.23.0-pre.1',
+        href: 'https://github.com/tracel-ai/burn/releases/tag/v0.23.0-pre.1',
+        credit: 'v0.23.0-pre.1 是合并后的首个官方预发布版本，其标签完整包含空轴方差下溢修复。',
+        steps: ['空轴方差下溢修复', '预发布标签包含合并提交', '官方预发布版本'],
+        linkLabel: '查看预发布版本',
+      },
+      visualization: 'empty-axis-variance',
+    }, {
       id: 'tensor-rank-diagnostics',
       title: '为张量 Rank 错配补齐可操作诊断',
       prHref: 'https://github.com/tracel-ai/burn/pull/5971',
@@ -865,6 +989,14 @@ export const openSourceProjects: OpenSourceProject[] = [
       impact: 'rank 错配仍会在契约被破坏时立即停止，但 panic 现在直接指出目标 ID、请求类型和检查 rank 的修复方向，优化器与自定义梯度工具无需再从裸 downcast 失败反推原因。改动涉及 2 个文件，新增 30 行、删除 6 行；burn-std 194 项、burn-optim 132 项测试及严格 Clippy 检查通过。',
       highlight: 'WRONG RANK → ACTIONABLE PANIC',
       takeaway: '保留类型安全失败，同时把张量 ID、请求类型和 rank 线索写进错误信息',
+      release: {
+        label: 'v0.23.0-pre.1',
+        title: 'Burn v0.23.0-pre.1 包含 PR #5971',
+        href: 'https://github.com/tracel-ai/burn/releases/tag/v0.23.0-pre.1',
+        credit: '2026-10-29 的版本标签包含合并提交 7405a09。预发布说明在张量容器类型错配诊断条目中列出 PR #5971。',
+        steps: ['张量维数错配诊断', 'v0.23.0-pre.1 包含 7405a09'],
+        linkLabel: '查看预发布版本',
+      },
       visualization: 'tensor-rank-downcast',
     }, {
       id: 'non-finite-padding',
@@ -878,6 +1010,13 @@ export const openSourceProjects: OpenSourceProject[] = [
       highlight: 'IEEE 754 + FAST PATH',
       takeaway: '保留卷积快速路径，同时恢复 IEEE 754 语义',
       release: {
+        label: 'v0.22.0',
+        title: 'Burn v0.22.0 包含 PR #5394',
+        href: 'https://github.com/tracel-ai/burn/releases/tag/v0.22.0',
+        credit: '2026-10-06 的版本标签包含合并提交 ae558f7。稳定版说明列出 Burn Flex 的卷积填充修复。',
+        steps: ['卷积填充的非有限值处理', 'v0.22.0 包含 ae558f7'],
+      },
+      priorRelease: {
         label: 'v0.22.0-pre.3',
         title: 'PR #5394 已进入 Burn v0.22.0-pre.3 预发布版',
         href: 'https://github.com/tracel-ai/burn/releases/tag/v0.22.0-pre.3',
@@ -897,6 +1036,21 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: 'Concept 实例恢复真正的状态隔离：修改一个对象的标签、闭包或扩展集合，不再改变随后创建的对象；显式传入的容器仍按调用者意图保留引用。回归同时覆盖三个默认容器与双实例交叉修改。',
     highlight: 'INSTANCE STATE ISOLATED',
     takeaway: '按实例创建默认容器，消除跨对象状态泄漏',
+    release: {
+      label: 'v3.10.4',
+      title: 'NLTK v3.10.4 包含 PR #3773',
+      href: 'https://github.com/nltk/nltk/releases/tag/v3.10.4',
+      credit: '2026-10-21 的版本标签包含合并提交 57ec92c。稳定版说明列出 chat80.Concept 的共享默认值修复。',
+      steps: ['隔离 Concept 的默认容器', 'v3.10.4 包含 57ec92c'],
+    },
+    priorRelease: {
+      label: 'v3.10.4-rc1',
+      title: 'NLTK v3.10.4-rc1 包含 PR #3773',
+      href: 'https://github.com/nltk/nltk/releases/tag/v3.10.4-rc1',
+      credit: '2026-10-20 的候选版包含合并提交 57ec92c，版本说明已列出 chat80.Concept 修复。',
+      steps: ['隔离 Concept 的默认容器', 'v3.10.4-rc1 包含 57ec92c'],
+      linkLabel: '查看候选版本',
+    },
     visualization: 'shared-state',
   },
   {
@@ -964,6 +1118,13 @@ export const openSourceProjects: OpenSourceProject[] = [
     impact: '无效聚合请求在触碰数据集前就会失败，避免机器人训练数据悄然缺失、来源数量与产物不一致；合法调用保持原有行为，数据聚合链路获得可验证的完整性保证。',
     highlight: 'SILENT DROP → FAIL FAST',
     takeaway: '聚合前校验并行输入，阻止数据集被静默截断',
+    release: {
+      label: 'v0.7.0',
+      title: 'LeRobot v0.7.0 包含 PR #4488',
+      href: 'https://github.com/huggingface/lerobot/releases/tag/v0.7.0',
+      credit: '2026-11-05 的版本标签包含合并提交 8b256a6。版本说明列出聚合数据集前检查 roots 数量的修复。',
+      steps: ['合并数据集时校验输入长度', 'v0.7.0 包含 8b256a6'],
+    },
     visualization: 'parallel-inputs',
   },
 ];

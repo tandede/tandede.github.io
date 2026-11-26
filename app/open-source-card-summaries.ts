@@ -5,6 +5,16 @@ export type OpenSourceCardSummary = {
 };
 
 export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
+  tianshou: {
+    problem: '回合结束时，第一个钩子只要返回数据，收集器就会报键重复。旧实现把新键减去已有键，结果字典为空时，所有新键都进入了报错分支。',
+    reasoning: '判断冲突需要找出即将被覆盖的字段。只有同时出现在本次输出和累计结果中的键才会被覆盖，互异的字段可以写入同一份回合结果。',
+    solution: '先求两组键的交集，再更新结果字典。回归分别验证不同键的数组可以同时保留，两个钩子写入 shared 时会在第二次写入前得到带键名的错误。',
+  },
+  torchmetrics: {
+    problem: '三个类别只给两个标签时，zip 会静默丢掉第三个分数。即使标签数量正确，同名标签也会让两个分数写到同一个键上，导致逐类评测报告缺项。',
+    reasoning: '重复名称在构造时就能发现。数量匹配则需要等指标返回张量后再检查，forward() 与 compute() 共用的输出转换函数恰好具备这些信息。',
+    solution: '构造时拒绝重名，写结果字典前核对标签数与输出长度。回归用例覆盖标签过少、过多和重名，防止不完整的结果进入评测日志。',
+  },
   lancedb: {
     problem: '同步 `Table.search()` 声明支持 tuple 与 Arrow 向量，实际却只识别 list 和 NumPy；合法输入会被误送进文本/Embedding 路径，多个向量列时还缺少选择维度。',
     reasoning: '容器只负责承载向量，不应改变查询语义。识别、`float32` 规范化与维度推断必须覆盖同一组公开支持的容器。',
@@ -211,9 +221,9 @@ export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
     solution: '修正离散采样上界并补齐边界回归，让所有合法起点重新进入同一均匀分布。右侧与底部端点都能被稳定命中，增强行为重新符合完整空间覆盖的设计语义。',
   },
   supervision: {
-    problem: '大坐标多边形计算质心时同时遭遇 int32 溢出和浮点消减，结果会明显漂移甚至失真。大图像、地理坐标或远离原点的几何输入都可能触发这一数值边界。',
-    reasoning: '面积矩包含大坐标乘积，仅提升类型仍不足；把几何平移到局部原点才能改善数值条件。局部计算减少大基数相减，再用平移量恢复全局位置，同时保留原有几何定义。',
-    solution: '统一转换为 float64，在局部坐标系计算面积与质心，再映射回全局。这样同时缩小坐标乘积与相减基数，既避开整数溢出，也降低浮点消减；普通小坐标输入继续保持原有结果。',
+    problem: '指南逐帧读取视频，却把未定义的 image 传给模型。四个检测与导出示例都会在第一帧报错，CSV 和 JSON 写入器收不到记录。',
+    reasoning: '推理输入应来自当前迭代。带 frame_index 的导出还要求图像、检测结果和写入的帧号始终对应。',
+    solution: '四个示例都改用 model.infer(frame)。用两个不同的帧对象执行后，模型依次收到两帧，三种导出示例均写入两条记录。',
   },
   funasr: {
     problem: '已知说话人数的大输入仍进入谱聚类，构造 O(N²) 相似矩阵，长音频会产生显著内存压力。片段规模增长后，内存开销会先于真正的聚类计算成为部署瓶颈。',
@@ -221,9 +231,9 @@ export const openSourceCardSummaries: Record<string, OpenSourceCardSummary> = {
     solution: '新增特征归一化与确定性 K-means 分支，让大规模输入绕开稠密矩阵和谱分解。固定初始化保证重复运行结果一致，小规模或未知 K 场景仍保留原谱聚类能力。',
   },
   burn: {
-    problem: '空轴方差在计算 `shape[dim] - 1` 时触发无符号整数下溢：Debug 直接 panic，Release 则可能回绕并返回有限零。',
-    reasoning: '空轴没有样本，方差应稳定为 NaN；修复应先消除整数域下溢，再让既有浮点除零语义处理未定义结果。',
-    solution: '使用 `saturating_sub(1)` 将空轴分母保持为零，并用 `[0, 3]` 张量同时锁定 `var`、`var_bias` 的形状与全 NaN 结果。',
+    problem: 'CUDA 缓存示例关闭默认 Cargo 特性后，只开启了持久化。程序可以构建，但不会执行文档所说的内核自动调优。',
+    reasoning: '缓存保存已有调优结果，autotune 负责产生结果，fusion 独立控制算子融合。三者需要各自的编译开关。',
+    solution: '在 CUDA 示例和 CubeCL 入门说明中补全特性。通过 cargo tree 核对依赖图，确认 fusion 和 autotune 都传到了后端。',
   },
   nltk: {
     problem: '`Concept` 的三个可变默认容器跨实例共享，修改一个对象会悄悄污染之后创建的概念。标签、闭包与扩展集合都会跨对象泄漏，错误状态还会随构造顺序变化。',

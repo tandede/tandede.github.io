@@ -6,6 +6,31 @@ function Arrow() {
 }
 
 export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['visualization'] }) {
+  if (kind === 'classwise-label-mapping') return <div className="contribution-visual visual-contract-table" data-visual={kind}>
+    <table>
+      <caption>同一组三分类分数，标签怎样影响结果？</caption>
+      <thead><tr><th scope="col">自定义标签</th><th scope="col">旧行为</th><th scope="col">校验结果</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">马、鱼</th><td>第 3 个分数消失</td><td>需要 3 项，实得 2 项</td></tr>
+        <tr><th scope="row">马、鱼、猫、狗</th><td>第 4 个名称被忽略</td><td>需要 3 项，实得 4 项</td></tr>
+        <tr><th scope="row">马、马、猫</th><td>后一个“马”覆盖前值</td><td>构造时报告重名</td></tr>
+        <tr><th scope="row">马、鱼、猫</th><td>按位置配对</td><td>返回 3 个独立结果</td></tr>
+      </tbody>
+    </table>
+  </div>;
+
+  if (kind === 'episode-hook-overlap') return <div className="contribution-visual visual-contract-table" data-visual={kind}>
+    <table>
+      <caption>收集器逐次检查新键与已有键的交集</caption>
+      <thead><tr><th scope="col">已有键</th><th scope="col">钩子返回</th><th scope="col">交集</th><th scope="col">写入结果</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">∅</th><td>first</td><td>∅</td><td>保留 first</td></tr>
+        <tr><th scope="row">first</th><td>second</td><td>∅</td><td>保留两项</td></tr>
+        <tr><th scope="row">shared</th><td>shared</td><td>shared</td><td>抛出 KeyError</td></tr>
+      </tbody>
+    </table>
+  </div>;
+
   if (kind === 'protobuf-large-initializer') return <div className="contribution-visual visual-new-fix">
     <div><small>BEFORE · REPEATED FIELD EXTEND</small><strong>TensorProto &gt; 2 GiB</strong><code>initializer.extend(values)</code><span>serialize while copying</span><b>EncodeError ✕</b></div>
     <div><small>BOUNDARY · GRAPH CONSTRUCTION</small><strong>EXTERNAL DATA</strong><p>后续保存路径能够承载超大权重，但 GraphProto 必须先完成构造。</p><code>make_graph → save_model</code></div>
@@ -16,6 +41,41 @@ export default function OpenSourceVisual({ kind }: { kind: OpenSourceProject['vi
     <div><small>BOUNDARY INPUT</small><strong>q₀=0 · qf=1 · T=1</strong><code>V = (qf-q₀)/T = 1</code><span>tb = 0</span><b>VALID PROFILE</b></div>
     <div><small>BEFORE · GENERAL BLEND FORMULA</small><strong>a = V / tb</strong><code>1 / 0 → Inf</code><span>q · qd · qdd</span><b>NaN / Inf ✕</b></div>
     <div><small>AFTER · DEGENERATE BRANCH</small><strong>CONSTANT VELOCITY</strong><code>q=q₀+Vt · qd=V · qdd=0</code><span>0 → 0.5 → 1</span><b>FORWARD + REVERSE ✓</b></div>
+  </div>;
+
+  if (kind === 'video-frame-export') return <div className="contribution-visual visual-contract-table" data-visual={kind}>
+    <table>
+      <caption>两帧输入在带帧号的 CSV / JSON 示例中如何流转</caption>
+      <thead><tr><th>迭代</th><th>模型输入</th><th>导出记录</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">第 1 帧</th><td>帧 A</td><td>A 的检测结果<br /><code>frame_index = 0</code></td></tr>
+        <tr><th scope="row">第 2 帧</th><td>帧 B</td><td>B 的检测结果<br /><code>frame_index = 1</code></td></tr>
+      </tbody>
+    </table>
+  </div>;
+
+  if (kind === 'cubecl-cargo-features') return <div className="contribution-visual visual-contract-table" data-visual={kind}>
+    <table>
+      <caption>关闭默认特性后，Burn Book 的 CUDA 示例启用了什么</caption>
+      <thead><tr><th>后端能力</th><th>原示例</th><th>修正后的示例</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">自动选择内核</th><td>关闭</td><td><code>autotune</code></td></tr>
+        <tr><th scope="row">跨运行缓存</th><td><code>persistence</code></td><td><code>persistence</code></td></tr>
+        <tr><th scope="row">融合算子</th><td>关闭</td><td><code>fusion</code></td></tr>
+      </tbody>
+    </table>
+  </div>;
+
+  if (kind === 'scalar-morphology-tail') return <div className="contribution-visual visual-contract-table" data-visual={kind}>
+    <table>
+      <caption>回归样例同时检查两个有效像素和行尾填充</caption>
+      <thead><tr><th>滤波结果</th><th>像素 1</th><th>像素 2</th><th>填充区</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">行最大值</th><td>4</td><td>3</td><td>哨兵原值</td></tr>
+        <tr><th scope="row">列最大值（首行）</th><td>9</td><td>8</td><td>哨兵原值</td></tr>
+        <tr><th scope="row">二维最大值</th><td>3</td><td>4</td><td>哨兵原值</td></tr>
+      </tbody>
+    </table>
   </div>;
 
   if (kind === 'onehot-depth-scalar') return <div className="contribution-visual visual-new-fix">
